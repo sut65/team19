@@ -1,7 +1,9 @@
 import React from "react";
 // Component
 import Box from "@mui/material/Box";
+import { Grid } from "@mui/material";
 import CardBlog from "./CardBlog";
+import { Margin } from "@mui/icons-material";
 
 // Mockup
 const articles = [
@@ -68,26 +70,27 @@ function ShowCardBlog() {
   return (
     <Box
       sx={{
-        display: "flex",
-        justifyContent: "center",
-        flexWrap: "wrap",
-        gap: "2rem",
-        margin: "2rem 0",
+        maxWidth: "1024px",
+        margin: "2rem auto"
       }}
     >
-      {articles.map((item) => {
-        return (
-          <CardBlog
-            key={item.id}
-            coverImage={item.coverImg}
-            title={item.title}
-            content={item.content}
-            category={item.category}
-            tag={item.tagList}
-            author={item.author}
-          />
-        );
-      })}
+      <Grid container rowSpacing={3} columnSpacing={{ xs: 1, sm: 3, md: 5 }}>
+        {articles.map((item) => {
+          return (
+            <Grid item xs={6} sm={4} md={4} key={item.id}>
+              <CardBlog
+                key={item.id}
+                coverImage={item.coverImg}
+                title={item.title}
+                content={item.content}
+                category={item.category}
+                tag={item.tagList}
+                author={item.author}
+              />
+            </Grid>
+          );
+        })}
+      </Grid>
     </Box>
   );
 }
