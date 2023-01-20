@@ -74,12 +74,12 @@ function ShowCardBlog() {
         margin: "2rem auto"
       }}
     >
-      <Grid container rowSpacing={3} columnSpacing={{ xs: 1, sm: 3, md: 5 }}>
+      <Grid container rowSpacing={3} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         {articles.map((item) => {
           return (
             <Grid item xs={6} sm={4} md={4} key={item.id}>
               <CardBlog
-                key={item.id}
+                id={item.id}
                 coverImage={item.coverImg}
                 title={item.title}
                 content={item.content}
