@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
 
 type Props = {
+  id: number;
   coverImage: string;
   title: string;
   content: string;
@@ -17,6 +18,7 @@ type Props = {
 };
 
 function CardBlog({
+  id,
   coverImage,
   title,
   content,
@@ -92,7 +94,7 @@ function CardBlog({
         </Typography>
       </CardContent>
       <Link
-        to="/article"
+        to={`/article/${id}`}
         style={{
           textDecoration: "none",
         }}
