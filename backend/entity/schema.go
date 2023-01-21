@@ -18,6 +18,7 @@ type Course struct {
 	gorm.Model
 	CourseService []CourseService `gorm:"foreignKey:CourseID"`
 }
+
 // *****************************************************************
 
 type Category struct {
@@ -100,8 +101,8 @@ type Trainer struct {
 // ================== ระบบการใช้บริการคอร์ส ==================
 type CourseService struct {
 	gorm.Model
-	CRegister	time.Time
-	Agreement	string
+	CRegisterDate time.Time
+	Agreement     string
 
 	UserID *uint
 	User   User
