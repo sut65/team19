@@ -2,7 +2,6 @@ package entity
 
 import (
 	"time"
-	_ "time"
 
 	"gorm.io/gorm"
 )
@@ -12,6 +11,7 @@ import (
 type User struct {
 	gorm.Model
 	CourseService []CourseService `gorm:"foreignKey:UserID"`
+	Blogs         []Blog          `gorm:"foreignKey:UserID"`
 }
 
 type Course struct {
@@ -38,6 +38,10 @@ type Blog struct {
 	CoverImage string
 	Title      string
 	Content    string
+
+	// ใช้เทส fk
+	UserID *uint
+	User   User
 
 	CategoryID *uint
 	Category   Category
