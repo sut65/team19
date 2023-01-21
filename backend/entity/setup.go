@@ -25,6 +25,19 @@ func SetupDatabase() {
 		&Category{},
 		&Tag{},
 		&Blog{},
+		// User
+		&User{},
+		// Course
+		&Course{},
+		// Trainer
+		&FormOfWork{},
+		&Status{},
+		&Education{},
+		&Religion{},
+		&Trainer{},
+		// CourseService
+		&CourseService{},
+
 	)
 
 	db = database

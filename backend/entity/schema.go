@@ -1,10 +1,24 @@
 package entity
 
 import (
+	"time"
 	_ "time"
 
 	"gorm.io/gorm"
 )
+
+// *****************************************************************
+// รอแก้ไข ขอเทส Foreign key
+type User struct {
+	gorm.Model
+	CourseService []CourseService `gorm:"foreignKey:UserID"`
+}
+
+type Course struct {
+	gorm.Model
+	CourseService []CourseService `gorm:"foreignKey:CourseID"`
+}
+// *****************************************************************
 
 type Category struct {
 	gorm.Model
@@ -77,6 +91,24 @@ type Trainer struct {
 
 	ReligionID *uint
 	Religion   Religion
+
+	CourseService []CourseService `gorm:"foreignKey:TrainerID"`
 }
 
 // -------------------------------------------<<  >>------------------------------------
+
+// ================== ระบบการใช้บริการคอร์ส ==================
+type CourseService struct {
+	gorm.Model
+	CRegister	time.Time
+	Agreement	string
+
+	UserID *uint
+	User   User
+
+	CourseID *uint
+	Course   Course
+
+	TrainerID *uint
+	Trainer   Trainer
+}
