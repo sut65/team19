@@ -10,6 +10,7 @@ import (
 // รอแก้ไข ขอเทส Foreign key
 type User struct {
 	gorm.Model
+	Name          string
 	CourseService []CourseService `gorm:"foreignKey:UserID"`
 	Blogs         []Blog          `gorm:"foreignKey:UserID"`
 }

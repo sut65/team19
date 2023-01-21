@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/sut65/team19/controller"
 	"github.com/sut65/team19/entity"
 )
 
@@ -24,6 +25,13 @@ func main() {
 	r := gin.Default()
 
 	r.Use(CORSMiddleware())
+
+	// Blog Routes
+	r.GET("/blogs", controller.ListBlogs)
+	r.GET("/blog/:id", controller.GetBlog)
+	r.POST("/blogs", controller.CreateBlog)
+	r.PATCH("/update-blog", controller.UpdateBlog)
+	r.DELETE("/delete-blog/:id", controller.DeleteBlog)
 
 	r.Run() // localhost:8080
 }
