@@ -3,6 +3,7 @@ package entity
 import (
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+	"time"
 )
 
 var db *gorm.DB
@@ -27,6 +28,8 @@ func SetupDatabase() {
 		&Blog{},
 		// User
 		&User{},
+		// Admin
+		&Admin{},
 		// Course
 		&Course{},
 		// Trainer
@@ -37,6 +40,10 @@ func SetupDatabase() {
 		&Trainer{},
 		// CourseService
 		&CourseService{},
+		// FoodInformation
+		&MainIngredient{},
+		&FoodType{},
+		&FoodInformation{},
 	)
 
 	db = database
@@ -46,6 +53,21 @@ func SetupDatabase() {
 		Name: "Test Der",
 	}
 	db.Model(&User{}).Create(&UserTest)
+
+	// Admin
+	AdminA := Admin{
+		Email: 		"Adminja001@gmail.com",
+		Name:  		"ผู้ดูแล001",
+		Password: 	"1150",
+	}
+	db.Model(&Admin{}).Create(&AdminA)
+
+	AdminB := Admin{
+		Email: 		"Adminja002@gmail.com",
+		Name:  		"ผู้ดูแล002",
+		Password: 	"1112",
+	}
+	db.Model(&Admin{}).Create(&AdminB)
 
 	// Category
 	CategoryA := Category{
@@ -84,4 +106,51 @@ func SetupDatabase() {
 		Tag:        TagB,
 	}
 	db.Model(&Blog{}).Create(&BlogA)
+
+	// MainIngredient
+	MainIngredientA := MainIngredient{
+		Name:		"ไข่",
+		Carolie: 	72,
+		Type:		"วัตถุดิบจากสัตว์",
+	}
+	db.Model(&MainIngredient{}).Create(&MainIngredientA)
+
+	MainIngredientB := MainIngredient{
+		Name:		"ผัก",
+		Carolie: 	65,
+		Type:		"วัตถุดิบจากพืช",
+	}
+	db.Model(&MainIngredient{}).Create(&MainIngredientB)
+
+	// FoodType
+	FoodTypeA := FoodType{
+		Name:	"อาหารเพื่อสุขภาพ",
+	}
+	db.Model(&FoodType{}).Create(&FoodTypeA)
+
+	FoodTypeB := FoodType{
+		Name:	"อาหาร Fast Food",
+	}
+	db.Model(&FoodType{}).Create(&FoodTypeB)
+
+	// FoodInformation
+	FoodInformationA := FoodInformation{
+		Name:				"ไข่เจียว",
+		Datetime: 			time.Date(2023, time.January, 01, 0, 0, 0, 0, time.Local),
+		Image:				"https://s359.kapook.com/pagebuilder/1c0a0dac-e4a9-4651-baa0-052a597ab7bf.jpg",
+		Admin:				AdminA,
+		MainIngredient:		MainIngredientA,
+		FoodType:			FoodTypeA,
+	}
+	db.Model(&FoodInformation{}).Create(&FoodInformationA)
+
+	FoodInformationB := FoodInformation{
+		Name:				"ผัดคะน้า",
+		Datetime: 			time.Date(2022, time.December, 01, 0, 0, 0, 0, time.Local),
+		Image:				"https://s359.kapook.com/pagebuilder/a8a1fb49-f651-40a5-9705-26a98ab0ea66.jpg",
+		Admin:				AdminB,
+		MainIngredient:		MainIngredientB,
+		FoodType:			FoodTypeB,
+	}
+	db.Model(&FoodInformation{}).Create(&FoodInformationB)
 }
