@@ -254,4 +254,51 @@ func SetupDatabase() {
 		CourseDetail:  CourseDetail2,
 		Trainer:       Trainer1,
 	})
+
+	// ------------ Food Information ------------ 
+	MainIngredientA := MainIngredient{
+		Name:		"ไข่",
+		Carolie: 	155,
+		Type:		"วัตถุดิบจากสัตว์",
+	}
+	db.Model(&MainIngredient{}).Create(&MainIngredientA)
+
+	MainIngredientB := MainIngredient{
+		Name:		"ผัก",
+		Carolie: 	65,
+		Type:		"วัตถุดิบจากพืช",
+	}
+	db.Model(&MainIngredient{}).Create(&MainIngredientB)
+
+	FoodTypeA := FoodType{
+		Name:		"อาหารเพื่อสุขภาพ",
+	}
+	db.Model(&FoodType{}).Create(&FoodTypeA)
+
+	FoodTypeB := FoodType{
+		Name:		"อาหาร Fast Food",
+	}
+	db.Model(&FoodType{}).Create(&FoodTypeB)
+
+	FoodInformationA := FoodInformation{
+		Name:			"ไข่เจียว",
+		Datetime:		time.Date(2023, time.January, 2, 15, 03, 00, 0, time.UTC),
+		Image:			"https://s359.kapook.com/pagebuilder/1c0a0dac-e4a9-4651-baa0-052a597ab7bf.jpg",
+		Admin:			AdminA,
+		MainIngredient: MainIngredientA,
+		FoodType:		FoodTypeA,
+	}
+	db.Model(&FoodInformation{}).Create(&FoodInformationA)
+
+	FoodInformationB := FoodInformation{
+		Name:			"ผัดคะน้า",
+		Datetime:		time.Date(2023, time.January, 3, 15, 03, 00, 0, time.UTC),
+		Image:			"https://s359.kapook.com/pagebuilder/a8a1fb49-f651-40a5-9705-26a98ab0ea66.jpg",
+		Admin:			AdminB,
+		MainIngredient: MainIngredientB,
+		FoodType:		FoodTypeB,
+	}
+	db.Model(&FoodInformation{}).Create(&FoodInformationB)
+
+
 }
