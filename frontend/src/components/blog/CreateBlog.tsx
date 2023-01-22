@@ -167,7 +167,7 @@ function CreateBlog() {
         >
           Publish
         </Button>
-        <Link to="/article" style={{ textDecoration: "none" }}>
+        <Link to="/articles" style={{ textDecoration: "none" }}>
           <Button
             className="btn-user"
             variant="contained"

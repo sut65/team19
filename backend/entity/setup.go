@@ -100,40 +100,40 @@ func SetupDatabase() {
 	}
 	db.Model(&Religion{}).Create(&Religion3)
 
-	Password, err := bcrypt.GenerateFromPassword([]byte("111"), 14)
+	Password, _ := bcrypt.GenerateFromPassword([]byte("111"), 14)
 
 	Member1 := Member{
-		Firstname: "Fname1",
-		Lastname:  "Lname1",
-		Email:     "User1@mail.com",
-		Password:  string(Password),
+		Firstname:   "Fname1",
+		Lastname:    "Lname1",
+		Email:       "User1@mail.com",
+		Password:    string(Password),
 		ProfileUser: "https://cdn-icons-png.flaticon.com/512/1946/1946429.png",
-		Status:    Status1,
-		Gender:    Gender1,
-		Religion:  Religion1,
+		Status:      Status1,
+		Gender:      Gender1,
+		Religion:    Religion1,
 	}
 	db.Model(&Member{}).Create(&Member1)
 
 	Member2 := Member{
-		Firstname: "Fname2",
-		Lastname:  "Lname2",
-		Email:     "User2@mail.com",
-		Password:  string(Password),
+		Firstname:   "Fname2",
+		Lastname:    "Lname2",
+		Email:       "User2@mail.com",
+		Password:    string(Password),
 		ProfileUser: "https://cdn-icons-png.flaticon.com/512/1946/1946429.png",
-		Status:    Status2,
-		Gender:    Gender2,
-		Religion:  Religion2,
+		Status:      Status2,
+		Gender:      Gender2,
+		Religion:    Religion2,
 	}
 	db.Model(&Member{}).Create(&Member2)
 	Member3 := Member{
-		Firstname: "Fname3",
-		Lastname:  "Lname3",
-		Email:     "User3@mail.com",
-		Password:  string(Password),
+		Firstname:   "Fname3",
+		Lastname:    "Lname3",
+		Email:       "User3@mail.com",
+		Password:    string(Password),
 		ProfileUser: "https://cdn-icons-png.flaticon.com/512/1946/1946429.png",
-		Status:    Status1,
-		Gender:    Gender1,
-		Religion:  Religion3,
+		Status:      Status1,
+		Gender:      Gender1,
+		Religion:    Religion3,
 	}
 	db.Model(&Member{}).Create(&Member3)
 
@@ -192,12 +192,12 @@ func SetupDatabase() {
 	db.Model(&CourseDetail{}).Create(&CourseDetail3)
 
 	Trainer1 := Trainer{
-		Name: "Tname1",
+		Name:  "Tname1",
 		Email: "Trainer1@mail.com",
 	}
 	db.Model(&Trainer{}).Create(&Trainer1)
 	Trainer2 := Trainer{
-		Name: "Tname2",
+		Name:  "Tname2",
 		Email: "Trainer2@mail.com",
 	}
 	db.Model(&Trainer{}).Create(&Trainer2)

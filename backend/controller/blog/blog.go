@@ -42,7 +42,7 @@ func CreateBlog(c *gin.Context) {
 	blg := entity.Blog{
 		Category:   category,
 		Tag:        tag,
-		Member:     blog.Member,
+		Member:     user,
 		CoverImage: blog.CoverImage,
 		Title:      blog.Title,
 		Content:    blog.Content,
@@ -61,7 +61,7 @@ func GetBlog(c *gin.Context) {
 	var blog entity.Blog
 	id := c.Param("id")
 
-	if tx := entity.DB().Preload("Category").Preload("Tag").Preload("User").Where("id = ?", id).First(&blog); tx.RowsAffected == 0 {
+	if tx := entity.DB().Preload("Category").Preload("Tag").Preload("Member").Where("id = ?", id).First(&blog); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "blog not found"})
 		return
 	}
@@ -72,7 +72,7 @@ func GetBlog(c *gin.Context) {
 // GET /blogs
 func ListBlogs(c *gin.Context) {
 	var blogs []entity.Blog
-	if err := entity.DB().Preload("Category").Preload("Tag").Preload("User").Raw("SELECT * FROM blogs").Find(&blogs).Error; err != nil {
+	if err := entity.DB().Preload("Category").Preload("Tag").Preload("Member").Raw("SELECT * FROM blogs").Find(&blogs).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

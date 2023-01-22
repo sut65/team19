@@ -2,11 +2,11 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/sut65/team19/controller"
 	foodInformation "github.com/sut65/team19/controller/FoodInformation"
 	blog "github.com/sut65/team19/controller/blog"
 	"github.com/sut65/team19/entity"
 	"github.com/sut65/team19/middlewares"
-	"github.com/sut65/team19/controller"
 )
 
 const PORT = "8080"
