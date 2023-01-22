@@ -2,6 +2,7 @@ import { Grid, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
 import { useParams } from "react-router-dom";
+import '../App.css';
 
 function Article() {
   // const { id } = useParams()
@@ -60,7 +61,7 @@ function Article() {
           fontSize={"1.2rem"}
           variant="h3"
           style={{ color: "#252525" }}
-        >
+          >
           Created : <b>{date.toLocaleDateString()}</b>
         </Typography>
         <hr style={{ opacity: "0.4" }} />
