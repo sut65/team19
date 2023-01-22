@@ -31,24 +31,6 @@ func main() {
 	r := gin.Default()
 	r.Use(CORSMiddleware())
 
-	// Blog Routes
-	r.GET("/blogs", blog.ListBlogs)
-	r.GET("/blog/:id", blog.GetBlog)
-	r.POST("/blogs", blog.CreateBlog)
-	r.PATCH("/update-blog", blog.UpdateBlog)
-	r.DELETE("/delete-blog/:id", blog.DeleteBlog)
-
-	r.GET("/categories", blog.ListCategories)
-	r.GET("/category/:id", blog.GetCategory)
-	r.GET("/tags", blog.ListTags)
-	r.GET("/tag/:id", blog.GetTag)
-
-	// FoodInformation Routes
-	r.GET("/food_informations", foodInformation.ListFoodInformations)
-	r.GET("/food_information/:id", foodInformation.GetFoodInformation)
-	r.POST("/food_informations", foodInformation.CreateFoodInformation)
-	r.PATCH("/update-food_information", foodInformation.UpdateFoodInformation)
-	r.DELETE("/delete-food_information/:id", foodInformation.DeleteFoodInformation)
 	router := r.Group("/")
 	{
 		router.Use(middlewares.Authorizes())
@@ -80,13 +62,35 @@ func main() {
 			router.GET("/trainers", controller.ListTrainer)
 			router.DELETE("/trainer/:id", controller.DeleteTrainer)
 			router.PATCH("/trainers", controller.UpdateTrainer)
+
+			// FoodInformation Routes
+			router.GET("/food_informations", foodInformation.ListFoodInformations)
+			router.GET("/food_information/:id", foodInformation.GetFoodInformation)
+			router.POST("/food_informations", foodInformation.CreateFoodInformation)
+			router.PATCH("/update-food_information", foodInformation.UpdateFoodInformation)
+			router.DELETE("/delete-food_information/:id", foodInformation.DeleteFoodInformation)
+
+			router.GET("/food_types", foodInformation.ListFoodTypes)
+			router.GET("/food_type/:id", foodInformation.GetFoodInformation)
+			router.GET("/main_ingredients", foodInformation.ListMainIngredients)
+			router.GET("/main_ingredient/:id", foodInformation.GetMainIngredient)
+
+			// Blog Routes
+			router.GET("/blogs", blog.ListBlogs)
+			router.GET("/blog/:id", blog.GetBlog)
+			router.POST("/blogs", blog.CreateBlog)
+			router.PATCH("/update-blog", blog.UpdateBlog)
+			router.DELETE("/delete-blog/:id", blog.DeleteBlog)
+
+			router.GET("/categories", blog.ListCategories)
+			router.GET("/category/:id", blog.GetCategory)
+			router.GET("/tags", blog.ListTags)
+			router.GET("/tag/:id", blog.GetTag)
 		}
 	}
 
-	r.GET("/food_types", foodInformation.ListFoodTypes)
-	r.GET("/food_type/:id", foodInformation.GetFoodInformation)
-	r.GET("/main_ingredients", foodInformation.ListMainIngredients)
-	r.GET("/main_ingredient/:id", foodInformation.GetMainIngredient)
+	// login User Route
+	r.POST("/login", controller.Login)
 
 	// Run the server go run main.go
 	r.Run("localhost: " + PORT)
