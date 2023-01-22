@@ -70,6 +70,9 @@ func SetupDatabase() {
 		&Discount{},
 		&Duration{},
 		&Payment{},
+		// Nutrient
+		&MostNutrient{},
+		&Nutrient{},
 	)
 
 	db = database
