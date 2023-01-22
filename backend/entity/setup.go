@@ -44,6 +44,10 @@ func SetupDatabase() {
 		&Trainer{},
 		// CourseService
 		&CourseService{},
+		// FoodInformation
+		&FoodInformation{},
+		&FoodType{},
+		&MainIngredient{},
 	)
 
 	db = database
@@ -69,17 +73,17 @@ func SetupDatabase() {
 	// Admin
 	passwordA, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
 	AdminA := Admin{
-		Email:    "Adminja001@gmail.com",
-		Name:     "ผู้ดูแล001",
-		Password: string(passwordA),
+		Email: 		"Adminja001@gmail.com",
+		Name:  		"ผู้ดูแล001",
+		Password: 	string(passwordA),
 	}
 	db.Model(&Admin{}).Create(&AdminA)
 
 	passwordB, _ := bcrypt.GenerateFromPassword([]byte("1150"), 14)
 	AdminB := Admin{
-		Email:    "Adminja002@gmail.com",
-		Name:     "ผู้ดูแล002",
-		Password: string(passwordB),
+		Email: 		"Adminja002@gmail.com",
+		Name:  		"ผู้ดูแล002",
+		Password: 	string(passwordB),
 	}
 	db.Model(&Admin{}).Create(&AdminB)
 
@@ -96,40 +100,40 @@ func SetupDatabase() {
 	}
 	db.Model(&Religion{}).Create(&Religion3)
 
-	Password, err := bcrypt.GenerateFromPassword([]byte("111"), 14)
+	Password, _ := bcrypt.GenerateFromPassword([]byte("111"), 14)
 
 	Member1 := Member{
-		Firstname: "Fname1",
-		Lastname:  "Lname1",
-		Email:     "User1@mail.com",
-		Password:  string(Password),
+		Firstname:   "Fname1",
+		Lastname:    "Lname1",
+		Email:       "User1@mail.com",
+		Password:    string(Password),
 		ProfileUser: "https://cdn-icons-png.flaticon.com/512/1946/1946429.png",
-		Status:    Status1,
-		Gender:    Gender1,
-		Religion:  Religion1,
+		Status:      Status1,
+		Gender:      Gender1,
+		Religion:    Religion1,
 	}
 	db.Model(&Member{}).Create(&Member1)
 
 	Member2 := Member{
-		Firstname: "Fname2",
-		Lastname:  "Lname2",
-		Email:     "User2@mail.com",
-		Password:  string(Password),
+		Firstname:   "Fname2",
+		Lastname:    "Lname2",
+		Email:       "User2@mail.com",
+		Password:    string(Password),
 		ProfileUser: "https://cdn-icons-png.flaticon.com/512/1946/1946429.png",
-		Status:    Status2,
-		Gender:    Gender2,
-		Religion:  Religion2,
+		Status:      Status2,
+		Gender:      Gender2,
+		Religion:    Religion2,
 	}
 	db.Model(&Member{}).Create(&Member2)
 	Member3 := Member{
-		Firstname: "Fname3",
-		Lastname:  "Lname3",
-		Email:     "User3@mail.com",
-		Password:  string(Password),
+		Firstname:   "Fname3",
+		Lastname:    "Lname3",
+		Email:       "User3@mail.com",
+		Password:    string(Password),
 		ProfileUser: "https://cdn-icons-png.flaticon.com/512/1946/1946429.png",
-		Status:    Status1,
-		Gender:    Gender1,
-		Religion:  Religion3,
+		Status:      Status1,
+		Gender:      Gender1,
+		Religion:    Religion3,
 	}
 	db.Model(&Member{}).Create(&Member3)
 
@@ -188,12 +192,12 @@ func SetupDatabase() {
 	db.Model(&CourseDetail{}).Create(&CourseDetail3)
 
 	Trainer1 := Trainer{
-		Name: "Tname1",
+		Name:  "Tname1",
 		Email: "Trainer1@mail.com",
 	}
 	db.Model(&Trainer{}).Create(&Trainer1)
 	Trainer2 := Trainer{
-		Name: "Tname2",
+		Name:  "Tname2",
 		Email: "Trainer2@mail.com",
 	}
 	db.Model(&Trainer{}).Create(&Trainer2)
@@ -250,4 +254,51 @@ func SetupDatabase() {
 		CourseDetail:  CourseDetail2,
 		Trainer:       Trainer1,
 	})
+
+	// ------------ Food Information ------------ 
+	MainIngredientA := MainIngredient{
+		Name:		"ไข่",
+		Carolie: 	155,
+		Type:		"วัตถุดิบจากสัตว์",
+	}
+	db.Model(&MainIngredient{}).Create(&MainIngredientA)
+
+	MainIngredientB := MainIngredient{
+		Name:		"ผัก",
+		Carolie: 	65,
+		Type:		"วัตถุดิบจากพืช",
+	}
+	db.Model(&MainIngredient{}).Create(&MainIngredientB)
+
+	FoodTypeA := FoodType{
+		Name:		"อาหารเพื่อสุขภาพ",
+	}
+	db.Model(&FoodType{}).Create(&FoodTypeA)
+
+	FoodTypeB := FoodType{
+		Name:		"อาหาร Fast Food",
+	}
+	db.Model(&FoodType{}).Create(&FoodTypeB)
+
+	FoodInformationA := FoodInformation{
+		Name:			"ไข่เจียว",
+		Datetime:		time.Date(2023, time.January, 2, 15, 03, 00, 0, time.UTC),
+		Image:			"https://s359.kapook.com/pagebuilder/1c0a0dac-e4a9-4651-baa0-052a597ab7bf.jpg",
+		Admin:			AdminA,
+		MainIngredient: MainIngredientA,
+		FoodType:		FoodTypeA,
+	}
+	db.Model(&FoodInformation{}).Create(&FoodInformationA)
+
+	FoodInformationB := FoodInformation{
+		Name:			"ผัดคะน้า",
+		Datetime:		time.Date(2023, time.January, 3, 15, 03, 00, 0, time.UTC),
+		Image:			"https://s359.kapook.com/pagebuilder/a8a1fb49-f651-40a5-9705-26a98ab0ea66.jpg",
+		Admin:			AdminB,
+		MainIngredient: MainIngredientB,
+		FoodType:		FoodTypeB,
+	}
+	db.Model(&FoodInformation{}).Create(&FoodInformationB)
+
+
 }

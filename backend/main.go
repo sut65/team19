@@ -2,9 +2,11 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/sut65/team19/controller"
+	foodInformation "github.com/sut65/team19/controller/FoodInformation"
+	blog "github.com/sut65/team19/controller/blog"
 	"github.com/sut65/team19/entity"
 	"github.com/sut65/team19/middlewares"
-	"github.com/sut65/team19/controller"
 )
 
 const PORT = "8080"
@@ -60,11 +62,32 @@ func main() {
 			router.GET("/trainers", controller.ListTrainer)
 			router.DELETE("/trainer/:id", controller.DeleteTrainer)
 			router.PATCH("/trainers", controller.UpdateTrainer)
+
+			// FoodInformation Routes
+			router.GET("/food_informations", foodInformation.ListFoodInformations)
+			router.GET("/food_information/:id", foodInformation.GetFoodInformation)
+			router.POST("/food_informations", foodInformation.CreateFoodInformation)
+			router.PATCH("/update-food_information", foodInformation.UpdateFoodInformation)
+			router.DELETE("/delete-food_information/:id", foodInformation.DeleteFoodInformation)
+
+			router.GET("/food_types", foodInformation.ListFoodTypes)
+			router.GET("/food_type/:id", foodInformation.GetFoodInformation)
+			router.GET("/main_ingredients", foodInformation.ListMainIngredients)
+			router.GET("/main_ingredient/:id", foodInformation.GetMainIngredient)
+
+			// Blog Routes
+			router.GET("/blogs", blog.ListBlogs)
+			router.GET("/blog/:id", blog.GetBlog)
+			router.POST("/blogs", blog.CreateBlog)
+			router.PATCH("/update-blog", blog.UpdateBlog)
+			router.DELETE("/delete-blog/:id", blog.DeleteBlog)
+
+			router.GET("/categories", blog.ListCategories)
+			router.GET("/category/:id", blog.GetCategory)
+			router.GET("/tags", blog.ListTags)
+			router.GET("/tag/:id", blog.GetTag)
 		}
 	}
-
-	// login User Route
-	r.POST("/login", controller.Login)
 
 	// Run the server go run main.go
 	r.Run("localhost: " + PORT)
