@@ -61,7 +61,7 @@ function Article() {
           fontSize={"1.2rem"}
           variant="h3"
           style={{ color: "#252525" }}
-        >
+          >
           Created : <b>{date.toLocaleDateString()}</b>
         </Typography>
         <hr style={{ opacity: "0.4" }} />

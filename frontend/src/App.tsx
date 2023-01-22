@@ -5,11 +5,8 @@ import './App.css';
 
 // Components
 import Navbar from "./components/Navbar";
-import ShowCardBlog from "./components/ShowCardBlog";
-import Article from "./components/Article";
-import ShowCourse from "./components/ShowCourse";
-import Home from "./components/Home";
-import SignIn from "./components/SignIn";
+import ShowCardBlog from "./components/blog/ShowCardBlog";
+import Article from "./components/blog/Article";
 
 function App() {
   const [token, setToken] = useState<String>("");
@@ -33,7 +30,6 @@ function App() {
     <div>
       <Routes>
         <Route path="/" element={<Navbar />}>
-          <Route path="/" element={<Home />} />
           <Route path="article" element={<ShowCardBlog />} />
           <Route path="article/:id" element={<Article />} />
           <Route path="course" element={<ShowCourse />} />
