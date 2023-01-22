@@ -15,6 +15,15 @@ type User struct {
 	Blogs         []Blog          `gorm:"foreignKey:UserID"`
 }
 
+// รอเพิ่ม fk เผื่อคนอื่นใช้งาน
+type Admin struct {
+	gorm.Model
+	Email		string
+	Name		string
+	Password	string
+	FoodInformation		[]FoodInformation `gorm:"foreignKey:AdminID"`
+}
+
 type Course struct {
 	gorm.Model
 	CourseService []CourseService `gorm:"foreignKey:CourseID"`
@@ -117,4 +126,35 @@ type CourseService struct {
 
 	TrainerID *uint
 	Trainer   Trainer
+}
+
+// ================== ระบบข้อมูลอาหาร ==================
+type MainIngredient struct {
+	gorm.Model
+	Name 				string
+	Carolie				int
+	Type 				string
+	FoodInformation		[]FoodInformation `gorm:"foreignKey:MainIngredientID"`
+}
+
+type FoodType struct {
+	gorm.Model
+	Name 				string
+	FoodInformation		[]FoodInformation `gorm:"foreignKey:FoodTypeID"`
+}
+
+type FoodInformation struct {
+	gorm.Model
+	Name				string
+	Datetime			time.Time
+	Image				string
+
+	AdminID 			*uint
+	Admin				Admin
+
+	MainIngredientID 	*uint
+	MainIngredient		MainIngredient
+
+	FoodTypeID 			*uint
+	FoodType			FoodType
 }
