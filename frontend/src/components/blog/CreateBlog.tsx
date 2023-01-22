@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button, TextField, Select } from "@mui/material";
 import { Box } from "@mui/system";
 import { Textarea } from "@mui/joy";
@@ -35,7 +36,7 @@ function CreateBlog() {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        mt: "2rem",
+        // mt: "6rem",
         gap: "1rem",
       }}
     >
@@ -134,10 +135,10 @@ function CreateBlog() {
       </Box>
 
       {/* Content */}
-      <Textarea
-        variant="plain"
+      <TextField
+        multiline
         placeholder="Tell your story..."
-        minRows={3}
+        minRows={8}
         sx={{
           fontSize: "1.5rem",
           minWidth: "100%",
@@ -162,26 +163,28 @@ function CreateBlog() {
             borderRadius: 20,
             backgroundColor: "#3b82f6",
             padding: "8px 16px",
-            fontSize: "12px",
+            fontSize: "1rem",
           }}
         >
-          Read more
+          Publish
         </Button>
-        <Button
-          className="btn-user"
-          variant="contained"
-          style={{
-            width: "120px",
-            margin: "0 0 16px 14px",
-            color: "#fff",
-            borderRadius: 20,
-            backgroundColor: "#333",
-            padding: "8px 16px",
-            fontSize: "12px",
-          }}
-        >
-          Back
-        </Button>
+        <Link to="/article" style={{ textDecoration: "none" }}>
+          <Button
+            className="btn-user"
+            variant="contained"
+            style={{
+              width: "120px",
+              margin: "0 0 16px 14px",
+              color: "#fff",
+              borderRadius: 20,
+              backgroundColor: "#333",
+              padding: "8px 16px",
+              fontSize: "1rem",
+            }}
+          >
+            Back
+          </Button>
+        </Link>
       </Box>
     </Box>
   );

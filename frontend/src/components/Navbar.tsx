@@ -87,7 +87,7 @@ function Navbar() {
           sx={{
             bgcolor: "#f5f5f5",
             color: "#000000",
-            mb: "2zrem",
+            mb: "2rem",
             paddingTop: 2,
             paddingBottom: 0.5
           }}
@@ -141,7 +141,7 @@ function Navbar() {
             </Grid>
             <Grid item xs={1}>
               <Link
-                to="article"
+                to="articles"
                 style={{
                   color: "#000",
                   textDecoration: "none",
