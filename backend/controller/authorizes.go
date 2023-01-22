@@ -19,8 +19,8 @@ type LoginPayload struct {
 type LoginResponse struct {
 	Token     string `json:"token"`
 	ID        uint   `json:"id"`
-	Firstname string `json:"firstname"`
-	Lastname string `json:"lastname"`
+	Firstname string `json:"first_name"`
+	Lastname string `json:"last_name"`
 }
 
 func Login(c *gin.Context) {
