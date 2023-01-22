@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import { Grid } from "@mui/material";
 import CardBlog from "./CardBlog";
 import { Margin } from "@mui/icons-material";
-import '../App.css';
+import '../../App.css';
 
 // Mockup
 const articles = [

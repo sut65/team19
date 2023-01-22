@@ -7,6 +7,8 @@ import './App.css';
 import Navbar from "./components/Navbar";
 import ShowCardBlog from "./components/blog/ShowCardBlog";
 import Article from "./components/blog/Article";
+import SignIn from "./components/SignIn";
+import ShowCourse from "./components/ShowCourse";
 
 function App() {
   const [token, setToken] = useState<String>("");

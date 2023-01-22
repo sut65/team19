@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 // Component
 import Box from "@mui/material/Box";
 import { Grid, SelectChangeEvent } from "@mui/material";
-import CardBlog from "./CardBlog";
+import CardBlog from './blog/CardBlog';
 import { Margin } from "@mui/icons-material";
 import { CourseServiceInterface } from "../interfaces/ICourseService";
 import { UserInterface } from "../interfaces/IUser";
