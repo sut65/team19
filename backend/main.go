@@ -2,9 +2,12 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	controller "github.com/sut65/team19/controller/blog"
 	"github.com/sut65/team19/entity"
+	"github.com/sut65/team19/middlewares"
+	"github.com/sut65/team19/controller"
 )
+
+const PORT = "8080"
 
 func CORSMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -22,21 +25,47 @@ func CORSMiddleware() gin.HandlerFunc {
 
 func main() {
 	entity.SetupDatabase()
-	r := gin.Default()
 
+	r := gin.Default()
 	r.Use(CORSMiddleware())
 
-	// Blog Routes
-	r.GET("/blogs", controller.ListBlogs)
-	r.GET("/blog/:id", controller.GetBlog)
-	r.POST("/blogs", controller.CreateBlog)
-	r.PATCH("/update-blog", controller.UpdateBlog)
-	r.DELETE("/delete-blog/:id", controller.DeleteBlog)
+	router := r.Group("/")
+	{
+		router.Use(middlewares.Authorizes())
+		{
+			// course_service Routes
+			router.POST("/course_service", controller.CreateCourseService)
+			router.GET("/course_service/:id", controller.GetCourseService)
+			router.GET("/course_services", controller.ListCourseServices)
+			router.DELETE("/course_service/:id", controller.DeleteCourseService)
+			router.PATCH("/course_services", controller.UpdateCourseService)
 
-	r.GET("/categories", controller.ListCategories)
-	r.GET("/category/:id", controller.GetCategory)
-	r.GET("/tags", controller.ListTags)
-	r.GET("/tag/:id", controller.GetTag)
+			// course_detail Routes
+			router.POST("/course_detail", controller.CreateCourseDetail)
+			router.GET("/course_detail/:id", controller.GetCourseDetail)
+			router.GET("/course_details", controller.ListCourseDetails)
+			router.DELETE("/course_detail/:id", controller.DeleteCourseDetail)
+			router.PATCH("/course_details", controller.UpdateCourseDetail)
 
-	r.Run() // localhost:8080
+			// user Routes
+			router.POST("/user", controller.CreateUser)
+			router.GET("/user/:id", controller.GetUser)
+			router.GET("/users", controller.ListUsers)
+			router.DELETE("/user/:id", controller.DeleteUser)
+			router.PATCH("/users", controller.UpdateUser)
+
+			// trainer Routes
+			router.POST("/trainer", controller.CreateTrainer)
+			router.GET("/trainer/:id", controller.GetTrainer)
+			router.GET("/trainers", controller.ListTrainer)
+			router.DELETE("/trainer/:id", controller.DeleteTrainer)
+			router.PATCH("/trainers", controller.UpdateTrainer)
+		}
+	}
+
+	// login User Route
+	r.POST("/login", controller.Login)
+
+	// Run the server go run main.go
+	r.Run("localhost: " + PORT)
 }

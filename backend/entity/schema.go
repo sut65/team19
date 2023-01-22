@@ -7,26 +7,84 @@ import (
 )
 
 // *****************************************************************
+// -------------------------------------------<< ระบบจัดการสมาชิก >>------------------------------------
 // รอแก้ไข ขอเทส Foreign key
-type User struct {
+
+type Status struct {
 	gorm.Model
-	Name          string
-	CourseService []CourseService `gorm:"foreignKey:UserID"`
-	Blogs         []Blog          `gorm:"foreignKey:UserID"`
+	Name    string
+	Member  []Member  `gorm:"foreignKey:StatusID"`
+	Trainer []Trainer `gorm:"foreignKey:StatusID"`
 }
 
-// รอเพิ่ม fk เผื่อคนอื่นใช้งาน
+type Religion struct {
+	gorm.Model
+	Name    string
+	Member  []Member  `gorm:"foreignKey:ReligionID"`
+	Trainer []Trainer `gorm:"foreignKey:ReligionID"`
+}
+
+type Gender struct {
+	gorm.Model
+	Name    string
+	Member  []Member  `gorm:"foreignKey:GenderID"`
+	Trainer []Trainer `gorm:"foreignKey:GenderID"`
+}
+
+type Member struct {
+	gorm.Model
+	Firstname   string
+	Lastname    string
+	ProfileUser string
+	Email       string `gorm:"uniqueIndex"`
+	Password    string `gorm:"uniqueIndex"`
+
+	StatusID *uint
+	Status   Status
+
+	ReligionID *uint
+	Religion   Religion
+
+	GenderID *uint
+	Gender   Gender
+
+	CourseService []CourseService `gorm:"foreignKey:MemberID"`
+	Blogs         []Blog          `gorm:"foreignKey:MemberID"`
+}
+
+type Description struct {
+	gorm.Model
+	Type          string
+	CourseDetails []CourseDetail `gorm:"foreignKey:DescriptionID"`
+}
 type Admin struct {
 	gorm.Model
-	Email		string
-	Name		string
-	Password	string
-	FoodInformation		[]FoodInformation `gorm:"foreignKey:AdminID"`
+	Email           string
+	Name            string
+	Password        string
+	CourseDetails   []CourseDetail    `gorm:"foreignKey:AdminID"`
+	FoodInformation []FoodInformation `gorm:"foreignKey:AdminID"`
+}
+type Price struct {
+	gorm.Model
+	Duration      int
+	Price         int
+	CourseDetails []CourseDetail `gorm:"foreignKey:PriceID"`
 }
 
-type Course struct {
+type CourseDetail struct {
 	gorm.Model
-	CourseService []CourseService `gorm:"foreignKey:CourseID"`
+	Name      string
+	CoverPage string
+
+	DescriptionID *uint
+	Description   Description
+
+	AdminID *uint
+	Admin   Admin
+
+	PriceID *uint
+	Price   Price
 }
 
 // *****************************************************************
@@ -49,9 +107,8 @@ type Blog struct {
 	Title      string
 	Content    string
 
-	// ใช้เทส fk
-	UserID *uint
-	User   User
+	MemberID *uint
+	Member   Member
 
 	CategoryID *uint
 	Category   Category
@@ -66,21 +123,11 @@ type FormOfWork struct {
 	Name    string
 	Trainer []Trainer `gorm:"foreignKey:FormOfWorkID"`
 }
-type Status struct {
-	gorm.Model
-	Name    string
-	Trainer []Trainer `gorm:"foreignKey:StatusID"`
-}
 
 type Education struct {
 	gorm.Model
 	EducationLevel string
 	Trainer        []Trainer `gorm:"foreignKey:EducationID"`
-}
-type Religion struct {
-	gorm.Model
-	Name    string
-	Trainer []Trainer `gorm:"foreignKey:ReligionID"`
 }
 
 type Trainer struct {
@@ -117,12 +164,13 @@ type CourseService struct {
 	gorm.Model
 	CRegisterDate time.Time
 	Agreement     string
+	Status        string
 
-	UserID *uint
-	User   User
+	MemberID *uint
+	Member   Member
 
-	CourseID *uint
-	Course   Course
+	CourseDetailID *uint
+	CourseDetail   CourseDetail
 
 	TrainerID *uint
 	Trainer   Trainer
@@ -131,30 +179,30 @@ type CourseService struct {
 // ================== ระบบข้อมูลอาหาร ==================
 type MainIngredient struct {
 	gorm.Model
-	Name 				string
-	Carolie				int
-	Type 				string
-	FoodInformation		[]FoodInformation `gorm:"foreignKey:MainIngredientID"`
+	Name            string
+	Carolie         int
+	Type            string
+	FoodInformation []FoodInformation `gorm:"foreignKey:MainIngredientID"`
 }
 
 type FoodType struct {
 	gorm.Model
-	Name 				string
-	FoodInformation		[]FoodInformation `gorm:"foreignKey:FoodTypeID"`
+	Name            string
+	FoodInformation []FoodInformation `gorm:"foreignKey:FoodTypeID"`
 }
 
 type FoodInformation struct {
 	gorm.Model
-	Name				string
-	Datetime			time.Time
-	Image				string
+	Name     string
+	Datetime time.Time
+	Image    string
 
-	AdminID 			*uint
-	Admin				Admin
+	AdminID *uint
+	Admin   Admin
 
-	MainIngredientID 	*uint
-	MainIngredient		MainIngredient
+	MainIngredientID *uint
+	MainIngredient   MainIngredient
 
-	FoodTypeID 			*uint
-	FoodType			FoodType
+	FoodTypeID *uint
+	FoodType   FoodType
 }
