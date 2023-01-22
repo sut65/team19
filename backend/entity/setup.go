@@ -44,6 +44,10 @@ func SetupDatabase() {
 		&Trainer{},
 		// CourseService
 		&CourseService{},
+		// FoodInformation
+		&FoodType{},
+		&FoodInformation{},
+		&MainIngredient{},
 	)
 
 	db = database
