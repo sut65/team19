@@ -47,12 +47,12 @@ func main() {
 			router.DELETE("/course_detail/:id", controller.DeleteCourseDetail)
 			router.PATCH("/course_details", controller.UpdateCourseDetail)
 
-			// user Routes
-			router.POST("/user", controller.CreateUser)
-			router.GET("/user/:id", controller.GetUser)
-			router.GET("/users", controller.ListUsers)
-			router.DELETE("/user/:id", controller.DeleteUser)
-			router.PATCH("/users", controller.UpdateUser)
+			// member Routes
+			router.POST("/member", controller.CreateMember)
+			router.GET("/member/:id", controller.GetMember)
+			router.GET("/members", controller.ListMembers)
+			router.DELETE("/member/:id", controller.DeleteMember)
+			router.PATCH("/members", controller.UpdateMember)
 
 			// trainer Routes
 			router.POST("/trainer", controller.CreateTrainer)

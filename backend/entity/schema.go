@@ -28,7 +28,6 @@ type Gender struct {
 	gorm.Model
 	Name    string
 	Member  []Member  `gorm:"foreignKey:GenderID"`
-	Trainer []Trainer `gorm:"foreignKey:GenderID"`
 }
 
 type Member struct {
@@ -37,7 +36,7 @@ type Member struct {
 	Lastname    string
 	ProfileUser string
 	Email       string `gorm:"uniqueIndex"`
-	Password    string `gorm:"uniqueIndex"`
+	Password    string
 
 	StatusID *uint
 	Status   Status
@@ -59,7 +58,7 @@ type Description struct {
 }
 type Admin struct {
 	gorm.Model
-	Email           string
+	Email           string `gorm:"uniqueIndex"`
 	Name            string
 	Password        string
 	CourseDetails   []CourseDetail    `gorm:"foreignKey:AdminID"`
@@ -138,9 +137,8 @@ type Trainer struct {
 	Gender     string
 	Age        int
 	Address    string
-	Email      string
-	UserName   string `gorm:"uniqueIndex"`
-	Password   string `gorm:"uniqueIndex"`
+	Email      string `gorm:"uniqueIndex"`// ใช้ Email ในการ login
+	Password   string
 
 	FormOfWorkID *uint
 	FormOfWork   FormOfWork

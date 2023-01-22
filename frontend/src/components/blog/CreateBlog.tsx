@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button, TextField, Select } from "@mui/material";
 import { Box } from "@mui/system";
-import { Textarea } from "@mui/joy";
 
 const category = [
   {

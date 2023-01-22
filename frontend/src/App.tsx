@@ -10,6 +10,7 @@ import Article from "./components/blog/Article";
 import SignIn from "./components/SignIn";
 import ShowCourse from "./components/ShowCourse";
 import CreateBlog from "./components/blog/CreateBlog";
+import Home from "./components/Home";
 
 function App() {
   const [token, setToken] = useState<String>("");
@@ -25,14 +26,15 @@ function App() {
     }
   }, []);
 
-  // if (!token) {
-  //   return <SignIn />;
-  // }
+  if (!token) {
+    return <SignIn />;
+  }
 
   return (
     <div>
       <Routes>
         <Route path="/" element={<Navbar />}>
+          <Route path="/" element={<Home />} />
           <Route path="articles" element={<ShowCardBlog />} />
           <Route path="article/:id" element={<Article />} />
           <Route path="course" element={<ShowCourse />} />
