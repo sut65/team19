@@ -88,6 +88,8 @@ func main() {
 			router.GET("/tag/:id", blog.GetTag)
 		}
 	}
+	// login User Route
+	r.POST("/login", controller.Login)
 
 	// Run the server go run main.go
 	r.Run("localhost: " + PORT)
