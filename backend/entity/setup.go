@@ -44,6 +44,10 @@ func SetupDatabase() {
 		&Trainer{},
 		// CourseService
 		&CourseService{},
+		// FoodInformation
+		&FoodInformation{},
+		&FoodType{},
+		&MainIngredient{},
 	)
 
 	db = database
@@ -69,17 +73,17 @@ func SetupDatabase() {
 	// Admin
 	passwordA, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
 	AdminA := Admin{
-		Email:    "Adminja001@gmail.com",
-		Name:     "ผู้ดูแล001",
-		Password: string(passwordA),
+		Email: 		"Adminja001@gmail.com",
+		Name:  		"ผู้ดูแล001",
+		Password: 	string(passwordA),
 	}
 	db.Model(&Admin{}).Create(&AdminA)
 
 	passwordB, _ := bcrypt.GenerateFromPassword([]byte("1150"), 14)
 	AdminB := Admin{
-		Email:    "Adminja002@gmail.com",
-		Name:     "ผู้ดูแล002",
-		Password: string(passwordB),
+		Email: 		"Adminja002@gmail.com",
+		Name:  		"ผู้ดูแล002",
+		Password: 	string(passwordB),
 	}
 	db.Model(&Admin{}).Create(&AdminB)
 
