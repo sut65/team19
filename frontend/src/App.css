@@ -6,3 +6,7 @@
 #root {
     font-family: 'Kanit', sans-serif;
 }
+
+body {
+    overflow-y: scroll; /* Show vertical scrollbar */
+}
