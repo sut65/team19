@@ -24,13 +24,15 @@ func SetupDatabase() {
 	// Migrate the schema
 
 	database.AutoMigrate(
+		// Member
+		&Status{},
+		&Religion{},
+		&Gender{},
+		&Member{},
 		// Blog
 		&Category{},
 		&Tag{},
 		&Blog{},
-		// User
-		&Gender{},
-		&Member{},
 		// CourseDetail
 		&Price{},
 		&Description{},
@@ -38,9 +40,7 @@ func SetupDatabase() {
 		&CourseDetail{},
 		// Trainer
 		&FormOfWork{},
-		&Status{},
 		&Education{},
-		&Religion{},
 		&Trainer{},
 		// CourseService
 		&CourseService{},
@@ -57,14 +57,6 @@ func SetupDatabase() {
 	}
 	db.Model(&Status{}).Create(&Status2)
 
-	// Admin
-	passwordA, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
-	AdminA := Admin{
-		Email:    "Adminja001@gmail.com",
-		Name:     "ผู้ดูแล001",
-		Password: string(passwordA),
-	}
-	db.Model(&Admin{}).Create(&AdminA)
 	Gender1 := Gender{
 		Name: "Male",
 	}
@@ -73,6 +65,15 @@ func SetupDatabase() {
 		Name: "Female",
 	}
 	db.Model(&Gender{}).Create(&Gender2)
+
+	// Admin
+	passwordA, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
+	AdminA := Admin{
+		Email:    "Adminja001@gmail.com",
+		Name:     "ผู้ดูแล001",
+		Password: string(passwordA),
+	}
+	db.Model(&Admin{}).Create(&AdminA)
 
 	passwordB, _ := bcrypt.GenerateFromPassword([]byte("1150"), 14)
 	AdminB := Admin{
@@ -97,37 +98,40 @@ func SetupDatabase() {
 
 	Password, err := bcrypt.GenerateFromPassword([]byte("111"), 14)
 
-	User1 := Member{
+	Member1 := Member{
 		Firstname: "Fname1",
 		Lastname:  "Lname1",
 		Email:     "User1@mail.com",
 		Password:  string(Password),
+		ProfileUser: "https://cdn-icons-png.flaticon.com/512/1946/1946429.png",
 		Status:    Status1,
 		Gender:    Gender1,
 		Religion:  Religion1,
 	}
-	db.Model(&Member{}).Create(&User1)
+	db.Model(&Member{}).Create(&Member1)
 
-	User2 := Member{
+	Member2 := Member{
 		Firstname: "Fname2",
 		Lastname:  "Lname2",
 		Email:     "User2@mail.com",
 		Password:  string(Password),
+		ProfileUser: "https://cdn-icons-png.flaticon.com/512/1946/1946429.png",
 		Status:    Status2,
 		Gender:    Gender2,
 		Religion:  Religion2,
 	}
-	db.Model(&Member{}).Create(&User2)
-	User3 := Member{
+	db.Model(&Member{}).Create(&Member2)
+	Member3 := Member{
 		Firstname: "Fname3",
 		Lastname:  "Lname3",
 		Email:     "User3@mail.com",
 		Password:  string(Password),
+		ProfileUser: "https://cdn-icons-png.flaticon.com/512/1946/1946429.png",
 		Status:    Status1,
 		Gender:    Gender1,
 		Religion:  Religion3,
 	}
-	db.Model(&Member{}).Create(&User3)
+	db.Model(&Member{}).Create(&Member3)
 
 	Description1 := Description{
 		Type: "Decrease",
@@ -141,22 +145,6 @@ func SetupDatabase() {
 		Type: "Healthy",
 	}
 	db.Model(&Description{}).Create(&Description3)
-
-	Admin1 := Admin{
-		Name:     "Admin1",
-		Password: string(Password),
-	}
-	db.Model(&Admin{}).Create(&Admin1)
-	Admin2 := Admin{
-		Name:     "Admin2",
-		Password: string(Password),
-	}
-	db.Model(&Admin{}).Create(&Admin2)
-	Admin3 := Admin{
-		Name:     "333",
-		Password: string(Password),
-	}
-	db.Model(&Admin{}).Create(&Admin3)
 
 	Price1 := Price{
 		Duration: 30,
@@ -178,7 +166,7 @@ func SetupDatabase() {
 		Name:        "หุ่นดีไม่มีสะดุด",
 		CoverPage:   "https://men.mthai.com/app/uploads/2016/06/iStock_000035061564_Small.jpg",
 		Description: Description3,
-		Admin:       Admin1,
+		Admin:       AdminA,
 		Price:       Price1,
 	}
 	db.Model(&CourseDetail{}).Create(&CourseDetail1)
@@ -186,7 +174,7 @@ func SetupDatabase() {
 		Name:        "ผอมแน่",
 		CoverPage:   "https://storage.yanhee.co.th/uploads/2017/05/25ba20300e-768x402.jpg",
 		Description: Description1,
-		Admin:       Admin1,
+		Admin:       AdminB,
 		Price:       Price2,
 	}
 	db.Model(&CourseDetail{}).Create(&CourseDetail2)
@@ -194,33 +182,71 @@ func SetupDatabase() {
 		Name:        "มีเนื้อ",
 		CoverPage:   "https://img.kapook.com/u/2019/wittawat_ch/aug/0.1.jpg",
 		Description: Description2,
-		Admin:       Admin1,
+		Admin:       AdminA,
 		Price:       Price3,
 	}
 	db.Model(&CourseDetail{}).Create(&CourseDetail3)
 
 	Trainer1 := Trainer{
 		Name: "Tname1",
+		Email: "Trainer1@mail.com",
 	}
 	db.Model(&Trainer{}).Create(&Trainer1)
 	Trainer2 := Trainer{
 		Name: "Tname2",
+		Email: "Trainer2@mail.com",
 	}
 	db.Model(&Trainer{}).Create(&Trainer2)
+
+	// Blog
+	CategoryA := Category{
+		Name: "การกิน",
+	}
+	db.Model(&Category{}).Create(&CategoryA)
+
+	CategoryB := Category{
+		Name: "ออกกำลังกาย",
+	}
+	db.Model(&Category{}).Create(&CategoryB)
+
+	TagA := Tag{
+		Name: "มทส",
+	}
+	db.Model(&Tag{}).Create(&TagA)
+
+	TagB := Tag{
+		Name: "ออกกำลังกายด้วยงบ 0 บาท",
+	}
+	db.Model(&Tag{}).Create(&TagB)
+
+	TagC := Tag{
+		Name: "อาหารคลีนงบประหยัด",
+	}
+	db.Model(&Tag{}).Create(&TagC)
+
+	BlogA := Blog{
+		CoverImage: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+		Title:      "อาหารคลีน",
+		Content:    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+		Member:     Member1,
+		Category:   CategoryA,
+		Tag:        TagA,
+	}
+	db.Model(&Blog{}).Create(&BlogA)
 
 	db.Model(&CourseService{}).Create(&CourseService{
 		CRegisterDate: time.Date(2023, time.January, 1, 15, 03, 00, 0, time.UTC),
 		Agreement:     "Agree",
 		Status:        "Active",
-		Member:        User1,
+		Member:        Member1,
 		CourseDetail:  CourseDetail1,
 		Trainer:       Trainer1,
 	})
 	db.Model(&CourseService{}).Create(&CourseService{
 		CRegisterDate: time.Date(2023, time.January, 2, 15, 03, 00, 0, time.UTC),
 		Agreement:     "Agree",
-		Status:        "Active",
-		Member:        User2,
+		Status:        "Inactive",
+		Member:        Member2,
 		CourseDetail:  CourseDetail2,
 		Trainer:       Trainer1,
 	})
