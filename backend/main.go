@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/sut65/team19/controller"
+	controller "github.com/sut65/team19/controller/blog"
 	"github.com/sut65/team19/entity"
 )
 
@@ -32,6 +32,11 @@ func main() {
 	r.POST("/blogs", controller.CreateBlog)
 	r.PATCH("/update-blog", controller.UpdateBlog)
 	r.DELETE("/delete-blog/:id", controller.DeleteBlog)
+
+	r.GET("/categories", controller.ListCategories)
+	r.GET("/category/:id", controller.GetCategory)
+	r.GET("/tags", controller.ListTags)
+	r.GET("/tag/:id", controller.GetTag)
 
 	r.Run() // localhost:8080
 }
