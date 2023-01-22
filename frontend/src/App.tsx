@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Router, Routes, Route, Link } from "react-router-dom";
 import Button from "@mui/material/Button";
-import './App.css';
+import "./App.css";
 
 // Components
 import Navbar from "./components/Navbar";
@@ -9,6 +9,7 @@ import ShowCardBlog from "./components/blog/ShowCardBlog";
 import Article from "./components/blog/Article";
 import SignIn from "./components/SignIn";
 import ShowCourse from "./components/ShowCourse";
+import CreateBlog from "./components/blog/CreateBlog";
 
 function App() {
   const [token, setToken] = useState<String>("");
@@ -24,18 +25,19 @@ function App() {
     }
   }, []);
 
-  if (!token) {
-    return <SignIn />;
-  }
-  
+  // if (!token) {
+  //   return <SignIn />;
+  // }
+
   return (
     <div>
       <Routes>
         <Route path="/" element={<Navbar />}>
-          <Route path="article" element={<ShowCardBlog />} />
+          <Route path="articles" element={<ShowCardBlog />} />
           <Route path="article/:id" element={<Article />} />
           <Route path="course" element={<ShowCourse />} />
           <Route path="signout" element={<ShowCourse />} />
+          <Route path="article/create-article" element={<CreateBlog />} />
         </Route>
       </Routes>
     </div>

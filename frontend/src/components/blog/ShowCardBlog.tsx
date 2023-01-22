@@ -1,10 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
 // Component
 import Box from "@mui/material/Box";
-import { Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import CardBlog from "./CardBlog";
 import { Margin } from "@mui/icons-material";
-import '../../App.css';
+import "../../App.css";
 
 // Mockup
 const articles = [
@@ -72,9 +73,38 @@ function ShowCardBlog() {
     <Box
       sx={{
         maxWidth: "1024px",
-        margin: "2rem auto"
+        margin: "2rem auto",
       }}
     >
+      {/* Button Write */}
+      <Box sx={{
+        // mt: "5rem",
+        display: "flex",
+        justifyContent: "flex-end"
+      }}>
+        <Link
+          to="/article/create-article"
+          style={{
+            textDecoration: "none",
+          }}
+        >
+          <Button
+            className="btn-user"
+            variant="contained"
+            style={{
+              width: "120px",
+              margin: "0 0 16px 14px",
+              color: "#fff",
+              borderRadius: 20,
+              backgroundColor: "#3b82f6",
+              padding: "4px 8px",
+              fontSize: "1.5rem",
+            }}
+          >
+            Write
+          </Button>
+        </Link>
+      </Box>
       <Grid container rowSpacing={3} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         {articles.map((item) => {
           return (
