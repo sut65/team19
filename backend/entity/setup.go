@@ -57,6 +57,15 @@ func SetupDatabase() {
 	}
 	db.Model(&Status{}).Create(&Status2)
 
+	
+	// Admin
+	passwordA, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
+	AdminA := Admin{
+		Email: 		"Adminja001@gmail.com",
+		Name:  		"ผู้ดูแล001",
+		Password: 	string(passwordA),
+	}
+	db.Model(&Admin{}).Create(&AdminA)
 	Gender1 := Gender{
 		Name: "Male",
 	}
@@ -65,6 +74,15 @@ func SetupDatabase() {
 		Name: "Female",
 	}
 	db.Model(&Gender{}).Create(&Gender2)
+
+	
+	passwordB, _ := bcrypt.GenerateFromPassword([]byte("1150"), 14)
+	AdminB := Admin{
+		Email: 		"Adminja002@gmail.com",
+		Name:  		"ผู้ดูแล002",
+		Password: 	string(passwordB),
+	}
+	db.Model(&Admin{}).Create(&AdminB)
 
 	Religion1 := Religion{
 		Name: "Buddha",

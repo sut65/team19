@@ -33,7 +33,7 @@ type User struct {
 	gorm.Model
 	FirstName string
 	LastName  string
-	Email	  string `gorm:"uniqueIndex"`
+	Email     string `gorm:"uniqueIndex"`
 	Password  string
 
 	StatusID *uint
@@ -55,6 +55,7 @@ type Description struct {
 }
 type Admin struct {
 	gorm.Model
+	Email         string
 	Name          string
 	Password      string
 	CourseDetails []CourseDetail `gorm:"foreignKey:AdminID"`
