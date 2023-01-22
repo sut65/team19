@@ -2,6 +2,8 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	foodInformation "github.com/sut65/team19/controller/FoodInformation"
+	blog "github.com/sut65/team19/controller/blog"
 	"github.com/sut65/team19/entity"
 	"github.com/sut65/team19/middlewares"
 	"github.com/sut65/team19/controller"
@@ -29,6 +31,24 @@ func main() {
 	r := gin.Default()
 	r.Use(CORSMiddleware())
 
+	// Blog Routes
+	r.GET("/blogs", blog.ListBlogs)
+	r.GET("/blog/:id", blog.GetBlog)
+	r.POST("/blogs", blog.CreateBlog)
+	r.PATCH("/update-blog", blog.UpdateBlog)
+	r.DELETE("/delete-blog/:id", blog.DeleteBlog)
+
+	r.GET("/categories", blog.ListCategories)
+	r.GET("/category/:id", blog.GetCategory)
+	r.GET("/tags", blog.ListTags)
+	r.GET("/tag/:id", blog.GetTag)
+
+	// FoodInformation Routes
+	r.GET("/food_informations", foodInformation.ListFoodInformations)
+	r.GET("/food_information/:id", foodInformation.GetFoodInformation)
+	r.POST("/food_informations", foodInformation.CreateFoodInformation)
+	r.PATCH("/update-food_information", foodInformation.UpdateFoodInformation)
+	r.DELETE("/delete-food_information/:id", foodInformation.DeleteFoodInformation)
 	router := r.Group("/")
 	{
 		router.Use(middlewares.Authorizes())
@@ -63,8 +83,10 @@ func main() {
 		}
 	}
 
-	// login User Route
-	r.POST("/login", controller.Login)
+	r.GET("/food_types", foodInformation.ListFoodTypes)
+	r.GET("/food_type/:id", foodInformation.GetFoodInformation)
+	r.GET("/main_ingredients", foodInformation.ListMainIngredients)
+	r.GET("/main_ingredient/:id", foodInformation.GetMainIngredient)
 
 	// Run the server go run main.go
 	r.Run("localhost: " + PORT)
