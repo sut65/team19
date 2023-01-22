@@ -20,12 +20,12 @@ type LoginResponse struct {
 	Token     string `json:"token"`
 	ID        uint   `json:"id"`
 	Firstname string `json:"first_name"`
-	Lastname string `json:"last_name"`
+	Lastname  string `json:"last_name"`
 }
 
 func Login(c *gin.Context) {
 	var payload LoginPayload
-	var user entity.User
+	var user entity.Member
 
 	if err := c.ShouldBindJSON(&payload); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -62,10 +62,10 @@ func Login(c *gin.Context) {
 	}
 
 	tokenResponse := LoginResponse{
-		Token: signedToken,
-		ID:    user.ID,
-		Firstname: user.FirstName,
-		Lastname: user.LastName,
+		Token:     signedToken,
+		ID:        user.ID,
+		Firstname: user.Firstname,
+		Lastname:  user.Lastname,
 	}
 
 	c.JSON(http.StatusOK, gin.H{"data": tokenResponse})

@@ -13,7 +13,7 @@ func CreateBlog(c *gin.Context) {
 	var blog entity.Blog
 	var category entity.Category
 	var tag entity.Tag
-	var user entity.User
+	var user entity.Member
 
 	if err := c.ShouldBindJSON(&blog); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -21,7 +21,7 @@ func CreateBlog(c *gin.Context) {
 	}
 
 	// ค้นหา user ด้วย id
-	if tx := entity.DB().Where("id = ?", blog.UserID).First(&user); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", blog.MemberID).First(&user); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "user not found"})
 		return
 	}
@@ -42,7 +42,7 @@ func CreateBlog(c *gin.Context) {
 	blg := entity.Blog{
 		Category:   category,
 		Tag:        tag,
-		User:       user,
+		Member:     blog.Member,
 		CoverImage: blog.CoverImage,
 		Title:      blog.Title,
 		Content:    blog.Content,
@@ -107,7 +107,7 @@ func UpdateBlog(c *gin.Context) {
 	newBlog.Content = blog.Content
 	newBlog.Category = blog.Category
 	newBlog.Tag = blog.Tag
-	newBlog.User = blog.User
+	newBlog.Member = blog.Member
 
 	// update := entity.Blog{
 	// 	CoverImage: newBlog.CoverImage,

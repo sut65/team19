@@ -9,7 +9,7 @@ import (
 
 // POST /user
 func CreateUser(c *gin.Context) {
-	var user entity.User
+	var user entity.Member
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -24,7 +24,7 @@ func CreateUser(c *gin.Context) {
 
 // GET /user/:id
 func GetUser(c *gin.Context) {
-	var user entity.User
+	var user entity.Member
 	id := c.Param("id")
 	if tx := entity.DB().Where("id = ?", id).First(&user); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "user not found"})
@@ -36,7 +36,7 @@ func GetUser(c *gin.Context) {
 
 // GET /users
 func ListUsers(c *gin.Context) {
-	var users []entity.User
+	var users []entity.Member
 	if err := entity.DB().Raw("SELECT * FROM users").Scan(&users).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -58,7 +58,7 @@ func DeleteUser(c *gin.Context) {
 
 // PATCH /user
 func UpdateUser(c *gin.Context) {
-	var user entity.User
+	var user entity.Member
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

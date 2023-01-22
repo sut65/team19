@@ -11,7 +11,7 @@ import (
 func CreateCourseService(c *gin.Context) {
 
 	var course_service entity.CourseService
-	var user entity.User
+	var user entity.Member
 	var course_detail entity.CourseDetail
 	var trainer entity.Trainer
 
@@ -21,7 +21,7 @@ func CreateCourseService(c *gin.Context) {
 	}
 
 	// ค้นหา user ด้วย id
-	if tx := entity.DB().Where("id = ?", course_service.UserID).First(&user); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", course_service.MemberID).First(&user); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "user not found"})
 		return
 	}
@@ -43,7 +43,7 @@ func CreateCourseService(c *gin.Context) {
 		CRegisterDate: course_service.CRegisterDate, // ตั้งค่าฟิลด์ CRegisterDate
 		Agreement:     course_service.Agreement,     // ตั้งค่าฟิลด์ Agreement
 		Status:        course_service.Status,        // ตั้งค่าฟิลด์ Status
-		User:          user,                         // โยงความสัมพันธ์กับ Entity User
+		Member:        entity.Member{},              // โยงความสัมพันธ์กับ Entity User
 		CourseDetail:  course_detail,                // โยงความสัมพันธ์กับ Entity Course Details
 		Trainer:       trainer,                      // โยงความสัมพันธ์กับ Entity Trainer
 	}
@@ -101,7 +101,7 @@ func UpdateCourseService(c *gin.Context) {
 	newCourse_Service.CRegisterDate = course_service.CRegisterDate // ตั้งค่าฟิลด์ CRegisterDate
 	newCourse_Service.Agreement = course_service.Agreement         // ตั้งค่าฟิลด์ Agreement
 	newCourse_Service.Status = course_service.Status               // ตั้งค่าฟิลด์ Status
-	newCourse_Service.User = course_service.User                   // โยงความสัมพันธ์กับ Entity User
+	newCourse_Service.Member = course_service.Member               // โยงความสัมพันธ์กับ Entity User
 	newCourse_Service.CourseDetail = course_service.CourseDetail   // โยงความสัมพันธ์กับ Entity Course Details
 	newCourse_Service.Trainer = course_service.Trainer             // โยงความสัมพันธ์กับ Entity Trainer
 

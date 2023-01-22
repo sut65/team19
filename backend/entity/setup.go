@@ -30,7 +30,7 @@ func SetupDatabase() {
 		&Blog{},
 		// User
 		&Gender{},
-		&User{},
+		&Member{},
 		// CourseDetail
 		&Price{},
 		&Description{},
@@ -57,13 +57,12 @@ func SetupDatabase() {
 	}
 	db.Model(&Status{}).Create(&Status2)
 
-	
 	// Admin
 	passwordA, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
 	AdminA := Admin{
-		Email: 		"Adminja001@gmail.com",
-		Name:  		"ผู้ดูแล001",
-		Password: 	string(passwordA),
+		Email:    "Adminja001@gmail.com",
+		Name:     "ผู้ดูแล001",
+		Password: string(passwordA),
 	}
 	db.Model(&Admin{}).Create(&AdminA)
 	Gender1 := Gender{
@@ -75,12 +74,11 @@ func SetupDatabase() {
 	}
 	db.Model(&Gender{}).Create(&Gender2)
 
-	
 	passwordB, _ := bcrypt.GenerateFromPassword([]byte("1150"), 14)
 	AdminB := Admin{
-		Email: 		"Adminja002@gmail.com",
-		Name:  		"ผู้ดูแล002",
-		Password: 	string(passwordB),
+		Email:    "Adminja002@gmail.com",
+		Name:     "ผู้ดูแล002",
+		Password: string(passwordB),
 	}
 	db.Model(&Admin{}).Create(&AdminB)
 
@@ -99,37 +97,37 @@ func SetupDatabase() {
 
 	Password, err := bcrypt.GenerateFromPassword([]byte("111"), 14)
 
-	User1 := User{
-		FirstName: "Fname1",
-		LastName:  "Lname1",
-		Email: "User1@mail.com",
-		Password: string(Password),
+	User1 := Member{
+		Firstname: "Fname1",
+		Lastname:  "Lname1",
+		Email:     "User1@mail.com",
+		Password:  string(Password),
 		Status:    Status1,
 		Gender:    Gender1,
 		Religion:  Religion1,
 	}
-	db.Model(&User{}).Create(&User1)
+	db.Model(&Member{}).Create(&User1)
 
-	User2 := User{
-		FirstName: "Fname2",
-		LastName:  "Lname2",
-		Email: "User2@mail.com",
-		Password: string(Password),
+	User2 := Member{
+		Firstname: "Fname2",
+		Lastname:  "Lname2",
+		Email:     "User2@mail.com",
+		Password:  string(Password),
 		Status:    Status2,
 		Gender:    Gender2,
 		Religion:  Religion2,
 	}
-	db.Model(&User{}).Create(&User2)
-	User3 := User{
-		FirstName: "Fname3",
-		LastName:  "Lname3",
-		Email: "User3@mail.com",
-		Password: string(Password),
+	db.Model(&Member{}).Create(&User2)
+	User3 := Member{
+		Firstname: "Fname3",
+		Lastname:  "Lname3",
+		Email:     "User3@mail.com",
+		Password:  string(Password),
 		Status:    Status1,
 		Gender:    Gender1,
 		Religion:  Religion3,
 	}
-	db.Model(&User{}).Create(&User3)
+	db.Model(&Member{}).Create(&User3)
 
 	Description1 := Description{
 		Type: "Decrease",
@@ -214,7 +212,7 @@ func SetupDatabase() {
 		CRegisterDate: time.Date(2023, time.January, 1, 15, 03, 00, 0, time.UTC),
 		Agreement:     "Agree",
 		Status:        "Active",
-		User:          User1,
+		Member:        User1,
 		CourseDetail:  CourseDetail1,
 		Trainer:       Trainer1,
 	})
@@ -222,7 +220,7 @@ func SetupDatabase() {
 		CRegisterDate: time.Date(2023, time.January, 2, 15, 03, 00, 0, time.UTC),
 		Agreement:     "Agree",
 		Status:        "Active",
-		User:          User2,
+		Member:        User2,
 		CourseDetail:  CourseDetail2,
 		Trainer:       Trainer1,
 	})
