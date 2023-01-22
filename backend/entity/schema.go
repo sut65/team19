@@ -8,25 +8,77 @@ import (
 
 // *****************************************************************
 // รอแก้ไข ขอเทส Foreign key
+
+type Status struct {
+	gorm.Model
+	Name    string
+	User    []User    `gorm:"foreignKey:StatusID"`
+	Trainer []Trainer `gorm:"foreignKey:StatusID"`
+}
+
+type Gender struct {
+	gorm.Model
+	Name string
+	User []User `gorm:"foreignKey:GenderID"`
+}
+
+type Religion struct {
+	gorm.Model
+	Name    string
+	User    []User    `gorm:"foreignKey:ReligionID"`
+	Trainer []Trainer `gorm:"foreignKey:ReligionID"`
+}
+
 type User struct {
 	gorm.Model
-	Name          string
+	FirstName string
+	LastName  string
+	Email	  string `gorm:"uniqueIndex"`
+	Password  string
+
+	StatusID *uint
+	Status   Status
+
+	GenderID *uint
+	Gender   Gender
+
+	ReligionID *uint
+	Religion   Religion
+
 	CourseService []CourseService `gorm:"foreignKey:UserID"`
-	Blogs         []Blog          `gorm:"foreignKey:UserID"`
 }
 
-// รอเพิ่ม fk เผื่อคนอื่นใช้งาน
+type Description struct {
+	gorm.Model
+	Type          string
+	CourseDetails []CourseDetail `gorm:"foreignKey:DescriptionID"`
+}
 type Admin struct {
 	gorm.Model
-	Email		string
-	Name		string
-	Password	string
-	FoodInformation		[]FoodInformation `gorm:"foreignKey:AdminID"`
+	Name          string
+	Password      string
+	CourseDetails []CourseDetail `gorm:"foreignKey:AdminID"`
+}
+type Price struct {
+	gorm.Model
+	Duration      int
+	Price         int
+	CourseDetails []CourseDetail `gorm:"foreignKey:PriceID"`
 }
 
-type Course struct {
+type CourseDetail struct {
 	gorm.Model
-	CourseService []CourseService `gorm:"foreignKey:CourseID"`
+	Name      string
+	CoverPage string
+
+	DescriptionID *uint
+	Description   Description
+
+	AdminID *uint
+	Admin   Admin
+
+	PriceID *uint
+	Price   Price
 }
 
 // *****************************************************************
@@ -49,10 +101,6 @@ type Blog struct {
 	Title      string
 	Content    string
 
-	// ใช้เทส fk
-	UserID *uint
-	User   User
-
 	CategoryID *uint
 	Category   Category
 
@@ -66,21 +114,11 @@ type FormOfWork struct {
 	Name    string
 	Trainer []Trainer `gorm:"foreignKey:FormOfWorkID"`
 }
-type Status struct {
-	gorm.Model
-	Name    string
-	Trainer []Trainer `gorm:"foreignKey:StatusID"`
-}
 
 type Education struct {
 	gorm.Model
 	EducationLevel string
 	Trainer        []Trainer `gorm:"foreignKey:EducationID"`
-}
-type Religion struct {
-	gorm.Model
-	Name    string
-	Trainer []Trainer `gorm:"foreignKey:ReligionID"`
 }
 
 type Trainer struct {
@@ -117,44 +155,16 @@ type CourseService struct {
 	gorm.Model
 	CRegisterDate time.Time
 	Agreement     string
+	Status        string
 
 	UserID *uint
 	User   User
 
-	CourseID *uint
-	Course   Course
+	CourseDetailID *uint
+	CourseDetail   CourseDetail
 
 	TrainerID *uint
 	Trainer   Trainer
 }
 
-// ================== ระบบข้อมูลอาหาร ==================
-type MainIngredient struct {
-	gorm.Model
-	Name 				string
-	Carolie				int
-	Type 				string
-	FoodInformation		[]FoodInformation `gorm:"foreignKey:MainIngredientID"`
-}
-
-type FoodType struct {
-	gorm.Model
-	Name 				string
-	FoodInformation		[]FoodInformation `gorm:"foreignKey:FoodTypeID"`
-}
-
-type FoodInformation struct {
-	gorm.Model
-	Name				string
-	Datetime			time.Time
-	Image				string
-
-	AdminID 			*uint
-	Admin				Admin
-
-	MainIngredientID 	*uint
-	MainIngredient		MainIngredient
-
-	FoodTypeID 			*uint
-	FoodType			FoodType
-}
+// =======================================================

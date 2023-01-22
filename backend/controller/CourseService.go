@@ -12,7 +12,7 @@ func CreateCourseService(c *gin.Context) {
 
 	var course_service entity.CourseService
 	var user entity.User
-	var course entity.Course
+	var course_detail entity.CourseDetail
 	var trainer entity.Trainer
 
 	if err := c.ShouldBindJSON(&course_service); err != nil {
@@ -27,7 +27,7 @@ func CreateCourseService(c *gin.Context) {
 	}
 
 	// ค้นหา course ด้วย id
-	if tx := entity.DB().Where("id = ?", course_service.CourseID).First(&course); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", course_service.CourseDetailID).First(&course_detail); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "course not found"})
 		return
 	}
@@ -42,8 +42,9 @@ func CreateCourseService(c *gin.Context) {
 	pb := entity.CourseService{
 		CRegisterDate: course_service.CRegisterDate, // ตั้งค่าฟิลด์ CRegisterDate
 		Agreement:     course_service.Agreement,     // ตั้งค่าฟิลด์ Agreement
+		Status:        course_service.Status,        // ตั้งค่าฟิลด์ Status
 		User:          user,                         // โยงความสัมพันธ์กับ Entity User
-		Course:        course,                       // โยงความสัมพันธ์กับ Entity Course
+		CourseDetail:  course_detail,                // โยงความสัมพันธ์กับ Entity Course Details
 		Trainer:       trainer,                      // โยงความสัมพันธ์กับ Entity Trainer
 	}
 
@@ -59,7 +60,7 @@ func CreateCourseService(c *gin.Context) {
 func GetCourseService(c *gin.Context) {
 	var course_service entity.CourseService
 	id := c.Param("id")
-	if tx := entity.DB().Where("id = ?", id).First(&course_service); tx.RowsAffected == 0 {
+	if tx := entity.DB().Preload("User").Preload("CourseDetail").Preload("Trainer").Where("id = ?", id).First(&course_service); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "course_service not found"})
 		return
 	}
@@ -69,7 +70,7 @@ func GetCourseService(c *gin.Context) {
 // GET /course_services
 func ListCourseServices(c *gin.Context) {
 	var course_services []entity.CourseService
-	if err := entity.DB().Raw("SELECT * FROM course_services").Find(&course_services).Error; err != nil {
+	if err := entity.DB().Preload("User").Preload("CourseDetail").Preload("Trainer").Raw("SELECT * FROM course_services").Find(&course_services).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -91,15 +92,18 @@ func DeleteCourseService(c *gin.Context) {
 // PATCH /course_service
 func UpdateCourseService(c *gin.Context) {
 	var course_service entity.CourseService
+	var newCourse_Service entity.CourseService
 	if err := c.ShouldBindJSON(&course_service); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	if tx := entity.DB().Where("id = ?", course_service.ID).First(&course_service); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "course_service not found"})
-		return
-	}
+	newCourse_Service.CRegisterDate = course_service.CRegisterDate // ตั้งค่าฟิลด์ CRegisterDate
+	newCourse_Service.Agreement = course_service.Agreement         // ตั้งค่าฟิลด์ Agreement
+	newCourse_Service.Status = course_service.Status               // ตั้งค่าฟิลด์ Status
+	newCourse_Service.User = course_service.User                   // โยงความสัมพันธ์กับ Entity User
+	newCourse_Service.CourseDetail = course_service.CourseDetail   // โยงความสัมพันธ์กับ Entity Course Details
+	newCourse_Service.Trainer = course_service.Trainer             // โยงความสัมพันธ์กับ Entity Trainer
 
 	if err := entity.DB().Save(&course_service).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

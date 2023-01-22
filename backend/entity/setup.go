@@ -1,9 +1,11 @@
 package entity
 
 import (
+	"time"
+
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
-	"time"
 )
 
 var db *gorm.DB
@@ -27,11 +29,13 @@ func SetupDatabase() {
 		&Tag{},
 		&Blog{},
 		// User
+		&Gender{},
 		&User{},
-		// Admin
+		// CourseDetail
+		&Price{},
+		&Description{},
 		&Admin{},
-		// Course
-		&Course{},
+		&CourseDetail{},
 		// Trainer
 		&FormOfWork{},
 		&Status{},
@@ -40,117 +44,168 @@ func SetupDatabase() {
 		&Trainer{},
 		// CourseService
 		&CourseService{},
-		// FoodInformation
-		&MainIngredient{},
-		&FoodType{},
-		&FoodInformation{},
 	)
 
 	db = database
 
-	// User Test มาแก้ด้วย
-	UserTest := User{
-		Name: "Test Der",
+	Status1 := Status{
+		Name: "Active",
 	}
-	db.Model(&User{}).Create(&UserTest)
+	db.Model(&Status{}).Create(&Status1)
+	Status2 := Status{
+		Name: "Inactive",
+	}
+	db.Model(&Status{}).Create(&Status2)
 
-	// Admin
-	AdminA := Admin{
-		Email: 		"Adminja001@gmail.com",
-		Name:  		"ผู้ดูแล001",
-		Password: 	"1150",
+	Gender1 := Gender{
+		Name: "Male",
 	}
-	db.Model(&Admin{}).Create(&AdminA)
+	db.Model(&Gender{}).Create(&Gender1)
+	Gender2 := Gender{
+		Name: "Female",
+	}
+	db.Model(&Gender{}).Create(&Gender2)
 
-	AdminB := Admin{
-		Email: 		"Adminja002@gmail.com",
-		Name:  		"ผู้ดูแล002",
-		Password: 	"1112",
+	Religion1 := Religion{
+		Name: "Buddha",
 	}
-	db.Model(&Admin{}).Create(&AdminB)
+	db.Model(&Religion{}).Create(&Religion1)
+	Religion2 := Religion{
+		Name: "Christ",
+	}
+	db.Model(&Religion{}).Create(&Religion2)
+	Religion3 := Religion{
+		Name: "Islam",
+	}
+	db.Model(&Religion{}).Create(&Religion3)
 
-	// Category
-	CategoryA := Category{
-		Name: "การกิน",
-	}
-	db.Model(&Category{}).Create(&CategoryA)
+	Password, err := bcrypt.GenerateFromPassword([]byte("111"), 14)
 
-	CategoryB := Category{
-		Name: "ออกกำลังกาย",
+	User1 := User{
+		FirstName: "Fname1",
+		LastName:  "Lname1",
+		Email: "User1@mail.com",
+		Password: string(Password),
+		Status:    Status1,
+		Gender:    Gender1,
+		Religion:  Religion1,
 	}
-	db.Model(&Category{}).Create(&CategoryB)
+	db.Model(&User{}).Create(&User1)
 
-	// Tag
-	TagA := Tag{
-		Name: "มทส",
+	User2 := User{
+		FirstName: "Fname2",
+		LastName:  "Lname2",
+		Email: "User2@mail.com",
+		Password: string(Password),
+		Status:    Status2,
+		Gender:    Gender2,
+		Religion:  Religion2,
 	}
-	db.Model(&Tag{}).Create(&TagA)
+	db.Model(&User{}).Create(&User2)
+	User3 := User{
+		FirstName: "Fname3",
+		LastName:  "Lname3",
+		Email: "User3@mail.com",
+		Password: string(Password),
+		Status:    Status1,
+		Gender:    Gender1,
+		Religion:  Religion3,
+	}
+	db.Model(&User{}).Create(&User3)
 
-	TagB := Tag{
-		Name: "อาหารคลีนงบประหยัด",
+	Description1 := Description{
+		Type: "Decrease",
 	}
-	db.Model(&Tag{}).Create(&TagB)
+	db.Model(&Description{}).Create(&Description1)
+	Description2 := Description{
+		Type: "Increase",
+	}
+	db.Model(&Description{}).Create(&Description2)
+	Description3 := Description{
+		Type: "Healthy",
+	}
+	db.Model(&Description{}).Create(&Description3)
 
-	TagC := Tag{
-		Name: "ออกกำลังกายด้วยงบ 0 บาท",
+	Admin1 := Admin{
+		Name:     "Admin1",
+		Password: string(Password),
 	}
-	db.Model(&Tag{}).Create(&TagC)
+	db.Model(&Admin{}).Create(&Admin1)
+	Admin2 := Admin{
+		Name:     "Admin2",
+		Password: string(Password),
+	}
+	db.Model(&Admin{}).Create(&Admin2)
+	Admin3 := Admin{
+		Name:     "333",
+		Password: string(Password),
+	}
+	db.Model(&Admin{}).Create(&Admin3)
 
-	// Blog
-	BlogA := Blog{
-		CoverImage: "https://images.unsplash.com/photo-1606787366850-de6330128bfc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-		Title:      "โภชนาการกับการออกกำลังกายสำคัญอย่างไร",
-		Content:    "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-		User:       UserTest,
-		Category:   CategoryA,
-		Tag:        TagB,
+	Price1 := Price{
+		Duration: 30,
+		Price:    1000,
 	}
-	db.Model(&Blog{}).Create(&BlogA)
+	db.Model(&Price{}).Create(&Price1)
+	Price2 := Price{
+		Duration: 30,
+		Price:    1200,
+	}
+	db.Model(&Price{}).Create(&Price2)
+	Price3 := Price{
+		Duration: 7,
+		Price:    300,
+	}
+	db.Model(&Price{}).Create(&Price3)
 
-	// MainIngredient
-	MainIngredientA := MainIngredient{
-		Name:		"ไข่",
-		Carolie: 	72,
-		Type:		"วัตถุดิบจากสัตว์",
+	CourseDetail1 := CourseDetail{
+		Name:        "หุ่นดีไม่มีสะดุด",
+		CoverPage:   "https://men.mthai.com/app/uploads/2016/06/iStock_000035061564_Small.jpg",
+		Description: Description3,
+		Admin:       Admin1,
+		Price:       Price1,
 	}
-	db.Model(&MainIngredient{}).Create(&MainIngredientA)
+	db.Model(&CourseDetail{}).Create(&CourseDetail1)
+	CourseDetail2 := CourseDetail{
+		Name:        "ผอมแน่",
+		CoverPage:   "https://storage.yanhee.co.th/uploads/2017/05/25ba20300e-768x402.jpg",
+		Description: Description1,
+		Admin:       Admin1,
+		Price:       Price2,
+	}
+	db.Model(&CourseDetail{}).Create(&CourseDetail2)
+	CourseDetail3 := CourseDetail{
+		Name:        "มีเนื้อ",
+		CoverPage:   "https://img.kapook.com/u/2019/wittawat_ch/aug/0.1.jpg",
+		Description: Description2,
+		Admin:       Admin1,
+		Price:       Price3,
+	}
+	db.Model(&CourseDetail{}).Create(&CourseDetail3)
 
-	MainIngredientB := MainIngredient{
-		Name:		"ผัก",
-		Carolie: 	65,
-		Type:		"วัตถุดิบจากพืช",
+	Trainer1 := Trainer{
+		Name: "Tname1",
 	}
-	db.Model(&MainIngredient{}).Create(&MainIngredientB)
+	db.Model(&Trainer{}).Create(&Trainer1)
+	Trainer2 := Trainer{
+		Name: "Tname2",
+	}
+	db.Model(&Trainer{}).Create(&Trainer2)
 
-	// FoodType
-	FoodTypeA := FoodType{
-		Name:	"อาหารเพื่อสุขภาพ",
-	}
-	db.Model(&FoodType{}).Create(&FoodTypeA)
-
-	FoodTypeB := FoodType{
-		Name:	"อาหาร Fast Food",
-	}
-	db.Model(&FoodType{}).Create(&FoodTypeB)
-
-	// FoodInformation
-	FoodInformationA := FoodInformation{
-		Name:				"ไข่เจียว",
-		Datetime: 			time.Date(2023, time.January, 01, 0, 0, 0, 0, time.Local),
-		Image:				"https://s359.kapook.com/pagebuilder/1c0a0dac-e4a9-4651-baa0-052a597ab7bf.jpg",
-		Admin:				AdminA,
-		MainIngredient:		MainIngredientA,
-		FoodType:			FoodTypeA,
-	}
-	db.Model(&FoodInformation{}).Create(&FoodInformationA)
-
-	FoodInformationB := FoodInformation{
-		Name:				"ผัดคะน้า",
-		Datetime: 			time.Date(2022, time.December, 01, 0, 0, 0, 0, time.Local),
-		Image:				"https://s359.kapook.com/pagebuilder/a8a1fb49-f651-40a5-9705-26a98ab0ea66.jpg",
-		Admin:				AdminB,
-		MainIngredient:		MainIngredientB,
-		FoodType:			FoodTypeB,
-	}
-	db.Model(&FoodInformation{}).Create(&FoodInformationB)
+	db.Model(&CourseService{}).Create(&CourseService{
+		CRegisterDate: time.Date(2023, time.January, 1, 15, 03, 00, 0, time.UTC),
+		Agreement:     "Agree",
+		Status:        "Active",
+		User:          User1,
+		CourseDetail:  CourseDetail1,
+		Trainer:       Trainer1,
+	})
+	db.Model(&CourseService{}).Create(&CourseService{
+		CRegisterDate: time.Date(2023, time.January, 2, 15, 03, 00, 0, time.UTC),
+		Agreement:     "Agree",
+		Status:        "Active",
+		User:          User2,
+		CourseDetail:  CourseDetail2,
+		Trainer:       Trainer1,
+	})
 }

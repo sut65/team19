@@ -1,0 +1,8 @@
+@font-face {
+    font-family: 'Kanit', sans-serif;
+    src: url('https://fonts.googleapis.com/css2?family=Kanit&display=swap');
+}
+  
+#root {
+    font-family: 'Kanit', sans-serif;
+}
