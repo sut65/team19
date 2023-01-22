@@ -19,8 +19,8 @@ async function Login(data: SignInInterface) {
       if (res.data) {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("uid", res.data.id);
-        localStorage.setItem("firstname", res.data.Firstname)
-        localStorage.setItem("lastname", res.data.Lasname)
+        localStorage.setItem("firstname", res.data.firstname)
+        localStorage.setItem("lastname", res.data.lastname)
         return res.data;
       } else {
         return false;

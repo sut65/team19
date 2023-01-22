@@ -36,9 +36,10 @@ const theme = createTheme({
 
 function Navbar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [User, setUser] = useState<UserInterface[]>([])
-  const [Uname, setUname] = useState<string>("")
   const open = Boolean(anchorEl);
+  const UFirstName = localStorage.getItem("firstname") + ""
+  const ULastName = localStorage.getItem("lastname") + ""
+  const UserName = UFirstName + " " + ULastName
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -207,12 +208,7 @@ function Navbar() {
               >
                 <MenuItem>
                   <img style={{height: 40, justifyItems: 'center', marginLeft: -10, marginRight: 6}} src={ProfileLogo} alt="logo" />
-                  {/* {uid} */}
-                  {User.map((item: UserInterface) => (
-                    <option value={item.ID} key={item.ID}>
-                      {item.ID}
-                    </option>
-                  ))}
+                  {UserName}
                 </MenuItem>
                 <Divider />
                 <MenuItem>
