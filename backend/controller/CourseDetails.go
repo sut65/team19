@@ -39,11 +39,11 @@ func CreateCourseDetail(c *gin.Context) {
 
 	// สร้าง CourseDetail
 	cd := entity.CourseDetail{
-		CourseName:		course_detail.CourseName,
-		CoverPage:		course_detail.CoverPage,
-		Description:	description,
-		Admin:			admin,
-		Price: 			price,
+		CourseName:  course_detail.CourseName,
+		CoverPage:   course_detail.CoverPage,
+		Description: description,
+		Admin:       admin,
+		Price:       price,
 	}
 
 	// บันทึก
@@ -69,7 +69,7 @@ func GetCourseDetail(c *gin.Context) {
 // GET /course_details
 func ListCourseDetails(c *gin.Context) {
 	var course_details []entity.CourseDetail
-	if err := entity.DB().Preload("Price").Preload("Description").Preload("Admin").Raw("SELECT * FROM course_details").Scan(&course_details).Error; err != nil {
+	if err := entity.DB().Preload("Price").Preload("Description").Preload("Admin").Raw("SELECT * FROM course_details").Find(&course_details).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
