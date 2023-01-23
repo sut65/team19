@@ -217,7 +217,7 @@ type FoodInformation struct {
 	FoodTypeID *uint
 	FoodType   FoodType
 
-	MealPlan []MealPlan `gorm:"foreignKey: FoodInformation"`
+	MealPlan []MealPlan `gorm:"foreignKey: FoodInformationID"`
 }
 
 // ====================================================================
@@ -226,14 +226,14 @@ type FoodInformation struct {
 type ActivitiesType struct {
 	gorm.Model
 	Name           string
-	DailyActivitie []DailyActivitie `gorm:"foreignKey: ActivitiesType"`
+	DailyActivitie []DailyActivitie `gorm:"foreignKey: ActivitiesTypeID"`
 }
 
 type MealTimes struct {
 	gorm.Model
 	Type     string
 	MealTime time.Time
-	Member   []Member `gorm:"foreignKey: MealTimes"`
+	Member   []Member `gorm:"foreignKey: MealTimesID"`
 }
 type FoodAllergies struct {
 	gorm.Model
@@ -276,7 +276,7 @@ type MealOfDays struct {
 
 	Type     string
 	MealTime time.Time
-	MealPlan []MealPlan `gorm:"foreignKey: MealOfDays"`
+	MealPlan []MealPlan `gorm:"foreignKey: MealOfDaysID"`
 }
 
 type MealPlan struct {

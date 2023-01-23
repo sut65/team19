@@ -8,9 +8,9 @@ import Navbar from "./components/Navbar";
 import ShowCardBlog from "./components/blog/ShowCardBlog";
 import Article from "./components/blog/Article";
 import SignIn from "./components/SignIn";
-import ShowCourse from "./components/ShowCourse";
 import CreateBlog from "./components/blog/CreateBlog";
 import Home from "./components/Home";
+import ShowCardCourseService from "./components/CourseService/ShowCardCourseService";
 
 function App() {
   const [token, setToken] = useState<String>("");
@@ -37,8 +37,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="articles" element={<ShowCardBlog />} />
           <Route path="article/:id" element={<Article />} />
-          <Route path="course" element={<ShowCourse />} />
-          <Route path="signout" element={<ShowCourse />} />
+          <Route path="course" element={<ShowCardCourseService  />} />
           <Route path="article/create-article" element={<CreateBlog />} />
         </Route>
       </Routes>
