@@ -213,7 +213,7 @@ func SetupDatabase() {
 	db.Model(&CourseDetail{}).Create(&CourseDetail1)
 
 	CourseDetail2 := CourseDetail{
-		CourseName:  "ลดพุง กู้ร่างกลับคืน",
+		CourseName:  "ลดพุงกู้ร่างกลับคืน",
 		CoverPage:   "https://men.mthai.com/app/uploads/2016/06/iStock_000035061564_Small.jpg",
 		Description: Description2,
 		Admin:       AdminB,
