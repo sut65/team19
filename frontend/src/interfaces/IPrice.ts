@@ -1,5 +1,5 @@
 export interface PriceInterface {
     ID?:        number,
-    Duration?:  number,
+    Duration?:  string,
     Price?:     number
 }

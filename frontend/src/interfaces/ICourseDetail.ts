@@ -4,7 +4,7 @@ import { PriceInterface } from "./IPrice";
 
 export interface CourseDetailInterface {
     ID?:            number,
-    Name?:          string,
+    CourseName?:    string,
     CoverPage?:     string,
     DescriptionID?: number,
     Description?:   DescriptionInterface,

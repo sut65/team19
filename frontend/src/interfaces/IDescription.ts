@@ -1,4 +1,5 @@
 export interface DescriptionInterface {
-    ID?:    number,
-    Type?:  string,
+    ID?:            number,
+    CourseType?:    string,
+    Goal?:          string
 }

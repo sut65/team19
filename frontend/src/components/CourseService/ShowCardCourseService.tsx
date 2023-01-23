@@ -65,7 +65,7 @@ function ShowCardCourseService() {
             <Grid item xs={6} sm={4} md={4} key={item.ID}>
               <CardRegisterCourse
                 ID={item.ID}
-                Name={item.Name}
+                CourseName={item.CourseName}
                 CoverPage={item.CoverPage}
                 DescriptionID={item.DescriptionID}
                 Description={item.Description}

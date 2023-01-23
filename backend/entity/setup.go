@@ -102,8 +102,8 @@ func SetupDatabase() {
 
 	passwordC, _ := bcrypt.GenerateFromPassword([]byte("1112"), 14)
 	AdminC := Admin{
-		Email:    "Adminja002@gmail.com",
-		Name:     "ผู้ดูแล002",
+		Email:    "Adminja003@gmail.com",
+		Name:     "ผู้ดูแล003",
 		Password: string(passwordC),
 	}
 	db.Model(&Admin{}).Create(&AdminC)
