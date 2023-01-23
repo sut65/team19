@@ -2,9 +2,19 @@ import { CourseDetailInterface } from "../interfaces/ICourseDetail";
 import { CourseServiceInterface } from "../interfaces/ICourseService";
 import { UserInterface } from "../interfaces/IUser";
 import { SignInInterface } from "../interfaces/ISignIn";
+import { BlogInterface } from "../interfaces/IBlog";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 
 const apiUrl = `http://localhost:8080`;
+
+const requestOptionsGet = {
+  method: "GET",
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+    "Content-Type": "application/json",
+  },
+};
 
 async function Login(data: SignInInterface) {
   const requestOptions = {
@@ -19,8 +29,8 @@ async function Login(data: SignInInterface) {
       if (res.data) {
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("uid", res.data.id);
-        localStorage.setItem("firstname", res.data.firstname)
-        localStorage.setItem("lastname", res.data.lastname)
+        localStorage.setItem("firstname", res.data.firstname);
+        localStorage.setItem("lastname", res.data.lastname);
         return res.data;
       } else {
         return false;
@@ -87,7 +97,7 @@ async function GetCourseDetail() {
     .then((response) => response.json())
     .then((res) => {
       if (res.data) {
-        console.log(res.data)
+        console.log(res.data);
         return res.data;
       } else {
         return false;
@@ -175,7 +185,7 @@ async function GetAdmin() {
     .then((response) => response.json())
     .then((res) => {
       if (res.data) {
-        console.log(res.data)
+        console.log(res.data);
         return res.data;
       } else {
         return false;
@@ -198,7 +208,7 @@ async function GetPrice() {
     .then((response) => response.json())
     .then((res) => {
       if (res.data) {
-        console.log(res.data)
+        console.log(res.data);
         return res.data;
       } else {
         return false;
@@ -221,7 +231,7 @@ async function GetDescription() {
     .then((response) => response.json())
     .then((res) => {
       if (res.data) {
-        console.log(res.data)
+        console.log(res.data);
         return res.data;
       } else {
         return false;
@@ -231,15 +241,123 @@ async function GetDescription() {
   return res;
 }
 
+// ------------- Blog -----------------
+const GetBlogs = async () => {
+  let res = await fetch(`${apiUrl}/blogs`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetBlogByID = async (id: string) => {
+  // let { id } = useParams();
+  let res = await fetch(`${apiUrl}/blog/${id}`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const CreateBlog = async (data: BlogInterface) => {
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/blogs`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const UpdateBlog = async (data: BlogInterface) => {
+  const requestOptions = {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/update-blog`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const DeleteBlog = async () => {
+  let { id } = useParams();
+
+  const requestOptions = {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/delete-blog/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetCategories = async () => {
+  let res = await fetch(`${apiUrl}/categories`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetTags = async () => {
+  let res = await fetch(`${apiUrl}/tags`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
 export {
-    GetCourseService,
-    GetUser,
-    GetCourseDetail,
-    GetTrainer,
-    GetAdmin,
-    GetPrice,
-    GetDescription,
-    CreateCourseService,
-    CourseServices,
-    Login,
+  GetCourseService,
+  GetUser,
+  GetCourseDetail,
+  GetTrainer,
+  GetAdmin,
+  GetPrice,
+  GetDescription,
+  CreateCourseService,
+  CourseServices,
+  Login,
+  // Blog
+  CreateBlog,
+  UpdateBlog,
+  DeleteBlog,
+  GetBlogs,
+  GetBlogByID,
+  GetCategories,
+  GetTags,
 };

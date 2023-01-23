@@ -8,7 +8,7 @@ import Navbar from "./components/Navbar";
 import ShowCardBlog from "./components/blog/ShowCardBlog";
 import Article from "./components/blog/Article";
 import SignIn from "./components/SignIn";
-import CreateBlog from "./components/blog/CreateBlog";
+import CreateArticle from "./components/blog/CreateArticle";
 import Home from "./components/Home";
 import ShowCardCourseService from "./components/CourseService/ShowCardCourseService";
 
@@ -38,7 +38,7 @@ function App() {
           <Route path="articles" element={<ShowCardBlog />} />
           <Route path="article/:id" element={<Article />} />
           <Route path="course" element={<ShowCardCourseService  />} />
-          <Route path="article/create-article" element={<CreateBlog />} />
+          <Route path="article/create-article" element={<CreateArticle />} />
         </Route>
       </Routes>
     </div>
