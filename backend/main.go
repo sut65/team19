@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -30,13 +29,7 @@ func CORSMiddleware() gin.HandlerFunc {
 
 func main() {
 	// Delete database file before BUILD and RUN
-	err := os.Remove("./nutrition.db")
-	if err != nil {
-		fmt.Println(err)
-		return
-	} else {
-		fmt.Println("File .db successfully deleted")
-	}
+	os.Remove("./nutrition.db")
 
 	entity.SetupDatabase()
 
