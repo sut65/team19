@@ -59,7 +59,6 @@ func SetupDatabase() {
 		&DailyActivitie{},
 		// MealPlan
 		&MealPlan{},
-		
 		//Advice
 		&Advice{},
 	)
