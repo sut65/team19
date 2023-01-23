@@ -83,10 +83,10 @@ func SetupDatabase() {
 	}
 	db.Model(&Gender{}).Create(&Gender2)
 
-	// Admin
+	// Admin Part -------------------------------------------------------------
 	passwordA, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
 	AdminA := Admin{
-		Email:    "Adminja001@gmail.com",
+		Email:    "Admin001@gmail.com",
 		Name:     "ผู้ดูแล001",
 		Password: string(passwordA),
 	}
@@ -94,7 +94,7 @@ func SetupDatabase() {
 
 	passwordB, _ := bcrypt.GenerateFromPassword([]byte("1150"), 14)
 	AdminB := Admin{
-		Email:    "Adminja002@gmail.com",
+		Email:    "Admin002@gmail.com",
 		Name:     "ผู้ดูแล002",
 		Password: string(passwordB),
 	}
@@ -102,11 +102,13 @@ func SetupDatabase() {
 
 	passwordC, _ := bcrypt.GenerateFromPassword([]byte("1112"), 14)
 	AdminC := Admin{
-		Email:    "Adminja003@gmail.com",
+		Email:    "Admin003@gmail.com",
 		Name:     "ผู้ดูแล003",
 		Password: string(passwordC),
 	}
 	db.Model(&Admin{}).Create(&AdminC)
+
+	//**************************************************************************
 
 	Religion1 := Religion{
 		Name: "Buddha",
@@ -202,8 +204,8 @@ func SetupDatabase() {
 
 	//Course Details Part -----------------------------------------------------------------------------
 	CourseDetail1 := CourseDetail{
-		CourseName:  "บอกลาตัวเบา",
-		CoverPage:   "https://men.mthai.com/app/uploads/2016/06/iStock_000035061564_Small.jpg",
+		CourseName:  "บอกลาร่างผอม",
+		CoverPage:   "https://img.kapook.com/u/2019/wittawat_ch/aug/0.1.jpg",
 		Description: Description1,
 		Admin:       AdminA,
 		Price:       Price3,
@@ -221,7 +223,7 @@ func SetupDatabase() {
 
 	CourseDetail3 := CourseDetail{
 		CourseName:  "ปั้นกล้ามสร้างพลัง",
-		CoverPage:   "https://img.kapook.com/u/2019/wittawat_ch/aug/0.1.jpg",
+		CoverPage:   "https://s.isanook.com/he/0/rp/rc/w670h402/yatxacm1w0/aHR0cHM6Ly9zLmlzYW5vb2suY29tL2hlLzAvdWQvNS8yODg2MS93ZWlnaHRsaWZ0aW5nLmpwZw==.jpg",
 		Description: Description3,
 		Admin:       AdminC,
 		Price:       Price2,
