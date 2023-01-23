@@ -1,6 +1,9 @@
 package main
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team19/controller"
 	foodInformation "github.com/sut65/team19/controller/FoodInformation"
@@ -26,6 +29,15 @@ func CORSMiddleware() gin.HandlerFunc {
 }
 
 func main() {
+	// Delete database file before BUILD and RUN
+	err := os.Remove("./nutrition.db")
+	if err != nil {
+		fmt.Println(err)
+		return
+	} else {
+		fmt.Println("File .db successfully deleted")
+	}
+
 	entity.SetupDatabase()
 
 	r := gin.Default()
@@ -86,6 +98,27 @@ func main() {
 			router.GET("/category/:id", blog.GetCategory)
 			router.GET("/tags", blog.ListTags)
 			router.GET("/tag/:id", blog.GetTag)
+
+			// admin Routes
+			router.POST("/admin", controller.CreateAdmin)
+			router.GET("/admin/:id", controller.GetAdmin)
+			router.GET("/admins", controller.ListAdmins)
+			router.DELETE("/admin/:id", controller.DeleteAdmin)
+			router.PATCH("/admins", controller.UpdateAdmin)
+
+			// price Routes
+			router.POST("/price", controller.CreatePrice)
+			router.GET("/price/:id", controller.GetPrice)
+			router.GET("/prices", controller.ListPrices)
+			router.DELETE("/price/:id", controller.DeletePrice)
+			router.PATCH("/prices", controller.UpdatePrice)
+
+			// description Routes
+			router.POST("/description", controller.CreateDescription)
+			router.GET("/description/:id", controller.GetDescription)
+			router.GET("/descriptions", controller.ListDescriptions)
+			router.DELETE("/description/:id", controller.DeleteDescription)
+			router.PATCH("/descriptions", controller.UpdateDescription)
 		}
 	}
 	// login User Route

@@ -24,6 +24,13 @@ func SetupDatabase() {
 	// Migrate the schema
 
 	database.AutoMigrate(
+		// Activity ย่อย
+		&ActivitiesType{},
+		&MealTimes{},
+		&FoodAllergies{},
+		&BedTimes{},
+		// Meal Plan ย่อย
+		&MealOfDays{},
 		// Member
 		&Status{},
 		&Religion{},
@@ -48,6 +55,11 @@ func SetupDatabase() {
 		&FoodInformation{},
 		&FoodType{},
 		&MainIngredient{},
+		// Activity หลัก
+		&DailyActivitie{},
+		// MealPlan
+		&MealPlan{},
+		
 	)
 
 	db = database

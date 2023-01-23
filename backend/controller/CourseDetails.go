@@ -26,7 +26,7 @@ func CreateCourseDetail(c *gin.Context) {
 func GetCourseDetail(c *gin.Context) {
 	var course_detail entity.CourseDetail
 	id := c.Param("id")
-	if tx := entity.DB().Where("id = ?", id).First(&course_detail); tx.RowsAffected == 0 {
+	if tx := entity.DB().Preload("Price").Preload("Description").Preload("Admin").Where("id = ?", id).First(&course_detail); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "course_detail not found"})
 		return
 	}
@@ -37,7 +37,7 @@ func GetCourseDetail(c *gin.Context) {
 // GET /course_details
 func ListCourseDetails(c *gin.Context) {
 	var course_details []entity.CourseDetail
-	if err := entity.DB().Raw("SELECT * FROM course_details").Scan(&course_details).Error; err != nil {
+	if err := entity.DB().Preload("Price").Preload("Description").Preload("Admin").Raw("SELECT * FROM course_details").Scan(&course_details).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
