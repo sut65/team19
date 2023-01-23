@@ -12,7 +12,7 @@ import { GetCourseDetail } from "../../services/HttpClientService";
 
 function CardRegisterCourse({
   ID,
-  Name,
+  CourseName,
   CoverPage,
   DescriptionID,
   Description,
@@ -40,7 +40,7 @@ function CardRegisterCourse({
         maxWidth: 345,
         boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
       }}
-      className={Name}
+      className={CourseName}
     >
       <CardMedia
         component="img"
@@ -69,7 +69,7 @@ function CardRegisterCourse({
             Author : {Admin?.Name}
           </Typography>
           <Typography variant="body2" color="text.secondary" mb={2}>
-            Category: {Description?.Type}
+            Category: {Description?.CourseType}
           </Typography>
           <Typography
             mb={2}
@@ -79,7 +79,7 @@ function CardRegisterCourse({
             // color={"#3b82f6"}
             style={{ textTransform: "capitalize", fontSize: "1.6rem" }}
           >
-            <b>{Name}</b>
+            <b>{CourseName}</b>
           </Typography>
         </Box>
         <Typography
