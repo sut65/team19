@@ -102,8 +102,8 @@ func SetupDatabase() {
 
 	passwordC, _ := bcrypt.GenerateFromPassword([]byte("1112"), 14)
 	AdminC := Admin{
-		Email:    "Adminja002@gmail.com",
-		Name:     "ผู้ดูแล002",
+		Email:    "Adminja003@gmail.com",
+		Name:     "ผู้ดูแล003",
 		Password: string(passwordC),
 	}
 	db.Model(&Admin{}).Create(&AdminC)
@@ -158,25 +158,25 @@ func SetupDatabase() {
 	}
 	db.Model(&Member{}).Create(&Member3)
 
-	//Description Part ---------------------------------------------------------------------------------------------- 
+	//Description Part ----------------------------------------------------------------------------------------------
 
 	Description1 := Description{
 		Description: "หุ่นดีได้ง่าย ๆ ห่างไกลจากโรคแทรกซ้อน ทำได้ง่าย ๆ ที่บ้านด้วยตัวเอง",
-		CourseType: "เพิ่มน้ำหนัก",
+		CourseType:  "เพิ่มน้ำหนัก",
 		Goal:        "เพิ่มน้ำหนักได้ 1-2 kg",
 	}
 	db.Model(&Description{}).Create(&Description1)
 
 	Description2 := Description{
 		Description: "สุขภาพดี หุ่นดี ได้ง่ายๆ ด้วยคอร์สลดน้ำหนักออนไลน์ เพื่อผลลัพธ์แบบยั่งยืน ทำได้ด้วยตัวเอง",
-		CourseType: "ลดน้ำหนัก",
+		CourseType:  "ลดน้ำหนัก",
 		Goal:        "ลดน้ำหนักได้ 3-5 kg",
 	}
 	db.Model(&Description{}).Create(&Description2)
 
 	Description3 := Description{
 		Description: "ฟิตหุ่นให้ดี กระชับกล้ามเนื้อให้เฟิร์ม ผลลัพธ์แบบยั่งยืน ทำได้ด้วยตัวเอง",
-		CourseType: "เพิ่มกล้ามเนื้อ",
+		CourseType:  "เพิ่มกล้ามเนื้อ",
 		Goal:        "เพิ่มกล้ามให้ชัดขึ้น",
 	}
 	db.Model(&Description{}).Create(&Description3)

@@ -10,16 +10,48 @@ import (
 // POST /course_detail
 func CreateCourseDetail(c *gin.Context) {
 	var course_detail entity.CourseDetail
+	var price entity.Price
+	var admin entity.Admin
+	var description entity.Description
+
 	if err := c.ShouldBindJSON(&course_detail); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	if err := entity.DB().Create(&course_detail).Error; err != nil {
+	// ค้นหา price ด้วย id
+	if tx := entity.DB().Where("id = ?", course_detail.PriceID).First(&price); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "price not found"})
+		return
+	}
+
+	// ค้นหา admin ด้วย id
+	if tx := entity.DB().Where("id = ?", course_detail.AdminID).First(&admin); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "admin not found"})
+		return
+	}
+
+	// ค้นหา description ด้วย id
+	if tx := entity.DB().Where("id = ?", course_detail.DescriptionID).First(&description); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "description not found"})
+		return
+	}
+
+	// สร้าง CourseDetail
+	cd := entity.CourseDetail{
+		CourseName:		course_detail.CourseName,
+		CoverPage:		course_detail.CoverPage,
+		Description:	description,
+		Admin:			admin,
+		Price: 			price,
+	}
+
+	// บันทึก
+	if err := entity.DB().Create(&cd).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusCreated, gin.H{"data": course_detail})
+	c.JSON(http.StatusCreated, gin.H{"data": cd})
 }
 
 // GET /course_detail/:id
