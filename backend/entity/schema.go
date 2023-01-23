@@ -26,8 +26,8 @@ type Religion struct {
 
 type Gender struct {
 	gorm.Model
-	Name    string
-	Member  []Member  `gorm:"foreignKey:GenderID"`
+	Name   string
+	Member []Member `gorm:"foreignKey:GenderID"`
 }
 
 type Member struct {
@@ -38,6 +38,15 @@ type Member struct {
 	Email       string `gorm:"uniqueIndex"`
 	Password    string
 
+	MealTimesID *uint
+	MealTimes   MealTimes
+
+	FoodAllergiesID *uint
+	FoodAllergies   FoodAllergies
+
+	BedTimesID *uint
+	BedTimes   BedTimes
+
 	StatusID *uint
 	Status   Status
 
@@ -47,41 +56,54 @@ type Member struct {
 	GenderID *uint
 	Gender   Gender
 
-	CourseService []CourseService `gorm:"foreignKey:MemberID"`
-	Blogs         []Blog          `gorm:"foreignKey:MemberID"`
+	CourseService  []CourseService  `gorm:"foreignKey:MemberID"`
+	Blogs          []Blog           `gorm:"foreignKey:MemberID"`
+	DailyActivitie []DailyActivitie `gorm:"foreignKey:MemberID"`
+	MealPlan       []MealPlan       `gorm:"foreignKey:MemberID"`
 }
+
+// -------------------------------------------<< ระบบจัดการคอร์ส >>------------------------------------
 
 type Description struct {
 	gorm.Model
-	Type          string
+	Description   string
+	CourseType   string
+	Goal          string
 	CourseDetails []CourseDetail `gorm:"foreignKey:DescriptionID"`
 }
+
 type Admin struct {
 	gorm.Model
 	Email           string `gorm:"uniqueIndex"`
 	Name            string
 	Password        string
+	MealPlan        []MealPlan        `gorm:"foreignKey: AdminID"`
+	DailyActivitie  []DailyActivitie  `gorm:"foreignKey: AdminID"`
 	CourseDetails   []CourseDetail    `gorm:"foreignKey:AdminID"`
 	FoodInformation []FoodInformation `gorm:"foreignKey:AdminID"`
 }
+
 type Price struct {
 	gorm.Model
-	Duration      int
-	Price         int
-	CourseDetails []CourseDetail `gorm:"foreignKey:PriceID"`
+	Price         float32
+	Duration      string
+	CourseDetail []CourseDetail `gorm:"foreignKey:PriceID"`
 }
 
 type CourseDetail struct {
 	gorm.Model
-	Name      string
+	CourseName string
 	CoverPage string
 
+	//DescriptionID ทำหน้าที่เป็น FK
 	DescriptionID *uint
 	Description   Description
 
+	//AdminID ทำหน้าที่เป็น FK
 	AdminID *uint
 	Admin   Admin
 
+	//PriceID ทำหน้าที่เป็น FK
 	PriceID *uint
 	Price   Price
 }
@@ -137,7 +159,7 @@ type Trainer struct {
 	Gender     string
 	Age        int
 	Address    string
-	Email      string `gorm:"uniqueIndex"`// ใช้ Email ในการ login
+	Email      string `gorm:"uniqueIndex"` // ใช้ Email ในการ login
 	Password   string
 
 	FormOfWorkID *uint
@@ -203,4 +225,106 @@ type FoodInformation struct {
 
 	FoodTypeID *uint
 	FoodType   FoodType
+
+	MealPlan []MealPlan `gorm:"foreignKey: FoodInformation"`
+}
+
+// ====================================================================
+// ระบบสำรวจกิจวัตรประจำวัน
+
+type ActivitiesType struct {
+	gorm.Model
+	Name           string
+	DailyActivitie []DailyActivitie `gorm:"foreignKey: ActivitiesType"`
+}
+
+type MealTimes struct {
+	gorm.Model
+	Type     string
+	MealTime time.Time
+	Member   []Member `gorm:"foreignKey: MealTimes"`
+}
+type FoodAllergies struct {
+	gorm.Model
+	Allergen      string
+	AllergyType   string
+	Reaction      string
+	LastReactDate time.Time
+	Member        []Member `gorm:"foreignKey: FoodAllergiesID"`
+}
+
+type BedTimes struct {
+	gorm.Model
+	BedTime  time.Time
+	WakeUp   time.Time
+	Duration float32
+	Member   []Member `gorm:"foreignKey: BedTimesID"`
+}
+
+type DailyActivitie struct {
+	gorm.Model
+
+	Name     string
+	Duration float32
+	Date     time.Time
+
+	AdminID *uint
+	Admin   Admin
+
+	ActivitiesTypeID *uint
+	ActivitiesType   ActivitiesType
+
+	MemberID *uint
+	Member   Member
+}
+
+// ====================================================================
+// ระบบวางแผนรายการอาหาร
+type MealOfDays struct {
+	gorm.Model
+
+	Type     string
+	MealTime time.Time
+	MealPlan []MealPlan `gorm:"foreignKey: MealOfDays"`
+}
+
+type MealPlan struct {
+	gorm.Model
+
+	Creator     string
+	Description string
+	CreatedAt   time.Time
+	UpdateAt    time.Time
+
+	AdminID *uint
+	Admin   Admin
+
+	MemberID *uint
+	Member   Member
+
+	FoodInformationID *uint
+	FoodInformation   FoodInformation
+
+	MealOfDaysID *uint
+	MealOfDays   MealOfDays
+}
+
+// -------------------------------------------<< ระบบให้คำแนะนำ >>------------------------------------
+type Advice struct {
+	gorm.Model
+
+	Advice string
+	Recording_Time time.Time `valid:"past"`
+
+	MemberID *uint
+	Member Member
+
+	TrainerID *uint
+	Trainer Trainer
+
+	// BodyID *uint
+	// Body Body
+
+	// DailyActivityID *uint
+	// DailyActivity DailyActivity
 }
