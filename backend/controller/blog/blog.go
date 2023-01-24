@@ -9,7 +9,6 @@ import (
 
 // POST /blogs
 func CreateBlog(c *gin.Context) {
-
 	var blog entity.Blog
 	var category entity.Category
 	var tag entity.Tag
@@ -95,33 +94,46 @@ func DeleteBlog(c *gin.Context) {
 // PATCH /blog
 func UpdateBlog(c *gin.Context) {
 	var blog entity.Blog
-	var newBlog entity.Blog
+	var category entity.Category
+	var tag entity.Tag
+	var user entity.Member
 
 	if err := c.ShouldBindJSON(&blog); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	newBlog.CoverImage = blog.CoverImage
-	newBlog.Title = blog.Title
-	newBlog.Content = blog.Content
-	newBlog.Category = blog.Category
-	newBlog.Tag = blog.Tag
-	newBlog.Member = blog.Member
+	// ค้นหา user ด้วย id
+	if tx := entity.DB().Where("id = ?", blog.MemberID).First(&user); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "user not found"})
+		return
+	}
 
-	// update := entity.Blog{
-	// 	CoverImage: newBlog.CoverImage,
-	// 	Title:      newBlog.Title,
-	// 	Content:    newBlog.Content,
-	// 	Category:   newBlog.Category,
-	// 	Tag:        newBlog.Tag,
-	// 	User:       newBlog.User,
-	// }
+	// ค้นหา category ด้วย id
+	if tx := entity.DB().Where("id = ?", blog.CategoryID).First(&category); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "category not found"})
+		return
+	}
 
-	if err := entity.DB().Where("id = ?", blog.ID).Updates(&newBlog).Error; err != nil {
+	// ค้นหา tag ด้วย id
+	if tx := entity.DB().Where("id = ?", blog.TagID).First(&tag); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "tag not found"})
+		return
+	}
+
+	update := entity.Blog{
+		CoverImage: blog.CoverImage,
+		Title:      blog.Title,
+		Content:    blog.Content,
+		Category:   category,
+		Tag:        tag,
+		Member:     user,
+	}
+
+	if err := entity.DB().Where("id = ?", blog.ID).Updates(&update).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": newBlog})
+	c.JSON(http.StatusOK, gin.H{"data": blog})
 }
