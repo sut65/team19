@@ -61,16 +61,17 @@ type Member struct {
 	DailyActivitie []DailyActivitie `gorm:"foreignKey:MemberID"`
 	MealPlan       []MealPlan       `gorm:"foreignKey:MemberID"`
 	Body           []Body           `gorm:"foreignKey:MemberID"`
+	Advice         []Advice         `gorm:"foreignKey:MemberID"`
 }
 
 // -------------------------------------------<< ระบบจัดการคอร์ส >>------------------------------------
 
 type Description struct {
 	gorm.Model
-	Description   string
-	CourseType    string
-	Goal          string
-	CourseDetails []CourseDetail `gorm:"foreignKey:DescriptionID"`
+	Description  string
+	CourseType   string
+	Goal         string
+	CourseDetail []CourseDetail `gorm:"foreignKey:DescriptionID"`
 }
 
 type Admin struct {
@@ -80,7 +81,7 @@ type Admin struct {
 	Password        string
 	MealPlan        []MealPlan        `gorm:"foreignKey: AdminID"`
 	DailyActivitie  []DailyActivitie  `gorm:"foreignKey: AdminID"`
-	CourseDetails   []CourseDetail    `gorm:"foreignKey:AdminID"`
+	CourseDetail    []CourseDetail    `gorm:"foreignKey:AdminID"`
 	FoodInformation []FoodInformation `gorm:"foreignKey:AdminID"`
 }
 
@@ -97,15 +98,12 @@ type CourseDetail struct {
 	CoverPage  string
 	Body       []Body `gorm:"foreignKey:CourseDetailID"`
 
-	//DescriptionID ทำหน้าที่เป็น FK
 	DescriptionID *uint
 	Description   Description
 
-	//AdminID ทำหน้าที่เป็น FK
 	AdminID *uint
 	Admin   Admin
 
-	//PriceID ทำหน้าที่เป็น FK
 	PriceID *uint
 	Price   Price
 }
@@ -178,6 +176,7 @@ type Trainer struct {
 
 	CourseService []CourseService `gorm:"foreignKey:TrainerID"`
 	Body          []Body          `gorm:"foreignKey:TrainerID"`
+	Advice        []Advice        `gorm:"foreignKey:TeainerID"`
 }
 
 // -------------------------------------------<<  >>------------------------------------
@@ -279,6 +278,8 @@ type DailyActivitie struct {
 
 	MemberID *uint
 	Member   Member
+
+	Advice []Advice `gorm:"foreignKey:DailyActivitieID"`
 }
 
 // ====================================================================
@@ -316,8 +317,8 @@ type MealPlan struct {
 type Advice struct {
 	gorm.Model
 
-	Advice         string
-	Recording_Time time.Time `valid:"past"`
+	Advice        string
+	RecordingTime time.Time
 
 	MemberID *uint
 	Member   Member
@@ -328,8 +329,8 @@ type Advice struct {
 	BodyID *uint
 	Body   Body
 
-	// DailyActivityID *uint
-	// DailyActivity DailyActivity
+	DailyActivitieID *uint
+	DailyActivitie   DailyActivitie
 }
 
 // -------------------------------------------<< ระบบบันทึกการเปลี่ยนแปลงร่างกาย >>------------------------------------
@@ -346,7 +347,7 @@ type Body struct {
 	NavelWaist    float32
 	Date          time.Time
 	Note          string
-	Advice        []Advice `gorm:"foreignKey: BodyID"`
+	Advice        []Advice `gorm:"foreignKey:BodyID"`
 
 	TrainerID *uint
 	Trainer   Trainer
