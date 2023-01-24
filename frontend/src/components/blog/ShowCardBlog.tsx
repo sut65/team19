@@ -23,9 +23,7 @@ const ButtonWrite = styled(Button)({
 
 function ShowCardBlog() {
   const [blogs, setBlogs] = useState<BlogInterface[]>([]);
-  
-  console.log(blogs);
-  
+
   const fetchBlogs = async () => {
     let res = await GetBlogs();
     res && setBlogs(res);
