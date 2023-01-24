@@ -6,7 +6,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
-import '../../App.css';
+import "../../App.css";
 
 type Props = {
   id: number;
@@ -15,7 +15,8 @@ type Props = {
   content: string;
   category: string;
   tag: string;
-  author: string;
+  firstName: string;
+  lastName: string;
 };
 
 function CardBlog({
@@ -25,7 +26,8 @@ function CardBlog({
   content,
   category,
   tag,
-  author,
+  firstName,
+  lastName,
 }: Props) {
   return (
     <Card
@@ -59,10 +61,29 @@ function CardBlog({
             component="div"
             style={{ fontSize: "1rem" }}
           >
-            Author : {author}
+            Author :
+            <Box
+              sx={{
+                ml: "0.5rem",
+                wordSpacing: "4px",
+                display: "inline-block",
+                fontWeight: "900",
+              }}
+            >
+              {firstName} {lastName}
+            </Box>
           </Typography>
           <Typography variant="body2" color="text.secondary" mb={2}>
-            Category: {category}
+            Category:{" "}
+            <Box
+              sx={{
+                ml: "0.5rem",
+                display: "inline-block",
+                fontWeight: "900",
+              }}
+            >
+              {category}
+            </Box>
           </Typography>
           <Typography
             mb={2}

@@ -341,4 +341,36 @@ func SetupDatabase() {
 	}
 	db.Model(&FoodInformation{}).Create(&FoodInformationB)
 
+	// Advice Part --------------------------------------------------------------------------------------
+	
+	Advice1 := Advice {
+		Advice: "กินโปรตีนเพิ่มให้ได้ 2 g ต่อน้ำหนักตัว 1 kg",
+		RecordingTime: time.Now(),
+		Member: Member1,
+		Trainer: Trainer1,
+		// Body: ,
+		// DailyActivitie: ,
+	}
+	db.Model(&Advice{}).Create(&Advice1)
+
+	Advice2 := Advice {
+		Advice: "ออกกำลังกายแบบคาร์ดิโอเพิ่มเป็นสัปดาห์ละ 4 วัน วันละ 1 ชม.",
+		RecordingTime: time.Now(),
+		Member: Member2,
+		Trainer: Trainer2,
+		// Body: ,
+		// DailyActivitie: ,
+	}
+	db.Model(&Advice{}).Create(&Advice2)
+
+	Advice3 := Advice {
+		Advice: "เล่นเวทเทรนนิ่ง เพิ่มเป็นสัปดาห์ละ 3 วัน วันละ 1.5 ชม.",
+		RecordingTime: time.Now(),
+		Member: Member3,
+		Trainer: Trainer2,
+		// Body: ,
+		// DailyActivitie: ,
+	}
+	db.Model(&Advice{}).Create(&Advice3)
+
 }
