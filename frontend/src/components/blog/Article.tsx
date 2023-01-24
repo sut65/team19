@@ -6,13 +6,22 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import "../../App.css";
 
 // api
-import { GetBlogByID } from "../../services/HttpClientService";
+import { GetBlogByID, DeleteBlog } from "../../services/HttpClientService";
 
 import { UserInterface } from "../../interfaces/IUser";
 
 // Style
-const ButtonWrite = styled(Button)({
+const ButtonEdit = styled(Button)({
   backgroundColor: "#252525",
+  "&:hover": {
+    color: "#252525",
+    backgroundColor: "#fff",
+    border: "#252525 1px solid",
+  },
+});
+
+const ButtonDelete = styled(Button)({
+  backgroundColor: "#DC0000",
   "&:hover": {
     color: "#252525",
     backgroundColor: "#fff",
@@ -28,6 +37,15 @@ function Article() {
   });
   const [article, setArticle] = useState<BlogInterface>({});
   const [isOpen, setIsOpen] = useState(false);
+
+  const deleteArticle = async () => {
+    alert("Are you sure?")
+    let res = await DeleteBlog(id+"");
+    if (res) {
+      window.location.href = "/articles"
+    }
+
+  }
 
   const checkMember = () => {
     console.log("article member", article.MemberID);
@@ -48,7 +66,6 @@ function Article() {
     checkMember();
   }, [article.MemberID, memberLogin]);
 
-  console.log(article);
 
   return (
     <div>
@@ -128,8 +145,10 @@ function Article() {
         </Typography>
       </Box>
 
-      {/* Button Edit */}
+      {/* Button */}
       {isOpen && (
+        <>
+        {/* Btn Edit */}
         <Box
           sx={{
             // mt: "5rem",
@@ -138,7 +157,7 @@ function Article() {
             mr: 12,
           }}
         >
-          <ButtonWrite
+          <ButtonEdit
             onClick={() => navigate("update-article")}
             sx={{
               width: "120px",
@@ -153,8 +172,36 @@ function Article() {
             variant="outlined"
           >
             Edit
-          </ButtonWrite>
+          </ButtonEdit>
         </Box>
+
+        {/* Btn Delete */}
+        <Box
+          sx={{
+            // mt: "5rem",
+            display: "flex",
+            justifyContent: "flex-end",
+            mr: 12,
+          }}
+        >
+          <ButtonDelete
+            onClick={deleteArticle}
+            sx={{
+              width: "120px",
+              margin: "0 0 16px 14px",
+              color: "#fff",
+              borderRadius: 20,
+              padding: "4px 8px",
+              fontSize: "1.5rem",
+            }}
+            // startIcon={<CreateIcon />}
+            className="btn-user"
+            variant="outlined"
+          >
+            Delete
+          </ButtonDelete>
+        </Box>
+        </>
       )}
     </div>
   );

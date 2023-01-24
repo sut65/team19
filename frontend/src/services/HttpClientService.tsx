@@ -301,9 +301,7 @@ const UpdateBlog = async (data: BlogInterface) => {
   return res;
 };
 
-const DeleteBlog = async () => {
-  let { id } = useParams();
-
+const DeleteBlog = async (id: string) => {
   const requestOptions = {
     method: "DELETE",
     headers: {
