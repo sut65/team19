@@ -30,7 +30,7 @@ func SetupDatabase() {
 		&FoodAllergies{},
 		&BedTimes{},
 		// Meal Plan ย่อย
-		&MealOfDays{},
+		// &MealOfDays{},
 		// Member
 		&Status{},
 		&Religion{},
@@ -61,6 +61,10 @@ func SetupDatabase() {
 		&MealPlan{},
 		//Advice
 		&Advice{},
+		// Payment
+		&Discount{},
+		&Duration{},
+		&Payment{},
 	)
 
 	db = database
@@ -138,9 +142,9 @@ func SetupDatabase() {
 	db.Model(&Member{}).Create(&Member1)
 
 	Member2 := Member{
-		Firstname:   "Fname2",
-		Lastname:    "Lname2",
-		Email:       "User2@mail.com",
+		Firstname:   "ชูเกียรติ",
+		Lastname:    "ก๋าอินตา",
+		Email:       "b6303044@g.sut.ac.th",
 		Password:    string(Password),
 		ProfileUser: "https://cdn-icons-png.flaticon.com/512/1946/1946429.png",
 		Status:      Status2,
@@ -233,7 +237,7 @@ func SetupDatabase() {
 	//----------------------------------------------------------------------------------
 
 	Trainer1 := Trainer{
-		Name:  "Tname1",
+		Name:  "ธนกฤต สามเมือง",
 		Email: "Trainer1@mail.com",
 	}
 	db.Model(&Trainer{}).Create(&Trainer1)
@@ -345,7 +349,7 @@ func SetupDatabase() {
 	
 	Advice1 := Advice {
 		Advice: "กินโปรตีนเพิ่มให้ได้ 2 g ต่อน้ำหนักตัว 1 kg",
-		RecordingTime: time.Now(),
+		Recording_Time: time.Now(),
 		Member: Member1,
 		Trainer: Trainer1,
 		// Body: ,
@@ -355,7 +359,7 @@ func SetupDatabase() {
 
 	Advice2 := Advice {
 		Advice: "ออกกำลังกายแบบคาร์ดิโอเพิ่มเป็นสัปดาห์ละ 4 วัน วันละ 1 ชม.",
-		RecordingTime: time.Now(),
+		Recording_Time: time.Now(),
 		Member: Member2,
 		Trainer: Trainer2,
 		// Body: ,
@@ -365,12 +369,43 @@ func SetupDatabase() {
 
 	Advice3 := Advice {
 		Advice: "เล่นเวทเทรนนิ่ง เพิ่มเป็นสัปดาห์ละ 3 วัน วันละ 1.5 ชม.",
-		RecordingTime: time.Now(),
+		Recording_Time: time.Now(),
 		Member: Member3,
 		Trainer: Trainer2,
 		// Body: ,
 		// DailyActivitie: ,
 	}
 	db.Model(&Advice{}).Create(&Advice3)
+	Discount1 := Discount{
+		DiscountCode:       "NOCODE",
+		DiscountPercentage: 0,
+	}
+	db.Model(&Discount{}).Create(&Discount1)
+	Discount2 := Discount{
+		DiscountCode:       "HEALTHY",
+		DiscountPercentage: 10,
+	}
+	db.Model(&Discount{}).Create(&Discount2)
+	Discount3 := Discount{
+		DiscountCode:       "LOVE20",
+		DiscountPercentage: 20,
+	}
+	db.Model(&Discount{}).Create(&Discount3)
+	Discount4 := Discount{
+		DiscountCode:       "S02G19",
+		DiscountPercentage: 50,
+	}
+	db.Model(&Discount{}).Create(&Discount4)
+
+	Duration1 := Duration{
+		NumberOfDays: 30,
+		DurationPercentage: 0,
+	}
+	db.Model(&Duration{}).Create(&Duration1)
+	Duration2 := Duration{
+		NumberOfDays: 60,
+		DurationPercentage: 5,
+	}
+	db.Model(&Duration{}).Create(&Duration2)
 
 }
