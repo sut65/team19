@@ -73,13 +73,16 @@ func SetupDatabase() {
 	db = database
 
 	Status1 := Status{
-		Name: "Active",
+		Name: "สมรส",
 	}
 	db.Model(&Status{}).Create(&Status1)
-	Status2 := Status{
-		Name: "Inactive",
+
+	Statuses := []Status{
+		{Name: "โสด"},
+		{Name: "หย่า"},
+		{Name: "หม้าย"},
 	}
-	db.Model(&Status{}).Create(&Status2)
+	db.Model(&Status{}).Create(&Statuses)
 
 	Gender1 := Gender{
 		Name: "Male",
@@ -118,17 +121,21 @@ func SetupDatabase() {
 	//**************************************************************************
 
 	Religion1 := Religion{
-		Name: "Buddha",
+		Name: "พุธ",
 	}
 	db.Model(&Religion{}).Create(&Religion1)
 	Religion2 := Religion{
-		Name: "Christ",
+		Name: "อิสลาม",
 	}
 	db.Model(&Religion{}).Create(&Religion2)
 	Religion3 := Religion{
-		Name: "Islam",
+		Name: "คริสต์",
 	}
 	db.Model(&Religion{}).Create(&Religion3)
+	Religion4 := Religion{
+		Name: "ฮินดู",
+	}
+	db.Model(&Religion{}).Create(&Religion4)
 
 	Password, _ := bcrypt.GenerateFromPassword([]byte("111"), 14)
 
@@ -150,7 +157,7 @@ func SetupDatabase() {
 		Email:       "b6303044@g.sut.ac.th",
 		Password:    string(Password),
 		ProfileUser: "https://cdn-icons-png.flaticon.com/512/1946/1946429.png",
-		Status:      Status2,
+		Status:      Status1,
 		Gender:      Gender2,
 		Religion:    Religion2,
 	}
@@ -239,14 +246,75 @@ func SetupDatabase() {
 
 	//----------------------------------------------------------------------------------
 
+	form1 := FormOfWork{
+		Name: "งานประจำ",
+	}
+	db.Model(&FormOfWork{}).Create(&form1)
+
+	form := []FormOfWork{
+		{Name: "งานนอกเวลา"},
+		{Name: "งานอิสระ"},
+		{Name: "นักศึกษางาน"},
+		{Name: "สัญญาจ้าง"},
+		{Name: "สหกิจศึกษา"},
+	}
+	db.Model(&FormOfWork{}).Create(&form)
+
+	education1 := Education{
+		EducationLevel: "ต่ำกว่าปริญาตรี",
+	}
+	db.Model(&Education{}).Create(&education1)
+
+	educations := []Education{
+		{EducationLevel: "ปริญาตรี"},
+		{EducationLevel: "ปริญาโท"},
+		{EducationLevel: "ปริญาเอก"},
+	}
+	db.Model(&Education{}).Create(&educations)
+
+	// Trainer1 := Trainer{
+	// 	Name:  "ธนกฤต สามเมือง",
+	// 	Email: "Trainer1@mail.com",
+	// }
+	// db.Model(&Trainer{}).Create(&Trainer1)
+	// Trainer2 := Trainer{
+	// 	Name:  "Tname2",
+	// 	Email: "Trainer2@mail.com",
+	// }
+	// db.Model(&Trainer{}).Create(&Trainer2)
+
+	// -------------------(Create value Trainer)------------------------------
+	pass1, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
 	Trainer1 := Trainer{
-		Name:  "ธนกฤต สามเมือง",
-		Email: "Trainer1@mail.com",
+		Name:       "Natthaphon",
+		University: "SUT",
+		Gpax:       3.83,
+		Gender:     "ชาย",
+		Age:        21,
+		Address:    "90/8 บ.โคกก่อง",
+		Email:      "Aonaon_123@gmail.com",
+		Password:   string(pass1),
+		FormOfWork: form1,
+		Status:     Status1,
+		Religion:   Religion1,
+		Education:  education1,
 	}
 	db.Model(&Trainer{}).Create(&Trainer1)
+
+	pass2, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
 	Trainer2 := Trainer{
-		Name:  "Tname2",
-		Email: "Trainer2@mail.com",
+		Name:       "opopopo",
+		University: "SUT",
+		Gpax:       3.73,
+		Gender:     "ชาย",
+		Age:        21,
+		Address:    "90/8 บ.โคกก่อง",
+		Email:      "Aonaon_1234@gmail.com",
+		Password:   string(pass2),
+		FormOfWork: form1,
+		Status:     Status1,
+		Religion:   Religion2,
+		Education:  education1,
 	}
 	db.Model(&Trainer{}).Create(&Trainer2)
 
@@ -386,30 +454,30 @@ func SetupDatabase() {
 	// Advice Part --------------------------------------------------------------------------------------
 
 	Advice1 := Advice{
-		Advice:        "กินโปรตีนเพิ่มให้ได้ 2 g ต่อน้ำหนักตัว 1 kg",
-		RecordingTime: time.Now(),
-		Member:        Member1,
-		Trainer:       Trainer1,
+		Advice:         "กินโปรตีนเพิ่มให้ได้ 2 g ต่อน้ำหนักตัว 1 kg",
+		Recording_Time: time.Now(),
+		Member:         Member1,
+		Trainer:        Trainer1,
 		// Body: ,
 		// DailyActivitie: ,
 	}
 	db.Model(&Advice{}).Create(&Advice1)
 
 	Advice2 := Advice{
-		Advice:        "ออกกำลังกายแบบคาร์ดิโอเพิ่มเป็นสัปดาห์ละ 4 วัน วันละ 1 ชม.",
-		RecordingTime: time.Now(),
-		Member:        Member2,
-		Trainer:       Trainer2,
+		Advice:         "ออกกำลังกายแบบคาร์ดิโอเพิ่มเป็นสัปดาห์ละ 4 วัน วันละ 1 ชม.",
+		Recording_Time: time.Now(),
+		Member:         Member2,
+		Trainer:        Trainer2,
 		// Body: ,
 		// DailyActivitie: ,
 	}
 	db.Model(&Advice{}).Create(&Advice2)
 
 	Advice3 := Advice{
-		Advice:        "เล่นเวทเทรนนิ่ง เพิ่มเป็นสัปดาห์ละ 3 วัน วันละ 1.5 ชม.",
-		RecordingTime: time.Now(),
-		Member:        Member3,
-		Trainer:       Trainer2,
+		Advice:         "เล่นเวทเทรนนิ่ง เพิ่มเป็นสัปดาห์ละ 3 วัน วันละ 1.5 ชม.",
+		Recording_Time: time.Now(),
+		Member:         Member3,
+		Trainer:        Trainer2,
 		// Body: ,
 		// DailyActivitie: ,
 	}

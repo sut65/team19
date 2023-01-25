@@ -202,7 +202,7 @@ type Trainer struct {
 
 	CourseService []CourseService `gorm:"foreignKey:TrainerID"`
 	Body          []Body          `gorm:"foreignKey:TrainerID"`
-	Advice        []Advice        `gorm:"foreignKey:TeainerID"`
+	Advice        []Advice        `gorm:"foreignKey:TrainerID"`
 }
 
 // -------------------------------------------<<  >>------------------------------------
@@ -418,7 +418,7 @@ type Discount struct {
 
 type Duration struct {
 	gorm.Model
-	NumberOfDays int
+	NumberOfDays       int
 	DurationPercentage int
 
 	Payment []Payment `gorm:"foreignKey:DurationID"`
@@ -426,9 +426,9 @@ type Duration struct {
 
 type Payment struct {
 	gorm.Model
-	PaymentDate	time.Time
-	Slip	string
-	Balance	float32
+	PaymentDate time.Time
+	Slip        string
+	Balance     float32
 
 	CourseServiceID *uint
 	CourseService   CourseService
