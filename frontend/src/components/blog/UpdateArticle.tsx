@@ -101,7 +101,7 @@ function UpdateArticle() {
     let res = await GetBlogByID(id + "");
     res && setArticle(res);
   };
-  
+
   const convertType = (data: string | number | undefined) => {
     let val = typeof data === "string" ? parseInt(data) : data;
     return val;
@@ -119,11 +119,9 @@ function UpdateArticle() {
       Content: article.Content,
     };
 
-    console.log(newData)
-    
     let res = await UpdateBlog(newData);
     res ? setSuccess(true) : setError(true);
-    window.location.href = "/articles"
+    window.location.href = "/articles";
   };
 
   useEffect(() => {
@@ -131,7 +129,7 @@ function UpdateArticle() {
     fetchTags();
     fetchArticle();
   }, []);
-  
+
   return (
     <Box
       sx={{
@@ -168,7 +166,7 @@ function UpdateArticle() {
           บันทึกข้อมูลไม่สำเร็จ
         </Alert>
       </Snackbar>
-      
+
       {/* Upload Cover Image */}
       <Box>
         <Button

@@ -7,6 +7,7 @@ import (
 	"github.com/sut65/team19/controller"
 	foodInformation "github.com/sut65/team19/controller/FoodInformation"
 	blog "github.com/sut65/team19/controller/blog"
+	review "github.com/sut65/team19/controller/review"
 	"github.com/sut65/team19/entity"
 	"github.com/sut65/team19/middlewares"
 )
@@ -79,6 +80,16 @@ func main() {
 			router.GET("/food_type/:id", foodInformation.GetFoodInformation)
 			router.GET("/main_ingredients", foodInformation.ListMainIngredients)
 			router.GET("/main_ingredient/:id", foodInformation.GetMainIngredient)
+
+			// Review Routes
+			router.GET("/reviews", review.ListReviews)
+			router.GET("/review/:id", review.GetReview)
+			router.POST("/reviews", review.CreateReview)
+			router.PATCH("/update-review", review.UpdateReview)
+			router.DELETE("/delete-review/:id", review.DeleteReview)
+
+			router.GET("/ranks", review.ListRanks)
+			router.GET("/rank/:id", review.GetRank)
 
 			// Blog Routes
 			router.GET("/blogs", blog.ListBlogs)
