@@ -30,7 +30,7 @@ func SetupDatabase() {
 		&FoodAllergies{},
 		&BedTimes{},
 		// Meal Plan ย่อย
-		&MealOfDays{},
+		// &MealOfDays{},
 		// Member
 		&Status{},
 		&Religion{},
@@ -45,6 +45,9 @@ func SetupDatabase() {
 		&Description{},
 		&Admin{},
 		&CourseDetail{},
+		// Review
+		&Rank{},
+		&Review{},
 		// Trainer
 		&FormOfWork{},
 		&Education{},
@@ -61,6 +64,10 @@ func SetupDatabase() {
 		&MealPlan{},
 		//Advice
 		&Advice{},
+		// Payment
+		&Discount{},
+		&Duration{},
+		&Payment{},
 	)
 
 	db = database
@@ -138,9 +145,9 @@ func SetupDatabase() {
 	db.Model(&Member{}).Create(&Member1)
 
 	Member2 := Member{
-		Firstname:   "Fname2",
-		Lastname:    "Lname2",
-		Email:       "User2@mail.com",
+		Firstname:   "ชูเกียรติ",
+		Lastname:    "ก๋าอินตา",
+		Email:       "b6303044@g.sut.ac.th",
 		Password:    string(Password),
 		ProfileUser: "https://cdn-icons-png.flaticon.com/512/1946/1946429.png",
 		Status:      Status2,
@@ -233,7 +240,7 @@ func SetupDatabase() {
 	//----------------------------------------------------------------------------------
 
 	Trainer1 := Trainer{
-		Name:  "Tname1",
+		Name:  "ธนกฤต สามเมือง",
 		Email: "Trainer1@mail.com",
 	}
 	db.Model(&Trainer{}).Create(&Trainer1)
@@ -242,6 +249,41 @@ func SetupDatabase() {
 		Email: "Trainer2@mail.com",
 	}
 	db.Model(&Trainer{}).Create(&Trainer2)
+
+	// Review
+	RankA := Rank{
+		Name: "แย่",
+	}
+	db.Model(&Rank{}).Create(&RankA)
+
+	RankB := Rank{
+		Name: "พอใช้",
+	}
+	db.Model(&Rank{}).Create(&RankB)
+
+	RankC := Rank{
+		Name: "ปานกลาง",
+	}
+	db.Model(&Rank{}).Create(&RankC)
+
+	RankD := Rank{
+		Name: "ดี",
+	}
+	db.Model(&Rank{}).Create(&RankD)
+
+	RankE := Rank{
+		Name: "ดีมาก",
+	}
+	db.Model(&Rank{}).Create(&RankE)
+
+	ReviewA := Review{
+		Content:      "Test Der",
+		Image:        "https://images.unsplash.com/photo-1542435503-956c469947f6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80",
+		CourseDetail: CourseDetail1,
+		Rank:         RankE,
+		Member:       Member1,
+	}
+	db.Model(&Review{}).Create(&ReviewA)
 
 	// Blog
 	CategoryA := Category{
@@ -342,35 +384,66 @@ func SetupDatabase() {
 	db.Model(&FoodInformation{}).Create(&FoodInformationB)
 
 	// Advice Part --------------------------------------------------------------------------------------
-	
-	Advice1 := Advice {
-		Advice: "กินโปรตีนเพิ่มให้ได้ 2 g ต่อน้ำหนักตัว 1 kg",
+
+	Advice1 := Advice{
+		Advice:        "กินโปรตีนเพิ่มให้ได้ 2 g ต่อน้ำหนักตัว 1 kg",
 		RecordingTime: time.Now(),
-		Member: Member1,
-		Trainer: Trainer1,
+		Member:        Member1,
+		Trainer:       Trainer1,
 		// Body: ,
 		// DailyActivitie: ,
 	}
 	db.Model(&Advice{}).Create(&Advice1)
 
-	Advice2 := Advice {
-		Advice: "ออกกำลังกายแบบคาร์ดิโอเพิ่มเป็นสัปดาห์ละ 4 วัน วันละ 1 ชม.",
+	Advice2 := Advice{
+		Advice:        "ออกกำลังกายแบบคาร์ดิโอเพิ่มเป็นสัปดาห์ละ 4 วัน วันละ 1 ชม.",
 		RecordingTime: time.Now(),
-		Member: Member2,
-		Trainer: Trainer2,
+		Member:        Member2,
+		Trainer:       Trainer2,
 		// Body: ,
 		// DailyActivitie: ,
 	}
 	db.Model(&Advice{}).Create(&Advice2)
 
-	Advice3 := Advice {
-		Advice: "เล่นเวทเทรนนิ่ง เพิ่มเป็นสัปดาห์ละ 3 วัน วันละ 1.5 ชม.",
+	Advice3 := Advice{
+		Advice:        "เล่นเวทเทรนนิ่ง เพิ่มเป็นสัปดาห์ละ 3 วัน วันละ 1.5 ชม.",
 		RecordingTime: time.Now(),
-		Member: Member3,
-		Trainer: Trainer2,
+		Member:        Member3,
+		Trainer:       Trainer2,
 		// Body: ,
 		// DailyActivitie: ,
 	}
 	db.Model(&Advice{}).Create(&Advice3)
+	Discount1 := Discount{
+		DiscountCode:       "NOCODE",
+		DiscountPercentage: 0,
+	}
+	db.Model(&Discount{}).Create(&Discount1)
+	Discount2 := Discount{
+		DiscountCode:       "HEALTHY",
+		DiscountPercentage: 10,
+	}
+	db.Model(&Discount{}).Create(&Discount2)
+	Discount3 := Discount{
+		DiscountCode:       "LOVE20",
+		DiscountPercentage: 20,
+	}
+	db.Model(&Discount{}).Create(&Discount3)
+	Discount4 := Discount{
+		DiscountCode:       "S02G19",
+		DiscountPercentage: 50,
+	}
+	db.Model(&Discount{}).Create(&Discount4)
+
+	Duration1 := Duration{
+		NumberOfDays:       30,
+		DurationPercentage: 0,
+	}
+	db.Model(&Duration{}).Create(&Duration1)
+	Duration2 := Duration{
+		NumberOfDays:       60,
+		DurationPercentage: 5,
+	}
+	db.Model(&Duration{}).Create(&Duration2)
 
 }
