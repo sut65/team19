@@ -20,6 +20,7 @@ import { StatusInterface } from "../interfaces/IStatus";
 import { GenderInterface } from "../interfaces/IGender";
 import { Link as RouterLink } from "react-router-dom";
 
+
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Link } from "react-router-dom";
@@ -43,6 +44,7 @@ function App() {
   const [first, setFirst] = useState<String>("");
   const [last, setLast] = useState<String>("");
   const [email, setEm] = useState<String>("");
+  
 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
@@ -102,6 +104,14 @@ function App() {
       [name]: event.target.value,
     });
     console.log(rg);
+  };
+
+  const handleInputChange = (
+    event: React.ChangeEvent<{ id?: string; value: any }>
+  ) => {
+    const id = event.target.id as keyof typeof rg;
+    const { value } = event.target;
+    setRg({ ...rg, [id]: value });
   };
 
   // =========================(Fetch API)====================================================
@@ -217,9 +227,7 @@ function App() {
                   variant="outlined"
                   fullWidth
                   required
-                  onChange={(event) => {
-                    setFirst(event.target.value);
-                  }}
+                  onChange={handleInputChange}
                 />
               </Grid>
               {/*=============================================(Last name)=====================================================*/}
@@ -232,9 +240,7 @@ function App() {
                   variant="outlined"
                   fullWidth
                   required
-                  onChange={(event) => {
-                    setLast(event.target.value);
-                  }}
+                  onChange={handleInputChange}
                 />
               </Grid>
             </Grid>
@@ -254,9 +260,7 @@ function App() {
                   label="กรุณาป้อนอีเมล"
                   variant="outlined"
                   required
-                  onChange={(event) => {
-                    setEm(event.target.value);
-                  }}
+                  onChange={handleInputChange}
                   fullWidth
                 />
               </Grid>
@@ -348,7 +352,7 @@ function App() {
                 >
                   {sta.map((item) => (
                     <MenuItem key={item.ID} value={item.ID}>
-                      {item.Status}
+                      {item.Name}
                     </MenuItem>
                   ))}
                 </Select>
@@ -380,7 +384,7 @@ function App() {
                 >
                   {prv.map((item) => (
                     <MenuItem key={item.ID} value={item.ID}>
-                      {item.Religion}
+                      {item.Name}
                     </MenuItem>
                   ))}
                 </Select>
