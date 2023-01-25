@@ -61,7 +61,7 @@ func SetupDatabase() {
 		&FoodType{},
 		&MainIngredient{},
 		// Activity หลัก
-		&DailyActivitie{},
+		&DailyActivities{},
 		// MealPlan
 		&MealPlan{},
 		//Advice
@@ -457,7 +457,7 @@ func SetupDatabase() {
 
 	Advice1 := Advice{
 		Advice:         "กินโปรตีนเพิ่มให้ได้ 2 g ต่อน้ำหนักตัว 1 kg",
-		Recording_Time: time.Now(),
+		RecordingDate: time.Now(),
 		Member:         Member1,
 		Trainer:        Trainer1,
 		// Body: ,
@@ -467,17 +467,17 @@ func SetupDatabase() {
 
 	Advice2 := Advice{
 		Advice:         "ออกกำลังกายแบบคาร์ดิโอเพิ่มเป็นสัปดาห์ละ 4 วัน วันละ 1 ชม.",
-		Recording_Time: time.Now(),
+		RecordingDate: time.Now(),
 		Member:         Member2,
 		Trainer:        Trainer2,
 		// Body: ,
-		// DailyActivitie: ,
+		// DailyActivitie
 	}
 	db.Model(&Advice{}).Create(&Advice2)
 
 	Advice3 := Advice{
 		Advice:         "เล่นเวทเทรนนิ่ง เพิ่มเป็นสัปดาห์ละ 3 วัน วันละ 1.5 ชม.",
-		Recording_Time: time.Now(),
+		RecordingDate: time.Now(),
 		Member:         Member3,
 		Trainer:        Trainer2,
 		// Body: ,
@@ -609,5 +609,77 @@ func SetupDatabase() {
 		FoodInformation: FoodInformationA,
 	}
 	db.Model(&MealPlan{}).Create(&MealPlanC)
+
+	//--------------------------------------------------------------------------------------------------
+	//----------------------------------------  DailyActivities  ---------------------------------------
+	//--------------------------------------------------------------------------------------------------
+	FoodAllergiesA := FoodAllergies{
+		Allergen:      "ไข่ นม",
+		AllergyType:   "ชนิดไม่เฉียบพลัน",
+		Reaction:      "อาการจะค่อยๆ เกิดขึ้นหลังจากทานอาหารเข้าไปแล้ว หลายชั่วโมงหรืออาจเป็นวัน เช่น เป็นผื่นโดยจะมีผื่นแดง",
+		LastReactDate: time.Date(2023, time.January, 3, 15, 03, 00, 0, time.UTC),
+	}
+	db.Model(&FoodAllergies{}).Create(&FoodAllergiesA)
+
+	FoodAllergiesB := FoodAllergies{
+		Allergen:      "ถั่ว",
+		AllergyType:   "ชนิดเฉียบพลัน",
+		Reaction:      "อาการจะเกิดขึ้นภายใน 30 นาที-1 ชั่วโมง หลังจากทานอาหารเข้าไปและมีความเสี่ยงที่จะเกิดอาการแพ้รุนแรงได้ เช่น มีอาการตาบวม ปากบวม ผื่นลมพิษ หลอดลมตีบ ไอ แน่นหน้าอก หายใจไม่ออก ปวดท้อง อาเจียน",
+		LastReactDate: time.Date(2023, time.January, 3, 15, 03, 00, 0, time.UTC),
+	}
+	db.Model(&FoodAllergies{}).Create(&FoodAllergiesB)
+
+	FoodAllergiesC := FoodAllergies{
+		Allergen:      "อาหารทะเล",
+		AllergyType:   "ชนิดรุนแรง",
+		Reaction:      "เป็นอาการแพ้ในระดับรุนแรงที่สุดและเป็นอันตรายถึงชีวิต โดยอาการอาจเกิดขึ้นทันทีที่ทานอาหารที่แพ้เข้าไป อาการที่เกิดขึ้นได้แก่ ผื่นแดงตามผิวหนัง ลมพิษ คัน ผิวหนัง แดงหรือซีด เวียนศีรษะ หน้ามืดคล้ายจะเป็นลม คลื่นไส้ อาเจียน ปวดท้อง หรือท้องเสีย",
+		LastReactDate: time.Date(2023, time.January, 3, 15, 03, 00, 0, time.UTC),
+	}
+	db.Model(&FoodAllergies{}).Create(&FoodAllergiesC)
+
+	ActivitiesTypeA := ActivitiesType{
+		Name: "Balance",
+	}
+	db.Model(&ActivitiesType{}).Create(&ActivitiesTypeA)
+
+	ActivitiesTypeB := ActivitiesType{
+		Name: "Aerobic",
+	}
+	db.Model(&ActivitiesType{}).Create(&ActivitiesTypeB)
+
+	ActivitiesTypeC := ActivitiesType{
+		Name: "Muscle-strengthening",
+	}
+	db.Model(&ActivitiesType{}).Create(&ActivitiesTypeC)
+
+	DailyActivitiesA := DailyActivities{
+		Name:           "เดิน",
+		Duration:       "45 นาที",
+		Date:           time.Date(2023, time.January, 3, 15, 03, 00, 0, time.UTC),
+		ActivitiesType: ActivitiesTypeA,
+		Admin:          AdminA,
+		Member:         Member1,
+	}
+	db.Model(&DailyActivities{}).Create(&DailyActivitiesA)
+
+	DailyActivitiesB := DailyActivities{
+		Name:           "วิ่ง",
+		Duration:       "1 ชั่วโมง",
+		Date:           time.Date(2023, time.January, 3, 15, 03, 00, 0, time.UTC),
+		ActivitiesType: ActivitiesTypeB,
+		Admin:          AdminB,
+		Member:         Member2,
+	}
+	db.Model(&DailyActivities{}).Create(&DailyActivitiesB)
+
+	DailyActivitiesC := DailyActivities{
+		Name:           "ปืนเขา",
+		Duration:       "2 ชั่ว",
+		Date:           time.Date(2023, time.January, 3, 15, 03, 00, 0, time.UTC),
+		ActivitiesType: ActivitiesTypeC,
+		Admin:          AdminC,
+		Member:         Member3,
+	}
+	db.Model(&DailyActivities{}).Create(&DailyActivitiesC)
 
 }

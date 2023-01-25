@@ -10,9 +10,9 @@ export interface UserInterface {
     Profileuser?:           string;
     Password?:              string;
     Gender?: GenderInterface;
-    Gender_ID?: number;
+    GenderID?: number;
     Status?: StatusInterface;
-    Status_ID?: number;
+    StatusID?: number;
     Religion?:  ReligionInterface 
-    Religion_ID?:   number;
+    ReligionID?:   number;
 }

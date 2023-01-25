@@ -56,13 +56,13 @@ type Member struct {
 	GenderID *uint
 	Gender   Gender
 
-	CourseService  []CourseService  `gorm:"foreignKey:MemberID"`
-	Blogs          []Blog           `gorm:"foreignKey:MemberID"`
-	DailyActivitie []DailyActivitie `gorm:"foreignKey:MemberID"`
-	MealPlan       []MealPlan       `gorm:"foreignKey:MemberID"`
-	Body           []Body           `gorm:"foreignKey:MemberID"`
-	Advice         []Advice         `gorm:"foreignKey:MemberID"`
-	Reviews        []Review         `gorm:"foreignKey:MemberID"`
+	CourseService  []CourseService   `gorm:"foreignKey:MemberID"`
+	Blogs          []Blog            `gorm:"foreignKey:MemberID"`
+	DailyActivitie []DailyActivities `gorm:"foreignKey:MemberID"`
+	MealPlan       []MealPlan        `gorm:"foreignKey:MemberID"`
+	Body           []Body            `gorm:"foreignKey:MemberID"`
+	Advice         []Advice          `gorm:"foreignKey:MemberID"`
+	Reviews        []Review          `gorm:"foreignKey:MemberID"`
 }
 
 // -------------------------------------------<< ระบบจัดการคอร์ส >>------------------------------------
@@ -81,7 +81,7 @@ type Admin struct {
 	Name            string
 	Password        string
 	MealPlan        []MealPlan        `gorm:"foreignKey:AdminID"`
-	DailyActivitie  []DailyActivitie  `gorm:"foreignKey:AdminID"`
+	DailyActivitie  []DailyActivities `gorm:"foreignKey:AdminID"`
 	CourseDetail    []CourseDetail    `gorm:"foreignKey:AdminID"`
 	FoodInformation []FoodInformation `gorm:"foreignKey:AdminID"`
 }
@@ -266,7 +266,7 @@ type FoodInformation struct {
 type ActivitiesType struct {
 	gorm.Model
 	Name           string
-	DailyActivitie []DailyActivitie `gorm:"foreignKey:ActivitiesTypeID"`
+	DailyActivitie []DailyActivities `gorm:"foreignKey:ActivitiesTypeID"`
 }
 
 type MealTimes struct {
@@ -293,7 +293,7 @@ type BedTimes struct {
 }
 
 // Main Entity
-type DailyActivitie struct {
+type DailyActivities struct {
 	gorm.Model
 
 	Name     string
@@ -368,7 +368,7 @@ type Advice struct {
 	gorm.Model
 
 	Advice         string
-	Recording_Time time.Time `valid:"past"`
+	RecordingDate time.Time `valid:"past"`
 
 	MemberID *uint
 	Member   Member
@@ -379,8 +379,8 @@ type Advice struct {
 	BodyID *uint
 	Body   Body
 
-	DailyActivitieID *uint
-	DailyActivitie   DailyActivitie
+	DailyActivitiesID *uint
+	DailyActivities   DailyActivities
 }
 
 // -------------------------------------------<< ระบบบันทึกการเปลี่ยนแปลงร่างกาย >>------------------------------------
