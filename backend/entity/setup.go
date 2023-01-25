@@ -435,7 +435,7 @@ func SetupDatabase() {
 
 	FoodInformationA := FoodInformation{
 		Name:           "ไข่เจียว",
-		Datetime:       time.Date(2023, time.January, 2, 15, 03, 00, 0, time.UTC),
+		Datetime:       "25/01/2023",
 		Image:          "https://s359.kapook.com/pagebuilder/1c0a0dac-e4a9-4651-baa0-052a597ab7bf.jpg",
 		Admin:          AdminA,
 		MainIngredient: MainIngredientA,
@@ -445,7 +445,7 @@ func SetupDatabase() {
 
 	FoodInformationB := FoodInformation{
 		Name:           "ผัดคะน้า",
-		Datetime:       time.Date(2023, time.January, 3, 15, 03, 00, 0, time.UTC),
+		Datetime:       "25/01/2023",
 		Image:          "https://s359.kapook.com/pagebuilder/a8a1fb49-f651-40a5-9705-26a98ab0ea66.jpg",
 		Admin:          AdminB,
 		MainIngredient: MainIngredientB,

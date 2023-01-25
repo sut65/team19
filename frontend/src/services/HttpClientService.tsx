@@ -5,6 +5,7 @@ import { SignInInterface } from "../interfaces/ISignIn";
 import { BlogInterface } from "../interfaces/IBlog";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { FoodInformationInterface } from "../interfaces/IFoodInformation";
 
 const apiUrl = `http://localhost:8080`;
 
@@ -339,6 +340,65 @@ const GetTags = async () => {
   return res;
 };
 
+// ----------------------FoodInformation----------------------
+const GetFoodTypes = async () => {
+  let res = await fetch(`${apiUrl}/food_types`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetMainIngredients = async () => {
+  let res = await fetch(`${apiUrl}/main_ingredients`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const CreateFoodInformation = async (data: FoodInformationInterface) => {
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/food_informations`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetAdminByID = async () => {
+  const id = localStorage.getItem("uid");
+
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+  let res = await fetch(`${apiUrl}/admin/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
 export {
   GetCourseService,
   GetUser,
@@ -358,4 +418,9 @@ export {
   GetBlogByID,
   GetCategories,
   GetTags,
+  // FoodInformation
+  GetFoodTypes,
+  GetMainIngredients,
+  CreateFoodInformation,
+  GetAdminByID,
 };
