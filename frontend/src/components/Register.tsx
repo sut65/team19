@@ -19,12 +19,19 @@ import { ReligionInterface } from "../interfaces/IReligion";
 import { StatusInterface } from "../interfaces/IStatus";
 import { GenderInterface } from "../interfaces/IGender";
 import { Link as RouterLink } from "react-router-dom";
+import { Box } from "@mui/system";
+import {styled} from "@mui/material";
 
 
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Link } from "react-router-dom";
 import { dark } from "@mui/material/styles/createPalette";
+import { BlogInterface } from "../interfaces/IBlog";
+
+const ImgBox = styled(Box)({
+    width: "280px",
+  });
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -40,6 +47,8 @@ function App() {
   const [gen, setGen] = useState<GenderInterface[]>([]);
   const [sta, setSta] = useState<StatusInterface[]>([]);
   const [prv, setPrv] = useState<ReligionInterface[]>([]);
+  const [article, setArticle] = useState<BlogInterface>({});
+  const [image, setImage] = useState({ name: "", src: "" });
 
   const [first, setFirst] = useState<String>("");
   const [last, setLast] = useState<String>("");
@@ -60,7 +69,20 @@ function App() {
     password: string;
     showPassword: boolean;
   }
+  const handleChangeImages = (event: any, id?: string) => {
+    const input = event.target.files[0];
+    const name = event.target.name as keyof typeof article;
 
+    var reader = new FileReader();
+    reader.readAsDataURL(input);
+    reader.onload = function () {
+      const dataURL = reader.result;
+      setImage({ name: input.name, src: dataURL?.toString() as string });
+      if (event.target.name === "CoverImage") {
+        setArticle({ ...article, [name]: dataURL?.toString() });
+      }
+    };
+  };
   const handlePassword =
     (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
       setPass({ ...pass, [prop]: event.target.value });
@@ -197,10 +219,10 @@ function App() {
 
   return (
     <div>
-      <Container maxWidth="sm" sx={{ marginTop: 6 }}>
+      <Container maxWidth="md" sx={{ marginTop: 6 }}>
         <Paper
           elevation={4}
-          sx={{
+          sx={{ 
             marginBottom: 2,
             marginTop: 2,
             padding: 1,
@@ -219,7 +241,7 @@ function App() {
             <Grid container spacing={2} sx={{ marginBottom: 1.5 }}>
               {/*============================================(First name)======================================================*/}
               <Grid xs={6} md={6}>
-                <p style={{ color: "grey", fontSize: 17 }}>First name</p>
+                <p style={{ color: "grey", fontSize: 17 }}>Firstname</p>
                 <TextField
                   id="Name"
                   type="string"
@@ -232,7 +254,7 @@ function App() {
               </Grid>
               {/*=============================================(Last name)=====================================================*/}
               <Grid xs={6} md={6}>
-                <p style={{ color: "grey", fontSize: 17 }}>Last name</p>
+                <p style={{ color: "grey", fontSize: 17 }}>Lastname</p>
                 <TextField
                   id="Name"
                   type="string"
@@ -264,6 +286,7 @@ function App() {
                   fullWidth
                 />
               </Grid>
+
               {/*==============================================(password)====================================================*/}
               <Grid
                 xs={12}
@@ -360,21 +383,21 @@ function App() {
                   สถานะปัจจุบัน
                 </FormHelperText>
               </Grid>
-              {/*=======================================(Province)===========================================================*/}
+              {/*=======================================(Religion)===========================================================*/}
               <Grid
                 xs={12}
-                md={8}
+                md={5}
                 sx={{ display: "flex", alignItems: "center", margin: 1 }}
               >
                 <FormLabel
                   id="demo-simple-select-helper-label"
                   sx={{ marginRight: 4.5, fontSize: 17, paddingBottom: 2 }}
                 >
-                  Province:
+                  Religion:
                 </FormLabel>
                 <Select
                   // labelId="demo-simple-select-helper-label"
-                  id="ProvinceID"
+                  id="ReligionID"
                   value={rg.ReligionID + ""}
                   onChange={handleChange}
                   inputProps={{
@@ -389,9 +412,38 @@ function App() {
                   ))}
                 </Select>
                 <FormHelperText disabled sx={{ width: 350, marginLeft: 2 }}>
-                  เลือกจังหวัดที่อยู่
+                  เลือกศาสนาที่นับถือ
                 </FormHelperText>
               </Grid>
+              <Grid xs={12}
+                md={6}>
+                    <Box>
+        <Button
+          variant="contained"
+          component="label"
+          sx={{
+            backgroundColor: "#f2f2f2",
+            color: "#252525",
+          }}
+        >
+          Upload
+          <input
+            id="coverImage"
+            name="CoverImage"
+            hidden
+            accept="image/*"
+            multiple
+            type="file"
+            onChange={handleChangeImages}
+          />
+        </Button>
+      </Box>
+      <ImgBox>
+        <img src={image.src} alt={image.name} style={{ width: "100%" }} />
+      </ImgBox>
+                    
+
+                </Grid>
 
               <Grid
                 container
