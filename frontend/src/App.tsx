@@ -10,6 +10,7 @@ import Article from "./components/blog/Article";
 import SignIn from "./components/SignIn";
 import CreateArticle from "./components/blog/CreateArticle";
 import UpdateArticle from "./components/blog/UpdateArticle";
+import Register from "./components/Register";
 import Home from "./components/Home";
 import ShowCardCourseService from "./components/CourseService/ShowCardCourseService";
 
@@ -41,6 +42,7 @@ function App() {
           <Route path="course" element={<ShowCardCourseService  />} />
           <Route path="article/create-article" element={<CreateArticle />} />
           <Route path="article/:id/update-article" element={<UpdateArticle />} />
+          <Route path="/register" element={<Register />}></Route>
         </Route>
       </Routes>
     </div>
