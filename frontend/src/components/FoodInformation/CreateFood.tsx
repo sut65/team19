@@ -229,15 +229,7 @@ function CreateFood() {
 
             <Stack direction="row" spacing={2}>
 
-            <Autocomplete
-                id="disabled"
-                options={MockUpAdmin}
-                disabled
-                sx={{ width: 250 }}
-                renderInput={(params) => (
-                <TextField {...params} label="ผู้ดูแลที่ทำการเพิ่มข้อมูล" variant="standard" />
-                )}
-            />
+            
 
             <Button variant="contained" component="label">
                 อัพโหลดรูปภาพ
