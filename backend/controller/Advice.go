@@ -13,7 +13,7 @@ func CreateAdvice(c *gin.Context) {
 	var trainer entity.Trainer
 	var member entity.Member
 	var body entity.Body
-	var dailyActivitie entity.DailyActivitie
+	var dailyActivities entity.DailyActivities
 
 	if err := c.ShouldBindJSON(&advice); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -39,7 +39,7 @@ func CreateAdvice(c *gin.Context) {
 	}
 
 	// ค้นหา dailyActivitie ด้วย id
-	if tx := entity.DB().Where("id = ?", advice.DailyActivitieID).First(&dailyActivitie); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", advice.DailyActivitiesID).First(&dailyActivities); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "daily activitie not found"})
 		return
 	}
@@ -51,7 +51,7 @@ func CreateAdvice(c *gin.Context) {
 		Trainer:        trainer,
 		Member:         member,
 		Body:           body,
-		DailyActivitie: dailyActivitie,
+		DailyActivities: dailyActivities,
 	}
 
 	// บันทึก

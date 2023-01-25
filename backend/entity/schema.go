@@ -244,7 +244,7 @@ type FoodType struct {
 type FoodInformation struct {
 	gorm.Model
 	Name     string
-	Datetime time.Time
+	Datetime string
 	Image    string
 
 	AdminID *uint
