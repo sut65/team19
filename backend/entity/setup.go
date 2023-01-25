@@ -45,6 +45,9 @@ func SetupDatabase() {
 		&Description{},
 		&Admin{},
 		&CourseDetail{},
+		// Review
+		&Rank{},
+		&Review{},
 		// Trainer
 		&FormOfWork{},
 		&Education{},
@@ -247,6 +250,41 @@ func SetupDatabase() {
 	}
 	db.Model(&Trainer{}).Create(&Trainer2)
 
+	// Review
+	RankA := Rank{
+		Name: "แย่",
+	}
+	db.Model(&Rank{}).Create(&RankA)
+
+	RankB := Rank{
+		Name: "พอใช้",
+	}
+	db.Model(&Rank{}).Create(&RankB)
+
+	RankC := Rank{
+		Name: "ปานกลาง",
+	}
+	db.Model(&Rank{}).Create(&RankC)
+
+	RankD := Rank{
+		Name: "ดี",
+	}
+	db.Model(&Rank{}).Create(&RankD)
+
+	RankE := Rank{
+		Name: "ดีมาก",
+	}
+	db.Model(&Rank{}).Create(&RankE)
+
+	ReviewA := Review{
+		Content:      "Test Der",
+		Image:        "https://images.unsplash.com/photo-1542435503-956c469947f6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80",
+		CourseDetail: CourseDetail1,
+		Rank:         RankE,
+		Member:       Member1,
+	}
+	db.Model(&Review{}).Create(&ReviewA)
+
 	// Blog
 	CategoryA := Category{
 		Name: "การกิน",
@@ -346,32 +384,32 @@ func SetupDatabase() {
 	db.Model(&FoodInformation{}).Create(&FoodInformationB)
 
 	// Advice Part --------------------------------------------------------------------------------------
-	
-	Advice1 := Advice {
-		Advice: "กินโปรตีนเพิ่มให้ได้ 2 g ต่อน้ำหนักตัว 1 kg",
-		Recording_Time: time.Now(),
-		Member: Member1,
-		Trainer: Trainer1,
+
+	Advice1 := Advice{
+		Advice:        "กินโปรตีนเพิ่มให้ได้ 2 g ต่อน้ำหนักตัว 1 kg",
+		RecordingTime: time.Now(),
+		Member:        Member1,
+		Trainer:       Trainer1,
 		// Body: ,
 		// DailyActivitie: ,
 	}
 	db.Model(&Advice{}).Create(&Advice1)
 
-	Advice2 := Advice {
-		Advice: "ออกกำลังกายแบบคาร์ดิโอเพิ่มเป็นสัปดาห์ละ 4 วัน วันละ 1 ชม.",
-		Recording_Time: time.Now(),
-		Member: Member2,
-		Trainer: Trainer2,
+	Advice2 := Advice{
+		Advice:        "ออกกำลังกายแบบคาร์ดิโอเพิ่มเป็นสัปดาห์ละ 4 วัน วันละ 1 ชม.",
+		RecordingTime: time.Now(),
+		Member:        Member2,
+		Trainer:       Trainer2,
 		// Body: ,
 		// DailyActivitie: ,
 	}
 	db.Model(&Advice{}).Create(&Advice2)
 
-	Advice3 := Advice {
-		Advice: "เล่นเวทเทรนนิ่ง เพิ่มเป็นสัปดาห์ละ 3 วัน วันละ 1.5 ชม.",
-		Recording_Time: time.Now(),
-		Member: Member3,
-		Trainer: Trainer2,
+	Advice3 := Advice{
+		Advice:        "เล่นเวทเทรนนิ่ง เพิ่มเป็นสัปดาห์ละ 3 วัน วันละ 1.5 ชม.",
+		RecordingTime: time.Now(),
+		Member:        Member3,
+		Trainer:       Trainer2,
 		// Body: ,
 		// DailyActivitie: ,
 	}
@@ -398,12 +436,12 @@ func SetupDatabase() {
 	db.Model(&Discount{}).Create(&Discount4)
 
 	Duration1 := Duration{
-		NumberOfDays: 30,
+		NumberOfDays:       30,
 		DurationPercentage: 0,
 	}
 	db.Model(&Duration{}).Create(&Duration1)
 	Duration2 := Duration{
-		NumberOfDays: 60,
+		NumberOfDays:       60,
 		DurationPercentage: 5,
 	}
 	db.Model(&Duration{}).Create(&Duration2)

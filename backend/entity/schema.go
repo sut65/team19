@@ -62,6 +62,7 @@ type Member struct {
 	MealPlan       []MealPlan       `gorm:"foreignKey:MemberID"`
 	Body           []Body           `gorm:"foreignKey:MemberID"`
 	Advice         []Advice         `gorm:"foreignKey:MemberID"`
+	Reviews        []Review         `gorm:"foreignKey:MemberID"`
 }
 
 // -------------------------------------------<< ระบบจัดการคอร์ส >>------------------------------------
@@ -96,7 +97,8 @@ type CourseDetail struct {
 	gorm.Model
 	CourseName string
 	CoverPage  string
-	Body       []Body `gorm:"foreignKey:CourseDetailID"`
+	Body       []Body   `gorm:"foreignKey:CourseDetailID"`
+	Reviews    []Review `gorm:"foreignKey:CourseDetailID"`
 
 	DescriptionID *uint
 	Description   Description
@@ -108,6 +110,28 @@ type CourseDetail struct {
 	Price   Price
 
 	CourseService []CourseService `gorm:"foreignKey:CourseDetailID"`
+}
+
+// Review
+type Rank struct {
+	gorm.Model
+	Name    string
+	Reviews []Review `gorm:"foreignKey:RankID"`
+}
+
+type Review struct {
+	gorm.Model
+	Content string
+	Image   string
+
+	MemberID *uint
+	Member   Member
+
+	CourseDetailID *uint
+	CourseDetail   CourseDetail
+
+	RankID *uint
+	Rank   Rank
 }
 
 // *****************************************************************
