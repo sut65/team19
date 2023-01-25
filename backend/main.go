@@ -123,6 +123,13 @@ func main() {
 			router.GET("/descriptions", controller.ListDescriptions)
 			router.DELETE("/description/:id", controller.DeleteDescription)
 			router.PATCH("/descriptions", controller.UpdateDescription)
+
+			// advice Routes
+			router.POST("/advice", controller.CreateAdvice)
+			router.GET("/advice/:id", controller.GetAdvice)
+			router.GET("/advices", controller.ListAdvice)
+			router.DELETE("/advice/:id", controller.DeleteAdvice)
+			router.PATCH("/advices", controller.UpdateAdvice)
 		}
 	}
 	// login User Route
