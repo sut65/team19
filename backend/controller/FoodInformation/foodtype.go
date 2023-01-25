@@ -5,29 +5,27 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team19/entity"
-	"gorm.io/gorm/clause"
 )
 
 // GET /foodtype/:id
 func GetFoodType(c *gin.Context) {
-	var food_type entity.FoodType
+	var foodtype entity.FoodType
 	id := c.Param("id")
 
-	if tx := entity.DB().Preload(clause.Associations).Preload("Food_Informations."+clause.Associations).Where("id = ?", id).First(&food_type); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "food_type not found"})
+	if err := entity.DB().Raw("SELECT * FROM food_types WHERE id = ?", id).Scan(&foodtype).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	c.JSON(http.StatusOK, gin.H{"data": food_type})
+	c.JSON(http.StatusOK, gin.H{"data": foodtype})
 }
 
 // GET /foodtypes
 func ListFoodTypes(c *gin.Context) {
-	var food_types []entity.FoodType
-	if err := entity.DB().Preload(clause.Associations).Preload("Food_Informations." + clause.Associations).Raw("SELECT * FROM food_types").Find(&food_types).Error; err != nil {
+	var foodtype []entity.FoodType
+
+	if err := entity.DB().Raw("SELECT * FROM food_types").Scan(&foodtype).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	c.JSON(http.StatusOK, gin.H{"data": food_types})
+	c.JSON(http.StatusOK, gin.H{"data": foodtype})
 }

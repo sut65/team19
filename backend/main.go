@@ -7,6 +7,7 @@ import (
 	"github.com/sut65/team19/controller"
 	foodInformation "github.com/sut65/team19/controller/FoodInformation"
 	blog "github.com/sut65/team19/controller/blog"
+	review "github.com/sut65/team19/controller/review"
 	"github.com/sut65/team19/entity"
 	"github.com/sut65/team19/middlewares"
 )
@@ -80,6 +81,16 @@ func main() {
 			router.GET("/main_ingredients", foodInformation.ListMainIngredients)
 			router.GET("/main_ingredient/:id", foodInformation.GetMainIngredient)
 
+			// Review Routes
+			router.GET("/reviews", review.ListReviews)
+			router.GET("/review/:id", review.GetReview)
+			router.POST("/reviews", review.CreateReview)
+			router.PATCH("/update-review", review.UpdateReview)
+			router.DELETE("/delete-review/:id", review.DeleteReview)
+
+			router.GET("/ranks", review.ListRanks)
+			router.GET("/rank/:id", review.GetRank)
+
 			// Blog Routes
 			router.GET("/blogs", blog.ListBlogs)
 			router.GET("/blog/:id", blog.GetBlog)
@@ -112,6 +123,13 @@ func main() {
 			router.GET("/descriptions", controller.ListDescriptions)
 			router.DELETE("/description/:id", controller.DeleteDescription)
 			router.PATCH("/descriptions", controller.UpdateDescription)
+
+			// advice Routes
+			router.POST("/advice", controller.CreateAdvice)
+			router.GET("/advice/:id", controller.GetAdvice)
+			router.GET("/advices", controller.ListAdvice)
+			router.DELETE("/advice/:id", controller.DeleteAdvice)
+			router.PATCH("/advices", controller.UpdateAdvice)
 		}
 	}
 	// login User Route

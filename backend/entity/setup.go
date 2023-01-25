@@ -30,7 +30,9 @@ func SetupDatabase() {
 		&FoodAllergies{},
 		&BedTimes{},
 		// Meal Plan ย่อย
-		&MealOfDays{},
+		&MealType{},
+		&DayOfWeeks{},
+		&Nutritious{},
 		// Member
 		&Status{},
 		&Religion{},
@@ -45,6 +47,9 @@ func SetupDatabase() {
 		&Description{},
 		&Admin{},
 		&CourseDetail{},
+		// Review
+		&Rank{},
+		&Review{},
 		// Trainer
 		&FormOfWork{},
 		&Education{},
@@ -56,23 +61,30 @@ func SetupDatabase() {
 		&FoodType{},
 		&MainIngredient{},
 		// Activity หลัก
-		&DailyActivitie{},
+		&DailyActivities{},
 		// MealPlan
 		&MealPlan{},
 		//Advice
 		&Advice{},
+		// Payment
+		&Discount{},
+		&Duration{},
+		&Payment{},
 	)
 
 	db = database
 
 	Status1 := Status{
-		Name: "Active",
+		Name: "สมรส",
 	}
 	db.Model(&Status{}).Create(&Status1)
-	Status2 := Status{
-		Name: "Inactive",
+
+	Statuses := []Status{
+		{Name: "โสด"},
+		{Name: "หย่า"},
+		{Name: "หม้าย"},
 	}
-	db.Model(&Status{}).Create(&Status2)
+	db.Model(&Status{}).Create(&Statuses)
 
 	Gender1 := Gender{
 		Name: "Male",
@@ -111,17 +123,21 @@ func SetupDatabase() {
 	//**************************************************************************
 
 	Religion1 := Religion{
-		Name: "Buddha",
+		Name: "พุธ",
 	}
 	db.Model(&Religion{}).Create(&Religion1)
 	Religion2 := Religion{
-		Name: "Christ",
+		Name: "อิสลาม",
 	}
 	db.Model(&Religion{}).Create(&Religion2)
 	Religion3 := Religion{
-		Name: "Islam",
+		Name: "คริสต์",
 	}
 	db.Model(&Religion{}).Create(&Religion3)
+	Religion4 := Religion{
+		Name: "ฮินดู",
+	}
+	db.Model(&Religion{}).Create(&Religion4)
 
 	Password, _ := bcrypt.GenerateFromPassword([]byte("111"), 14)
 
@@ -138,12 +154,12 @@ func SetupDatabase() {
 	db.Model(&Member{}).Create(&Member1)
 
 	Member2 := Member{
-		Firstname:   "Fname2",
-		Lastname:    "Lname2",
-		Email:       "User2@mail.com",
+		Firstname:   "ชูเกียรติ",
+		Lastname:    "ก๋าอินตา",
+		Email:       "b6303044@g.sut.ac.th",
 		Password:    string(Password),
 		ProfileUser: "https://cdn-icons-png.flaticon.com/512/1946/1946429.png",
-		Status:      Status2,
+		Status:      Status1,
 		Gender:      Gender2,
 		Religion:    Religion2,
 	}
@@ -232,16 +248,112 @@ func SetupDatabase() {
 
 	//----------------------------------------------------------------------------------
 
+	form1 := FormOfWork{
+		Name: "งานประจำ",
+	}
+	db.Model(&FormOfWork{}).Create(&form1)
+
+	form := []FormOfWork{
+		{Name: "งานนอกเวลา"},
+		{Name: "งานอิสระ"},
+		{Name: "นักศึกษางาน"},
+		{Name: "สัญญาจ้าง"},
+		{Name: "สหกิจศึกษา"},
+	}
+	db.Model(&FormOfWork{}).Create(&form)
+
+	education1 := Education{
+		EducationLevel: "ต่ำกว่าปริญาตรี",
+	}
+	db.Model(&Education{}).Create(&education1)
+
+	educations := []Education{
+		{EducationLevel: "ปริญาตรี"},
+		{EducationLevel: "ปริญาโท"},
+		{EducationLevel: "ปริญาเอก"},
+	}
+	db.Model(&Education{}).Create(&educations)
+
+	// Trainer1 := Trainer{
+	// 	Name:  "ธนกฤต สามเมือง",
+	// 	Email: "Trainer1@mail.com",
+	// }
+	// db.Model(&Trainer{}).Create(&Trainer1)
+	// Trainer2 := Trainer{
+	// 	Name:  "Tname2",
+	// 	Email: "Trainer2@mail.com",
+	// }
+	// db.Model(&Trainer{}).Create(&Trainer2)
+
+	// -------------------(Create value Trainer)------------------------------
+	pass1, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
 	Trainer1 := Trainer{
-		Name:  "Tname1",
-		Email: "Trainer1@mail.com",
+		Name:       "Natthaphon",
+		University: "SUT",
+		Gpax:       3.83,
+		Gender:     "ชาย",
+		Age:        21,
+		Address:    "90/8 บ.โคกก่อง",
+		Email:      "Aonaon_123@gmail.com",
+		Password:   string(pass1),
+		FormOfWork: form1,
+		Status:     Status1,
+		Religion:   Religion1,
+		Education:  education1,
 	}
 	db.Model(&Trainer{}).Create(&Trainer1)
+
+	pass2, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
 	Trainer2 := Trainer{
-		Name:  "Tname2",
-		Email: "Trainer2@mail.com",
+		Name:       "opopopo",
+		University: "SUT",
+		Gpax:       3.73,
+		Gender:     "ชาย",
+		Age:        21,
+		Address:    "90/8 บ.โคกก่อง",
+		Email:      "Aonaon_1234@gmail.com",
+		Password:   string(pass2),
+		FormOfWork: form1,
+		Status:     Status1,
+		Religion:   Religion2,
+		Education:  education1,
 	}
 	db.Model(&Trainer{}).Create(&Trainer2)
+
+	// Review
+	RankA := Rank{
+		Name: "แย่",
+	}
+	db.Model(&Rank{}).Create(&RankA)
+
+	RankB := Rank{
+		Name: "พอใช้",
+	}
+	db.Model(&Rank{}).Create(&RankB)
+
+	RankC := Rank{
+		Name: "ปานกลาง",
+	}
+	db.Model(&Rank{}).Create(&RankC)
+
+	RankD := Rank{
+		Name: "ดี",
+	}
+	db.Model(&Rank{}).Create(&RankD)
+
+	RankE := Rank{
+		Name: "ดีมาก",
+	}
+	db.Model(&Rank{}).Create(&RankE)
+
+	ReviewA := Review{
+		Content:      "Test Der",
+		Image:        "https://images.unsplash.com/photo-1542435503-956c469947f6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80",
+		CourseDetail: CourseDetail1,
+		Rank:         RankE,
+		Member:       Member1,
+	}
+	db.Model(&Review{}).Create(&ReviewA)
 
 	// Blog
 	CategoryA := Category{
@@ -323,7 +435,7 @@ func SetupDatabase() {
 
 	FoodInformationA := FoodInformation{
 		Name:           "ไข่เจียว",
-		Datetime:       time.Date(2023, time.January, 2, 15, 03, 00, 0, time.UTC),
+		Datetime:       "25/01/2023",
 		Image:          "https://s359.kapook.com/pagebuilder/1c0a0dac-e4a9-4651-baa0-052a597ab7bf.jpg",
 		Admin:          AdminA,
 		MainIngredient: MainIngredientA,
@@ -333,7 +445,7 @@ func SetupDatabase() {
 
 	FoodInformationB := FoodInformation{
 		Name:           "ผัดคะน้า",
-		Datetime:       time.Date(2023, time.January, 3, 15, 03, 00, 0, time.UTC),
+		Datetime:       "25/01/2023",
 		Image:          "https://s359.kapook.com/pagebuilder/a8a1fb49-f651-40a5-9705-26a98ab0ea66.jpg",
 		Admin:          AdminB,
 		MainIngredient: MainIngredientB,
@@ -342,35 +454,232 @@ func SetupDatabase() {
 	db.Model(&FoodInformation{}).Create(&FoodInformationB)
 
 	// Advice Part --------------------------------------------------------------------------------------
-	
-	Advice1 := Advice {
-		Advice: "กินโปรตีนเพิ่มให้ได้ 2 g ต่อน้ำหนักตัว 1 kg",
-		RecordingTime: time.Now(),
-		Member: Member1,
-		Trainer: Trainer1,
+
+	Advice1 := Advice{
+		Advice:         "กินโปรตีนเพิ่มให้ได้ 2 g ต่อน้ำหนักตัว 1 kg",
+		RecordingDate: time.Now(),
+		Member:         Member1,
+		Trainer:        Trainer1,
 		// Body: ,
 		// DailyActivitie: ,
 	}
 	db.Model(&Advice{}).Create(&Advice1)
 
-	Advice2 := Advice {
-		Advice: "ออกกำลังกายแบบคาร์ดิโอเพิ่มเป็นสัปดาห์ละ 4 วัน วันละ 1 ชม.",
-		RecordingTime: time.Now(),
-		Member: Member2,
-		Trainer: Trainer2,
+	Advice2 := Advice{
+		Advice:         "ออกกำลังกายแบบคาร์ดิโอเพิ่มเป็นสัปดาห์ละ 4 วัน วันละ 1 ชม.",
+		RecordingDate: time.Now(),
+		Member:         Member2,
+		Trainer:        Trainer2,
 		// Body: ,
-		// DailyActivitie: ,
+		// DailyActivitie
 	}
 	db.Model(&Advice{}).Create(&Advice2)
 
-	Advice3 := Advice {
-		Advice: "เล่นเวทเทรนนิ่ง เพิ่มเป็นสัปดาห์ละ 3 วัน วันละ 1.5 ชม.",
-		RecordingTime: time.Now(),
-		Member: Member3,
-		Trainer: Trainer2,
+	Advice3 := Advice{
+		Advice:         "เล่นเวทเทรนนิ่ง เพิ่มเป็นสัปดาห์ละ 3 วัน วันละ 1.5 ชม.",
+		RecordingDate: time.Now(),
+		Member:         Member3,
+		Trainer:        Trainer2,
 		// Body: ,
 		// DailyActivitie: ,
 	}
 	db.Model(&Advice{}).Create(&Advice3)
+	Discount1 := Discount{
+		DiscountCode:       "NOCODE",
+		DiscountPercentage: 0,
+	}
+	db.Model(&Discount{}).Create(&Discount1)
+	Discount2 := Discount{
+		DiscountCode:       "HEALTHY",
+		DiscountPercentage: 10,
+	}
+	db.Model(&Discount{}).Create(&Discount2)
+	Discount3 := Discount{
+		DiscountCode:       "LOVE20",
+		DiscountPercentage: 20,
+	}
+	db.Model(&Discount{}).Create(&Discount3)
+	Discount4 := Discount{
+		DiscountCode:       "S02G19",
+		DiscountPercentage: 50,
+	}
+	db.Model(&Discount{}).Create(&Discount4)
+
+	Duration1 := Duration{
+		NumberOfDays:       30,
+		DurationPercentage: 0,
+	}
+	db.Model(&Duration{}).Create(&Duration1)
+	Duration2 := Duration{
+		NumberOfDays:       60,
+		DurationPercentage: 5,
+	}
+	db.Model(&Duration{}).Create(&Duration2)
+
+	// --------------------------------------------------------------------------------------------------
+	// ----------------------------------------  MealPlan  ----------------------------------------------
+	// --------------------------------------------------------------------------------------------------
+	MealTypeA := MealType{
+		Name: "beakfast",
+	}
+	db.Model(&MealType{}).Create(&MealTypeA)
+
+	MealTypeB := MealType{
+		Name: "lunch",
+	}
+	db.Model(&MealType{}).Create(&MealTypeB)
+
+	MealTypeC := MealType{
+		Name: "dinner",
+	}
+	db.Model(&MealType{}).Create(&MealTypeC)
+
+	DayOfWeeksA := DayOfWeeks{
+		Name: "Sunday",
+	}
+	db.Model(&DayOfWeeks{}).Create(&DayOfWeeksA)
+
+	DayOfWeeksB := DayOfWeeks{
+		Name: "Monday",
+	}
+	db.Model(&DayOfWeeks{}).Create(&DayOfWeeksB)
+
+	DayOfWeeksC := DayOfWeeks{
+		Name: "Friday",
+	}
+	db.Model(&DayOfWeeks{}).Create(&DayOfWeeksC)
+
+	NutritiousA := Nutritious{
+		Calories:     271.1,
+		Carbohydrate: 10,
+		Protein:      21.5,
+	}
+	db.Model(&Nutritious{}).Create(&NutritiousA)
+
+	NutritiousB := Nutritious{
+		Calories:     252,
+		Carbohydrate: 21.5,
+		Protein:      25,
+	}
+	db.Model(&Nutritious{}).Create(&NutritiousB)
+
+	NutritiousC := Nutritious{
+		Calories:     311.5,
+		Carbohydrate: 19,
+		Protein:      12.5,
+	}
+	db.Model(&Nutritious{}).Create(&NutritiousC)
+
+	//Main Entity
+	MealPlanA := MealPlan{
+		Name:            "Meal Plan A",
+		Notes:           "รับประทานโปรตีนเพิ่ม",
+		Date:            time.Now(),
+		MealType:        MealTypeA,
+		DayOfWeeks:      DayOfWeeksA,
+		Nutritious:      NutritiousA,
+		Admin:           AdminA,
+		Member:          Member1,
+		FoodInformation: FoodInformationA,
+	}
+	db.Model(&MealPlan{}).Create(&MealPlanA)
+
+	MealPlanB := MealPlan{
+		Name:            "Meal Plan B",
+		Notes:           "รับประทานอาหารเพิ่มเป็น 4 มื้อ",
+		Date:            time.Now(),
+		MealType:        MealTypeB,
+		DayOfWeeks:      DayOfWeeksB,
+		Nutritious:      NutritiousB,
+		Admin:           AdminB,
+		Member:          Member2,
+		FoodInformation: FoodInformationB,
+	}
+	db.Model(&MealPlan{}).Create(&MealPlanB)
+
+	MealPlanC := MealPlan{
+		Name:            "Meal Plan C",
+		Notes:           "งดอาหารรสจัด",
+		Date:            time.Now(),
+		MealType:        MealTypeC,
+		DayOfWeeks:      DayOfWeeksC,
+		Nutritious:      NutritiousC,
+		Admin:           AdminC,
+		Member:          Member3,
+		FoodInformation: FoodInformationA,
+	}
+	db.Model(&MealPlan{}).Create(&MealPlanC)
+
+	//--------------------------------------------------------------------------------------------------
+	//----------------------------------------  DailyActivities  ---------------------------------------
+	//--------------------------------------------------------------------------------------------------
+	FoodAllergiesA := FoodAllergies{
+		Allergen:      "ไข่ นม",
+		AllergyType:   "ชนิดไม่เฉียบพลัน",
+		Reaction:      "อาการจะค่อยๆ เกิดขึ้นหลังจากทานอาหารเข้าไปแล้ว หลายชั่วโมงหรืออาจเป็นวัน เช่น เป็นผื่นโดยจะมีผื่นแดง",
+		LastReactDate: time.Date(2023, time.January, 3, 15, 03, 00, 0, time.UTC),
+	}
+	db.Model(&FoodAllergies{}).Create(&FoodAllergiesA)
+
+	FoodAllergiesB := FoodAllergies{
+		Allergen:      "ถั่ว",
+		AllergyType:   "ชนิดเฉียบพลัน",
+		Reaction:      "อาการจะเกิดขึ้นภายใน 30 นาที-1 ชั่วโมง หลังจากทานอาหารเข้าไปและมีความเสี่ยงที่จะเกิดอาการแพ้รุนแรงได้ เช่น มีอาการตาบวม ปากบวม ผื่นลมพิษ หลอดลมตีบ ไอ แน่นหน้าอก หายใจไม่ออก ปวดท้อง อาเจียน",
+		LastReactDate: time.Date(2023, time.January, 3, 15, 03, 00, 0, time.UTC),
+	}
+	db.Model(&FoodAllergies{}).Create(&FoodAllergiesB)
+
+	FoodAllergiesC := FoodAllergies{
+		Allergen:      "อาหารทะเล",
+		AllergyType:   "ชนิดรุนแรง",
+		Reaction:      "เป็นอาการแพ้ในระดับรุนแรงที่สุดและเป็นอันตรายถึงชีวิต โดยอาการอาจเกิดขึ้นทันทีที่ทานอาหารที่แพ้เข้าไป อาการที่เกิดขึ้นได้แก่ ผื่นแดงตามผิวหนัง ลมพิษ คัน ผิวหนัง แดงหรือซีด เวียนศีรษะ หน้ามืดคล้ายจะเป็นลม คลื่นไส้ อาเจียน ปวดท้อง หรือท้องเสีย",
+		LastReactDate: time.Date(2023, time.January, 3, 15, 03, 00, 0, time.UTC),
+	}
+	db.Model(&FoodAllergies{}).Create(&FoodAllergiesC)
+
+	ActivitiesTypeA := ActivitiesType{
+		Name: "Balance",
+	}
+	db.Model(&ActivitiesType{}).Create(&ActivitiesTypeA)
+
+	ActivitiesTypeB := ActivitiesType{
+		Name: "Aerobic",
+	}
+	db.Model(&ActivitiesType{}).Create(&ActivitiesTypeB)
+
+	ActivitiesTypeC := ActivitiesType{
+		Name: "Muscle-strengthening",
+	}
+	db.Model(&ActivitiesType{}).Create(&ActivitiesTypeC)
+
+	DailyActivitiesA := DailyActivities{
+		Name:           "เดิน",
+		Duration:       "45 นาที",
+		Date:           time.Date(2023, time.January, 3, 15, 03, 00, 0, time.UTC),
+		ActivitiesType: ActivitiesTypeA,
+		Admin:          AdminA,
+		Member:         Member1,
+	}
+	db.Model(&DailyActivities{}).Create(&DailyActivitiesA)
+
+	DailyActivitiesB := DailyActivities{
+		Name:           "วิ่ง",
+		Duration:       "1 ชั่วโมง",
+		Date:           time.Date(2023, time.January, 3, 15, 03, 00, 0, time.UTC),
+		ActivitiesType: ActivitiesTypeB,
+		Admin:          AdminB,
+		Member:         Member2,
+	}
+	db.Model(&DailyActivities{}).Create(&DailyActivitiesB)
+
+	DailyActivitiesC := DailyActivities{
+		Name:           "ปืนเขา",
+		Duration:       "2 ชั่ว",
+		Date:           time.Date(2023, time.January, 3, 15, 03, 00, 0, time.UTC),
+		ActivitiesType: ActivitiesTypeC,
+		Admin:          AdminC,
+		Member:         Member3,
+	}
+	db.Model(&DailyActivities{}).Create(&DailyActivitiesC)
 
 }

@@ -10,8 +10,11 @@ import Article from "./components/blog/Article";
 import SignIn from "./components/SignIn";
 import CreateArticle from "./components/blog/CreateArticle";
 import UpdateArticle from "./components/blog/UpdateArticle";
+import Register from "./components/Register";
 import Home from "./components/Home";
 import ShowCardCourseService from "./components/CourseService/ShowCardCourseService";
+import FoodDisplay from "./components/FoodInformation/FoodDisplay";
+import CreateFood from "./components/FoodInformation/CreateFood";
 
 function App() {
   const [token, setToken] = useState<String>("");
@@ -41,6 +44,9 @@ function App() {
           <Route path="course" element={<ShowCardCourseService  />} />
           <Route path="article/create-article" element={<CreateArticle />} />
           <Route path="article/:id/update-article" element={<UpdateArticle />} />
+          <Route path="/register" element={<Register />}></Route>
+          <Route path="/food-display" element={<FoodDisplay />}></Route>
+          <Route path="/food-display/create-food" element={<CreateFood />}></Route>
         </Route>
       </Routes>
     </div>

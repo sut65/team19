@@ -56,12 +56,13 @@ type Member struct {
 	GenderID *uint
 	Gender   Gender
 
-	CourseService  []CourseService  `gorm:"foreignKey:MemberID"`
-	Blogs          []Blog           `gorm:"foreignKey:MemberID"`
-	DailyActivitie []DailyActivitie `gorm:"foreignKey:MemberID"`
-	MealPlan       []MealPlan       `gorm:"foreignKey:MemberID"`
-	Body           []Body           `gorm:"foreignKey:MemberID"`
-	Advice         []Advice         `gorm:"foreignKey:MemberID"`
+	CourseService  []CourseService   `gorm:"foreignKey:MemberID"`
+	Blogs          []Blog            `gorm:"foreignKey:MemberID"`
+	DailyActivitie []DailyActivities `gorm:"foreignKey:MemberID"`
+	MealPlan       []MealPlan        `gorm:"foreignKey:MemberID"`
+	Body           []Body            `gorm:"foreignKey:MemberID"`
+	Advice         []Advice          `gorm:"foreignKey:MemberID"`
+	Reviews        []Review          `gorm:"foreignKey:MemberID"`
 }
 
 // -------------------------------------------<< ระบบจัดการคอร์ส >>------------------------------------
@@ -79,8 +80,8 @@ type Admin struct {
 	Email           string `gorm:"uniqueIndex"`
 	Name            string
 	Password        string
-	MealPlan        []MealPlan        `gorm:"foreignKey: AdminID"`
-	DailyActivitie  []DailyActivitie  `gorm:"foreignKey: AdminID"`
+	MealPlan        []MealPlan        `gorm:"foreignKey:AdminID"`
+	DailyActivitie  []DailyActivities `gorm:"foreignKey:AdminID"`
 	CourseDetail    []CourseDetail    `gorm:"foreignKey:AdminID"`
 	FoodInformation []FoodInformation `gorm:"foreignKey:AdminID"`
 }
@@ -96,7 +97,8 @@ type CourseDetail struct {
 	gorm.Model
 	CourseName string
 	CoverPage  string
-	Body       []Body `gorm:"foreignKey:CourseDetailID"`
+	Body       []Body   `gorm:"foreignKey:CourseDetailID"`
+	Reviews    []Review `gorm:"foreignKey:CourseDetailID"`
 
 	DescriptionID *uint
 	Description   Description
@@ -106,6 +108,30 @@ type CourseDetail struct {
 
 	PriceID *uint
 	Price   Price
+
+	CourseService []CourseService `gorm:"foreignKey:CourseDetailID"`
+}
+
+// Review
+type Rank struct {
+	gorm.Model
+	Name    string
+	Reviews []Review `gorm:"foreignKey:RankID"`
+}
+
+type Review struct {
+	gorm.Model
+	Content string
+	Image   string
+
+	MemberID *uint
+	Member   Member
+
+	CourseDetailID *uint
+	CourseDetail   CourseDetail
+
+	RankID *uint
+	Rank   Rank
 }
 
 // *****************************************************************
@@ -176,7 +202,7 @@ type Trainer struct {
 
 	CourseService []CourseService `gorm:"foreignKey:TrainerID"`
 	Body          []Body          `gorm:"foreignKey:TrainerID"`
-	Advice        []Advice        `gorm:"foreignKey:TeainerID"`
+	Advice        []Advice        `gorm:"foreignKey:TrainerID"`
 }
 
 // -------------------------------------------<<  >>------------------------------------
@@ -196,6 +222,8 @@ type CourseService struct {
 
 	TrainerID *uint
 	Trainer   Trainer
+
+	Payment []Payment `gorm:"foreignKey:CourseServiceID"`
 }
 
 // ================== ระบบข้อมูลอาหาร ==================
@@ -216,7 +244,7 @@ type FoodType struct {
 type FoodInformation struct {
 	gorm.Model
 	Name     string
-	Datetime time.Time
+	Datetime string
 	Image    string
 
 	AdminID *uint
@@ -228,7 +256,7 @@ type FoodInformation struct {
 	FoodTypeID *uint
 	FoodType   FoodType
 
-	MealPlan []MealPlan `gorm:"foreignKey: FoodInformationID"`
+	MealPlan []MealPlan `gorm:"foreignKey:FoodInformationID"`
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -238,14 +266,14 @@ type FoodInformation struct {
 type ActivitiesType struct {
 	gorm.Model
 	Name           string
-	DailyActivitie []DailyActivitie `gorm:"foreignKey: ActivitiesType"`
+	DailyActivitie []DailyActivities `gorm:"foreignKey:ActivitiesTypeID"`
 }
 
 type MealTimes struct {
 	gorm.Model
 	Type     string
-	MealTime string
-	Member   []Member `gorm:"foreignKey: MealTimes"`
+	MealTime time.Time
+	Member   []Member `gorm:"foreignKey:MealTimesID"`
 }
 type FoodAllergies struct {
 	gorm.Model
@@ -253,7 +281,7 @@ type FoodAllergies struct {
 	AllergyType   string
 	Reaction      string
 	LastReactDate time.Time
-	Member        []Member `gorm:"foreignKey: FoodAllergiesID"`
+	Member        []Member `gorm:"foreignKey:FoodAllergiesID"`
 }
 
 type BedTimes struct {
@@ -261,11 +289,11 @@ type BedTimes struct {
 	BedTime  time.Time
 	WakeUp   time.Time
 	Duration float32
-	Member   []Member `gorm:"foreignKey: BedTimesID"`
+	Member   []Member `gorm:"foreignKey:BedTimesID"`
 }
 
 // Main Entity
-type DailyActivitie struct {
+type DailyActivities struct {
 	gorm.Model
 
 	Name     string
@@ -289,23 +317,23 @@ type MealType struct {
 	gorm.Model
 
 	Name     string
-	MealPlan []MealPlan `gorm:"foreignKey: MealType"`
+	MealPlan []MealPlan `gorm:"foreignKey:MealTypeID"`
 }
 
 type DayOfWeeks struct {
 	gorm.Model
 
 	Name     string
-	MealPlan []MealPlan `gorm:"foreignKey: DayOfWeeks"`
+	MealPlan []MealPlan `gorm:"foreignKey: DayOfWeeksID"`
 }
 
 type Nutritious struct {
 	gorm.Model
 
-	Energy       uint
-	Carbohydrate uint
-	protein      uint
-	MealPlan     []MealPlan `gorm:"foreignKey: Nutritious"`
+	Calories     float32
+	Carbohydrate float32
+	Protein      float32
+	MealPlan     []MealPlan `gorm:"foreignKey: NutritiousID"`
 }
 
 // Main Entity
@@ -330,14 +358,17 @@ type MealPlan struct {
 
 	DayOfWeeksID *uint
 	DayOfWeeks   DayOfWeeks
+
+	NutritiousID *uint
+	Nutritious   Nutritious
 }
 
 // -------------------------------------------<< ระบบให้คำแนะนำ >>------------------------------------
 type Advice struct {
 	gorm.Model
 
-	Advice        string
-	RecordingTime time.Time
+	Advice         string
+	RecordingDate time.Time `valid:"past"`
 
 	MemberID *uint
 	Member   Member
@@ -348,8 +379,8 @@ type Advice struct {
 	BodyID *uint
 	Body   Body
 
-	DailyActivitieID *uint
-	DailyActivitie   DailyActivitie
+	DailyActivitiesID *uint
+	DailyActivities   DailyActivities
 }
 
 // -------------------------------------------<< ระบบบันทึกการเปลี่ยนแปลงร่างกาย >>------------------------------------
@@ -377,3 +408,38 @@ type Body struct {
 	CourseDetailID *uint
 	CourseDetail   CourseDetail
 }
+
+// ============================== ระบบชำระเงิน ==============================
+type Discount struct {
+	gorm.Model
+	DiscountCode       string
+	DiscountPercentage int
+
+	Payment []Payment `gorm:"foreignKey:DiscountID"`
+}
+
+type Duration struct {
+	gorm.Model
+	NumberOfDays       int
+	DurationPercentage int
+
+	Payment []Payment `gorm:"foreignKey:DurationID"`
+}
+
+type Payment struct {
+	gorm.Model
+	PaymentDate time.Time
+	Slip        string
+	Balance     float32
+
+	CourseServiceID *uint
+	CourseService   CourseService
+
+	DurationID *uint
+	Duration   Duration
+
+	DiscountID *uint
+	Discount   Discount
+}
+
+// ========================================================================
