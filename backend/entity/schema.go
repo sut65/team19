@@ -368,7 +368,7 @@ type Advice struct {
 	gorm.Model
 
 	Advice         string
-	Recording_Time time.Time `valid:"past"`
+	RecordingDate time.Time `valid:"past"`
 
 	MemberID *uint
 	Member   Member
