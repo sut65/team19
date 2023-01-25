@@ -316,25 +316,24 @@ type DailyActivitie struct {
 type MealType struct {
 	gorm.Model
 
-	Type     string
-	MealTime time.Time
-	MealPlan []MealPlan `gorm:"foreignKey:MealOfDaysID"`
+	Name     string
+	MealPlan []MealPlan `gorm:"foreignKey:MealTypeID"`
 }
 
 type DayOfWeeks struct {
 	gorm.Model
 
 	Name     string
-	MealPlan []MealPlan `gorm:"foreignKey: DayOfWeeks"`
+	MealPlan []MealPlan `gorm:"foreignKey: DayOfWeeksID"`
 }
 
 type Nutritious struct {
 	gorm.Model
 
-	Energy       uint
-	Carbohydrate uint
-	protein      uint
-	MealPlan     []MealPlan `gorm:"foreignKey: Nutritious"`
+	Calories     float32
+	Carbohydrate float32
+	Protein      float32
+	MealPlan     []MealPlan `gorm:"foreignKey: NutritiousID"`
 }
 
 // Main Entity
@@ -359,6 +358,9 @@ type MealPlan struct {
 
 	DayOfWeeksID *uint
 	DayOfWeeks   DayOfWeeks
+
+	NutritiousID *uint
+	Nutritious   Nutritious
 }
 
 // -------------------------------------------<< ระบบให้คำแนะนำ >>------------------------------------
