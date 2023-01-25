@@ -282,23 +282,39 @@ type DailyActivitie struct {
 	Member   Member
 }
 
-// ====================================================================
-// ระบบวางแผนรายการอาหาร
-type MealOfDays struct {
+// --------------------------------------------------------------------------------------------------
+// ----------------------------------------  MealPlan  ----------------------------------------------
+// --------------------------------------------------------------------------------------------------
+type MealType struct {
 	gorm.Model
 
-	Type     string
-	MealTime time.Time
-	MealPlan []MealPlan `gorm:"foreignKey: MealOfDaysID"`
+	Name     string
+	MealPlan []MealPlan `gorm:"foreignKey: MealType"`
 }
 
+type DayOfWeeks struct {
+	gorm.Model
+
+	Name     string
+	MealPlan []MealPlan `gorm:"foreignKey: DayOfWeeks"`
+}
+
+type Nutritious struct {
+	gorm.Model
+
+	Energy       uint
+	Carbohydrate uint
+	protein      uint
+	MealPlan     []MealPlan `gorm:"foreignKey: Nutritious"`
+}
+
+// Main Entity
 type MealPlan struct {
 	gorm.Model
 
-	Creator     string
-	Description string
-	CreatedAt   time.Time
-	UpdateAt    time.Time
+	Name  string
+	Notes string
+	Date  time.Time
 
 	AdminID *uint
 	Admin   Admin
@@ -309,8 +325,11 @@ type MealPlan struct {
 	FoodInformationID *uint
 	FoodInformation   FoodInformation
 
-	MealOfDaysID *uint
-	MealOfDays   MealOfDays
+	MealTypeID *uint
+	MealType   MealType
+
+	DayOfWeeksID *uint
+	DayOfWeeks   DayOfWeeks
 }
 
 // -------------------------------------------<< ระบบให้คำแนะนำ >>------------------------------------
