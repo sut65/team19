@@ -87,7 +87,7 @@ function CreateFood() {
       reader.onload = function () {
         const dataURL = reader.result;
         setImage({ name: input.name, src: dataURL?.toString() as string });
-        if (event.target.name === "image") {
+        if (event.target.name === "Image") {
           setFoodInformation({ ...foodinformation, [name]: dataURL?.toString() });
         }
       };
@@ -282,8 +282,8 @@ function CreateFood() {
                 >
                 Upload
                 <input
-                    id="coverImage"
-                    name="CoverImage"
+                    id="image"
+                    name="Image"
                     hidden
                     accept="image/*"
                     multiple
