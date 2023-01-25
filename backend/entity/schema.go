@@ -231,20 +231,21 @@ type FoodInformation struct {
 	MealPlan []MealPlan `gorm:"foreignKey: FoodInformationID"`
 }
 
-// ====================================================================
-// ระบบสำรวจกิจวัตรประจำวัน
+//--------------------------------------------------------------------------------------------------
+//----------------------------------------  DailyActivities  ---------------------------------------
+//--------------------------------------------------------------------------------------------------
 
 type ActivitiesType struct {
 	gorm.Model
 	Name           string
-	DailyActivitie []DailyActivitie `gorm:"foreignKey: ActivitiesTypeID"`
+	DailyActivitie []DailyActivitie `gorm:"foreignKey: ActivitiesType"`
 }
 
 type MealTimes struct {
 	gorm.Model
 	Type     string
-	MealTime time.Time
-	Member   []Member `gorm:"foreignKey: MealTimesID"`
+	MealTime string
+	Member   []Member `gorm:"foreignKey: MealTimes"`
 }
 type FoodAllergies struct {
 	gorm.Model
@@ -263,11 +264,12 @@ type BedTimes struct {
 	Member   []Member `gorm:"foreignKey: BedTimesID"`
 }
 
+// Main Entity
 type DailyActivitie struct {
 	gorm.Model
 
 	Name     string
-	Duration float32
+	Duration string
 	Date     time.Time
 
 	AdminID *uint
@@ -278,8 +280,6 @@ type DailyActivitie struct {
 
 	MemberID *uint
 	Member   Member
-
-	Advice []Advice `gorm:"foreignKey:DailyActivitieID"`
 }
 
 // ====================================================================
