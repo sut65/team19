@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from '@mui/system';
 import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
+import { 
+    TextField,
+    SelectChangeEvent,
+    Button,
+    styled,
+    Select,
+} from '@mui/material';
 import Stack from '@mui/material/Stack';
-import Autocomplete from '@mui/material/Autocomplete';
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import dayjs, { Dayjs } from 'dayjs';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import Button from '@mui/material/Button';
 import { Link } from "react-router-dom";
 
 import { FoodTypeInterface } from '../../interfaces/IFoodType';
@@ -22,6 +25,10 @@ import {
     CreateFoodInformation,
     GetAdminByID,
  } from '../../services/HttpClientService';
+
+ const ImgBox = styled(Box)({
+    width: "280px",
+  });
 
 function CreateFood() {
 
@@ -47,6 +54,16 @@ function CreateFood() {
         setError(false);
     };
 
+    const handleChange = (
+        event: SelectChangeEvent<number>
+      ) => {
+        const name = event.target.name as keyof typeof foodinformation;
+        setFoodInformation({
+          ...foodinformation,
+          [name]: event.target.value
+        });
+      };
+
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const name = e.target.name;
       console.log(name);
@@ -70,7 +87,7 @@ function CreateFood() {
       reader.onload = function () {
         const dataURL = reader.result;
         setImage({ name: input.name, src: dataURL?.toString() as string });
-        if (event.target.name === "Image") {
+        if (event.target.name === "image") {
           setFoodInformation({ ...foodinformation, [name]: dataURL?.toString() });
         }
       };
@@ -138,20 +155,76 @@ function CreateFood() {
                 <h2> </h2>
             </Box>
             
-            <Stack direction="row" spacing={2}>
-
+        <Stack direction="row" spacing={2}>
+            
+            {/* ชื่ออาหาร*/}
             <TextField
-                id="outlined-required"
+                id="name"
+                name="Name"
+                value={foodinformation.Name}
+                onChange={handleInputChange}
+                placeholder="กรอกชื่ออาหาร"
                 label="ชื่ออาหาร"
             />
 
-            
-
-            
-
-              {/* เลือกวันเวลาที่เพิ่ม*/}
-              <Box
+            {/* วัตถุดิบหลัก*/}
+            <Box
                 sx={{
+                    width: "30%",
+                }}
+            >
+                <Select
+                    native
+                    fullWidth
+                    id="main_ingredient"
+                    value={foodinformation.MainIngredientID + ""}
+                    onChange={handleSelectChange}
+                    inputProps={{
+                    name: "MainIngredientID",
+                    }}
+                >
+                <option aria-label="None" value="">
+                    เลือกวัตถุดิบหลัก
+                </option>
+                {mainingredients.map((item: MainIngredientInterface) => (
+                <option key={item.ID} value={item.ID}>
+                    {item.Name}
+                </option>
+                ))}
+                    </Select>
+            </Box>
+            
+            {/* ประเภทอาหาร*/}
+            <Box
+                sx={{
+                    width: "30%",
+                }}
+            >
+                <Select
+                    native
+                    fullWidth
+                    id="food_type"
+                    value={foodinformation.FoodTypeID + ""}
+                    onChange={handleSelectChange}
+                    inputProps={{
+                    name: "FoodTypeID",
+                    }}
+                >
+                <option aria-label="None" value="">
+                    เลือกวัตถุดิบหลัก
+                </option>
+                {foodtypes.map((item: FoodTypeInterface) => (
+                <option key={item.ID} value={item.ID}>
+                    {item.Name}
+                </option>
+                ))}
+                    </Select>
+            </Box>
+
+
+            {/* เลือกวันเวลาที่เพิ่ม*/}
+            <Box
+            sx={{
                   display: "flex",
                   flexDirection: "column",
                   // gap: "2rem",
@@ -177,13 +250,13 @@ function CreateFood() {
                 </Box>
               </Box>
 
-            </Stack>
+        </Stack>
 
-            <Box>
-                <h2> </h2>
-            </Box>
+        <Box>
+            <h2> </h2>
+        </Box>
 
-            <Stack direction="row" spacing={2}>
+        <Stack direction="row" spacing={2}>
 
             {/* Admin ถูก Lock เป็น Disable*/}
             <Box sx={{ width: "30%" }}>
@@ -198,27 +271,30 @@ function CreateFood() {
             
             {/* ปุ่มอัพโหลดรูปภาพ*/}
             <Box>
-              <Button
+                <Button
                 variant="contained"
                 component="label"
                 sx={{
-    
-                  left: "0",
-                  backgroundColor: "#f2f2f2",
-                  color: "#252525",
+                    left: "0",
+                    backgroundColor: "#f2f2f2",
+                    color: "#252525",
                 }}
-              >
-                อัพโหลดรูปภาพ
+                >
+                Upload
                 <input
-                  id="Image"
-                  name="Image"
-                  hidden
-                  accept="image/*"
-                  multiple
-                  type="file"
-                  onChange={handleChangeImages}
+                    id="coverImage"
+                    name="CoverImage"
+                    hidden
+                    accept="image/*"
+                    multiple
+                    type="file"
+                    onChange={handleChangeImages}
                 />
-            </LocalizationProvider>
+                </Button>
+            </Box>
+            <ImgBox>
+                <img src={image.src} alt={image.name} style={{ width: "100%" }} />
+            </ImgBox>
 
             
             </Stack>
@@ -229,13 +305,6 @@ function CreateFood() {
 
             <Stack direction="row" spacing={2}>
 
-            
-
-            <Button variant="contained" component="label">
-                อัพโหลดรูปภาพ
-                <input hidden accept="image/*" multiple type="file" />
-            </Button>
-
             </Stack>
 
             <Box>
@@ -244,12 +313,12 @@ function CreateFood() {
             
             <Stack direction="row" spacing={2}>
 
-                <Button variant="outlined" color="success">
+                <Button variant="outlined" color="success" onClick={submit}>
                     เพิ่มอาหาร
                 </Button>
 
                 <Link
-                    to="/foodinfo"
+                    to="/food-display"
                     style={{
                     textDecoration: "none",
                     }}
@@ -260,10 +329,6 @@ function CreateFood() {
                  </Link>
 
             </Stack>
-
-           
-
-
         </Container>
     
     );

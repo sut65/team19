@@ -93,7 +93,7 @@ function FoodDisplay(
 
           {/* ปุ่มเพิ่มข้อมูล */}
           <Link
-            to="/foodinfo/create-food"
+            to="/food-display/create-food"
             style={{
               textDecoration: "none",
             }}
