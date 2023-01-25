@@ -30,7 +30,9 @@ func SetupDatabase() {
 		&FoodAllergies{},
 		&BedTimes{},
 		// Meal Plan ย่อย
-		// &MealOfDays{},
+		&MealType{},
+		&DayOfWeeks{},
+		&Nutritious{},
 		// Member
 		&Status{},
 		&Religion{},
