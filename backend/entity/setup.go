@@ -457,7 +457,7 @@ func SetupDatabase() {
 
 	Advice1 := Advice{
 		Advice:         "กินโปรตีนเพิ่มให้ได้ 2 g ต่อน้ำหนักตัว 1 kg",
-		Recording_Time: time.Now(),
+		RecordingDate: time.Now(),
 		Member:         Member1,
 		Trainer:        Trainer1,
 		// Body: ,
@@ -467,7 +467,7 @@ func SetupDatabase() {
 
 	Advice2 := Advice{
 		Advice:         "ออกกำลังกายแบบคาร์ดิโอเพิ่มเป็นสัปดาห์ละ 4 วัน วันละ 1 ชม.",
-		Recording_Time: time.Now(),
+		RecordingDate: time.Now(),
 		Member:         Member2,
 		Trainer:        Trainer2,
 		// Body: ,
@@ -477,7 +477,7 @@ func SetupDatabase() {
 
 	Advice3 := Advice{
 		Advice:         "เล่นเวทเทรนนิ่ง เพิ่มเป็นสัปดาห์ละ 3 วัน วันละ 1.5 ชม.",
-		Recording_Time: time.Now(),
+		RecordingDate: time.Now(),
 		Member:         Member3,
 		Trainer:        Trainer2,
 		// Body: ,
