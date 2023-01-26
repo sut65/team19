@@ -486,6 +486,16 @@ const GetAdminByID = async () => {
   return res;
 };
 
+const GetFoodInformations = async () => {
+  let res = await fetch(`${apiUrl}/main_ingredients`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
 export {
   GetCourseService,
   GetUser,
@@ -510,6 +520,7 @@ export {
   GetMainIngredients,
   CreateFoodInformation,
   GetAdminByID,
+  GetFoodInformations,
   // Review
   CreateReview,
   UpdateReview,

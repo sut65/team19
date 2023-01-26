@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from '@mui/system';
-import Box from '@mui/material/Box';
 import { 
     TextField,
     SelectChangeEvent,
     Button,
     styled,
     Select,
+    Box,
+    Stack,
 } from '@mui/material';
-import Stack from '@mui/material/Stack';
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
@@ -134,7 +134,7 @@ function CreateFood() {
     
         let res = await CreateFoodInformation(data);
         res ? setSuccess(true) : setError(true);
-        // window.location.href = "/food-display"
+        window.location.href = "/food-display"
         console.log(JSON.stringify(data))
       };
 
