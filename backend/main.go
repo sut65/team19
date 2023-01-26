@@ -6,9 +6,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team19/controller"
 	foodInformation "github.com/sut65/team19/controller/FoodInformation"
+	nutrient "github.com/sut65/team19/controller/Nutrient"
 	blog "github.com/sut65/team19/controller/blog"
 	review "github.com/sut65/team19/controller/review"
-	nutrient "github.com/sut65/team19/controller/Nutrient"
 	"github.com/sut65/team19/entity"
 	"github.com/sut65/team19/middlewares"
 )
@@ -145,6 +145,7 @@ func main() {
 	}
 	// login User Route
 	r.POST("/login", controller.Login)
+	r.POST("/trainerLogin", controller.LoginTrainer)
 
 	// Run the server go run main.go
 	r.Run("localhost: " + PORT)
