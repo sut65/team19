@@ -84,6 +84,7 @@ type Admin struct {
 	DailyActivitie  []DailyActivities `gorm:"foreignKey:AdminID"`
 	CourseDetail    []CourseDetail    `gorm:"foreignKey:AdminID"`
 	FoodInformation []FoodInformation `gorm:"foreignKey:AdminID"`
+	Nutrient		[]Nutrient		  `gorm:"foreignKey:AdminID"`
 }
 
 type Price struct {
@@ -455,7 +456,7 @@ type Nutrient struct {
 	gorm.Model
 	Comment				string
 	TotalCalorie		int
-	Date				time.Time
+	Date				string
 
 	AdminID 			*uint
 	Admin				Admin
@@ -463,8 +464,8 @@ type Nutrient struct {
 	MostNutrientID		*uint
 	MostNutrient		MostNutrient
 
-	// FoodInformationID	*uint
-	// FoodInformation		FoodInformation
+	FoodInformationID	int
+	FoodInformation		FoodInformation
 }
 
 // ========================================================================

@@ -685,4 +685,56 @@ func SetupDatabase() {
 	}
 	db.Model(&DailyActivities{}).Create(&DailyActivitiesC)
 
+	//==========================ระบบจัดการสารอาหาร==========================
+
+	MostNutrientA := MostNutrient{
+		Name: 				"คาร์โบไฮเดรต",
+		CaloriePerGram: 	4,
+	}
+	db.Model(&MostNutrient{}).Create(&MostNutrientA)
+
+	MostNutrientB := MostNutrient{
+		Name: 				"โปรตีน",
+		CaloriePerGram: 	4,
+	}
+	db.Model(&MostNutrient{}).Create(&MostNutrientB)
+
+	MostNutrientC := MostNutrient{
+		Name: 				"ไขมัน",
+		CaloriePerGram: 	9,
+	}
+	db.Model(&MostNutrient{}).Create(&MostNutrientC)
+
+	MostNutrientD := MostNutrient{
+		Name: 				"เกลือแร่",
+		CaloriePerGram: 	0,
+	}
+	db.Model(&MostNutrient{}).Create(&MostNutrientD)
+
+	MostNutrientE := MostNutrient{
+		Name: 				"วิตามิน",
+		CaloriePerGram: 	0,
+	}
+	db.Model(&MostNutrient{}).Create(&MostNutrientE)
+
+	NutrientA := Nutrient{
+		FoodInformation:	FoodInformationA,
+		MostNutrient:		MostNutrientA,
+		TotalCalorie:		165,
+		Comment:			"ไม่ควรกินเกิน 3 ฟอง",
+		Admin:				AdminA,
+		Date:				"20/12/2022 15:00",
+	}
+	db.Model(&Nutrient{}).Create(&NutrientA)
+
+	NutrientB := Nutrient{
+		FoodInformation:	FoodInformationB,
+		MostNutrient:		MostNutrientB,
+		TotalCalorie:		100,
+		Comment:			"กินเพื่อลดน้ำหนักได้ดี",
+		Admin:				AdminB,
+		Date:				"21/12/2022 16:00",
+	}
+	db.Model(&Nutrient{}).Create(&NutrientB)
+
 }
