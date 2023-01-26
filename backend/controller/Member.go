@@ -8,6 +8,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// ไม่ทำ
 // POST /member
 func CreateMember(c *gin.Context) {
 	var member entity.Member
