@@ -426,19 +426,54 @@ func SetupDatabase() {
 	}
 	db.Model(&MainIngredient{}).Create(&MainIngredientB)
 
+	MainIngredientC := MainIngredient{
+		Name:    "แป้ง",
+		Carolie: 364,
+		Type:    "วัตถุดิบจากพืช",
+	}
+	db.Model(&MainIngredient{}).Create(&MainIngredientC)
+
+	MainIngredientD := MainIngredient{
+		Name:    "เนื้อหมู",
+		Carolie: 242,
+		Type:    "วัตถุดิบจากสัตว์",
+	}
+	db.Model(&MainIngredient{}).Create(&MainIngredientD)
+
+	MainIngredientE := MainIngredient{
+		Name:    "เนื้อวัว",
+		Carolie: 250,
+		Type:    "วัตถุดิบจากสัตว์",
+	}
+	db.Model(&MainIngredient{}).Create(&MainIngredientE)
+
+	MainIngredientF := MainIngredient{
+		Name:    "ยีสต์",
+		Carolie: 325,
+		Type:    "วัตถุดิบจากจุลลินทรีย์",
+	}
+	db.Model(&MainIngredient{}).Create(&MainIngredientF)
+
+	MainIngredientG := MainIngredient{
+		Name:    "ผลไม้",
+		Carolie: 88,
+		Type:    "วัตถุดิบจากพืช",
+	}
+	db.Model(&MainIngredient{}).Create(&MainIngredientG)
+
 	FoodTypeA := FoodType{
-		Name: "อาหารเพื่อสุขภาพ",
+		Name: "อาหารคาว",
 	}
 	db.Model(&FoodType{}).Create(&FoodTypeA)
 
 	FoodTypeB := FoodType{
-		Name: "อาหาร Fast Food",
+		Name: "อาหารหวาน",
 	}
 	db.Model(&FoodType{}).Create(&FoodTypeB)
 
 	FoodInformationA := FoodInformation{
 		Name:           "ไข่เจียว",
-		Datetime:       "25/01/2023",
+		Datetime:       "25/1/2566 18:29:33",
 		Image:          "https://s359.kapook.com/pagebuilder/1c0a0dac-e4a9-4651-baa0-052a597ab7bf.jpg",
 		Admin:          AdminA,
 		MainIngredient: MainIngredientA,
@@ -447,9 +482,9 @@ func SetupDatabase() {
 	db.Model(&FoodInformation{}).Create(&FoodInformationA)
 
 	FoodInformationB := FoodInformation{
-		Name:           "ผัดคะน้า",
-		Datetime:       "25/01/2023",
-		Image:          "https://s359.kapook.com/pagebuilder/a8a1fb49-f651-40a5-9705-26a98ab0ea66.jpg",
+		Name:           "เค้กเรดเวลเวท",
+		Datetime:       "26/1/2566 19:45:54",
+		Image:          "https://s359.kapook.com/pagebuilder/9568b809-b606-404a-8253-26fe7287bda7.jpg",
 		Admin:          AdminB,
 		MainIngredient: MainIngredientB,
 		FoodType:       FoodTypeB,
