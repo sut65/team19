@@ -8,6 +8,7 @@ import (
 	foodInformation "github.com/sut65/team19/controller/FoodInformation"
 	blog "github.com/sut65/team19/controller/blog"
 	review "github.com/sut65/team19/controller/review"
+	nutrient "github.com/sut65/team19/controller/Nutrient"
 	"github.com/sut65/team19/entity"
 	"github.com/sut65/team19/middlewares"
 )
@@ -130,6 +131,16 @@ func main() {
 			router.GET("/advices", controller.ListAdvice)
 			router.DELETE("/advice/:id", controller.DeleteAdvice)
 			router.PATCH("/advices", controller.UpdateAdvice)
+
+			// Nutrient Routes
+			router.GET("/nutrients", nutrient.ListNutrients)
+			router.GET("/nutrient/:id", nutrient.GetNutrient)
+			router.POST("/nutrients", nutrient.CreateNutrient)
+			router.PATCH("/update-nutrient", nutrient.UpdateNutrient)
+			router.DELETE("/delete-nutrient/:id", nutrient.DeleteNutrient)
+
+			router.GET("/most_nutrients", nutrient.ListMostNutrients)
+			router.GET("/most_nutrient/:id", nutrient.GetMostNutrient)
 		}
 	}
 	// login User Route
