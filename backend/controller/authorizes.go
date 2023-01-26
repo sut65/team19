@@ -70,3 +70,50 @@ func Login(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": tokenResponse})
 }
+
+// POST /login
+func LoginTrainer(c *gin.Context) {
+	var payload LoginPayload
+	var trainer entity.Trainer
+
+	if err := c.ShouldBindJSON(&payload); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	// ค้นหา trainer ด้วย Emial ที่ผู้ใช้กรอกเข้ามา
+	if err := entity.DB().Raw("SELECT * FROM trainers WHERE email = ?", payload.Email).Scan(&trainer).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "email is incorrect"})
+		return
+	}
+
+	// ตรวจสอบรหัสผ่าน
+	err := bcrypt.CompareHashAndPassword([]byte(trainer.Password), []byte(payload.Password))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "password is incorrect"})
+		return
+	}
+
+	// กำหนดค่า SecretKey, Issuer และระยะเวลาหมดอายุของ Token สามารถกำหนดเองได้
+	// SecretKey ใช้สำหรับการ sign ข้อความเพื่อบอกว่าข้อความมาจากตัวเราแน่นอน
+	// Issuer เป็น unique id ที่เอาไว้ระบุตัว client
+	// ExpirationHours เป็นเวลาหมดอายุของ token
+
+	jwtWrapper := service.JwtWrapper{
+		SecretKey:       "SvNQpBN8y3qlVrsGAYYWoJJk56LtzFHx",
+		Issuer:          "AuthService",
+		ExpirationHours: 24,
+	}
+
+	signedToken, err := jwtWrapper.GenerateToken(trainer.Email)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "error signing token"})
+		return
+	}
+
+	tokenResponse := LoginResponse{
+		Token: signedToken,
+		ID:    trainer.ID,
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": tokenResponse})
+}
