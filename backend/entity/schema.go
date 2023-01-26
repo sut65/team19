@@ -84,6 +84,7 @@ type Admin struct {
 	DailyActivitie  []DailyActivities `gorm:"foreignKey:AdminID"`
 	CourseDetail    []CourseDetail    `gorm:"foreignKey:AdminID"`
 	FoodInformation []FoodInformation `gorm:"foreignKey:AdminID"`
+	Nutrient		[]Nutrient		  `gorm:"foreignKey:AdminID"`
 }
 
 type Price struct {
@@ -226,7 +227,7 @@ type CourseService struct {
 	Payment []Payment `gorm:"foreignKey:CourseServiceID"`
 }
 
-// ================== ระบบข้อมูลอาหาร ==================
+// ================== ระบบจัดการข้อมูลอาหาร ==================
 type MainIngredient struct {
 	gorm.Model
 	Name            string
@@ -440,6 +441,31 @@ type Payment struct {
 
 	DiscountID *uint
 	Discount   Discount
+
+}
+
+// ================== ระบบจัดการสารอาหาร ==================
+type MostNutrient struct {
+	gorm.Model
+	Name				string
+	CaloriePerGram		int
+	Nutrient			[]Nutrient `gorm:"foreignKey:MostNutrientID"`
+}
+
+type Nutrient struct {
+	gorm.Model
+	Comment				string
+	TotalCalorie		int
+	Date				string
+
+	AdminID 			*uint
+	Admin				Admin
+
+	MostNutrientID		*uint
+	MostNutrient		MostNutrient
+
+	FoodInformationID	int
+	FoodInformation		FoodInformation
 }
 
 // ========================================================================
