@@ -16,11 +16,9 @@ import Avatar from '@mui/material/Avatar';
 import ButtonGroup from '@mui/material';
 
 import { FoodInformationInterface } from '../../interfaces/IFoodInformation';
-import { GetFoodInformations } from '../../services/HttpClientService';
 
 function FoodDisplay( 
 ) {
-  const apiUrl = "http://localhost:8080";
   const [foodinformations, setFoodInformations] = useState<FoodInformationInterface[]>([]);
 
   const fetchFoodInformation = async () => {
@@ -137,12 +135,12 @@ function FoodDisplay(
                     <TableCell align="center">{foodinformations.FoodType?.Name}</TableCell>
                     <TableCell align="center">{foodinformations.Datetime}</TableCell>
                     <TableCell align="center">{foodinformations.Admin?.Name}</TableCell>
-                    <TableCell align="center">
-                      {/* <ButtonGroup color="primary" aria-label="outlined primary button group">
+                    {/* <TableCell align="center">
+                      <ButtonGroup color="primary" aria-label="outlined primary button group">
                         <Button onClick={() => UpdateUser(user.id)}>Edit</Button>
                         <Button onClick={() => UserDelete(user.id)}>Del</Button>
-                      </ButtonGroup> */}
-                    </TableCell>
+                      </ButtonGroup>
+                    </TableCell> */}
                   </TableRow>
                 ))}
               </TableBody>
