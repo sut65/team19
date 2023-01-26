@@ -80,11 +80,11 @@ const fetchAdminByID = async () => {
 // เพิ่มข้อมูลเข้า Database
 const submit = async () => {
     let data = {
-      MostNutrienID: convertType(nutrient.MostNutrientID),
+      MostNutrientID: convertType(nutrient.MostNutrientID),
       FoodInformationID: convertType(nutrient.FoodInformationID),
       AdminID: convertType(nutrient.AdminID),
       Comment: nutrient.Comment,
-      TotalCalorie: nutrient.TotalCalorie,
+      TotalCalorie: convertType(nutrient.TotalCalorie),
       Date: date?.toLocaleString(),
       };
 
@@ -164,7 +164,7 @@ useEffect(() => {
                 <Select
                     native
                     fullWidth
-                    id="most_nutrient"
+                    id="mostnutrient"
                     value={nutrient.MostNutrientID + ""}
                     onChange={handleSelectChange}
                     inputProps={{
@@ -185,14 +185,15 @@ useEffect(() => {
             {/* แคลอรี่ทั้งหมด */}
             <TextField
                 label="แคลอรี่ทั้งหมดของอาหาร"
-                id="calorie_per_gram"
+                id="totalcalorie"
                 type="number"
+                name="TotalCalorie"
                 placeholder="กรอกแคลอรี่"
                 onChange={handleInputChange}
                 value={nutrient.TotalCalorie}
                 sx={{ m: 1, width: '15%' }}
                 InputProps={{
-                    startAdornment: <InputAdornment position="start">kg</InputAdornment>,
+                    startAdornment: <InputAdornment position="start">Kcal</InputAdornment>,
                     inputProps: {min: 0}
                 }}
             />
