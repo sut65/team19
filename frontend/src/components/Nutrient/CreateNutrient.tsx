@@ -3,6 +3,7 @@ import { Container, Box } from '@mui/system';
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { Link } from "react-router-dom";
 import { 
     Paper,
     Select,
@@ -282,9 +283,22 @@ useEffect(() => {
 
             <Stack direction="row" spacing={3}>
 
+            {/* ปุ่มยืนยันและย้อนกลับ */}
+
             <Button variant="outlined" color="success" onClick={submit}>
                     เพิ่มสารอาหาร
             </Button>
+
+            <Link
+                to="/nutrient-display"
+                style={{
+                textDecoration: "none",
+                }}
+            >
+                <Button variant="outlined" color="secondary">
+                ย้อนกลับ
+                </Button>
+            </Link>
 
             </Stack>
 
