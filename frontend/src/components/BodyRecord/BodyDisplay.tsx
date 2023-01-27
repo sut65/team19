@@ -8,9 +8,7 @@ import Body from "../../images/Body.png"
 import exercise from "../../images/exercies.jpg"
 
 //Interface
-import { FoodInformationInterface } from '../../interfaces/IFoodInformation';
 import { BodyInterface } from '../../interfaces/IBody';
-import { DeleteFoodInformation, GetFoodInformations } from '../../services/HttpClientService';
 import { DeleteInfoBody, GetInfoBody } from '../../services/HttpClientService';
 
 function BodyDisplay() {
@@ -37,7 +35,7 @@ function BodyDisplay() {
   const DeleteBody = async (id : string) => {
     let res = await DeleteInfoBody(id);
     if (res) {
-      window.location.href = "/BodyRecord";
+      window.location.href = "/BodyDisplay";
     }
   }
 
@@ -50,18 +48,17 @@ function BodyDisplay() {
     sx={{
       display: "flex",
       flexDirection: "column",
-      justifyContent: "center",
       alignItems: "center",
+      overflow :"auto",
       gap: 6,
       height: "100vh",
       width: "100vw",
-      overflow: "hidden",
       backgroundSize: "cover",
       color: "#f5f5f5",
       backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url(${exercise})`,
     }}
   >
-    <Container sx ={{marginRight:65}}>
+    <Container sx={{ margin: "3rem" }}>
         {/* Header */}
         <Stack direction="row" spacing={2}>
 
@@ -79,7 +76,7 @@ function BodyDisplay() {
 
           {/* ปุ่มเพิ่มข้อมูล */}
           <Link
-            to="/food-display/create-food"
+            to="/BodyRecord"
             style={{textDecoration: "none",}}
             >
             <Button variant="contained" color="info">
@@ -93,38 +90,38 @@ function BodyDisplay() {
         <h1> </h1>
   
         {/* ตาราง */}
-        <TableContainer component={Paper} sx ={{width:1500,marginRight:200}}>
+        <TableContainer component={Paper} sx ={{width:"100%",marginRight:0}}>
           <Table aria-label="simple table">
-            <TableHead>
+            <TableHead >
               <TableRow>
-                <TableCell align="right">ไอดี</TableCell>
-                <TableCell align="center">ส่วนสูง</TableCell>
-                <TableCell align="center">น้ำหนัก</TableCell>
-                <TableCell align="center">สะโพก</TableCell>
-                <TableCell align="center">ต้นแขนซ้าย</TableCell>
-                <TableCell align="center">ต้นแขนขวา</TableCell>
-                <TableCell align="center">ต้นขาซ้าย</TableCell>
-                <TableCell align="center">ต้นขาขวา</TableCell>
-                <TableCell align="center">เอวคอด</TableCell>
-                <TableCell align="center">เอวสะดือ</TableCell>
-                <TableCell align="center">BMI</TableCell>
-                <TableCell align="center">Note</TableCell>
+                <TableCell align="right" width={50} sx ={{color:"#ec407a"}}>ไอดี</TableCell>
+                <TableCell align="right" width={100} sx ={{color:"#3f51b5"}}>ส่วนสูง</TableCell>
+                <TableCell align="right" width={100} sx ={{color:"#3f51b5"}}>น้ำหนัก</TableCell>
+                <TableCell align="right" width={100} sx ={{color:"#3f51b5"}}>สะโพก</TableCell>
+                <TableCell align="right" width={100} sx ={{color:"#3f51b5"}}>ต้นแขนซ้าย</TableCell>
+                <TableCell align="right" width={100} sx ={{color:"#3f51b5"}}>ต้นแขนขวา</TableCell>
+                <TableCell align="right" width={100} sx ={{color:"#3f51b5"}}>ต้นขาซ้าย</TableCell>
+                <TableCell align="right" width={100} sx ={{color:"#3f51b5"}}>ต้นขาขวา</TableCell>
+                <TableCell align="right" width={100} sx ={{color:"#3f51b5"}}>เอวคอด</TableCell>
+                <TableCell align="right" width={100} sx ={{color:"#3f51b5"}}>เอวสะดือ</TableCell>
+                <TableCell align="right" sx ={{color:"#4db6ac"}}>BMI</TableCell>
+                <TableCell align="right" sx ={{color:"#78909c"}}>Note</TableCell>
               </TableRow>
             </TableHead>
               <TableBody>
                 {infoBody.map((infoBody) => (
                   <TableRow key={infoBody.ID}>
-                    <TableCell align="right">{infoBody.ID}</TableCell>
-                    <TableCell align="center">{String(infoBody.Hieght)+" cm"}</TableCell>
-                    <TableCell align="center">{String(infoBody.Weight)+" cm"}</TableCell>
-                    <TableCell align="center">{String(infoBody.Hip)+" cm"}</TableCell>
-                    <TableCell align="center">{String(infoBody.UpperArmLeft)+" cm"}</TableCell>
-                    <TableCell align="center">{String(infoBody.UpperArmLeft)+" cm"}</TableCell>
-                    <TableCell align="center">{String(infoBody.LeftThigh)+" cm"}</TableCell>
-                    <TableCell align="center">{String(infoBody.RightThigh)+" cm"}</TableCell>
-                    <TableCell align="center">{String(infoBody.NarrowWaist)+" cm"}</TableCell>
-                    <TableCell align="center">{String(infoBody.NavelWaist)+" cm"}</TableCell>
-                    <TableCell align="center">{String(infoBody.Bmi)+" cm"}</TableCell>
+                    <TableCell align="right" >{infoBody.ID}</TableCell>
+                    <TableCell align="center">{String(infoBody.Hieght)}</TableCell>
+                    <TableCell align="center">{String(infoBody.Weight)}</TableCell>
+                    <TableCell align="center">{String(infoBody.Hip)}</TableCell>
+                    <TableCell align="center">{String(infoBody.UpperArmLeft)}</TableCell>
+                    <TableCell align="center">{String(infoBody.UpperArmLeft)}</TableCell>
+                    <TableCell align="center">{String(infoBody.LeftThigh)}</TableCell>
+                    <TableCell align="center">{String(infoBody.RightThigh)}</TableCell>
+                    <TableCell align="center">{String(infoBody.NarrowWaist)}</TableCell>
+                    <TableCell align="center">{String(infoBody.NavelWaist)}</TableCell>
+                    <TableCell align="center">{String(infoBody.Bmi)}</TableCell>
                     <TableCell align="center">{infoBody.Note}</TableCell>
                     {/* ปุ่มลบข้อมูล */}
                     <TableCell align="right">

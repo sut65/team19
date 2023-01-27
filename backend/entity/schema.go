@@ -63,6 +63,7 @@ type Member struct {
 	Body           []Body            `gorm:"foreignKey:MemberID"`
 	Advice         []Advice          `gorm:"foreignKey:MemberID"`
 	Reviews        []Review          `gorm:"foreignKey:MemberID"`
+	Behavior       []Behavior        `gorm:"foreignKey:MemberID"`
 }
 
 // -------------------------------------------<< ระบบจัดการคอร์ส >>------------------------------------
@@ -443,6 +444,8 @@ type Payment struct {
 	Discount   Discount
 }
 
+// ======================================================
+
 // ================== ระบบจัดการสารอาหาร ==================
 type MostNutrient struct {
 	gorm.Model
@@ -467,4 +470,30 @@ type Nutrient struct {
 	FoodInformation   FoodInformation
 }
 
-// ========================================================================
+// ================== ระบบสำรวจพฤติกรรมก่อนเข้าเทรน ==================
+type Exercise struct {
+	gorm.Model
+	Name     string
+	Behavior []Behavior `gorm:"foreignKey:ExerciseID"`
+}
+
+type Taste struct {
+	gorm.Model
+	Name     string
+	Behavior []Behavior `gorm:"foreignKey:TasteID"`
+}
+
+type Behavior struct {
+	gorm.Model
+	Meals string
+	Time  string
+
+	MemberID *uint
+	Member   Member
+
+	ExerciseID *uint
+	Exercise   Exercise
+
+	TasteID *uint
+	Taste   Taste
+}

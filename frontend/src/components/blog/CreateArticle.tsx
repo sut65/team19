@@ -12,7 +12,7 @@ import {
 // import { Box } from "@mui/system";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
-import { UserInterface } from "../../interfaces/IUser";
+import { MemberInterface } from "../../interfaces/IMember";
 import { CategoryInterface } from "../../interfaces/ICategory";
 import { TagInterface } from "../../interfaces/ITag";
 import { BlogInterface } from "../../interfaces/IBlog";
@@ -114,7 +114,7 @@ function CreateArticle() {
 
     let res = await CreateBlog(data);
     res ? setSuccess(true) : setError(true);
-    window.location.href = "/articles"
+    window.location.href = "/user/articles"
   };
 
   useEffect(() => {
@@ -305,7 +305,7 @@ function CreateArticle() {
         >
           Publish
         </Button>
-        <Link to="/articles" style={{ textDecoration: "none" }}>
+        <Link to="/user/articles" style={{ textDecoration: "none" }}>
           <Button
             className="btn-user"
             variant="contained"

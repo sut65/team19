@@ -94,25 +94,48 @@ func DeleteFoodInformation(c *gin.Context) {
 
 // PATCH /food_information
 func UpdateFoodInformation(c *gin.Context) {
-	var food_information entity.FoodInformation
-	var newFood_information entity.FoodInformation
+	var foodinformation entity.FoodInformation
+	var admin entity.Admin
+	var mainingredient entity.MainIngredient
+	var foodtype entity.FoodType
 
-	if err := c.ShouldBindJSON(&food_information); err != nil {
+	if err := c.ShouldBindJSON(&foodinformation); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	newFood_information.Name = food_information.Name
-	newFood_information.Image = food_information.Image
-	newFood_information.Datetime = food_information.Datetime
-	newFood_information.Admin = food_information.Admin
-	newFood_information.MainIngredient = food_information.MainIngredient
-	newFood_information.FoodType = food_information.FoodType
-
-	if err := entity.DB().Where("id = ?", food_information.ID).Updates(&newFood_information).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	// ค้นหา admin ด้วย id
+	if tx := entity.DB().Where("id = ?", foodinformation.AdminID).First(&admin); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "admin not found"})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": newFood_information})
+	// ค้นหา main_ingredient ด้วย id
+	if tx := entity.DB().Where("id = ?", foodinformation.MainIngredientID).First(&mainingredient); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "main_ingredient not found"})
+		return
+	}
+
+	// ค้นหา food_type ด้วย id
+	if tx := entity.DB().Where("id = ?", foodinformation.FoodTypeID).First(&foodtype); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "food_type not found"})
+		return
+	}
+
+	// สร้าง food_information
+	update := entity.FoodInformation{
+		Admin:   			admin,
+		MainIngredient:     mainingredient,
+		FoodType:       	foodtype,
+		Image: 				foodinformation.Image,
+		Name:     			foodinformation.Name,
+		Datetime:    		foodinformation.Datetime,
+	}
+
+	// บันทึก
+	if err := entity.DB().Where("id = ?", foodinformation.ID).Updates(&update).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusCreated, gin.H{"data": update})
 }

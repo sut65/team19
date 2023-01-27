@@ -19,12 +19,13 @@ import PaymentRoundedIcon from '@mui/icons-material/PaymentRounded';
 import { Avatar } from '@mui/material';
 
 import Healthy from "../images/Health.png"
+import AppLogo from "../images/nutrition.png"
 
 
 import '../App.css';
 import '../index.css';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { UserInterface } from "../interfaces/IUser";
+import { MemberInterface } from "../interfaces/IMember";
 
 const apiUrl = `http://localhost:8080`;
 
@@ -60,17 +61,18 @@ function Navbar() {
   return (
     <ThemeProvider theme={theme}>
       <Fragment>
-        <Box sx={{marginBottom: "7rem"}}>
+        <Box sx={{marginBottom: ""}}>
           <AppBar
-            // position="static"
+            position="static"
             sx={{
               bgcolor: "#f5f5f5",
               color: "#000000",
               paddingTop: 2,
-              paddingBottom: 0.5
+              paddingBottom: 0.5,
+              padding: "0"
             }}
           >
-            <Grid container spacing={2} 
+            <Grid container spacing={0} 
               sx={{
                 marginLeft: "2%",
                 marginRight: "2%",
@@ -80,20 +82,22 @@ function Navbar() {
                 alignItems: "center",
               }}
             >
-              <Grid item xs={2}>
-                <Link
-                  to="/"
-                  style={{
-                    color: "#000",
-                    textDecoration: "none",
-                    textAlign: "center",
-                  }}
-                >
-                  <Typography component="div" sx={{ flexGrow: 1 , fontWeight: "bold", fontSize: 30 }}>
-                    Nutrition
-                  </Typography>
-                  
-                </Link>
+              <Grid item xs={1.2}>
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: "space-between" }}>
+                  <img style={{height: 40, justifyItems: 'center' }} src={AppLogo} alt="logo" />
+                  <Link
+                    to="/user"
+                    style={{
+                      color: "#000",
+                      textDecoration: "none",
+                      textAlign: "center",
+                    }}
+                  >
+                    <Typography component="div" sx={{ flexGrow: 1 , fontWeight: "bold", fontSize: 30 }}>
+                      Nutrition
+                    </Typography>
+                  </Link>
+                </Box>
               </Grid>
 
               <Grid item xs={5}></Grid>
@@ -108,7 +112,7 @@ function Navbar() {
 
               <Grid item xs={1}>
                 <Link
-                  to="course"
+                  to="register-course"
                   style={{
                     color: "#000",
                     textDecoration: "none",
@@ -137,7 +141,7 @@ function Navbar() {
               {/* =====================================< Body Record >==================================== */}
               <Grid item xs={1}>
                 <Link
-                  to="BodyRecord"
+                  to="BodyDisplay"
                   style={{
                     color: "#000",
                     textDecoration: "none",

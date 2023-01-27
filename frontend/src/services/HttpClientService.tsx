@@ -1,12 +1,15 @@
+import { useState } from "react";
 import { CourseDetailInterface } from "../interfaces/ICourseDetail";
 import { CourseServiceInterface } from "../interfaces/ICourseService";
-import { UserInterface } from "../interfaces/IUser";
+import { MemberInterface } from "../interfaces/IMember";
 import { ReviewInterface } from "../interfaces/IReview";
 import { SignInInterface } from "../interfaces/ISignIn";
 import { BlogInterface } from "../interfaces/IBlog";
-import { useState } from "react";
+import { AdminInterface } from "../interfaces/IAdmin";
 import { FoodInformationInterface } from "../interfaces/IFoodInformation";
 import { NutrientInterface } from "../interfaces/INutrient";
+import { PaymentInterface } from "../interfaces/IPayment";
+import { BehaviorInterface } from "../interfaces/IBehavior";
 
 const apiUrl = `http://localhost:8080`;
 
@@ -41,6 +44,29 @@ async function Login(data: SignInInterface) {
 
   return res;
 }
+
+// Admin Login
+const AdminLogin = async (data: AdminInterface) => {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/adminLogin`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("uid", res.data.id);
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+};
 
 async function GetCourseService() {
   const requestOptions = {
@@ -118,7 +144,7 @@ async function GetTrainer() {
     },
   };
 
-  let res = await fetch(`${apiUrl}/trainers`, requestOptions)
+  let res = await fetch(`${apiUrl}/trainer`, requestOptions)
     .then((response) => response.json())
     .then((res) => {
       if (res.data) {
@@ -131,27 +157,7 @@ async function GetTrainer() {
   return res;
 }
 
-async function CreateCourseService(data: UserInterface) {
-  const requestOptions = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
-  };
-
-  let res = await fetch(`${apiUrl}/course_services/create`, requestOptions)
-    .then((response) => response.json())
-    .then((res) => {
-      if (res.data) {
-        return res.data;
-      } else {
-        return false;
-      }
-    });
-
-  return res;
-}
-
-async function CourseServices(data: CourseServiceInterface) {
+async function CreateCourseService(data: CourseServiceInterface) {
   const requestOptions = {
     method: "POST",
     headers: {
@@ -161,7 +167,7 @@ async function CourseServices(data: CourseServiceInterface) {
     body: JSON.stringify(data),
   };
 
-  let res = await fetch(`${apiUrl}/course_services`, requestOptions)
+  let res = await fetch(`${apiUrl}/course_service`, requestOptions)
     .then((response) => response.json())
     .then((res) => {
       if (res.data) {
@@ -497,6 +503,36 @@ const GetFoodInformations = async () => {
   return res;
 };
 
+const GetFoodInformationByID = async (id: string) => {
+  // let { id } = useParams();
+  let res = await fetch(`${apiUrl}/food_information/${id}`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const UpdateFoodInformation = async (data: FoodInformationInterface) => {
+  const requestOptions = {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/update-food_information`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
 const DeleteFoodInformation = async (id: string) => {
   const requestOptions = {
     method: "DELETE",
@@ -506,7 +542,10 @@ const DeleteFoodInformation = async (id: string) => {
     },
   };
 
-  let res = await fetch(`${apiUrl}/delete-food_information/${id}`, requestOptions)
+  let res = await fetch(
+    `${apiUrl}/delete-food_information/${id}`,
+    requestOptions
+  )
     .then((response) => response.json())
     .then((result) => {
       return result.data ? result.data : false;
@@ -515,6 +554,7 @@ const DeleteFoodInformation = async (id: string) => {
   return res;
 };
 
+// ====================< Body >===============================
 const GetInfoBody = async () => {
   let res = await fetch(`${apiUrl}/bodies`, requestOptionsGet)
     .then((response) => response.json())
@@ -524,6 +564,26 @@ const GetInfoBody = async () => {
 
   return res;
 };
+
+const CreateBody = async (data: BlogInterface) => {
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/body`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
 
 const DeleteInfoBody = async (id: string) => {
   const requestOptions = {
@@ -575,7 +635,7 @@ const CreateNutrient = async (data: NutrientInterface) => {
 
 //===========================Member===========================
 
-const CreateMember= async (data: UserInterface) => {
+const CreateMember = async (data: MemberInterface) => {
   const requestOptions = {
     method: "POST",
     headers: {
@@ -594,8 +654,265 @@ const CreateMember= async (data: UserInterface) => {
   return res;
 };
 
+const DeleteNutrient = async (id: string) => {
+  const requestOptions = {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/delete-nutrient/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+/////////////////////////behavior//////////////////////////////////
+const CreateBehavior= async (data: BehaviorInterface) => {
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+  let res = await fetch(`${apiUrl}/behavior`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetTatse = async () => {
+  let res = await fetch(`${apiUrl}/tastes`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetExercise = async () => {
+  let res = await fetch(`${apiUrl}/exercises`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetMemberByID = async () => {
+  const id = localStorage.getItem("uid");
+
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+  let res = await fetch(`${apiUrl}/member/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+async function GetCourseDetailByID(id: number | undefined) {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/course_detail/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
+async function SelectCourseDetail(id: number | undefined) {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/course_detail/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+  return res;
+}
+
+async function GetPayment() {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/payments`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        console.log(res)
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
+async function GetDuration() {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/durations`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
+async function GetDiscountByCode(code: string | undefined) {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/discount/${code}`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
+async function GetDurationByID(id: number | undefined) {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/duration/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
+async function GetCourseServiceBYUID() {
+  const uid = localStorage.getItem("uid")
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/course_service_by_uid/${uid}`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
+async function CreatePayment(data: PaymentInterface) {
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/payment`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        console.log(res.data)
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
 export {
-  GetCourseService,
+  // Login
+  Login,
+  AdminLogin,
+  //
   GetUser,
   GetCourseDetail,
   GetTrainer,
@@ -603,8 +920,17 @@ export {
   GetPrice,
   GetDescription,
   CreateCourseService,
-  CourseServices,
-  Login,
+  // CourseService
+  GetCourseService,
+  GetCourseDetailByID,
+  SelectCourseDetail,
+  // Payment
+  GetPayment,
+  GetDuration,
+  GetDiscountByCode,
+  GetDurationByID,
+  GetCourseServiceBYUID,
+  CreatePayment,
   // Blog
   CreateBlog,
   UpdateBlog,
@@ -619,6 +945,8 @@ export {
   CreateFoodInformation,
   GetAdminByID,
   GetFoodInformations,
+  GetFoodInformationByID,
+  UpdateFoodInformation,
   DeleteFoodInformation,
   // Review
   CreateReviews,
@@ -630,9 +958,16 @@ export {
   // Nutrient
   GetMostNutrient,
   CreateNutrient,
+  DeleteNutrient,
   // Member
+  GetMemberByID,
   CreateMember,
   //Body
+  CreateBody,
   DeleteInfoBody,
   GetInfoBody,
+  //behavior
+  GetExercise,
+  GetTatse,
+  CreateBehavior,
 };

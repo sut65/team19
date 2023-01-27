@@ -23,7 +23,7 @@ import "../../App.css";
 // api
 import { GetBlogByID, DeleteBlog } from "../../services/HttpClientService";
 
-import { UserInterface } from "../../interfaces/IUser";
+import { MemberInterface } from "../../interfaces/IMember";
 
 const actions = [
   { icon: <EditIcon />, name: "Edit", color: "#3f50b5" },
@@ -33,7 +33,7 @@ const actions = [
 function Article() {
   const { id } = useParams();
   let navigate = useNavigate();
-  const [memberLogin, setMemberLogin] = useState<UserInterface>({
+  const [memberLogin, setMemberLogin] = useState<MemberInterface>({
     ID: Number(localStorage.getItem("uid")),
   });
   const [article, setArticle] = useState<BlogInterface>({});
@@ -50,7 +50,7 @@ function Article() {
   const deleteArticle = async () => {
     let res = await DeleteBlog(id + "");
     if (res) {
-      window.location.href = "/articles";
+      window.location.href = "/user/articles";
     }
   };
 

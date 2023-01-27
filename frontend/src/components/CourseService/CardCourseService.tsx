@@ -4,13 +4,13 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import '../../App.css';
 import { CourseDetailInterface } from "../../interfaces/ICourseDetail";
 import { GetCourseDetail } from "../../services/HttpClientService";
 
-function CardRegisterCourse({
+function CardCourseService({
   ID,
   CourseName,
   CoverPage,
@@ -22,6 +22,7 @@ function CardRegisterCourse({
   Price,
 }: CourseDetailInterface) {
   const [CourseDetail, setCourseDetail] = useState<CourseDetailInterface[]>([])
+  const navigate = useNavigate();
 
   const getCourseDetail = async () => {
     let res = await GetCourseDetail();
@@ -44,7 +45,7 @@ function CardRegisterCourse({
     >
       <CardMedia
         component="img"
-        height="200"
+        height="300"
         image={CoverPage}
         alt="green iguana"
       />
@@ -57,17 +58,6 @@ function CardRegisterCourse({
             }
           }
         >
-          <Typography
-            sx={{
-              color: "#6b7280",
-            }}
-            gutterBottom
-            variant="caption"
-            component="div"
-            style={{ fontSize: "1rem" }}
-          >
-            Author : {Admin?.Name}
-          </Typography>
           <Typography variant="body2" color="text.secondary" mb={2}>
             Category: {Description?.CourseType}
           </Typography>
@@ -85,45 +75,76 @@ function CardRegisterCourse({
         <Typography
           sx={{ fontSize: "1.2rem" }}
           variant="h5"
-          style={{ marginBottom: "0.5rem" }}
+          style={{ marginBottom: "2rem" }}
         >
-          {/* {Name.slice(0, 80)} */}
+          {Description?.Description.slice(0, 100)}
         </Typography>
-        <Typography
-          variant="caption"
-          fontSize={"0.9rem"}
-          sx={{
-            border: "solid 1px #252525",
-            borderRadius: "1rem",
-            p: "4px 8px",
-          }}
-        >
-          {/* #{Description.Type} */}
-        </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+          <Typography
+            variant="caption"
+            fontSize={"1rem"}
+            sx={{
+              border: "solid 1px #252525",
+              borderRadius: "1rem",
+              p: "4px 16px",
+              fontWeight: "bold",
+            }}
+          >
+            {Price?.Price} บาท
+          </Typography>
+          <Typography 
+            sx={{
+              pl: "16px",
+              fontSize: "0.9rem"
+            }}>
+            ระยะเวลาคอร์ส {Price?.Duration}
+          </Typography>
+        </Box>
       </CardContent>
-      <Link
-        to={`/article/${ID}`}
-        style={{
-          textDecoration: "none",
-        }}
-      >
-        <Button
-          className="btn-user"
-          variant="contained"
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: "space-between", margin: "16px 14px 16px 14px"}}>
+        <Link
+          to={`/articles`}
           style={{
-            margin: "0 0 16px 14px",
-            color: "#fff",
-            borderRadius: 20,
-            backgroundColor: "#3b82f6",
-            padding: "8px 16px",
-            fontSize: "12px",
+            textDecoration: "none",
           }}
         >
-          Read more
-        </Button>
-      </Link>
+          <Button
+            className="btn-user"
+            variant="contained"
+            style={{
+              color: "#384648",
+              borderRadius: 20,
+              backgroundColor: "#FEF5ED",
+              padding: "6px 28px",
+              fontSize: "16px",
+            }}
+          >
+            Read review
+          </Button>
+        </Link>
+        <Link
+          to={`${ID}`}
+          style={{
+            textDecoration: "none",
+          }}
+        >
+          <Button
+            className="btn-user"
+            variant="contained"
+            style={{
+              color: "#fff",
+              borderRadius: 20,
+              backgroundColor: "#576F72",
+              padding: "6px 28px",
+              fontSize: "16px",
+            }}
+          >
+            Select
+          </Button>
+        </Link>
+      </Box>
     </Card>
   );
 }
 
-export default CardRegisterCourse;
+export default CardCourseService;

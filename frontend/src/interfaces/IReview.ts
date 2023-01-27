@@ -1,7 +1,6 @@
 import { CourseDetailInterface } from "./ICourseDetail";
 import { RankInterface } from "./IRank";
-import { UserInterface } from "./IUser";
-
+import { MemberInterface } from "./IMember";
 export interface ReviewInterface {
   ID?: number;
   Image?: string
@@ -15,5 +14,5 @@ export interface ReviewInterface {
   CourseDetail?: CourseDetailInterface
 
   MemberID?: number
-  Member?: UserInterface
+  Member?: MemberInterface
 }

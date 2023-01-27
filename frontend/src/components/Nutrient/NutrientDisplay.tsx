@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from '@mui/system';
-import { Link } from "react-router-dom";
+import { 
+  Link,
+  useParams 
+  } from "react-router-dom";
 import { 
     Box,
     Stack,
@@ -18,12 +21,24 @@ import {
 // Image Import
 import FoodIcon from "../../images/FoodIcon.png"
 import AddIcon from "../../images/AddIcon.png"
+import homeBg from "../../images/NutBG.jpg";
 
+//Interface
 import { NutrientInterface } from '../../interfaces/INutrient';
 
-function NutrientDisplayUI() {
+//API
+import { DeleteNutrient } from '../../services/HttpClientService';
 
+function NutrientDisplayUI() {
+    const { id } = useParams();
     const [nutrients, setNutrients] = useState<NutrientInterface[]>([]);
+
+    const DeleteNut = async (id : string) => {
+      let res = await DeleteNutrient(id);
+      if (res) {
+        window.location.href = "/admin/nutrient-display";
+      }
+    }
 
     //Fetch API
     const fetchNutrient = async () => {
@@ -47,19 +62,35 @@ function NutrientDisplayUI() {
     }, []);
 
     return(
+      //ภาพพื้นหลัง
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          // justifyContent: "center",
+          alignItems: "center",
+          gap: 6,
+          height: "100vh",
+          width: "100vw",
+          overflow: "auto",
+          backgroundSize: "cover",
+          color: "#f5f5f5",
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url(${homeBg})`,
+        }}
+      >
 
-        <Container>
 
+        <Box mb={"10rem"}>
             {/* ส่วนหัว */}
-            <Stack direction="row" spacing={2}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
 
-                <Avatar src={FoodIcon} />
+            <Avatar src={FoodIcon} />
 
-                <h1>ข้อมูลสารอาหารที่มีอยู่</h1>
+            <h1>ข้อมูลอาหารสารอาหารทั้งหมด</h1>
 
-                <Avatar src={FoodIcon} />
+            <Avatar src={FoodIcon} />
 
-            </Stack>
+          </Box>
 
                 <h1> </h1>
 
@@ -67,12 +98,13 @@ function NutrientDisplayUI() {
 
                 {/* ปุ่มเพิ่มข้อมูล */}
                 <Link
-                    to="/nutrient-display/create-nutrient"
+                    to="/admin/nutrient-display/create-nutrient"
                     style={{
                     textDecoration: "none",
                     }}
                 >
-                    <Button variant="contained" color="success">
+                    <Button variant="contained" color="success"
+                    sx = {{ borderRadius: 20 }}>
                         <Avatar src={AddIcon} />
                         เพิ่มสารอาหาร
                     </Button>
@@ -94,6 +126,7 @@ function NutrientDisplayUI() {
                   <TableCell align="center">ความคิดเห็น</TableCell>
                   <TableCell align="center">วันที่ทำการเพิ่ม</TableCell>
                   <TableCell align="center">ผู้ดูแลที่ทำการเพิ่ม</TableCell>
+                  <TableCell align="center"> </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -106,20 +139,20 @@ function NutrientDisplayUI() {
                     <TableCell align="center">{nutrients.Comment}</TableCell>
                     <TableCell align="center">{nutrients.Date}</TableCell>
                     <TableCell align="center">{nutrients.Admin?.Name}</TableCell>
-                    {/* <TableCell align="center">
-                      <ButtonGroup color="primary" aria-label="outlined primary button group">
-                        <Button onClick={() => UpdateUser(user.id)}>Edit</Button>
-                        <Button onClick={() => UserDelete(user.id)}>Del</Button>
-                      </ButtonGroup>
-                    </TableCell> */}
+                    <TableCell align="right">
+                      <Button onClick={() => DeleteNut(nutrients.ID+"") } variant="contained" color="error"
+                      sx = {{ borderRadius: 20 }}>ลบข้อมูล</Button>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
           </TableContainer>
 
-        </Container>
-
+  
+      </Box>
+    </Box>
+    
     )
 
 }
