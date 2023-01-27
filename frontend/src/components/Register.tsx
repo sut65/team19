@@ -158,8 +158,8 @@ function App() {
         setSta(result.data);
       });
   };
-  const fetchProvince = async () => {
-    fetch(`${apiUrl}/provinces`, requestOptionsGet)
+  const fetchReligion = async () => {
+    fetch(`${apiUrl}/religions`, requestOptionsGet)
       .then((response) => response.json())
       .then((result) => {
         setPrv(result.data);
@@ -169,7 +169,7 @@ function App() {
   useEffect(() => {
     fetchGender();
     fetchStatus();
-    fetchProvince();
+    fetchReligion();
   }, []);
 
   const convertType = (data: string | number | undefined) => {
@@ -332,21 +332,24 @@ function App() {
                   Gender:
                 </FormLabel>
                 <Select
-                  required
-                  id="Gender"
-                  value={rg.GenderID + ""}
-                  onChange={handleChange}
-                  fullWidth
-                  inputProps={{
-                    name: "Gender_ID",
-                  }}
+                    native
+                    fullWidth
+                    id="gender"
+                    value={rg.GenderID + ""}
+                    onChange={handleChange}
+                    inputProps={{
+                    name: "GenderID",
+                    }}
                 >
-                  {gen.map((item) => (
-                    <MenuItem key={item.ID} value={item.ID}>
-                      {item.Gender}
-                    </MenuItem>
-                  ))}
-                </Select>
+                <option aria-label="None" value="">
+                    เลือกเพศของคุณ
+                </option>
+                {gen.map((item: GenderInterface) => (
+                <option key={item.ID} value={item.ID}>
+                    {item.Name}
+                </option>
+                ))}
+                    </Select>
                 <FormHelperText disabled sx={{ width: 350, marginLeft: 2 }}>
                   กรุณาเลือกเพศของคุณ
                 </FormHelperText>
@@ -364,21 +367,24 @@ function App() {
                   Status:
                 </FormLabel>
                 <Select
-                  // labelId="demo-simple-select-helper-label"
-                  id="StatusID"
-                  value={rg.StatusID + ""}
-                  onChange={handleChange}
-                  inputProps={{
-                    name: "Status_ID",
-                  }}
-                  fullWidth
+                    native
+                    fullWidth
+                    id="status"
+                    value={rg.StatusID + ""}
+                    onChange={handleChange}
+                    inputProps={{
+                    name: "StatusID",
+                    }}
                 >
-                  {sta.map((item) => (
-                    <MenuItem key={item.ID} value={item.ID}>
-                      {item.Name}
-                    </MenuItem>
-                  ))}
-                </Select>
+                <option aria-label="None" value="">
+                    เลือกสถานะของคุณ
+                </option>
+                {sta.map((item: StatusInterface) => (
+                <option key={item.ID} value={item.ID}>
+                    {item.Name}
+                </option>
+                ))}
+                    </Select>
                 <FormHelperText disabled sx={{ width: 350, marginLeft: 2 }}>
                   สถานะปัจจุบัน
                 </FormHelperText>
@@ -396,21 +402,24 @@ function App() {
                   Religion:
                 </FormLabel>
                 <Select
-                  // labelId="demo-simple-select-helper-label"
-                  id="ReligionID"
-                  value={rg.ReligionID + ""}
-                  onChange={handleChange}
-                  inputProps={{
-                    name: "Province_ID",
-                  }}
-                  fullWidth
+                    native
+                    fullWidth
+                    id="religion"
+                    value={rg.ReligionID + ""}
+                    onChange={handleChange}
+                    inputProps={{
+                    name: "ReligionID",
+                    }}
                 >
-                  {prv.map((item) => (
-                    <MenuItem key={item.ID} value={item.ID}>
-                      {item.Name}
-                    </MenuItem>
-                  ))}
-                </Select>
+                <option aria-label="None" value="">
+                    เลือกศาสนาของคุณ
+                </option>
+                {prv.map((item: ReligionInterface) => (
+                <option key={item.ID} value={item.ID}>
+                    {item.Name}
+                </option>
+                ))}
+                    </Select>
                 <FormHelperText disabled sx={{ width: 350, marginLeft: 2 }}>
                   เลือกศาสนาที่นับถือ
                 </FormHelperText>

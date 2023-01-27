@@ -50,6 +50,9 @@ func main() {
 			r.GET("/religion/:id", controller.GetReligion)
 			r.GET("/religions", controller.ListReligion)
 
+			r.GET("/gender/:id", controller.GetGender)
+			r.GET("/genders", controller.Listgenders)
+
 			// course_service Routes
 			router.POST("/course_service", controller.CreateCourseService)
 			router.GET("/course_service/:id", controller.GetCourseService)
