@@ -61,17 +61,18 @@ function Navbar() {
   return (
     <ThemeProvider theme={theme}>
       <Fragment>
-        <Box sx={{marginBottom: "7rem"}}>
+        <Box sx={{marginBottom: ""}}>
           <AppBar
-            // position="static"
+            position="static"
             sx={{
               bgcolor: "#f5f5f5",
               color: "#000000",
               paddingTop: 2,
-              paddingBottom: 0.5
+              paddingBottom: 0.5,
+              padding: "0"
             }}
           >
-            <Grid container spacing={2} 
+            <Grid container spacing={0} 
               sx={{
                 marginLeft: "2%",
                 marginRight: "2%",
@@ -140,7 +141,7 @@ function Navbar() {
               {/* =====================================< Body Record >==================================== */}
               <Grid item xs={1}>
                 <Link
-                  to="BodyRecord"
+                  to="BodyDisplay"
                   style={{
                     color: "#000",
                     textDecoration: "none",

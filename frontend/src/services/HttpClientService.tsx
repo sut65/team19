@@ -554,6 +554,7 @@ const DeleteFoodInformation = async (id: string) => {
   return res;
 };
 
+// ====================< Body >===============================
 const GetInfoBody = async () => {
   let res = await fetch(`${apiUrl}/bodies`, requestOptionsGet)
     .then((response) => response.json())
@@ -563,6 +564,26 @@ const GetInfoBody = async () => {
 
   return res;
 };
+
+const CreateBody = async (data: BlogInterface) => {
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/body`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
 
 const DeleteInfoBody = async (id: string) => {
   const requestOptions = {
@@ -942,6 +963,7 @@ export {
   GetMemberByID,
   CreateMember,
   //Body
+  CreateBody,
   DeleteInfoBody,
   GetInfoBody,
   //behavior

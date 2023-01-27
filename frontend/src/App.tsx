@@ -18,6 +18,7 @@ import CreateFood from "./components/FoodInformation/CreateFood";
 import CreateNutrientUI from "./components/Nutrient/CreateNutrient";
 import NutrientDisplayUI from "./components/Nutrient/NutrientDisplay";
 import BodyDisplay from "./components/BodyRecord/BodyDisplay";
+import BodyRecord from "./components/BodyRecord/BodyRecord"
 import ShowReview from "./components/review/ShowReview";
 import CreateReview from "./components/review/CreateReview";
 import RegisterCourse from "./components/CourseService/RegisterCourse";
@@ -86,13 +87,13 @@ function App() {
           <Route path="register-course/:id" element={<RegisterCourse />} />
           <Route path="payment/:id" element={<Payment />} />
           <Route path="article/create-article" element={<CreateArticle />} />
-          <Route
-            path="article/:id/update-article"
-            element={<UpdateArticle />}
-          />
-          <Route path="register" element={<Register />}></Route>
-          <Route path="BodyRecord" element={<BodyDisplay />}></Route>
-          <Route path="register" element={<Register />}></Route>
+          <Route path="article/:id/update-article" element={<UpdateArticle />} />
+          <Route path="/register" element={<Register />}></Route>
+          <Route path="/food-display" element={<FoodDisplay />}></Route>
+          <Route path="/BodyRecord" element={<BodyDisplay />}></Route>
+          <Route path="/food-display/create-food" element={<CreateFood />}></Route>
+          <Route path="/nutrient-display/create-nutrient" element={<CreateNutrientUI />}></Route>
+          <Route path="/nutrient-display" element={<NutrientDisplayUI />}></Route>
           <Route path="create-review" element={<CreateReview />} />
           <Route path="reviews" element={<ShowReview />} />
           <Route path="behavior" element={<CreateBehaviors />} />
