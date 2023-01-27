@@ -143,7 +143,7 @@ async function GetTrainer() {
     },
   };
 
-  let res = await fetch(`${apiUrl}/trainer`, requestOptions)
+  let res = await fetch(`${apiUrl}/trainers`, requestOptions)
     .then((response) => response.json())
     .then((res) => {
       if (res.data) {
@@ -156,13 +156,10 @@ async function GetTrainer() {
   return res;
 }
 
-async function CourseServices(data: CourseServiceInterface) {
+async function CreateCourseService(data: CourseServiceInterface) {
   const requestOptions = {
     method: "POST",
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "application/json",
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   };
 
@@ -473,25 +470,6 @@ const CreateFoodInformation = async (data: FoodInformationInterface) => {
   return res;
 };
 
-const UpdateFoodInformation = async (data: FoodInformationInterface) => {
-  const requestOptions = {
-    method: "PATCH",
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  };
-
-  let res = await fetch(`${apiUrl}/update-food_information`, requestOptions)
-    .then((response) => response.json())
-    .then((result) => {
-      return result.data ? result.data : false;
-    });
-
-  return res;
-};
-
 const GetAdminByID = async () => {
   const id = localStorage.getItem("uid");
 
@@ -524,6 +502,25 @@ const GetFoodInformations = async () => {
 const GetFoodInformationByID = async (id: string) => {
   // let { id } = useParams();
   let res = await fetch(`${apiUrl}/food_information/${id}`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const UpdateFoodInformation = async (data: FoodInformationInterface) => {
+  const requestOptions = {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/update-food_information`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
       return result.data ? result.data : false;
@@ -805,7 +802,7 @@ async function GetCourseServiceBYUID() {
   return res;
 }
 
-async function Payments(data: PaymentInterface) {
+async function CreatePayment(data: PaymentInterface) {
   const requestOptions = {
     method: "POST",
     headers: {
@@ -826,19 +823,32 @@ async function Payments(data: PaymentInterface) {
       }
     });
 
-    return res;
-  }
+  return res;
+}
 
 export {
-  GetCourseService,
+  // Login
+  Login,
+  AdminLogin,
+  //
   GetUser,
   GetCourseDetail,
   GetTrainer,
   GetAdmin,
   GetPrice,
   GetDescription,
-  CourseServices,
-  Login,
+  CreateCourseService,
+  // CourseService
+  GetCourseService,
+  GetCourseDetailByID,
+  SelectCourseDetail,
+  // Payment
+  GetPayment,
+  GetDuration,
+  GetDiscountByCode,
+  GetDurationByID,
+  GetCourseServiceBYUID,
+  CreatePayment,
   // Blog
   CreateBlog,
   UpdateBlog,
@@ -853,9 +863,9 @@ export {
   CreateFoodInformation,
   GetAdminByID,
   GetFoodInformations,
-  DeleteFoodInformation,
   GetFoodInformationByID,
   UpdateFoodInformation,
+  DeleteFoodInformation,
   // Review
   CreateReviews,
   UpdateReview,
