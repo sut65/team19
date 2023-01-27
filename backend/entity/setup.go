@@ -54,6 +54,8 @@ func SetupDatabase() {
 		&FormOfWork{},
 		&Education{},
 		&Trainer{},
+		// Body ref.-> {member,trainer,courseDetail}
+		Body{},
 		// CourseService
 		&CourseService{},
 		// FoodInformation
@@ -491,33 +493,70 @@ func SetupDatabase() {
 	}
 	db.Model(&FoodInformation{}).Create(&FoodInformationB)
 
+	// BodyMakeup for bodychange recording system --------------------------------------------------------------------------------------
+	BodyChangeA := Body{
+		Hieght:        176.00,
+		Weight:        64.87,
+		Hip:           32.4,
+		UpperArmLeft:  45.4,
+		UpperArmRight: 46.2,
+		LeftThigh:     54.23,
+		RightThigh:    53.3,
+		NarrowWaist:   34.2,
+		NavelWaist:    36.23,
+		Bmi:           20.94,
+		Note:          "หิววววววววววว",
+		Trainer:       Trainer2,
+		Member:        Member2,
+		CourseDetail:  CourseDetail2,
+	}
+	db.Model(&Body{}).Create(&BodyChangeA)
+
+	BodyChangeB := Body{
+		Hieght:        175.6,
+		Weight:        64.87,
+		Hip:           32.4,
+		UpperArmLeft:  45.4,
+		UpperArmRight: 46.2,
+		LeftThigh:     54.23,
+		RightThigh:    53.3,
+		NarrowWaist:   34.2,
+		NavelWaist:    36.23,
+		Bmi:           21.037,
+		Note:          "อยากกินกะหรี่..ปั้บ",
+		Trainer:       Trainer1,
+		Member:        Member1,
+		CourseDetail:  CourseDetail1,
+	}
+	db.Model(&Body{}).Create(&BodyChangeB)
+
 	// Advice Part --------------------------------------------------------------------------------------
 
 	Advice1 := Advice{
-		Advice:         "กินโปรตีนเพิ่มให้ได้ 2 g ต่อน้ำหนักตัว 1 kg",
+		Advice:        "กินโปรตีนเพิ่มให้ได้ 2 g ต่อน้ำหนักตัว 1 kg",
 		RecordingDate: time.Now(),
-		Member:         Member1,
-		Trainer:        Trainer1,
+		Member:        Member1,
+		Trainer:       Trainer1,
 		// Body: ,
 		// DailyActivitie: ,
 	}
 	db.Model(&Advice{}).Create(&Advice1)
 
 	Advice2 := Advice{
-		Advice:         "ออกกำลังกายแบบคาร์ดิโอเพิ่มเป็นสัปดาห์ละ 4 วัน วันละ 1 ชม.",
+		Advice:        "ออกกำลังกายแบบคาร์ดิโอเพิ่มเป็นสัปดาห์ละ 4 วัน วันละ 1 ชม.",
 		RecordingDate: time.Now(),
-		Member:         Member2,
-		Trainer:        Trainer2,
+		Member:        Member2,
+		Trainer:       Trainer2,
 		// Body: ,
 		// DailyActivitie
 	}
 	db.Model(&Advice{}).Create(&Advice2)
 
 	Advice3 := Advice{
-		Advice:         "เล่นเวทเทรนนิ่ง เพิ่มเป็นสัปดาห์ละ 3 วัน วันละ 1.5 ชม.",
+		Advice:        "เล่นเวทเทรนนิ่ง เพิ่มเป็นสัปดาห์ละ 3 วัน วันละ 1.5 ชม.",
 		RecordingDate: time.Now(),
-		Member:         Member3,
-		Trainer:        Trainer2,
+		Member:        Member3,
+		Trainer:       Trainer2,
 		// Body: ,
 		// DailyActivitie: ,
 	}
@@ -723,52 +762,52 @@ func SetupDatabase() {
 	//==========================ระบบจัดการสารอาหาร==========================
 
 	MostNutrientA := MostNutrient{
-		Name: 				"คาร์โบไฮเดรต",
-		CaloriePerGram: 	4,
+		Name:           "คาร์โบไฮเดรต",
+		CaloriePerGram: 4,
 	}
 	db.Model(&MostNutrient{}).Create(&MostNutrientA)
 
 	MostNutrientB := MostNutrient{
-		Name: 				"โปรตีน",
-		CaloriePerGram: 	4,
+		Name:           "โปรตีน",
+		CaloriePerGram: 4,
 	}
 	db.Model(&MostNutrient{}).Create(&MostNutrientB)
 
 	MostNutrientC := MostNutrient{
-		Name: 				"ไขมัน",
-		CaloriePerGram: 	9,
+		Name:           "ไขมัน",
+		CaloriePerGram: 9,
 	}
 	db.Model(&MostNutrient{}).Create(&MostNutrientC)
 
 	MostNutrientD := MostNutrient{
-		Name: 				"เกลือแร่",
-		CaloriePerGram: 	0,
+		Name:           "เกลือแร่",
+		CaloriePerGram: 0,
 	}
 	db.Model(&MostNutrient{}).Create(&MostNutrientD)
 
 	MostNutrientE := MostNutrient{
-		Name: 				"วิตามิน",
-		CaloriePerGram: 	0,
+		Name:           "วิตามิน",
+		CaloriePerGram: 0,
 	}
 	db.Model(&MostNutrient{}).Create(&MostNutrientE)
 
 	NutrientA := Nutrient{
-		FoodInformation:	FoodInformationA,
-		MostNutrient:		MostNutrientA,
-		TotalCalorie:		165,
-		Comment:			"ไม่ควรกินเกิน 3 ฟอง",
-		Admin:				AdminA,
-		Date:				"20/12/2022 15:00",
+		FoodInformation: FoodInformationA,
+		MostNutrient:    MostNutrientA,
+		TotalCalorie:    165,
+		Comment:         "ไม่ควรกินเกิน 3 ฟอง",
+		Admin:           AdminA,
+		Date:            "20/12/2022 15:00",
 	}
 	db.Model(&Nutrient{}).Create(&NutrientA)
 
 	NutrientB := Nutrient{
-		FoodInformation:	FoodInformationB,
-		MostNutrient:		MostNutrientB,
-		TotalCalorie:		100,
-		Comment:			"กินเพื่อลดน้ำหนักได้ดี",
-		Admin:				AdminB,
-		Date:				"21/12/2022 16:00",
+		FoodInformation: FoodInformationB,
+		MostNutrient:    MostNutrientB,
+		TotalCalorie:    100,
+		Comment:         "กินเพื่อลดน้ำหนักได้ดี",
+		Admin:           AdminB,
+		Date:            "21/12/2022 16:00",
 	}
 	db.Model(&Nutrient{}).Create(&NutrientB)
 

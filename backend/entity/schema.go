@@ -84,7 +84,7 @@ type Admin struct {
 	DailyActivitie  []DailyActivities `gorm:"foreignKey:AdminID"`
 	CourseDetail    []CourseDetail    `gorm:"foreignKey:AdminID"`
 	FoodInformation []FoodInformation `gorm:"foreignKey:AdminID"`
-	Nutrient		[]Nutrient		  `gorm:"foreignKey:AdminID"`
+	Nutrient        []Nutrient        `gorm:"foreignKey:AdminID"`
 }
 
 type Price struct {
@@ -368,7 +368,7 @@ type MealPlan struct {
 type Advice struct {
 	gorm.Model
 
-	Advice         string
+	Advice        string
 	RecordingDate time.Time `valid:"past"`
 
 	MemberID *uint
@@ -384,7 +384,7 @@ type Advice struct {
 	DailyActivities   DailyActivities
 }
 
-// -------------------------------------------<< ระบบบันทึกการเปลี่ยนแปลงร่างกาย >>------------------------------------
+// -----------------------------<Bodyschema>--------------<< ระบบบันทึกการเปลี่ยนแปลงร่างกาย >>------------------------------------
 type Body struct {
 	gorm.Model
 	Hieght        float32
@@ -396,7 +396,7 @@ type Body struct {
 	RightThigh    float32
 	NarrowWaist   float32
 	NavelWaist    float32
-	Date          time.Time
+	Bmi           float32
 	Note          string
 	Advice        []Advice `gorm:"foreignKey:BodyID"`
 
@@ -441,31 +441,30 @@ type Payment struct {
 
 	DiscountID *uint
 	Discount   Discount
-
 }
 
 // ================== ระบบจัดการสารอาหาร ==================
 type MostNutrient struct {
 	gorm.Model
-	Name				string
-	CaloriePerGram		int
-	Nutrient			[]Nutrient `gorm:"foreignKey:MostNutrientID"`
+	Name           string
+	CaloriePerGram int
+	Nutrient       []Nutrient `gorm:"foreignKey:MostNutrientID"`
 }
 
 type Nutrient struct {
 	gorm.Model
-	Comment				string
-	TotalCalorie		int
-	Date				string
+	Comment      string
+	TotalCalorie int
+	Date         string
 
-	AdminID 			*uint
-	Admin				Admin
+	AdminID *uint
+	Admin   Admin
 
-	MostNutrientID		*uint
-	MostNutrient		MostNutrient
+	MostNutrientID *uint
+	MostNutrient   MostNutrient
 
-	FoodInformationID	int
-	FoodInformation		FoodInformation
+	FoodInformationID int
+	FoodInformation   FoodInformation
 }
 
 // ========================================================================

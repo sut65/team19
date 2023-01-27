@@ -497,6 +497,24 @@ const GetFoodInformations = async () => {
   return res;
 };
 
+const DeleteFoodInformation = async (id: string) => {
+  const requestOptions = {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/delete-food_information/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
 // ============================== Nutrient ==============================
 const GetMostNutrient = async () => {
   let res = await fetch(`${apiUrl}/most_nutrients`, requestOptionsGet)
@@ -552,6 +570,7 @@ export {
   CreateFoodInformation,
   GetAdminByID,
   GetFoodInformations,
+  DeleteFoodInformation,
   // Review
   CreateReview,
   UpdateReview,
