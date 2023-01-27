@@ -28,6 +28,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Link } from "react-router-dom";
 import { dark } from "@mui/material/styles/createPalette";
 import { BlogInterface } from "../interfaces/IBlog";
+import { CreateMember } from "../services/HttpClientService";
 
 const ImgBox = styled(Box)({
     width: "280px",
@@ -47,8 +48,7 @@ function App() {
   const [gen, setGen] = useState<GenderInterface[]>([]);
   const [sta, setSta] = useState<StatusInterface[]>([]);
   const [prv, setPrv] = useState<ReligionInterface[]>([]);
-  const [article, setArticle] = useState<BlogInterface>({});
-  const [image, setImage] = useState({ name: "", src: "" });
+  const [profileuser, setProfileUser] = useState({ name: "", src: "" });
 
   const [first, setFirst] = useState<String>("");
   const [last, setLast] = useState<String>("");
@@ -71,15 +71,15 @@ function App() {
   }
   const handleChangeImages = (event: any, id?: string) => {
     const input = event.target.files[0];
-    const name = event.target.name as keyof typeof article;
+    const name = event.target.name as keyof typeof rg;
 
     var reader = new FileReader();
     reader.readAsDataURL(input);
     reader.onload = function () {
       const dataURL = reader.result;
-      setImage({ name: input.name, src: dataURL?.toString() as string });
-      if (event.target.name === "CoverImage") {
-        setArticle({ ...article, [name]: dataURL?.toString() });
+      setProfileUser({ name: input.name, src: dataURL?.toString() as string });
+      if (event.target.name === "Profileuser") {
+        setRg({ ...rg, [name]: dataURL?.toString() });
       }
     };
   };
@@ -128,13 +128,12 @@ function App() {
     console.log(rg);
   };
 
-  const handleInputChange = (
-    event: React.ChangeEvent<{ id?: string; value: any }>
-  ) => {
-    const id = event.target.id as keyof typeof rg;
-    const { value } = event.target;
-    setRg({ ...rg, [id]: value });
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const name = e.target.name;
+    console.log(name);
+    setRg({ ...rg, [name]: e.target.value });
   };
+
 
   // =========================(Fetch API)====================================================
 
@@ -158,8 +157,8 @@ function App() {
         setSta(result.data);
       });
   };
-  const fetchProvince = async () => {
-    fetch(`${apiUrl}/provinces`, requestOptionsGet)
+  const fetchReligion = async () => {
+    fetch(`${apiUrl}/religions`, requestOptionsGet)
       .then((response) => response.json())
       .then((result) => {
         setPrv(result.data);
@@ -169,7 +168,7 @@ function App() {
   useEffect(() => {
     fetchGender();
     fetchStatus();
-    fetchProvince();
+    fetchReligion();
   }, []);
 
   const convertType = (data: string | number | undefined) => {
@@ -177,44 +176,21 @@ function App() {
     return val;
   };
 
-  const submit = () => {
+  const submit = async () => {
     let data = {
-      FirstName: first,
-      LastName: last,
-      Password: pass.password,
-      Email: email,
-      Gender_ID: convertType(rg.GenderID),
-      Status_ID: convertType(rg.StatusID),
-      Religion_ID: convertType(rg.ReligionID),
-    };
-    console.log(data);
-    const regexp = new RegExp(
-      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    );
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+    FirstName: rg.Firstname,
+    LastName: rg.Lastname,
+    Password: pass.password,
+    Email: rg.Email,
+    GenderID: convertType(rg.GenderID),
+    StatusID: convertType(rg.StatusID),
+    ReligionID: convertType(rg.ReligionID),
+    Profileuser: rg.Profileuser,
     };
 
-    console.log(regexp.test(data.Email + ""))
-
-    if (regexp.test(data.Email + "")) {
-      fetch(`${apiUrl}/users`, requestOptions)
-        .then((response) => response.json())
-        .then((res) => {
-          console.log(res);
-          if (res.data) {
-            setSuccess(true);
-          } 
-        });
-        setInterval(() => {
-          window.location.assign("/booking")
-        }, 1000)
-    } else {
-      setError(true);
-    }
-
+    let res = await CreateMember(data);
+    res ? setSuccess(true) : setError(true);
+    // window.location.href = "/members"
   };
 
   return (
@@ -243,12 +219,13 @@ function App() {
               <Grid xs={6} md={6}>
                 <p style={{ color: "grey", fontSize: 17 }}>Firstname</p>
                 <TextField
-                  id="Name"
-                  type="string"
+                  id="firstname"
                   label="ชื่อ"
+                  name="Firstname"
                   variant="outlined"
                   fullWidth
                   required
+                  value={rg.Firstname}
                   onChange={handleInputChange}
                 />
               </Grid>
@@ -256,12 +233,13 @@ function App() {
               <Grid xs={6} md={6}>
                 <p style={{ color: "grey", fontSize: 17 }}>Lastname</p>
                 <TextField
-                  id="Name"
-                  type="string"
+                  id="lastname"
                   label="สกุล"
+                  name="Lastname"
                   variant="outlined"
                   fullWidth
                   required
+                  value={rg.Lastname}
                   onChange={handleInputChange}
                 />
               </Grid>
@@ -277,11 +255,12 @@ function App() {
                   Email:
                 </FormLabel>
                 <TextField
-                  type="email"
-                  id="outlined-basic"
+                  id="email"
                   label="กรุณาป้อนอีเมล"
                   variant="outlined"
+                  name="Email"
                   required
+                  value={rg.Email}
                   onChange={handleInputChange}
                   fullWidth
                 />
@@ -332,21 +311,24 @@ function App() {
                   Gender:
                 </FormLabel>
                 <Select
-                  required
-                  id="Gender"
-                  value={rg.GenderID + ""}
-                  onChange={handleChange}
-                  fullWidth
-                  inputProps={{
-                    name: "Gender_ID",
-                  }}
+                    native
+                    fullWidth
+                    id="gender"
+                    value={rg.GenderID + ""}
+                    onChange={handleChange}
+                    inputProps={{
+                    name: "GenderID",
+                    }}
                 >
-                  {gen.map((item) => (
-                    <MenuItem key={item.ID} value={item.ID}>
-                      {item.Gender}
-                    </MenuItem>
-                  ))}
-                </Select>
+                <option aria-label="None" value="">
+                    เลือกเพศของคุณ
+                </option>
+                {gen.map((item: GenderInterface) => (
+                <option key={item.ID} value={item.ID}>
+                    {item.Name}
+                </option>
+                ))}
+                    </Select>
                 <FormHelperText disabled sx={{ width: 350, marginLeft: 2 }}>
                   กรุณาเลือกเพศของคุณ
                 </FormHelperText>
@@ -364,21 +346,24 @@ function App() {
                   Status:
                 </FormLabel>
                 <Select
-                  // labelId="demo-simple-select-helper-label"
-                  id="StatusID"
-                  value={rg.StatusID + ""}
-                  onChange={handleChange}
-                  inputProps={{
-                    name: "Status_ID",
-                  }}
-                  fullWidth
+                    native
+                    fullWidth
+                    id="status"
+                    value={rg.StatusID + ""}
+                    onChange={handleChange}
+                    inputProps={{
+                    name: "StatusID",
+                    }}
                 >
-                  {sta.map((item) => (
-                    <MenuItem key={item.ID} value={item.ID}>
-                      {item.Name}
-                    </MenuItem>
-                  ))}
-                </Select>
+                <option aria-label="None" value="">
+                    เลือกสถานะของคุณ
+                </option>
+                {sta.map((item: StatusInterface) => (
+                <option key={item.ID} value={item.ID}>
+                    {item.Name}
+                </option>
+                ))}
+                    </Select>
                 <FormHelperText disabled sx={{ width: 350, marginLeft: 2 }}>
                   สถานะปัจจุบัน
                 </FormHelperText>
@@ -396,21 +381,24 @@ function App() {
                   Religion:
                 </FormLabel>
                 <Select
-                  // labelId="demo-simple-select-helper-label"
-                  id="ReligionID"
-                  value={rg.ReligionID + ""}
-                  onChange={handleChange}
-                  inputProps={{
-                    name: "Province_ID",
-                  }}
-                  fullWidth
+                    native
+                    fullWidth
+                    id="religion"
+                    value={rg.ReligionID + ""}
+                    onChange={handleChange}
+                    inputProps={{
+                    name: "ReligionID",
+                    }}
                 >
-                  {prv.map((item) => (
-                    <MenuItem key={item.ID} value={item.ID}>
-                      {item.Name}
-                    </MenuItem>
-                  ))}
-                </Select>
+                <option aria-label="None" value="">
+                    เลือกศาสนาของคุณ
+                </option>
+                {prv.map((item: ReligionInterface) => (
+                <option key={item.ID} value={item.ID}>
+                    {item.Name}
+                </option>
+                ))}
+                    </Select>
                 <FormHelperText disabled sx={{ width: 350, marginLeft: 2 }}>
                   เลือกศาสนาที่นับถือ
                 </FormHelperText>
@@ -428,8 +416,8 @@ function App() {
         >
           Upload
           <input
-            id="coverImage"
-            name="CoverImage"
+            id="profileUser"
+            name="Profileuser"
             hidden
             accept="image/*"
             multiple
@@ -439,7 +427,7 @@ function App() {
         </Button>
       </Box>
       <ImgBox>
-        <img src={image.src} alt={image.name} style={{ width: "100%" }} />
+        <img src={profileuser.src} alt={profileuser.name} style={{ width: "100%" }} />
       </ImgBox>
                     
 

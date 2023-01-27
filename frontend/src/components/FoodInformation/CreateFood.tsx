@@ -54,16 +54,6 @@ function CreateFood() {
         setError(false);
     };
 
-    const handleChange = (
-        event: SelectChangeEvent<number>
-      ) => {
-        const name = event.target.name as keyof typeof foodinformation;
-        setFoodInformation({
-          ...foodinformation,
-          [name]: event.target.value
-        });
-      };
-
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const name = e.target.name;
       console.log(name);

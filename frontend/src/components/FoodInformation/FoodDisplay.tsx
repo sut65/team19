@@ -1,38 +1,57 @@
 import React, { useEffect, useState } from 'react';
-import Box from '@mui/material/Box';
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Container } from '@mui/system';
-import Button from '@mui/material/Button';
-import DeleteIcon from '@mui/icons-material/Delete';
-import Stack from '@mui/material/Stack';
-import { Link } from "react-router-dom";
+import { 
+  Box,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Avatar,
+  Button,
+  Stack,
+  } from '@mui/material';
 
+import { 
+  Link,
+  useParams,
+ } from "react-router-dom";
+
+import FoodIcon from "../../images/FoodIcon2.png"
+import AddIcon from "../../images/AddIcon.png"
+
+//Interface
 import { FoodInformationInterface } from '../../interfaces/IFoodInformation';
-import { GetFoodInformations } from '../../services/HttpClientService';
+import { DeleteFoodInformation, GetFoodInformations } from '../../services/HttpClientService';
 
-function FoodDisplay( 
-) {
-  const apiUrl = "http://localhost:8080";
+function FoodDisplay() {
+  const { id } = useParams();
   const [foodinformations, setFoodInformations] = useState<FoodInformationInterface[]>([]);
 
-  const columns: GridColDef[] = [
-    { field: "ID", headerName: "ID", width: 100 },
-    { field: "Name", headerName: "ชื่ออาหาร", width: 100 },
-    { field: "DateTime", headerName: "เวลา", width: 100 },
-    { field: "Image", headerName: "รูปภาพ", width: 100 },
-    { field: "AdminID", headerName: "เวลา", width: 100 },
-    { field: "MainIngredientID", headerName: "เวลา", width: 100 },
-    { field: "FoodTypeID", headerName: "เวลา", width: 100 },
-  ];
-
   const fetchFoodInformation = async () => {
-    fetch(`${apiUrl}/food_informations`)
+    const requestOptions = {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        "Content-Type": "application/json",
+      },
+    };
+    fetch(`http://localhost:8080/food_informations`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
-        console.log(res.data);
-        setFoodInformations(res.data);
-      });
+        console.log("Api", res.data);
+        res.data && setFoodInformations(res.data);
+    });
   };
+
+  const DeleteFood = async (id : string) => {
+    let res = await DeleteFoodInformation(id);
+    if (res) {
+      window.location.href = "/food-display";
+    }
+  }
 
   useEffect(() => {
     fetchFoodInformation();
@@ -41,15 +60,17 @@ function FoodDisplay(
   return (
     <Container>
         {/* Header */}
-        <Box
-            display={"flex"}
-            sx={{
-            }
-            }>
-            <h1>ข้อมูลอาหารทั้งหมด</h1>
-            <h2> </h2>
-        </Box>
+        <Stack direction="row" spacing={2}>
+
+        <Avatar src={FoodIcon} />
+
+        <h1>ข้อมูลอาหารทั้งหมดในระบบ</h1>
+
+        <Avatar src={FoodIcon} />
         
+        </Stack>
+
+        <h1> </h1>
         
         <Stack direction="row" spacing={2}>
 
@@ -61,35 +82,52 @@ function FoodDisplay(
             }}
           >
             <Button variant="contained" color="success">
-            เพิ่มข้อมูลอาหาร
+              เพิ่มข้อมูลอาหาร
+              <Avatar src={AddIcon} />
             </Button>
           </Link>
         
-        {/* ปุ่มลบข้อมูล */} 
-          <Button variant="outlined" color="error" startIcon={<DeleteIcon />}>
-          ลบข้อมูลอาหาร
-          </Button>
-
         </Stack>
         
-        <Box
-            display={"flex"}
-            sx={{
-            }
-            }>
-            <h1> </h1>
-        </Box>
-        
+        <h1> </h1>
+  
         {/* ตาราง */}
-        <Box sx={{ bgcolor: '#ffffff', height: '100vh' }}>
-          {/* <DataGrid
-            rows={foodinformations}
-            getRowId={(row) => row.ID}
-            columns={columns}
-            pageSize={5}
-            rowsPerPageOptions={[5]}
-          /> */}
-        </Box>
+        <TableContainer component={Paper}>
+          <Table aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="right">ไอดี</TableCell>
+                <TableCell align="center">รูปภาพ</TableCell>
+                <TableCell align="center">ชื่ออาหาร</TableCell>
+                <TableCell align="center">วัตถุดิบหลัก</TableCell>
+                <TableCell align="center">ประเภท</TableCell>
+                <TableCell align="center">วันที่ทำการเพิ่ม</TableCell>
+                <TableCell align="center">ผู้ดูแลที่ทำการเพิ่ม</TableCell>
+              </TableRow>
+            </TableHead>
+              <TableBody>
+                {foodinformations.map((foodinformations) => (
+                  <TableRow key={foodinformations.ID}>
+                    <TableCell align="right">{foodinformations.ID}</TableCell>
+                    <TableCell align="center">
+                      <Box sx={{ display: "flex", justifyContent: "center" }}>
+                        <Avatar src={foodinformations.Image} />
+                      </Box>
+                    </TableCell>
+                    <TableCell align="center">{foodinformations.Name}</TableCell>
+                    <TableCell align="center">{foodinformations.MainIngredient?.Name}</TableCell>
+                    <TableCell align="center">{foodinformations.FoodType?.Name}</TableCell>
+                    <TableCell align="center">{foodinformations.Datetime}</TableCell>
+                    <TableCell align="center">{foodinformations.Admin?.Name}</TableCell>
+                    {/* ปุ่มลบข้อมูล */}
+                    <TableCell align="right">
+                      <Button onClick={() => DeleteFood(foodinformations.ID+"")}>ลบข้อมูล</Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+        </TableContainer>
 
       </Container>
   );
