@@ -22,7 +22,7 @@ import "../../App.css";
 import { CourseDetailInterface } from "../../interfaces/ICourseDetail";
 import { TrainerInterface } from "../../interfaces/ITrainer";
 import { CourseServiceInterface } from "../../interfaces/ICourseService";
-import { GetTrainer, CourseServices } from "../../services/HttpClientService";
+import { GetTrainer, CreateCourseService } from "../../services/HttpClientService";
 
 const apiUrl = `http://localhost:8080`;
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -137,7 +137,7 @@ function RegisterCourse() {
       TrainerID: convertType(CourseService.TrainerID),
     };
     console.log(data)
-    let res = await CourseServices(data);
+    let res = await CreateCourseService(data);
     if (res) {
       setSuccess(true);
     } else {
@@ -154,7 +154,7 @@ function RegisterCourse() {
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="success">
-          Registration course completed and going to Payment Page.
+          สมัครคอร์สสำเร็จ กำลังเข้าสู่หน้าชำระเงิน
         </Alert>
       </Snackbar>
       <Snackbar
@@ -164,7 +164,7 @@ function RegisterCourse() {
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="error">
-          Failed to Registration, please try again.
+          เกิดข้อผิดพลาดกับการสมัครคอร์ส โปรดลองอีกครั้ง
         </Alert>
       </Snackbar>
       <Box sx={{ margin: "0 16% 0 10%", display: 'flex', justifyContent: "space-between" }}>

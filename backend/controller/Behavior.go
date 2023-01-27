@@ -69,8 +69,8 @@ func GetBehavior(c *gin.Context) {
 
 // GET /behaviors
 func ListBehaviors(c *gin.Context) {
-	var behaviors []entity.Member
-	if err := entity.DB().Preload("Member").Preload("Exercise").Preload("Tatse").Raw("SELECT * FROM members").Find(&behaviors).Error; err != nil {
+	var behaviors []entity.Behavior
+	if err := entity.DB().Preload("Member").Preload("Exercise").Preload("Tatse").Raw("SELECT * FROM behaviors").Find(&behaviors).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { CourseDetailInterface } from "../interfaces/ICourseDetail";
 import { CourseServiceInterface } from "../interfaces/ICourseService";
-import { UserInterface } from "../interfaces/IUser";
+import { MemberInterface } from "../interfaces/IMember";
 import { ReviewInterface } from "../interfaces/IReview";
 import { SignInInterface } from "../interfaces/ISignIn";
 import { BlogInterface } from "../interfaces/IBlog";
@@ -9,6 +9,7 @@ import { AdminInterface } from "../interfaces/IAdmin";
 import { FoodInformationInterface } from "../interfaces/IFoodInformation";
 import { NutrientInterface } from "../interfaces/INutrient";
 import { PaymentInterface } from "../interfaces/IPayment";
+import { BehaviorInterface } from "../interfaces/IBehavior";
 
 const apiUrl = `http://localhost:8080`;
 
@@ -156,7 +157,7 @@ async function GetTrainer() {
   return res;
 }
 
-async function CourseServices(data: CourseServiceInterface) {
+async function CreateCourseService(data: CourseServiceInterface) {
   const requestOptions = {
     method: "POST",
     headers: {
@@ -473,25 +474,6 @@ const CreateFoodInformation = async (data: FoodInformationInterface) => {
   return res;
 };
 
-const UpdateFoodInformation = async (data: FoodInformationInterface) => {
-  const requestOptions = {
-    method: "PATCH",
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  };
-
-  let res = await fetch(`${apiUrl}/update-food_information`, requestOptions)
-    .then((response) => response.json())
-    .then((result) => {
-      return result.data ? result.data : false;
-    });
-
-  return res;
-};
-
 const GetAdminByID = async () => {
   const id = localStorage.getItem("uid");
 
@@ -524,6 +506,25 @@ const GetFoodInformations = async () => {
 const GetFoodInformationByID = async (id: string) => {
   // let { id } = useParams();
   let res = await fetch(`${apiUrl}/food_information/${id}`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const UpdateFoodInformation = async (data: FoodInformationInterface) => {
+  const requestOptions = {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/update-food_information`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
       return result.data ? result.data : false;
@@ -613,7 +614,7 @@ const CreateNutrient = async (data: NutrientInterface) => {
 
 //===========================Member===========================
 
-const CreateMember = async (data: UserInterface) => {
+const CreateMember = async (data: MemberInterface) => {
   const requestOptions = {
     method: "POST",
     headers: {
@@ -642,6 +643,63 @@ const DeleteNutrient = async (id: string) => {
   };
 
   let res = await fetch(`${apiUrl}/delete-nutrient/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+/////////////////////////behavior//////////////////////////////////
+const CreateBehavior= async (data: BehaviorInterface) => {
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+  let res = await fetch(`${apiUrl}/behavior`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetTatse = async () => {
+  let res = await fetch(`${apiUrl}/tastes`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetExercise = async () => {
+  let res = await fetch(`${apiUrl}/exercises`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetMemberByID = async () => {
+  const id = localStorage.getItem("uid");
+
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+  let res = await fetch(`${apiUrl}/member/${id}`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
       return result.data ? result.data : false;
@@ -805,7 +863,7 @@ async function GetCourseServiceBYUID() {
   return res;
 }
 
-async function Payments(data: PaymentInterface) {
+async function CreatePayment(data: PaymentInterface) {
   const requestOptions = {
     method: "POST",
     headers: {
@@ -826,21 +884,32 @@ async function Payments(data: PaymentInterface) {
       }
     });
 
-    return res;
-  }
+  return res;
+}
 
 export {
-  GetCourseService,
+  // Login
+  Login,
+  AdminLogin,
+  //
   GetUser,
   GetCourseDetail,
   GetTrainer,
   GetAdmin,
   GetPrice,
   GetDescription,
-  CourseServices,
-  // login
-  Login,
-  AdminLogin,
+  CreateCourseService,
+  // CourseService
+  GetCourseService,
+  GetCourseDetailByID,
+  SelectCourseDetail,
+  // Payment
+  GetPayment,
+  GetDuration,
+  GetDiscountByCode,
+  GetDurationByID,
+  GetCourseServiceBYUID,
+  CreatePayment,
   // Blog
   CreateBlog,
   UpdateBlog,
@@ -855,9 +924,9 @@ export {
   CreateFoodInformation,
   GetAdminByID,
   GetFoodInformations,
-  DeleteFoodInformation,
   GetFoodInformationByID,
   UpdateFoodInformation,
+  DeleteFoodInformation,
   // Review
   CreateReviews,
   UpdateReview,
@@ -870,16 +939,13 @@ export {
   CreateNutrient,
   DeleteNutrient,
   // Member
+  GetMemberByID,
   CreateMember,
   //Body
   DeleteInfoBody,
   GetInfoBody,
-  // Payment
-  GetPayment,
-  Payments,
-  GetCourseServiceBYUID,
-  GetCourseDetailByID,
-  GetDuration,
-  GetDiscountByCode,
-  GetDurationByID,
+  //behavior
+  GetExercise,
+  GetTatse,
+  CreateBehavior,
 };

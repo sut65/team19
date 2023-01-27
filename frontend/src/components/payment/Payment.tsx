@@ -20,15 +20,7 @@ import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 
 import { PaymentInterface } from "../../interfaces/IPayment";
-import {
-  GetPayment,
-  Payments,
-  GetCourseServiceBYUID,
-  GetCourseDetailByID,
-  GetDuration,
-  GetDiscountByCode,
-  GetDurationByID,
-} from "../../services/HttpClientService";
+import { GetPayment, CreatePayment, GetCourseServiceBYUID, GetCourseDetailByID, GetDuration, GetDiscountByCode, GetDurationByID } from "../../services/HttpClientService";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { CourseServiceInterface } from "../../interfaces/ICourseService";
@@ -55,8 +47,7 @@ function Payment() {
   const [CourseDetail, setCourseDetail] = useState<CourseDetailInterface>({});
   const [Duration, setDuration] = useState<DurationInterface[]>([]);
   const [Discount, setDiscount] = useState<DiscountInterface>();
-  const [ShowDurationPercentage, setShowDurationPercentage] =
-    useState<number>(0);
+  const [ShowDurationPercentage, setShowDurationPercentage] = useState<number>(0);
   const [NumberOfDays, setNumberOfDays] = useState<number>(0);
   const [Balance, setBalance] = useState<number>(0);
   let SumaryBalance = 0;
@@ -224,7 +215,7 @@ function Payment() {
       DurationID: convertType(Payment.DurationID),
       DiscountID: convertType(Discount?.ID),
     };
-    let res = await Payments(data);
+    let res = await CreatePayment(data);
     if (res) {
       setSuccess(true);
     } else {
@@ -241,7 +232,7 @@ function Payment() {
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="success">
-          Registration course completed.
+          ชำระเงินเสร็จสิ้น
         </Alert>
       </Snackbar>
       <Snackbar
@@ -251,7 +242,7 @@ function Payment() {
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="error">
-          Failed to Registration, please try again.
+          จ่ายเงินไม่สำเร็จ
         </Alert>
       </Snackbar>
       <Box

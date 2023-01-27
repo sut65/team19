@@ -1,4 +1,4 @@
-import { UserInterface } from "./IUser";
+import { MemberInterface } from "./IMember";
 import { CourseDetailInterface } from "./ICourseDetail";
 import { TrainerInterface } from "./ITrainer";
 
@@ -8,7 +8,7 @@ export interface CourseServiceInterface {
     Agreement?:             string;
     Status?:                string;
     UserID?:                number;
-    User?:                  UserInterface;
+    User?:                  MemberInterface;
     CourseDetailID?:        number;
     CourseDetail?:          CourseDetailInterface;
     TrainerID?:             number;

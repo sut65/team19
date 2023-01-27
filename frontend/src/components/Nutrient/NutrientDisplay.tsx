@@ -36,7 +36,7 @@ function NutrientDisplayUI() {
     const DeleteNut = async (id : string) => {
       let res = await DeleteNutrient(id);
       if (res) {
-        window.location.href = "/nutrient-display";
+        window.location.href = "/admin/nutrient-display";
       }
     }
 
@@ -67,29 +67,30 @@ function NutrientDisplayUI() {
         sx={{
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center",
+          // justifyContent: "center",
           alignItems: "center",
           gap: 6,
           height: "100vh",
           width: "100vw",
-          overflow: "hidden",
+          overflow: "auto",
           backgroundSize: "cover",
           color: "#f5f5f5",
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url(${homeBg})`,
         }}
       >
-        <Container>
 
+
+        <Box mb={"10rem"}>
             {/* ส่วนหัว */}
-            <Stack direction="row" spacing={2}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
 
-                <Avatar src={FoodIcon} />
+            <Avatar src={FoodIcon} />
 
-                <h1>ข้อมูลสารอาหารที่มีอยู่</h1>
+            <h1>ข้อมูลอาหารสารอาหารทั้งหมด</h1>
 
-                <Avatar src={FoodIcon} />
+            <Avatar src={FoodIcon} />
 
-            </Stack>
+          </Box>
 
                 <h1> </h1>
 
@@ -97,7 +98,7 @@ function NutrientDisplayUI() {
 
                 {/* ปุ่มเพิ่มข้อมูล */}
                 <Link
-                    to="/nutrient-display/create-nutrient"
+                    to="/admin/nutrient-display/create-nutrient"
                     style={{
                     textDecoration: "none",
                     }}
@@ -148,8 +149,10 @@ function NutrientDisplayUI() {
             </Table>
           </TableContainer>
 
-        </Container>
+  
       </Box>
+    </Box>
+    
     )
 
 }
