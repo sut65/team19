@@ -91,7 +91,7 @@ const submit = async () => {
 
       let res = await CreateNutrient(data);
       res ? setSuccess(true) : setError(true);
-      window.location.href = "/nutrient-display"
+      window.location.href = "/admin/nutrient-display"
       console.log(JSON.stringify(data))
 };
 
@@ -291,7 +291,7 @@ useEffect(() => {
             </Button>
 
             <Link
-                to="/nutrient-display"
+                to="/admin/nutrient-display"
                 style={{
                 textDecoration: "none",
                 }}

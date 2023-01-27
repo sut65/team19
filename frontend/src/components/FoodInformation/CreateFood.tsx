@@ -129,7 +129,7 @@ function CreateFood() {
     
         let res = await CreateFoodInformation(data);
         res ? setSuccess(true) : setError(true);
-        window.location.href = "/food-display"
+        window.location.href = "/admin/food-display"
         console.log(JSON.stringify(data))
       };
 
@@ -334,7 +334,7 @@ function CreateFood() {
                 </Button>
 
                 <Link
-                    to="/food-display"
+                    to="/admin/food-display"
                     style={{
                     textDecoration: "none",
                     }}

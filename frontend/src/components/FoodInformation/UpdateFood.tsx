@@ -111,6 +111,7 @@ function UpdateFood() {
       let res = await GetAdminByID();
       foodinformation.AdminID = res.ID;
       if (res) {
+        console.log(res)
         setAdmin(res);
       }
     };
@@ -136,7 +137,7 @@ function UpdateFood() {
     
         let res = await UpdateFoodInformation(newdata);
         res ? setSuccess(true) : setError(true);
-        window.location.href = "/food-display"
+        window.location.href = "/admin/food-display"
         console.log(JSON.stringify(newdata))
       };
 
@@ -150,7 +151,7 @@ function UpdateFood() {
     return(
         <Container>
 
-        <h1>เพิ่มข้อมูลอาหาร</h1>
+        <h1>แก้ไขข้อมูลอาหาร</h1>
 
         <h1> </h1>
     
@@ -166,7 +167,6 @@ function UpdateFood() {
                 value={foodinformation.Name}
                 onChange={handleInputChange}
                 placeholder="กรอกชื่ออาหาร"
-                label="ชื่ออาหาร"
             />
 
             {/* วัตถุดิบหลัก*/}
@@ -341,7 +341,7 @@ function UpdateFood() {
                 </Button>
 
                 <Link
-                    to="/food-display"
+                    to="/admin/food-display"
                     style={{
                     textDecoration: "none",
                     }}
