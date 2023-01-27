@@ -164,7 +164,7 @@ function RegisterCourse() {
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="error">
-          เกิดข้อผิดพลาดกับการสมัคร โปรดลองอีกครั้ง
+          เกิดข้อผิดพลาดกับการสมัครคอร์ส โปรดลองอีกครั้ง
         </Alert>
       </Snackbar>
       <Box sx={{ margin: "0 16% 0 10%", display: 'flex', justifyContent: "space-between" }}>
