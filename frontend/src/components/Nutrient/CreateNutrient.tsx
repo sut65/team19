@@ -91,7 +91,7 @@ const submit = async () => {
 
       let res = await CreateNutrient(data);
       res ? setSuccess(true) : setError(true);
-    //   window.location.href = "/food-display"
+      window.location.href = "/nutrient-display"
       console.log(JSON.stringify(data))
 };
 
@@ -114,9 +114,9 @@ useEffect(() => {
                 },
                 }}
             >
-            <Paper elevation={5} sx = {{ p: 2}}>
-                <h1>เพิ่มข้อมูลสารอาหาร</h1>
-            </Paper>
+
+            <h1>เพิ่มข้อมูลสารอาหาร</h1>
+
             </Box>
 
             <h1> </h1>
@@ -192,7 +192,7 @@ useEffect(() => {
                 placeholder="กรอกแคลอรี่"
                 onChange={handleInputChange}
                 value={nutrient.TotalCalorie}
-                sx={{ m: 1, width: '15%' }}
+                sx={{ m: 1, width: '17%' }}
                 InputProps={{
                     startAdornment: <InputAdornment position="start">Kcal</InputAdornment>,
                     inputProps: {min: 0}
@@ -285,7 +285,8 @@ useEffect(() => {
 
             {/* ปุ่มยืนยันและย้อนกลับ */}
 
-            <Button variant="outlined" color="success" onClick={submit}>
+            <Button variant="outlined" color="success" onClick={submit}
+                sx = {{ borderRadius: 20 }}>
                     เพิ่มสารอาหาร
             </Button>
 
@@ -295,9 +296,10 @@ useEffect(() => {
                 textDecoration: "none",
                 }}
             >
-                <Button variant="outlined" color="secondary">
+            <Button variant="outlined" color="secondary"
+                sx = {{ borderRadius: 20 }}>
                 ย้อนกลับ
-                </Button>
+            </Button>
             </Link>
 
             </Stack>
