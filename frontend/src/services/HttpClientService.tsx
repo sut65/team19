@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { CourseDetailInterface } from "../interfaces/ICourseDetail";
 import { CourseServiceInterface } from "../interfaces/ICourseService";
-import { UserInterface } from "../interfaces/IUser";
+import { MemberInterface } from "../interfaces/IMember";
 import { ReviewInterface } from "../interfaces/IReview";
 import { SignInInterface } from "../interfaces/ISignIn";
 import { BlogInterface } from "../interfaces/IBlog";
@@ -9,6 +9,7 @@ import { AdminInterface } from "../interfaces/IAdmin";
 import { FoodInformationInterface } from "../interfaces/IFoodInformation";
 import { NutrientInterface } from "../interfaces/INutrient";
 import { PaymentInterface } from "../interfaces/IPayment";
+import { BehaviorInterface } from "../interfaces/IBehavior";
 
 const apiUrl = `http://localhost:8080`;
 
@@ -613,7 +614,7 @@ const CreateNutrient = async (data: NutrientInterface) => {
 
 //===========================Member===========================
 
-const CreateMember = async (data: UserInterface) => {
+const CreateMember = async (data: MemberInterface) => {
   const requestOptions = {
     method: "POST",
     headers: {
@@ -642,6 +643,63 @@ const DeleteNutrient = async (id: string) => {
   };
 
   let res = await fetch(`${apiUrl}/delete-nutrient/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+/////////////////////////behavior//////////////////////////////////
+const CreateBehavior= async (data: BehaviorInterface) => {
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+  let res = await fetch(`${apiUrl}/behavior`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetTatse = async () => {
+  let res = await fetch(`${apiUrl}/tastes`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetExercise = async () => {
+  let res = await fetch(`${apiUrl}/exercises`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetMemberByID = async () => {
+  const id = localStorage.getItem("uid");
+
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+  let res = await fetch(`${apiUrl}/member/${id}`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
       return result.data ? result.data : false;
@@ -881,8 +939,13 @@ export {
   CreateNutrient,
   DeleteNutrient,
   // Member
+  GetMemberByID,
   CreateMember,
   //Body
   DeleteInfoBody,
   GetInfoBody,
+  //behavior
+  GetExercise,
+  GetTatse,
+  CreateBehavior,
 };

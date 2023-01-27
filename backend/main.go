@@ -55,6 +55,12 @@ func main() {
 			r.GET("/gender/:id", controller.GetGender)
 			r.GET("/genders", controller.Listgenders)
 
+			r.GET("/exercise/:id", controller.GetExercise)
+			r.GET("/exercises", controller.ListExercise)
+
+			r.GET("/tatse/:id", controller.GetTatse)
+			r.GET("/tastes", controller.ListTatse)
+
 			// course_service Routes
 			router.POST("/course_service", CourseService.CreateCourseService)
 			router.GET("/course_service/:id", CourseService.GetCourseService)
@@ -167,6 +173,13 @@ func main() {
 
 			router.GET("/most_nutrients", nutrient.ListMostNutrients)
 			router.GET("/most_nutrient/:id", nutrient.GetMostNutrient)
+
+			// Behavior Routes
+			router.POST("/behavior", controller.CreateBehavior)
+			router.GET("/behavior/:id", controller.GetBehavior)
+			router.GET("/behaviors", controller.ListBehaviors)
+			router.DELETE("/behavior/:id", controller.DeleteBehavior)
+			router.PATCH("/behaviors", controller.UpdateBehavior)
 
 			// discount Routes
 			router.POST("/discount", Payment.CreateDiscount)

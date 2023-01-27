@@ -27,6 +27,7 @@ import Trainer from "./pages/login/Trainer";
 import Admin from "./pages/login/Admin";
 import Payment from "./components/payment/Payment";
 import UpdateFood from "./components/FoodInformation/UpdateFood";
+import CreateBehaviors from "./components/Behavior/CreateBehavior";
 
 function App() {
   const [token, setToken] = useState<String>("");
@@ -91,13 +92,10 @@ function App() {
           />
           <Route path="register" element={<Register />}></Route>
           <Route path="BodyRecord" element={<BodyDisplay />}></Route>
-          <Route
-            path="article/:id/update-article"
-            element={<UpdateArticle />}
-          />
           <Route path="register" element={<Register />}></Route>
           <Route path="create-review" element={<CreateReview />} />
           <Route path="reviews" element={<ShowReview />} />
+          <Route path="behavior" element={<CreateBehaviors />} />
         </Route>
         {/* <Route path="/" element={<Navbar />}> */}
         {/* </Route> */}

@@ -25,7 +25,7 @@ import AppLogo from "../images/nutrition.png"
 import '../App.css';
 import '../index.css';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { UserInterface } from "../interfaces/IUser";
+import { MemberInterface } from "../interfaces/IMember";
 
 const apiUrl = `http://localhost:8080`;
 
