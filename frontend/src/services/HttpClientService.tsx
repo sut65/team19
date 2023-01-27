@@ -143,7 +143,7 @@ async function GetTrainer() {
     },
   };
 
-  let res = await fetch(`${apiUrl}/trainers`, requestOptions)
+  let res = await fetch(`${apiUrl}/trainer`, requestOptions)
     .then((response) => response.json())
     .then((res) => {
       if (res.data) {
@@ -882,12 +882,4 @@ export {
   //Body
   DeleteInfoBody,
   GetInfoBody,
-  // Payment
-  GetPayment,
-  Payments,
-  GetCourseServiceBYUID,
-  GetCourseDetailByID,
-  GetDuration,
-  GetDiscountByCode,
-  GetDurationByID,
 };
