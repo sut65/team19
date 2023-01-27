@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import SignIn from '../../components/SignIn';
+import { AdminLogin } from '../../services/HttpClientService';
 
 function Admin() {
   const [token, setToken] = useState<String>("");
@@ -12,7 +13,7 @@ function Admin() {
   }, []);
 
   if (!token) {
-    return <SignIn />;
+    return <SignIn loginRole={AdminLogin} />;
   }
   
   return (
