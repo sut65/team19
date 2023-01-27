@@ -25,7 +25,7 @@ import LoginRole from "./pages/LoginRole";
 import User from "./pages/login/User";
 import Trainer from "./pages/login/Trainer";
 import Admin from "./pages/login/Admin";
-import Payment from "./components/Payment/Payment";
+import Payment from "./components/payment/Payment";
 import UpdateFood from "./components/FoodInformation/UpdateFood";
 
 function App() {
