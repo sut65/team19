@@ -17,6 +17,7 @@ import FoodDisplay from "./components/FoodInformation/FoodDisplay";
 import CreateFood from "./components/FoodInformation/CreateFood";
 import CreateNutrientUI from "./components/Nutrient/CreateNutrient";
 import NutrientDisplayUI from "./components/Nutrient/NutrientDisplay";
+import BodyRecord from "./components/BodyRecord/BodyRecord"
 import ShowReview from "./components/review/ShowReview";
 import CreateReview from "./components/review/CreateReview";
 
@@ -50,6 +51,7 @@ function App() {
           <Route path="article/:id/update-article" element={<UpdateArticle />} />
           <Route path="/register" element={<Register />}></Route>
           <Route path="/food-display" element={<FoodDisplay />}></Route>
+          <Route path="/BodyRecord" element={<BodyRecord />}></Route>
           <Route path="/food-display/create-food" element={<CreateFood />}></Route>
           <Route path="/nutrient-display/create-nutrient" element={<CreateNutrientUI />}></Route>
           <Route path="/nutrient-display" element={<NutrientDisplayUI />}></Route>

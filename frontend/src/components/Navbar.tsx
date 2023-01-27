@@ -16,6 +16,10 @@ import Divider from '@mui/material/Divider';
 import LogoutRoundedIcon from '@mui/icons-material/LogoutRounded';
 import FastfoodRoundedIcon from '@mui/icons-material/FastfoodRounded';
 import PaymentRoundedIcon from '@mui/icons-material/PaymentRounded';
+import { Avatar } from '@mui/material';
+
+import Healthy from "../images/Health.png"
+
 
 import '../App.css';
 import '../index.css';
@@ -130,6 +134,24 @@ function Navbar() {
                   </Button>
                 </Link>
               </Grid>
+              {/* =====================================< Body Record >==================================== */}
+              <Grid item xs={1}>
+                <Link
+                  to="BodyRecord"
+                  style={{
+                    color: "#000",
+                    textDecoration: "none",
+                    textAlign: "center",
+                  }}
+                >
+                  <Button color="inherit" style={{ fontSize: "1.2rem" }}>
+                    Body
+                    <Avatar src={Healthy} />
+
+                  </Button>
+                </Link>
+              </Grid>
+              {/* ===================================<  >================================ */}
               <Grid item xs={2}>
                 <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
                   <Tooltip title="Account settings">
