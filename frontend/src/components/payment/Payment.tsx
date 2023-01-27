@@ -1,18 +1,41 @@
-import { Box, Button, Card, CardContent, CardMedia, Divider, FormControl, Grid, InputAdornment, Select, SelectChangeEvent, styled, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  CardMedia,
+  Divider,
+  FormControl,
+  Grid,
+  InputAdornment,
+  Select,
+  SelectChangeEvent,
+  styled,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 
 import { PaymentInterface } from "../../interfaces/IPayment";
-import { GetPayment, Payments, GetCourseServiceBYUID, GetCourseDetailByID, GetDuration, GetDiscountByCode, GetDurationByID } from "../../services/HttpClientService";
+import {
+  GetPayment,
+  Payments,
+  GetCourseServiceBYUID,
+  GetCourseDetailByID,
+  GetDuration,
+  GetDiscountByCode,
+  GetDurationByID,
+} from "../../services/HttpClientService";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { CourseServiceInterface } from "../../interfaces/ICourseService";
 import { CourseDetailInterface } from "../../interfaces/ICourseDetail";
 import { DurationInterface } from "../../interfaces/IDuration";
 import { DiscountInterface } from "../../interfaces/IDiscount";
-import Clock from 'react-live-clock';
+import Clock from "react-live-clock";
 import QRCode from "../../images/qr-code.png";
 
 const apiUrl = `http://localhost:8080`;
@@ -25,26 +48,29 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 
 function Payment() {
-  const [Payment, setPayment] = useState<PaymentInterface>({ PaymentDate: new Date() })
-  const [CourseService, setCourseService] = useState<CourseServiceInterface>()
-  const [CourseDetail, setCourseDetail] = useState<CourseDetailInterface>({})
-  const [Duration, setDuration] = useState<DurationInterface[]>([])
-  const [Discount, setDiscount] = useState<DiscountInterface>()
-  const [ShowDurationPercentage, setShowDurationPercentage] = useState<number>(0)
-  const [NumberOfDays, setNumberOfDays] = useState<number>(0)
-  const [Balance, setBalance] = useState<number>(0)
+  const [Payment, setPayment] = useState<PaymentInterface>({
+    PaymentDate: new Date(),
+  });
+  const [CourseService, setCourseService] = useState<CourseServiceInterface>();
+  const [CourseDetail, setCourseDetail] = useState<CourseDetailInterface>({});
+  const [Duration, setDuration] = useState<DurationInterface[]>([]);
+  const [Discount, setDiscount] = useState<DiscountInterface>();
+  const [ShowDurationPercentage, setShowDurationPercentage] =
+    useState<number>(0);
+  const [NumberOfDays, setNumberOfDays] = useState<number>(0);
+  const [Balance, setBalance] = useState<number>(0);
   let SumaryBalance = 0;
   let CourseDuration: string;
-  const [Code, setCode] = useState<string>()
-  const [ShowCodePercentage, setShowCodePercentage] = useState<number>(0)
+  const [Code, setCode] = useState<string>();
+  const [ShowCodePercentage, setShowCodePercentage] = useState<number>(0);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [image, setImage] = useState({ name: "", src: "" });
   const [DisButton, setDisButton] = useState(false);
 
-  const UFirstName = localStorage.getItem("firstname") + ""
-  const ULastName = localStorage.getItem("lastname") + ""
-  const UserName = UFirstName + " " + ULastName
+  const UFirstName = localStorage.getItem("firstname") + "";
+  const ULastName = localStorage.getItem("lastname") + "";
+  const UserName = UFirstName + " " + ULastName;
 
   const navigate = useNavigate();
 
@@ -67,7 +93,7 @@ function Payment() {
     setError(false);
 
     if (success === true) {
-      navigate(`/user/home`)
+      navigate(`/user/home`);
     }
   };
 
@@ -86,9 +112,8 @@ function Payment() {
     };
 
     if (Payment.Slip !== "") {
-      setDisButton(true)
+      setDisButton(true);
     }
-
   };
 
   const getCourseServiceBYUID = async () => {
@@ -115,8 +140,8 @@ function Payment() {
   const getDurationByID = async () => {
     let res = await GetDurationByID(Payment.DurationID);
     if (res) {
-      setShowDurationPercentage(res.DurationPercentage)
-      setNumberOfDays(res.NumberOfDays)
+      setShowDurationPercentage(res.DurationPercentage);
+      setNumberOfDays(res.NumberOfDays);
     }
   };
 
@@ -126,17 +151,13 @@ function Payment() {
       setDiscount(res);
       if (res.DiscountCode === Code) {
         setShowCodePercentage(res.DiscountPercentage);
+      } else {
+        setShowCodePercentage(0);
       }
-      else {
-        setShowCodePercentage(0)
-      }
-    }
-    else if (Code === "NOCODE"){
-    }
-    else {
+    } else if (Code === "NOCODE") {
+    } else {
       setCode("NOCODE");
     }
-    
   };
 
   useEffect(() => {
@@ -157,11 +178,17 @@ function Payment() {
   // }, [Code]);
 
   useEffect(() => {
-    console.log(Payment.DurationID)
+    console.log(Payment.DurationID);
     getDurationByID();
     getDiscountCode();
-    CourseDuration = convertType(CourseDetail.Price?.Duration) + ""
-    CalBalance(Number(CourseDetail.Price?.Price), parseInt(CourseDuration), ShowCodePercentage, ShowDurationPercentage, NumberOfDays);
+    CourseDuration = convertType(CourseDetail.Price?.Duration) + "";
+    CalBalance(
+      Number(CourseDetail.Price?.Price),
+      parseInt(CourseDuration),
+      ShowCodePercentage,
+      ShowDurationPercentage,
+      NumberOfDays
+    );
   }, [Payment.DurationID, Code, NumberOfDays, CourseDetail.Price?.Price]);
 
   const convertType = (data: string | number | undefined) => {
@@ -169,13 +196,21 @@ function Payment() {
     return val;
   };
 
-  function CalBalance(Price: number, Duration: number, ShowCodePercentage: number, ShowDurationPercentage: number, NumberOfDays: number) {
-    SumaryBalance = ((Price / Duration) * NumberOfDays) * (1 - ((ShowCodePercentage + ShowDurationPercentage) / 100));
-    SumaryBalance = parseInt((Math.ceil(SumaryBalance * 100) / 100).toFixed(2))
+  function CalBalance(
+    Price: number,
+    Duration: number,
+    ShowCodePercentage: number,
+    ShowDurationPercentage: number,
+    NumberOfDays: number
+  ) {
+    SumaryBalance =
+      (Price / Duration) *
+      NumberOfDays *
+      (1 - (ShowCodePercentage + ShowDurationPercentage) / 100);
+    SumaryBalance = parseInt((Math.ceil(SumaryBalance * 100) / 100).toFixed(2));
     if (Number.isNaN(Balance)) {
       setBalance(Number(CourseDetail.Price?.Price));
-    }
-    else {
+    } else {
       setBalance(SumaryBalance);
     }
   }
@@ -219,14 +254,20 @@ function Payment() {
           Failed to Registration, please try again.
         </Alert>
       </Snackbar>
-      <Box sx={{ margin: "0 16% 0 10%", display: 'flex', justifyContent: "space-between" }}>
+      <Box
+        sx={{
+          margin: "0 16% 0 10%",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
         <Card
           sx={{
             maxWidth: 600,
             height: "100%",
             boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
           }}
-          >
+        >
           <CardMedia
             component="img"
             height="400"
@@ -236,23 +277,23 @@ function Payment() {
           <CardContent>
             <Box
               sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  paddingTop: "0.5rem"
-                  }}  
-              >
+                display: "flex",
+                justifyContent: "space-between",
+                paddingTop: "0.5rem",
+              }}
+            >
               <Typography
-                  mb={2}
-                  gutterBottom
-                  variant="h3"
-                  component="div"
-                  // color={"#3b82f6"}
-                  style={{ textTransform: "capitalize", fontSize: "1.6rem" }}
+                mb={2}
+                gutterBottom
+                variant="h3"
+                component="div"
+                // color={"#3b82f6"}
+                style={{ textTransform: "capitalize", fontSize: "1.6rem" }}
               >
-                  <b>{CourseService?.CourseDetail?.CourseName}</b>
+                <b>{CourseService?.CourseDetail?.CourseName}</b>
               </Typography>
               <Typography variant="body2" color="text.secondary" mb={2}>
-                  Category: {CourseDetail?.Description?.CourseType}
+                Category: {CourseDetail?.Description?.CourseType}
               </Typography>
             </Box>
             <Typography
@@ -262,29 +303,37 @@ function Payment() {
             >
               {CourseDetail.Description?.Description}
             </Typography>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ display: "flex", alignItems: "center" }}>
               <Typography
                 variant="caption"
                 fontSize={"1rem"}
                 sx={{
-                border: "solid 1px #252525",
-                borderRadius: "1rem",
-                p: "4px 16px",
-                fontWeight: "bold",
+                  border: "solid 1px #252525",
+                  borderRadius: "1rem",
+                  p: "4px 16px",
+                  fontWeight: "bold",
                 }}
               >
                 {CourseDetail.Price?.Price} บาท
               </Typography>
-              <Typography 
-                  sx={{
+              <Typography
+                sx={{
                   pl: "16px",
-                  fontSize: "0.9rem"
-                  }}>
-                  ระยะเวลาคอร์ส {CourseDetail.Price?.Duration}
+                  fontSize: "0.9rem",
+                }}
+              >
+                ระยะเวลาคอร์ส {CourseDetail.Price?.Duration}
               </Typography>
             </Box>
           </CardContent>
-          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: "space-between", margin: "16px 14px 16px 14px"}}>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              margin: "16px 14px 16px 14px",
+            }}
+          >
             <Button
               className="btn-user"
               variant="contained"
@@ -323,10 +372,18 @@ function Payment() {
         </Card>
 
         <Box sx={{ fontSize: "1.5rem", width: "55%" }}>
-          <Grid container spacing={4} sx={{ display: "flex", alignItems: "center" }} >
-            <Grid item xs={12} sx={{ marginLeft: "20%", fontWeight: "bold", display: "flex" }}>
-              <Grid item xs={6} >
-                <Button 
+          <Grid
+            container
+            spacing={4}
+            sx={{ display: "flex", alignItems: "center" }}
+          >
+            <Grid
+              item
+              xs={12}
+              sx={{ marginLeft: "20%", fontWeight: "bold", display: "flex" }}
+            >
+              <Grid item xs={6}>
+                <Button
                   variant="contained"
                   style={{
                     color: "#fff",
@@ -334,29 +391,37 @@ function Payment() {
                     backgroundColor: "#384648",
                     padding: "10px 40px",
                     fontSize: "2rem",
-                  }}>
+                  }}
+                >
                   Payment
                 </Button>
               </Grid>
-              <Grid item xs={6} sx={{ textAlign: "right", alignSelf: "flex-end" }}>
-                <Clock format={'ddd, MM-DD-YYYY HH:mm:ss'} ticking={true} timezone={'Asia/bangkok'}
-                  style={{ fontWeight: "normal", fontSize: "1rem" }}/>
+              <Grid
+                item
+                xs={6}
+                sx={{ textAlign: "right", alignSelf: "flex-end" }}
+              >
+                <Clock
+                  format={"ddd, MM-DD-YYYY HH:mm:ss"}
+                  ticking={true}
+                  timezone={"Asia/bangkok"}
+                  style={{ fontWeight: "normal", fontSize: "1rem" }}
+                />
               </Grid>
             </Grid>
 
             <Grid item xs={12} sx={{ marginLeft: "10%", marginRight: "-10%" }}>
-            <Divider>
-            </Divider>
+              <Divider></Divider>
             </Grid>
-            
-            <Grid item xs={6} sx={{ textAlign: 'right', fontWeight: "bold" }}>
+
+            <Grid item xs={6} sx={{ textAlign: "right", fontWeight: "bold" }}>
               Member
             </Grid>
             <Grid item xs={6}>
               {UserName}
             </Grid>
-            
-            <Grid item xs={6} sx={{ textAlign: 'right', fontWeight: "bold" }}>
+
+            <Grid item xs={6} sx={{ textAlign: "right", fontWeight: "bold" }}>
               Date
             </Grid>
             <Grid item xs={6}>
@@ -376,7 +441,7 @@ function Payment() {
               </FormControl>
             </Grid>
 
-            <Grid item xs={6} sx={{ textAlign: 'right', fontWeight: "bold" }}>
+            <Grid item xs={6} sx={{ textAlign: "right", fontWeight: "bold" }}>
               Duration
             </Grid>
             <Grid item xs={4.5}>
@@ -388,7 +453,7 @@ function Payment() {
                   inputProps={{
                     name: "DurationID",
                   }}
-                  color= "success"
+                  color="success"
                 >
                   <option aria-label="None" value="">
                     Please select duration
@@ -401,9 +466,11 @@ function Payment() {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={1}>Days</Grid>
+            <Grid item xs={1}>
+              Days
+            </Grid>
 
-            <Grid item xs={6} sx={{ textAlign: 'right', fontWeight: "bold" }}>
+            <Grid item xs={6} sx={{ textAlign: "right", fontWeight: "bold" }}>
               Discount Code
             </Grid>
             <Grid item xs={6}>
@@ -414,51 +481,58 @@ function Payment() {
                 type="string"
                 variant="outlined"
                 autoComplete="off"
-                color= "success"
+                color="success"
                 onChange={(event) => setCode(event.target.value)}
               />
             </Grid>
-            <Grid item xs={6} >
-              <Box sx={{display: "flex", justifyContent: 'right'}}>
+            <Grid item xs={6}>
+              <Box sx={{ display: "flex", justifyContent: "right" }}>
                 <img style={{ width: "50%" }} src={QRCode} alt="logo" />
               </Box>
-              
             </Grid>
             <Grid item xs={6} sx={{ fontSize: "1rem" }}>
               <Divider></Divider>
-              <Grid item xs={12} >
+              <Grid item xs={12}>
                 Course {">"} {CourseDetail.Price?.Price} baht
               </Grid>
 
-              <Grid item xs={12} >
-                Discount {">"} Duration {ShowDurationPercentage} % + Code {ShowCodePercentage} % = {ShowDurationPercentage + ShowCodePercentage} %
+              <Grid item xs={12}>
+                Discount {">"} Duration {ShowDurationPercentage} % + Code{" "}
+                {ShowCodePercentage} % ={" "}
+                {ShowDurationPercentage + ShowCodePercentage} %
               </Grid>
 
-              <Grid item xs={12} style={{ fontWeight: "bold", fontSize: "1.4rem"}}>
+              <Grid
+                item
+                xs={12}
+                style={{ fontWeight: "bold", fontSize: "1.4rem" }}
+              >
                 <Button
                   variant="contained"
                   component="label"
                   className="btn-user"
                   style={{
-                  color: "#fff",
-                  borderRadius: 20,
-                  backgroundColor: "#384648",
-                  padding: "6px 28px",
-                  marginTop: "5px",
-                  marginBottom: "10px"
-                }}
+                    color: "#fff",
+                    borderRadius: 20,
+                    backgroundColor: "#384648",
+                    padding: "6px 28px",
+                    marginTop: "5px",
+                    marginBottom: "10px",
+                  }}
                 >
                   Balance {">"} {Balance} baht
                 </Button>
               </Grid>
 
-              <Grid item xs={12} >
-              <Divider></Divider>
+              <Grid item xs={12}>
+                <Divider></Divider>
               </Grid>
               <br></br>
               <Grid item xs={12} sx={{ fontWeight: "bold" }}>
                 <Grid item xs={12} sx={{ paddingBottom: "10px" }}>
-                  <u style={{ fontStyle: "italic", paddingLeft: "12px" }}>{image.name}</u>
+                  <u style={{ fontStyle: "italic", paddingLeft: "12px" }}>
+                    {image.name}
+                  </u>
                 </Grid>
                 <Box>
                   <Button
@@ -466,11 +540,11 @@ function Payment() {
                     component="label"
                     className="btn-user"
                     style={{
-                    color: "#384648",
-                    borderRadius: 20,
-                    backgroundColor: "#D3E4CD",
-                    padding: "6px 28px",
-                  }}
+                      color: "#384648",
+                      borderRadius: 20,
+                      backgroundColor: "#D3E4CD",
+                      padding: "6px 28px",
+                    }}
                   >
                     Upload
                     <input
@@ -483,13 +557,11 @@ function Payment() {
                       onChange={handleChangeImages}
                     />
                   </Button>
-                  
                 </Box>
-                
               </Grid>
             </Grid>
             <Grid item xs={11}></Grid>
-            <Grid item xs={1} sx={{ alignItems: 'center'}}>
+            <Grid item xs={1} sx={{ alignItems: "center" }}>
               <Button
                 className="btn-user"
                 variant="contained"
@@ -509,7 +581,7 @@ function Payment() {
         </Box>
       </Box>
     </div>
-  )
+  );
 }
 
-export default Payment
+export default Payment;

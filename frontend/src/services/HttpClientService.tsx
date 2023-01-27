@@ -838,7 +838,9 @@ export {
   GetPrice,
   GetDescription,
   CourseServices,
+  // login
   Login,
+  AdminLogin,
   // Blog
   CreateBlog,
   UpdateBlog,
@@ -872,4 +874,12 @@ export {
   //Body
   DeleteInfoBody,
   GetInfoBody,
+  // Payment
+  GetPayment,
+  Payments,
+  GetCourseServiceBYUID,
+  GetCourseDetailByID,
+  GetDuration,
+  GetDiscountByCode,
+  GetDurationByID,
 };

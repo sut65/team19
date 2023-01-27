@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import SignIn from '../../components/SignIn';
 import { AdminLogin } from '../../services/HttpClientService';
+import NavbarAdmin from '../../components/NavbarAdmin';
 
 function Admin() {
   const [token, setToken] = useState<String>("");
@@ -17,7 +18,9 @@ function Admin() {
   }
   
   return (
-    <div>Admin</div>
+    <div>
+      <NavbarAdmin />
+    </div>
   )
 }
 

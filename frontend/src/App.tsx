@@ -17,7 +17,7 @@ import FoodDisplay from "./components/FoodInformation/FoodDisplay";
 import CreateFood from "./components/FoodInformation/CreateFood";
 import CreateNutrientUI from "./components/Nutrient/CreateNutrient";
 import NutrientDisplayUI from "./components/Nutrient/NutrientDisplay";
-import BodyDisplay from "./components/BodyRecord/BodyDisplay"
+import BodyDisplay from "./components/BodyRecord/BodyDisplay";
 import ShowReview from "./components/review/ShowReview";
 import CreateReview from "./components/review/CreateReview";
 import RegisterCourse from "./components/CourseService/RegisterCourse";
@@ -25,7 +25,8 @@ import LoginRole from "./pages/LoginRole";
 import User from "./pages/login/User";
 import Trainer from "./pages/login/Trainer";
 import Admin from "./pages/login/Admin";
-import Payment from "./components/Payment/Payment";
+// import Payment from "./components/Payment/Payment";
+import Payment from "./components/payment/Payment";
 import UpdateFood from "./components/FoodInformation/UpdateFood";
 
 function App() {
@@ -66,22 +67,29 @@ function App() {
             path="nutrient-display"
             element={<NutrientDisplayUI />}
           ></Route>
+          <Route
+            path="food-display/update-food/:id"
+            element={<UpdateFood />}
+          ></Route>
         </Route>
 
         {/* Routes Trainer */}
         <Route path="trainer" element={<Trainer />}></Route>
-        
+
         {/* Routes User */}
         <Route path="user" element={<User />}>
           <Route path="home" element={<Home />} />
           <Route path="create-article" element={<CreateArticle />} />
           <Route path="articles" element={<ShowCardBlog />} />
           <Route path="article/:id" element={<Article />} />
-          <Route path="register-course" element={<ShowCardCourseService  />} />
-          <Route path="register-course/:id" element={<RegisterCourse  />} />
-          <Route path="payment/:id" element={<Payment  />} />
+          <Route path="register-course" element={<ShowCardCourseService />} />
+          <Route path="register-course/:id" element={<RegisterCourse />} />
+          <Route path="payment/:id" element={<Payment />} />
           <Route path="article/create-article" element={<CreateArticle />} />
-          <Route path="article/:id/update-article" element={<UpdateArticle />} />
+          <Route
+            path="article/:id/update-article"
+            element={<UpdateArticle />}
+          />
           <Route path="register" element={<Register />}></Route>
           <Route path="BodyRecord" element={<BodyDisplay />}></Route>
           <Route
@@ -91,7 +99,6 @@ function App() {
           <Route path="register" element={<Register />}></Route>
           <Route path="create-review" element={<CreateReview />} />
           <Route path="reviews" element={<ShowReview />} />
-          <Route path="/food-display/update-food/:id" element={<UpdateFood />}></Route>
         </Route>
         {/* <Route path="/" element={<Navbar />}> */}
         {/* </Route> */}
