@@ -4,7 +4,7 @@ import { TrainerInterface } from "./ITrainer";
 
 export interface CourseServiceInterface {
     ID?:                    number;
-    CRegisterDate?:         Date | undefined;
+    CRegisterDate?:         Date | undefined | null;
     Agreement?:             string;
     Status?:                string;
     UserID?:                number;

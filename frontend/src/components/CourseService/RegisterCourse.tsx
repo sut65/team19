@@ -74,7 +74,7 @@ function RegisterCourse() {
     setError(false);
 
     if (success === true) {
-      navigate(`/payment/${params.id}`)
+      navigate(`/user/payment/${params.id}`)
     }
   };
 
