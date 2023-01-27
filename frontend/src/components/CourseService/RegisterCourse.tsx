@@ -154,7 +154,7 @@ function RegisterCourse() {
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="success">
-          Registration course completed and going to Payment Page.
+          สมัครคอร์สสำเร็จ กำลังเข้าสู่หน้าชำระเงิน
         </Alert>
       </Snackbar>
       <Snackbar
@@ -164,7 +164,7 @@ function RegisterCourse() {
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="error">
-          Failed to Registration, please try again.
+          เกิดข้อผิดพลาดกับการสมัคร โปรดลองอีกครั้ง
         </Alert>
       </Snackbar>
       <Box sx={{ margin: "0 16% 0 10%", display: 'flex', justifyContent: "space-between" }}>
