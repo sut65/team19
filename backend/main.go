@@ -87,6 +87,12 @@ func main() {
 			r.GET("/education/:id", trainer.GetEducation)
 			r.GET("/educations", trainer.ListEducation)
 
+			// Body routes
+			router.POST("/body", controller.CreateBody)
+			router.GET("/body/:id", controller.GetBody)
+			router.GET("/bodies", controller.ListBodies)
+			router.DELETE("/body/:id", controller.DeleteBody)
+
 			// FoodInformation Routes
 			router.GET("/food_informations", foodInformation.ListFoodInformations)
 			router.GET("/food_information/:id", foodInformation.GetFoodInformation)
