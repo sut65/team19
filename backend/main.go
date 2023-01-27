@@ -191,6 +191,7 @@ func main() {
 	// login User Route
 	r.POST("/login", controller.Login)
 	r.POST("/trainerLogin", controller.LoginTrainer)
+	r.POST("/adminLogin", controller.LoginAdmin)
 
 	// Run the server go run main.go
 	r.Run("localhost: " + PORT)
