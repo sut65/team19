@@ -1,24 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import Box from '@mui/material/Box';
 import { Container } from '@mui/system';
-import Button from '@mui/material/Button';
-import DeleteIcon from '@mui/icons-material/Delete';
-import Stack from '@mui/material/Stack';
-import { Link } from "react-router-dom";
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import { Paper } from '@mui/material';
-import Avatar from '@mui/material/Avatar';
-import ButtonGroup from '@mui/material';
+import { 
+  Box,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Avatar,
+  Button,
+  Stack,
+  } from '@mui/material';
 
+import { 
+  Link,
+  useParams,
+ } from "react-router-dom";
+
+import FoodIcon from "../../images/FoodIcon2.png"
+import AddIcon from "../../images/AddIcon.png"
+
+//Interface
 import { FoodInformationInterface } from '../../interfaces/IFoodInformation';
+import { DeleteFoodInformation, GetFoodInformations } from '../../services/HttpClientService';
 
-function FoodDisplay( 
-) {
+function FoodDisplay() {
+  const { id } = useParams();
   const [foodinformations, setFoodInformations] = useState<FoodInformationInterface[]>([]);
 
   const fetchFoodInformation = async () => {
@@ -34,32 +43,15 @@ function FoodDisplay(
       .then((res) => {
         console.log("Api", res.data);
         res.data && setFoodInformations(res.data);
-      });
+    });
   };
 
-  // const FoodInformationDelete = id => {
-  //   var data = {
-  //     'id': id
-  //   }
-    
-  //   fetch(`http://localhost:8080/food_informations`, requestOptions, {
-  //     method: 'DELETE',
-  //     headers: {
-  //       Accept: 'application/form-data',
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify(data),
-  //   })
-  //   .then(res => res.json())
-  //   .then(
-  //     (result) => {
-  //       alert(result['message'])
-  //       if (result['status'] === 'ok') {
-  //         GetFoodInformations();
-  //       }
-  //     }
-  //   )
-  // }
+  const DeleteFood = async (id : string) => {
+    let res = await DeleteFoodInformation(id);
+    if (res) {
+      window.location.href = "/food-display";
+    }
+  }
 
   useEffect(() => {
     fetchFoodInformation();
@@ -68,15 +60,17 @@ function FoodDisplay(
   return (
     <Container>
         {/* Header */}
-        <Box
-            display={"flex"}
-            sx={{
-            }
-            }>
-            <h1>ข้อมูลอาหารทั้งหมด</h1>
-            <h2> </h2>
-        </Box>
+        <Stack direction="row" spacing={2}>
+
+        <Avatar src={FoodIcon} />
+
+        <h1>ข้อมูลอาหารทั้งหมดในระบบ</h1>
+
+        <Avatar src={FoodIcon} />
         
+        </Stack>
+
+        <h1> </h1>
         
         <Stack direction="row" spacing={2}>
 
@@ -88,39 +82,29 @@ function FoodDisplay(
             }}
           >
             <Button variant="contained" color="success">
-            เพิ่มข้อมูลอาหาร
+              เพิ่มข้อมูลอาหาร
+              <Avatar src={AddIcon} />
             </Button>
           </Link>
         
-        {/* ปุ่มลบข้อมูล */} 
-          <Button variant="outlined" color="error" startIcon={<DeleteIcon />}>
-          ลบข้อมูลอาหาร
-          </Button>
-
         </Stack>
         
-        <Box
-            display={"flex"}
-            sx={{
-            }
-            }>
-            <h1> </h1>
-        </Box>
-        
+        <h1> </h1>
+  
         {/* ตาราง */}
         <TableContainer component={Paper}>
-            <Table aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell align="right">ไอดี</TableCell>
-                  <TableCell align="center">รูปภาพ</TableCell>
-                  <TableCell align="center">ชื่ออาหาร</TableCell>
-                  <TableCell align="center">วัตถุดิบหลัก</TableCell>
-                  <TableCell align="center">ประเภท</TableCell>
-                  <TableCell align="center">วันที่ทำการเพิ่ม</TableCell>
-                  <TableCell align="center">ผู้ดูแลที่ทำการเพิ่ม</TableCell>
-                </TableRow>
-              </TableHead>
+          <Table aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell align="right">ไอดี</TableCell>
+                <TableCell align="center">รูปภาพ</TableCell>
+                <TableCell align="center">ชื่ออาหาร</TableCell>
+                <TableCell align="center">วัตถุดิบหลัก</TableCell>
+                <TableCell align="center">ประเภท</TableCell>
+                <TableCell align="center">วันที่ทำการเพิ่ม</TableCell>
+                <TableCell align="center">ผู้ดูแลที่ทำการเพิ่ม</TableCell>
+              </TableRow>
+            </TableHead>
               <TableBody>
                 {foodinformations.map((foodinformations) => (
                   <TableRow key={foodinformations.ID}>
@@ -135,17 +119,15 @@ function FoodDisplay(
                     <TableCell align="center">{foodinformations.FoodType?.Name}</TableCell>
                     <TableCell align="center">{foodinformations.Datetime}</TableCell>
                     <TableCell align="center">{foodinformations.Admin?.Name}</TableCell>
-                    {/* <TableCell align="center">
-                      <ButtonGroup color="primary" aria-label="outlined primary button group">
-                        <Button onClick={() => UpdateUser(user.id)}>Edit</Button>
-                        <Button onClick={() => UserDelete(user.id)}>Del</Button>
-                      </ButtonGroup>
-                    </TableCell> */}
+                    {/* ปุ่มลบข้อมูล */}
+                    <TableCell align="right">
+                      <Button onClick={() => DeleteFood(foodinformations.ID+"")}>ลบข้อมูล</Button>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
-          </TableContainer>
+        </TableContainer>
 
       </Container>
   );
