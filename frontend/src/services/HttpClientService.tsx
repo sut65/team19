@@ -159,7 +159,10 @@ async function GetTrainer() {
 async function CreateCourseService(data: CourseServiceInterface) {
   const requestOptions = {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(data),
   };
 

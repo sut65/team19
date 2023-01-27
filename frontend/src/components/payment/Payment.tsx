@@ -233,7 +233,7 @@ function Payment() {
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="success">
-          Registration course completed.
+          ชำระเงินเสร็จสิ้น
         </Alert>
       </Snackbar>
       <Snackbar
@@ -243,7 +243,7 @@ function Payment() {
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="error">
-          Failed to Registration, please try again.
+          จ่ายเงินไม่สำเร็จ
         </Alert>
       </Snackbar>
       <Box
