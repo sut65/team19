@@ -8,17 +8,25 @@ import {
     Select,
     Box,
     Stack,
+    Paper,
+    Typography,
+    Avatar,
 } from '@mui/material';
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { Link } from "react-router-dom";
 
+// Interface
 import { FoodTypeInterface } from '../../interfaces/IFoodType';
 import { MainIngredientInterface } from '../../interfaces/IMainIngredient';
 import { AdminInterface } from '../../interfaces/IAdmin';
 import { FoodInformationInterface } from '../../interfaces/IFoodInformation';
 
+//Image
+import InsertIcon from "../../images/InsertIcon.png"
+
+//API
 import { 
     GetFoodTypes,
     GetMainIngredients,
@@ -26,9 +34,9 @@ import {
     GetAdminByID,
  } from '../../services/HttpClientService';
 
- const ImgBox = styled(Box)({
+const ImgBox = styled(Box)({
     width: "280px",
-  });
+});
 
 function CreateFood() {
 
@@ -135,19 +143,19 @@ function CreateFood() {
     }, []);
 
     return(
+
         <Container>
-            <Box
-                display={"flex"}
-                sx={{
-                }
-                }>
-                <h1>เพิ่มข้อมูลอาหาร</h1>
-                <h2> </h2>
-            </Box>
-            
+
+        <h1>เพิ่มข้อมูลอาหาร</h1>
+
+        <h1> </h1>
+    
         <Stack direction="row" spacing={2}>
             
             {/* ชื่ออาหาร*/}
+            <Typography variant="h2" component="h1">
+              ชื่ออาหาร :
+            </Typography>
             <TextField
                 id="name"
                 name="Name"
@@ -158,9 +166,12 @@ function CreateFood() {
             />
 
             {/* วัตถุดิบหลัก*/}
+            <Typography variant="h2" component="h1">
+              วัตถุดิบ :
+            </Typography>
             <Box
                 sx={{
-                    width: "30%",
+                    width: "25%",
                 }}
             >
                 <Select
@@ -185,6 +196,9 @@ function CreateFood() {
             </Box>
             
             {/* ประเภทอาหาร*/}
+            <Typography variant="h2" component="h1">
+              ประเภท :
+            </Typography>
             <Box
                 sx={{
                     width: "30%",
@@ -200,25 +214,32 @@ function CreateFood() {
                     name: "FoodTypeID",
                     }}
                 >
-                <option aria-label="None" value="">
-                    เลือกวัตถุดิบหลัก
-                </option>
-                {foodtypes.map((item: FoodTypeInterface) => (
-                <option key={item.ID} value={item.ID}>
-                    {item.Name}
-                </option>
-                ))}
-                    </Select>
+                  <option aria-label="None" value="">
+                      เลือกประเภทของอาหาร
+                  </option>
+                  {foodtypes.map((item: FoodTypeInterface) => (
+                  <option key={item.ID} value={item.ID}>
+                      {item.Name}
+                  </option>
+                  ))}
+                </Select>
             </Box>
+            
+            </Stack>
 
+            <h1> </h1>
+
+            <Stack direction="row" spacing={2}>
 
             {/* เลือกวันเวลาที่เพิ่ม*/}
+            <Typography variant="h2" component="h1">
+              วันเวลาที่ทำการเพิ่ม :
+            </Typography>
             <Box
             sx={{
                   display: "flex",
                   flexDirection: "column",
                   // gap: "2rem",
-                  mt: 2,
                 }}>
               <Box
                   sx={{
@@ -240,16 +261,13 @@ function CreateFood() {
                 </Box>
               </Box>
 
-        </Stack>
-
-        <Box>
-            <h2> </h2>
-        </Box>
-
-        <Stack direction="row" spacing={2}>
+        
 
             {/* Admin ถูก Lock เป็น Disable*/}
-            <Box sx={{ width: "30%" }}>
+            <Typography variant="h2" component="h1">
+              ผู้ดูแลที่ทำการเพิ่ม :
+            </Typography>
+            <Box sx={{ width: "30%"  }}>
               <TextField
                 fullWidth
                 disabled
@@ -270,7 +288,7 @@ function CreateFood() {
                     color: "#252525",
                 }}
                 >
-                Upload
+                อัพโหลดรูปภาพ
                 <input
                     id="image"
                     name="Image"
@@ -282,10 +300,20 @@ function CreateFood() {
                 />
                 </Button>
             </Box>
+
+            </Stack>
+
+            <h1> </h1>
+
+            <Stack direction="row" spacing={2}>
+            
+            <Paper>
+            <h1> </h1>
             <ImgBox>
                 <img src={image.src} alt={image.name} style={{ width: "100%" }} />
             </ImgBox>
-
+            <h1> </h1>
+            </Paper>
             
             </Stack>
 
@@ -303,7 +331,8 @@ function CreateFood() {
             
             <Stack direction="row" spacing={2}>
 
-                <Button variant="outlined" color="success" onClick={submit}>
+                <Button variant="outlined" color="success" onClick={submit}
+                sx = {{ borderRadius: 20 }}>
                     เพิ่มอาหาร
                 </Button>
 
@@ -313,14 +342,15 @@ function CreateFood() {
                     textDecoration: "none",
                     }}
                 >
-                    <Button variant="outlined" color="secondary">
-                    ย้อนกลับ
+                    <Button variant="outlined" color="secondary"
+                      sx = {{ borderRadius: 20 }}>
+                      ย้อนกลับ
                     </Button>
                  </Link>
 
             </Stack>
         </Container>
-    
+
     );
 }
 

@@ -594,6 +594,26 @@ const CreateMember= async (data: UserInterface) => {
   return res;
 };
 
+const DeleteNutrient = async (id: string) => {
+  const requestOptions = {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/delete-nutrient/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+
+
 export {
   GetCourseService,
   GetUser,
@@ -630,6 +650,7 @@ export {
   // Nutrient
   GetMostNutrient,
   CreateNutrient,
+  DeleteNutrient,
   // Member
   CreateMember,
   //Body
