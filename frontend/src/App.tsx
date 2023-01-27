@@ -20,10 +20,12 @@ import NutrientDisplayUI from "./components/Nutrient/NutrientDisplay";
 import BodyDisplay from "./components/BodyRecord/BodyDisplay"
 import ShowReview from "./components/review/ShowReview";
 import CreateReview from "./components/review/CreateReview";
+import RegisterCourse from "./components/CourseService/RegisterCourse";
 import LoginRole from "./pages/LoginRole";
 import User from "./pages/login/User";
 import Trainer from "./pages/login/Trainer";
 import Admin from "./pages/login/Admin";
+import Payment from "./components/Payment/Payment";
 
 function App() {
   const [token, setToken] = useState<String>("");
@@ -70,16 +72,17 @@ function App() {
         
         {/* Routes User */}
         <Route path="user" element={<User />}>
-          <Route index element={<Home />} />
+          <Route path="home" element={<Home />} />
           <Route path="create-article" element={<CreateArticle />} />
           <Route path="articles" element={<ShowCardBlog />} />
           <Route path="article/:id" element={<Article />} />
-          <Route path="course" element={<ShowCardCourseService  />} />
+          <Route path="register-course" element={<ShowCardCourseService  />} />
+          <Route path="register-course/:id" element={<RegisterCourse  />} />
+          <Route path="payment/:id" element={<Payment  />} />
           <Route path="article/create-article" element={<CreateArticle />} />
           <Route path="article/:id/update-article" element={<UpdateArticle />} />
           <Route path="register" element={<Register />}></Route>
           <Route path="BodyRecord" element={<BodyDisplay />}></Route>
-          <Route path="course" element={<ShowCardCourseService />} />
           <Route
             path="article/:id/update-article"
             element={<UpdateArticle />}

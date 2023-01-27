@@ -19,6 +19,7 @@ import PaymentRoundedIcon from '@mui/icons-material/PaymentRounded';
 import { Avatar } from '@mui/material';
 
 import Healthy from "../images/Health.png"
+import AppLogo from "../images/nutrition.png"
 
 
 import '../App.css';
@@ -80,20 +81,22 @@ function Navbar() {
                 alignItems: "center",
               }}
             >
-              <Grid item xs={2}>
-                <Link
-                  to="/user"
-                  style={{
-                    color: "#000",
-                    textDecoration: "none",
-                    textAlign: "center",
-                  }}
-                >
-                  <Typography component="div" sx={{ flexGrow: 1 , fontWeight: "bold", fontSize: 30 }}>
-                    Nutrition
-                  </Typography>
-                  
-                </Link>
+              <Grid item xs={1.2}>
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: "space-between" }}>
+                  <img style={{height: 40, justifyItems: 'center' }} src={AppLogo} alt="logo" />
+                  <Link
+                    to="/user"
+                    style={{
+                      color: "#000",
+                      textDecoration: "none",
+                      textAlign: "center",
+                    }}
+                  >
+                    <Typography component="div" sx={{ flexGrow: 1 , fontWeight: "bold", fontSize: 30 }}>
+                      Nutrition
+                    </Typography>
+                  </Link>
+                </Box>
               </Grid>
 
               <Grid item xs={5}></Grid>
@@ -108,7 +111,7 @@ function Navbar() {
 
               <Grid item xs={1}>
                 <Link
-                  to="course"
+                  to="register-course"
                   style={{
                     color: "#000",
                     textDecoration: "none",

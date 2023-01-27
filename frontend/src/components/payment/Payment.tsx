@@ -67,7 +67,7 @@ function Payment() {
     setError(false);
 
     if (success === true) {
-      navigate("/")
+      navigate(`/user/home`)
     }
   };
 
@@ -171,7 +171,7 @@ function Payment() {
 
   function CalBalance(Price: number, Duration: number, ShowCodePercentage: number, ShowDurationPercentage: number, NumberOfDays: number) {
     SumaryBalance = ((Price / Duration) * NumberOfDays) * (1 - ((ShowCodePercentage + ShowDurationPercentage) / 100));
-    SumaryBalance = parseFloat((Math.round(SumaryBalance * 100) / 100).toFixed(2))
+    SumaryBalance = parseInt((Math.ceil(SumaryBalance * 100) / 100).toFixed(2))
     if (Number.isNaN(Balance)) {
       setBalance(Number(CourseDetail.Price?.Price));
     }
