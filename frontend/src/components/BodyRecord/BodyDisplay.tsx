@@ -13,7 +13,7 @@ import { BodyInterface } from '../../interfaces/IBody';
 import { DeleteFoodInformation, GetFoodInformations } from '../../services/HttpClientService';
 import { DeleteInfoBody, GetInfoBody } from '../../services/HttpClientService';
 
-function BodyRecord() {
+function BodyDisplay() {
   const { id } = useParams();
   const [infoBody, setInfoBody] = useState<BodyInterface[]>([]);
 
@@ -141,4 +141,4 @@ function BodyRecord() {
   );
 }
 
-export default BodyRecord;
+export default BodyDisplay;
