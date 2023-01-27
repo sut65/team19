@@ -5,7 +5,11 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team19/controller"
+	CourseService "github.com/sut65/team19/controller/CourseService"
 	foodInformation "github.com/sut65/team19/controller/FoodInformation"
+	nutrient "github.com/sut65/team19/controller/Nutrient"
+	Payment "github.com/sut65/team19/controller/Payment"
+	trainer "github.com/sut65/team19/controller/Trainer"
 	blog "github.com/sut65/team19/controller/blog"
 	review "github.com/sut65/team19/controller/review"
 	"github.com/sut65/team19/entity"
@@ -41,12 +45,23 @@ func main() {
 	{
 		router.Use(middlewares.Authorizes())
 		{
+			// Subtable for trainers and members
+			r.GET("/status/:id", controller.GetStatus)
+			r.GET("/statuses", controller.ListStatus)
+
+			r.GET("/religion/:id", controller.GetReligion)
+			r.GET("/religions", controller.ListReligion)
+
+			r.GET("/gender/:id", controller.GetGender)
+			r.GET("/genders", controller.Listgenders)
+
 			// course_service Routes
-			router.POST("/course_service", controller.CreateCourseService)
-			router.GET("/course_service/:id", controller.GetCourseService)
-			router.GET("/course_services", controller.ListCourseServices)
-			router.DELETE("/course_service/:id", controller.DeleteCourseService)
-			router.PATCH("/course_services", controller.UpdateCourseService)
+			router.POST("/course_service", CourseService.CreateCourseService)
+			router.GET("/course_service/:id", CourseService.GetCourseService)
+			router.GET("/course_services", CourseService.ListCourseServices)
+			router.GET("/course_service_by_uid/:uid", CourseService.GetCourseServiceByUID)
+			router.DELETE("/course_service/:id", CourseService.DeleteCourseService)
+			router.PATCH("/course_services", CourseService.UpdateCourseService)
 
 			// course_detail Routes
 			router.POST("/course_detail", controller.CreateCourseDetail)
@@ -63,11 +78,23 @@ func main() {
 			router.PATCH("/members", controller.UpdateMember)
 
 			// trainer Routes
-			router.POST("/trainer", controller.CreateTrainer)
-			router.GET("/trainer/:id", controller.GetTrainer)
-			router.GET("/trainers", controller.ListTrainer)
-			router.DELETE("/trainer/:id", controller.DeleteTrainer)
-			router.PATCH("/trainers", controller.UpdateTrainer)
+			r.GET("/trainer/:id", trainer.GetTrainer)
+			r.GET("/trainer", trainer.ListTrainers)
+			r.POST("/trainer", trainer.CreateTrainder)
+			router.DELETE("/trainer/:id", trainer.DeleteTrainer)
+			router.PATCH("/trainers", trainer.UpdateTrainer)
+
+			r.GET("/form/:id", trainer.GetForm)
+			r.GET("/forms", trainer.ListForms)
+
+			r.GET("/education/:id", trainer.GetEducation)
+			r.GET("/educations", trainer.ListEducation)
+
+			// Body routes
+			router.POST("/body", controller.CreateBody)
+			router.GET("/body/:id", controller.GetBody)
+			router.GET("/bodies", controller.ListBodies)
+			router.DELETE("/body/:id", controller.DeleteBody)
 
 			// FoodInformation Routes
 			router.GET("/food_informations", foodInformation.ListFoodInformations)
@@ -123,10 +150,47 @@ func main() {
 			router.GET("/descriptions", controller.ListDescriptions)
 			router.DELETE("/description/:id", controller.DeleteDescription)
 			router.PATCH("/descriptions", controller.UpdateDescription)
+
+			// advice Routes
+			router.POST("/advice", controller.CreateAdvice)
+			router.GET("/advice/:id", controller.GetAdvice)
+			router.GET("/advices", controller.ListAdvice)
+			router.DELETE("/advice/:id", controller.DeleteAdvice)
+			router.PATCH("/advices", controller.UpdateAdvice)
+
+			// Nutrient Routes
+			router.GET("/nutrients", nutrient.ListNutrients)
+			router.GET("/nutrient/:id", nutrient.GetNutrient)
+			router.POST("/nutrients", nutrient.CreateNutrient)
+			router.PATCH("/update-nutrient", nutrient.UpdateNutrient)
+			router.DELETE("/delete-nutrient/:id", nutrient.DeleteNutrient)
+
+			router.GET("/most_nutrients", nutrient.ListMostNutrients)
+			router.GET("/most_nutrient/:id", nutrient.GetMostNutrient)
+
+			// discount Routes
+			router.POST("/discount", Payment.CreateDiscount)
+			router.GET("/discount/:discount_code", Payment.GetDiscount)
+			router.GET("/discounts", Payment.ListDiscounts)
+			router.DELETE("/discount/:id", Payment.DeleteDiscount)
+			router.PATCH("/discounts", Payment.UpdateDiscount)
+
+			// duration Routes
+			router.POST("/duration", Payment.CreateDuration)
+			router.GET("/duration/:id", Payment.GetDuration)
+			router.GET("/durations", Payment.ListDurations)
+			router.DELETE("/duration/:id", Payment.DeleteDuration)
+			router.PATCH("/durations", Payment.UpdateDuration)
+
+			// payment Routes
+			router.POST("/payment", Payment.CreatePayment)
+			router.GET("/payment/:id", Payment.GetPayment)
+			router.GET("/payments", Payment.ListPayments)
 		}
 	}
 	// login User Route
 	r.POST("/login", controller.Login)
+	r.POST("/trainerLogin", controller.LoginTrainer)
 
 	// Run the server go run main.go
 	r.Run("localhost: " + PORT)

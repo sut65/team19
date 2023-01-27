@@ -1,8 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { BlogInterface } from "../../interfaces/IBlog";
-import { Button, Grid, Typography, styled } from "@mui/material";
+import {
+  Button,
+  Typography,
+  SpeedDial,
+  SpeedDialIcon,
+  SpeedDialAction,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Dialog,
+  DialogTitle,
+} from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
+
 import { Box } from "@mui/system";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "../../App.css";
 
 // api
@@ -10,24 +25,10 @@ import { GetBlogByID, DeleteBlog } from "../../services/HttpClientService";
 
 import { UserInterface } from "../../interfaces/IUser";
 
-// Style
-const ButtonEdit = styled(Button)({
-  backgroundColor: "#252525",
-  "&:hover": {
-    color: "#252525",
-    backgroundColor: "#fff",
-    border: "#252525 1px solid",
-  },
-});
-
-const ButtonDelete = styled(Button)({
-  backgroundColor: "#DC0000",
-  "&:hover": {
-    color: "#252525",
-    backgroundColor: "#fff",
-    border: "#252525 1px solid",
-  },
-});
+const actions = [
+  { icon: <EditIcon />, name: "Edit", color: "#3f50b5" },
+  { icon: <DeleteIcon />, name: "Delete", color: "#f44336" },
+];
 
 function Article() {
   const { id } = useParams();
@@ -37,15 +38,21 @@ function Article() {
   });
   const [article, setArticle] = useState<BlogInterface>({});
   const [isOpen, setIsOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [isOpenPopup, setIsOpenPopup] = useState(false);
+
+  const handleClickOpenPopup = () => setIsOpenPopup(true);
+  const handleClickClosePopup = () => setIsOpenPopup(false);
+
+  const handleOpenAction = () => setOpen(true);
+  const handleCloseAction = () => setOpen(false);
 
   const deleteArticle = async () => {
-    alert("Are you sure?")
-    let res = await DeleteBlog(id+"");
+    let res = await DeleteBlog(id + "");
     if (res) {
-      window.location.href = "/articles"
+      window.location.href = "/articles";
     }
-
-  }
+  };
 
   const checkMember = () => {
     console.log("article member", article.MemberID);
@@ -60,12 +67,11 @@ function Article() {
     let res = await GetBlogByID(id + "");
     res && setArticle(res);
   };
-  
+
   useEffect(() => {
     fetchArticle();
     checkMember();
   }, [article.MemberID, memberLogin]);
-
 
   return (
     <div>
@@ -148,61 +154,64 @@ function Article() {
       {/* Button */}
       {isOpen && (
         <>
-        {/* Btn Edit */}
-        <Box
-          sx={{
-            // mt: "5rem",
-            display: "flex",
-            justifyContent: "flex-end",
-            mr: 12,
-          }}
-        >
-          <ButtonEdit
-            onClick={() => navigate("update-article")}
-            sx={{
-              width: "120px",
-              margin: "0 0 16px 14px",
-              color: "#fff",
-              borderRadius: 20,
-              padding: "4px 8px",
-              fontSize: "1.5rem",
-            }}
-            // startIcon={<CreateIcon />}
-            className="btn-user"
-            variant="outlined"
-          >
-            Edit
-          </ButtonEdit>
-        </Box>
-
-        {/* Btn Delete */}
-        <Box
-          sx={{
-            // mt: "5rem",
-            display: "flex",
-            justifyContent: "flex-end",
-            mr: 12,
-          }}
-        >
-          <ButtonDelete
-            onClick={deleteArticle}
-            sx={{
-              width: "120px",
-              margin: "0 0 16px 14px",
-              color: "#fff",
-              borderRadius: 20,
-              padding: "4px 8px",
-              fontSize: "1.5rem",
-            }}
-            // startIcon={<CreateIcon />}
-            className="btn-user"
-            variant="outlined"
-          >
-            Delete
-          </ButtonDelete>
-        </Box>
+          {/* Btn Edit */}
+          <Box sx={{ transform: "translateZ(0px)", flexGrow: 1 }}>
+            <SpeedDial
+              ariaLabel="SpeedDial controlled open example"
+              sx={{ position: "absolute", bottom: 20, right: 16 }}
+              icon={<SpeedDialIcon />}
+              onClose={handleCloseAction}
+              onOpen={handleOpenAction}
+              open={open}
+            >
+              {actions.map((action) => (
+                <SpeedDialAction
+                  sx={{
+                    color: `${action.color}`,
+                  }}
+                  key={action.name}
+                  icon={action.icon}
+                  tooltipTitle={action.name}
+                  onClick={
+                    action.name === "Edit"
+                      ? () => navigate("update-article")
+                      : handleClickOpenPopup
+                  }
+                />
+              ))}
+            </SpeedDial>
+          </Box>
         </>
       )}
+      {/* Popup */}
+      <Dialog
+        open={isOpenPopup}
+        onClose={handleClickClosePopup}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              color: "#e65100",
+              fontSize: "2rem",
+            }}
+          >
+            Delete Article {<PriorityHighIcon fontSize="large" />}
+          </Box>
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure to delete this article?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClickClosePopup}>Cancel</Button>
+          <Button onClick={deleteArticle}>Sure</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }

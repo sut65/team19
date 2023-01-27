@@ -1,10 +1,12 @@
 import { CourseDetailInterface } from "../interfaces/ICourseDetail";
 import { CourseServiceInterface } from "../interfaces/ICourseService";
 import { UserInterface } from "../interfaces/IUser";
+import { ReviewInterface } from "../interfaces/IReview";
 import { SignInInterface } from "../interfaces/ISignIn";
 import { BlogInterface } from "../interfaces/IBlog";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { FoodInformationInterface } from "../interfaces/IFoodInformation";
+import { NutrientInterface } from "../interfaces/INutrient";
 
 const apiUrl = `http://localhost:8080`;
 
@@ -241,6 +243,93 @@ async function GetDescription() {
   return res;
 }
 
+// ------------- Review -----------------
+const GetReviews = async () => {
+  let res = await fetch(`${apiUrl}/reviews`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetReviewByID = async (id: string) => {
+  let res = await fetch(`${apiUrl}/review/${id}`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const CreateReviews = async (data: ReviewInterface) => {
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/reviews`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const UpdateReview = async (data: BlogInterface) => {
+  const requestOptions = {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/update-review`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const DeleteReview = async (id: string) => {
+  const requestOptions = {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/delete-review/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetRanks = async () => {
+  let res = await fetch(`${apiUrl}/ranks`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
 // ------------- Blog -----------------
 const GetBlogs = async () => {
   let res = await fetch(`${apiUrl}/blogs`, requestOptionsGet)
@@ -339,6 +428,192 @@ const GetTags = async () => {
   return res;
 };
 
+// ----------------------FoodInformation----------------------
+const GetFoodTypes = async () => {
+  let res = await fetch(`${apiUrl}/food_types`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetMainIngredients = async () => {
+  let res = await fetch(`${apiUrl}/main_ingredients`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const CreateFoodInformation = async (data: FoodInformationInterface) => {
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/food_informations`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetAdminByID = async () => {
+  const id = localStorage.getItem("uid");
+
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+  let res = await fetch(`${apiUrl}/admin/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetFoodInformations = async () => {
+  let res = await fetch(`${apiUrl}/food_informations`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const DeleteFoodInformation = async (id: string) => {
+  const requestOptions = {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/delete-food_information/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetInfoBody = async () => {
+  let res = await fetch(`${apiUrl}/bodies`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const DeleteInfoBody = async (id: string) => {
+  const requestOptions = {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/body/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+// ============================== Nutrient ==============================
+const GetMostNutrient = async () => {
+  let res = await fetch(`${apiUrl}/most_nutrients`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const CreateNutrient = async (data: NutrientInterface) => {
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/nutrients`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+//===========================Member===========================
+
+const CreateMember= async (data: UserInterface) => {
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/member`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const DeleteNutrient = async (id: string) => {
+  const requestOptions = {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/delete-nutrient/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+
+
 export {
   GetCourseService,
   GetUser,
@@ -358,4 +633,27 @@ export {
   GetBlogByID,
   GetCategories,
   GetTags,
+  // FoodInformation
+  GetFoodTypes,
+  GetMainIngredients,
+  CreateFoodInformation,
+  GetAdminByID,
+  GetFoodInformations,
+  DeleteFoodInformation,
+  // Review
+  CreateReviews,
+  UpdateReview,
+  DeleteReview,
+  GetReviews,
+  GetReviewByID,
+  GetRanks,
+  // Nutrient
+  GetMostNutrient,
+  CreateNutrient,
+  DeleteNutrient,
+  // Member
+  CreateMember,
+  //Body
+  DeleteInfoBody,
+  GetInfoBody,
 };

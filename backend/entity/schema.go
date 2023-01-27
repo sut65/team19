@@ -63,6 +63,7 @@ type Member struct {
 	Body           []Body            `gorm:"foreignKey:MemberID"`
 	Advice         []Advice          `gorm:"foreignKey:MemberID"`
 	Reviews        []Review          `gorm:"foreignKey:MemberID"`
+	Behavior       []Behavior        `gorm:"foreignKey:MemberID"`
 }
 
 // -------------------------------------------<< ระบบจัดการคอร์ส >>------------------------------------
@@ -84,6 +85,7 @@ type Admin struct {
 	DailyActivitie  []DailyActivities `gorm:"foreignKey:AdminID"`
 	CourseDetail    []CourseDetail    `gorm:"foreignKey:AdminID"`
 	FoodInformation []FoodInformation `gorm:"foreignKey:AdminID"`
+	Nutrient        []Nutrient        `gorm:"foreignKey:AdminID"`
 }
 
 type Price struct {
@@ -226,7 +228,7 @@ type CourseService struct {
 	Payment []Payment `gorm:"foreignKey:CourseServiceID"`
 }
 
-// ================== ระบบข้อมูลอาหาร ==================
+// ================== ระบบจัดการข้อมูลอาหาร ==================
 type MainIngredient struct {
 	gorm.Model
 	Name            string
@@ -244,7 +246,7 @@ type FoodType struct {
 type FoodInformation struct {
 	gorm.Model
 	Name     string
-	Datetime time.Time
+	Datetime string
 	Image    string
 
 	AdminID *uint
@@ -367,7 +369,7 @@ type MealPlan struct {
 type Advice struct {
 	gorm.Model
 
-	Advice         string
+	Advice        string
 	RecordingDate time.Time `valid:"past"`
 
 	MemberID *uint
@@ -383,7 +385,7 @@ type Advice struct {
 	DailyActivities   DailyActivities
 }
 
-// -------------------------------------------<< ระบบบันทึกการเปลี่ยนแปลงร่างกาย >>------------------------------------
+// -----------------------------<Bodyschema>--------------<< ระบบบันทึกการเปลี่ยนแปลงร่างกาย >>------------------------------------
 type Body struct {
 	gorm.Model
 	Hieght        float32
@@ -395,7 +397,7 @@ type Body struct {
 	RightThigh    float32
 	NarrowWaist   float32
 	NavelWaist    float32
-	Date          time.Time
+	Bmi           float32
 	Note          string
 	Advice        []Advice `gorm:"foreignKey:BodyID"`
 
@@ -442,4 +444,56 @@ type Payment struct {
 	Discount   Discount
 }
 
-// ========================================================================
+// ======================================================
+
+// ================== ระบบจัดการสารอาหาร ==================
+type MostNutrient struct {
+	gorm.Model
+	Name           string
+	CaloriePerGram int
+	Nutrient       []Nutrient `gorm:"foreignKey:MostNutrientID"`
+}
+
+type Nutrient struct {
+	gorm.Model
+	Comment      string
+	TotalCalorie int
+	Date         string
+
+	AdminID *uint
+	Admin   Admin
+
+	MostNutrientID *uint
+	MostNutrient   MostNutrient
+
+	FoodInformationID int
+	FoodInformation   FoodInformation
+}
+
+// ================== ระบบสำรวจพฤติกรรมก่อนเข้าเทรน ==================
+type Exercise struct {
+	gorm.Model
+	Name     string
+	Behavior []Behavior `gorm:"foreignKey:ExerciseID"`
+}
+
+type Taste struct {
+	gorm.Model
+	Name     string
+	Behavior []Behavior `gorm:"foreignKey:TasteID"`
+}
+
+type Behavior struct {
+	gorm.Model
+	Meals string
+	Time  string
+
+	MemberID *uint
+	Member   Member
+
+	ExerciseID *uint
+	Exercise   Exercise
+
+	TasteID *uint
+	Taste   Taste
+}

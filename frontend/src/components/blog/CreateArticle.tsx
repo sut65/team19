@@ -62,7 +62,7 @@ function CreateArticle() {
     const name = event.target.name as keyof typeof blog;
 
     var reader = new FileReader();
-    reader.readAsDataURL(input);
+    reader.readAsDataURL(input);    
     reader.onload = function () {
       const dataURL = reader.result;
       setImage({ name: input.name, src: dataURL?.toString() as string });

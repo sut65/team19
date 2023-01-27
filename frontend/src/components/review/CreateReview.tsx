@@ -1,0 +1,256 @@
+import React, { useEffect, useState } from "react";
+import {
+  Alert,
+  Box,
+  Button,
+  IconButton,
+  Rating,
+  SelectChangeEvent,
+  Snackbar,
+  TextField,
+  styled,
+} from "@mui/material";
+import StarIcon from "@mui/icons-material/Star";
+import FilterIcon from "@mui/icons-material/Filter";
+
+import { RankInterface } from "../../interfaces/IRank";
+import { ReviewInterface } from "../../interfaces/IReview";
+
+// api
+import { GetRanks, CreateReviews } from "../../services/HttpClientService";
+
+// style
+const BoxRating = styled(Box)({
+  position: "relative",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  width: 200,
+});
+
+const ImgBox = styled(Box)({
+  width: "240px",
+  marginTop: "2rem",
+});
+
+interface RatingLabelsInterface {
+  [index: string]: string;
+}
+
+function CreateReview() {
+  const [review, setReview] = useState<ReviewInterface>({});
+  const [ranks, setRanks] = useState<RankInterface[]>([]);
+  const [ratingValue, setRatingValue] = useState<number | null>(0);
+  const [hover, setHover] = useState(-1);
+  const [labels, setLabels] = useState<RatingLabelsInterface>({});
+  const [image, setImage] = useState({ name: "", src: "" });
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
+
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSuccess(false);
+    setError(false);
+  };
+
+  const handleChangeImages = (event: any, id?: string) => {
+    const input = event.target.files[0];
+    const name = event.target.name as keyof typeof review;
+
+    var reader = new FileReader();
+    reader.readAsDataURL(input);
+    reader.onload = function () {
+      const dataURL = reader.result;
+      setImage({ name: input.name, src: dataURL?.toString() as string });
+      if (event.target.name === "Image") {
+        setReview({ ...review, [name]: dataURL?.toString() });
+      }
+    };
+  };
+
+  // const handleSelectChange = (event: React.SyntheticEvent, newValue: number) => {
+  //   // const name = event.target.name as keyof typeof review;
+  //   setReview({
+  //     ...review,
+  //     "RankID": newValue,
+  //   });
+  // };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const name = e.target.name;
+    setReview({ ...review, [name]: e.target.value });
+  };
+
+  // const getLabelText = (value: number) => {
+  //   return `${value} Star${value !== 1 ? "s" : ""}, ${labels[value]}`;
+  // };
+
+  const fetchRanks = async () => {
+    let res = await GetRanks();
+    res && setRanks(res);
+  };
+
+  const convertType = (data: string | number | undefined) => {
+    let val = typeof data === "string" ? parseInt(data) : data;
+    return val;
+  };
+
+  // insert data to db
+  const submit = async () => {
+    let data = {
+      // CourseDetailID: convertType(review.CourseDetailID),
+      CourseDetailID: convertType(1),
+      RankID: convertType(review.RankID),
+      MemberID: Number(localStorage.getItem("uid")),
+      Content: review.Content,
+      Image: review.Image,
+    };
+
+    console.log("data", data)
+    
+    let res = await CreateReviews(data);
+    res ? setSuccess(true) : setError(true);
+    // window.location.href = "/reviews"
+  };
+
+  useEffect(() => {
+    fetchRanks();
+    return () => {
+      const objRating: any = ranks.reduce(
+        (obj, item) => Object.assign(obj, { [item.ID + ""]: item.Name }),
+        {}
+      );
+      setLabels(objRating);
+    };
+  }, [hover, ratingValue]);
+
+  return (
+    <Box
+      sx={{
+        position: "relative",
+        width: "40%",
+        mx: "auto",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        // mt: "6rem",
+        gap: "1rem",
+        mb: "2rem",
+        // boxShadow: 1,
+      }}
+    >
+      {/* Alert */}
+      <Snackbar
+        open={success}
+        autoHideDuration={1000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert onClose={handleClose} severity="success">
+          บันทึกข้อมูลสำเร็จ
+        </Alert>
+      </Snackbar>
+
+      <Snackbar
+        open={error}
+        autoHideDuration={1000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert onClose={handleClose} severity="error">
+          บันทึกข้อมูลไม่สำเร็จ
+        </Alert>
+      </Snackbar>
+      <BoxRating>
+        {ratingValue !== null && (
+          <Box sx={{ position: "absolute", top: "-24px" }}>
+            {labels[hover !== -1 ? hover : ratingValue]}
+          </Box>
+        )}
+        <Rating
+          name="hover-feedback"
+          value={review.Rank?.ID}
+          // getLabelText={getLabelText}
+          onChange={(event, newValue: any) => {
+            setReview({
+              ...review,
+              ["RankID"]: newValue,
+            });
+          }}
+          onChangeActive={(event, newHover) => {
+            setHover(newHover);
+          }}
+          emptyIcon={<StarIcon style={{ opacity: 0.8 }} fontSize="inherit" />}
+        />
+      </BoxRating>
+      {/* Content */}
+      <TextField
+        id="content"
+        name="Content"
+        value={review.Content}
+        onChange={handleInputChange}
+        multiline
+        placeholder="Tell your review..."
+        // minRows={2}
+        sx={{
+          fontSize: "1.5rem",
+          minWidth: "100%",
+          // minHeight: 200,
+          "& fieldset": {
+            borderTop: "none",
+            borderLeft: "none",
+            borderRight: "none",
+          },
+        }}
+      />
+      {/* Upload Cover Image */}
+      <Box>
+        <IconButton
+          component="label"
+          sx={{
+            position: "absolute",
+            left: "0",
+            color: "#252525",
+          }}
+        >
+          <FilterIcon />
+          <input
+            id="image"
+            name="Image"
+            hidden
+            accept="image/*"
+            multiple
+            type="file"
+            onChange={handleChangeImages}
+          />
+        </IconButton>
+      </Box>
+      <ImgBox>
+        <img src={image.src} alt={image.name} style={{ width: "100%" }} />
+      </ImgBox>
+      <Button
+        color="success"
+        sx={{
+          width: "120px",
+          margin: "0 0 16px 14px",
+          color: "#fff",
+          borderRadius: 20,
+          padding: "8px 16px",
+          fontSize: "1rem",
+        }}
+        onClick={submit}
+        className="btn-user"
+        variant="contained"
+      >
+        Publish
+      </Button>
+    </Box>
+  );
+}
+
+export default CreateReview;
