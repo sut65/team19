@@ -47,8 +47,7 @@ function Payment() {
   const [CourseDetail, setCourseDetail] = useState<CourseDetailInterface>({});
   const [Duration, setDuration] = useState<DurationInterface[]>([]);
   const [Discount, setDiscount] = useState<DiscountInterface>();
-  const [ShowDurationPercentage, setShowDurationPercentage] =
-    useState<number>(0);
+  const [ShowDurationPercentage, setShowDurationPercentage] = useState<number>(0);
   const [NumberOfDays, setNumberOfDays] = useState<number>(0);
   const [Balance, setBalance] = useState<number>(0);
   let SumaryBalance = 0;
