@@ -492,6 +492,25 @@ const CreateFoodInformation = async (data: FoodInformationInterface) => {
   return res;
 };
 
+const UpdateFoodInformation = async (data: FoodInformationInterface) => {
+  const requestOptions = {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/update-food_information`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
 const GetAdminByID = async () => {
   const id = localStorage.getItem("uid");
 
@@ -513,6 +532,17 @@ const GetAdminByID = async () => {
 
 const GetFoodInformations = async () => {
   let res = await fetch(`${apiUrl}/food_informations`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetFoodInformationByID = async (id: string) => {
+  // let { id } = useParams();
+  let res = await fetch(`${apiUrl}/food_information/${id}`, requestOptionsGet)
     .then((response) => response.json())
     .then((result) => {
       return result.data ? result.data : false;
@@ -667,6 +697,8 @@ export {
   GetAdminByID,
   GetFoodInformations,
   DeleteFoodInformation,
+  GetFoodInformationByID,
+  UpdateFoodInformation,
   // Review
   CreateReviews,
   UpdateReview,
