@@ -15,9 +15,10 @@ import Home from "./components/Home";
 import ShowCardCourseService from "./components/CourseService/ShowCardCourseService";
 import FoodDisplay from "./components/FoodInformation/FoodDisplay";
 import CreateFood from "./components/FoodInformation/CreateFood";
-import ReviewCard from "./components/review/ReviewCard";
 import CreateNutrientUI from "./components/Nutrient/CreateNutrient";
 import NutrientDisplayUI from "./components/Nutrient/NutrientDisplay";
+import ShowReview from "./components/review/ShowReview";
+import CreateReview from "./components/review/CreateReview";
 
 function App() {
   const [token, setToken] = useState<String>("");
@@ -50,9 +51,10 @@ function App() {
           <Route path="/register" element={<Register />}></Route>
           <Route path="/food-display" element={<FoodDisplay />}></Route>
           <Route path="/food-display/create-food" element={<CreateFood />}></Route>
-          <Route path="reviews" element={<ReviewCard />} />
           <Route path="/nutrient-display/create-nutrient" element={<CreateNutrientUI />}></Route>
           <Route path="/nutrient-display" element={<NutrientDisplayUI />}></Route>
+          <Route path="create-review" element={<CreateReview />} />
+          <Route path="reviews" element={<ShowReview />} />
         </Route>
       </Routes>
     </div>

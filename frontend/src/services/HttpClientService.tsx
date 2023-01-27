@@ -264,7 +264,7 @@ const GetReviewByID = async (id: string) => {
   return res;
 };
 
-const CreateReview = async (data: ReviewInterface) => {
+const CreateReviews = async (data: ReviewInterface) => {
   const requestOptions = {
     method: "POST",
     headers: {
@@ -593,7 +593,7 @@ export {
   GetFoodInformations,
   DeleteFoodInformation,
   // Review
-  CreateReview,
+  CreateReviews,
   UpdateReview,
   DeleteReview,
   GetReviews,

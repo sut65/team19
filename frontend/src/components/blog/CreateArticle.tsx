@@ -65,7 +65,6 @@ function CreateArticle() {
     reader.readAsDataURL(input);    
     reader.onload = function () {
       const dataURL = reader.result;
-      console.log(dataURL)
       setImage({ name: input.name, src: dataURL?.toString() as string });
       if (event.target.name === "CoverImage") {
         setBlog({ ...blog, [name]: dataURL?.toString() });
