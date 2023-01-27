@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import SignIn from '../../components/SignIn';
 import Navbar from '../../components/Navbar';
-import { Outlet } from 'react-router-dom';
+import { Login } from '../../services/HttpClientService';
 
 function User() {
   const [token, setToken] = useState<String>("");
@@ -13,7 +13,7 @@ function User() {
   }, []);
 
   if (!token) {
-    return <SignIn />;
+    return <SignIn loginRole={Login} />;
   }
 
   return (

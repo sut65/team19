@@ -1,10 +1,11 @@
+import { useState } from "react";
 import { CourseDetailInterface } from "../interfaces/ICourseDetail";
 import { CourseServiceInterface } from "../interfaces/ICourseService";
 import { UserInterface } from "../interfaces/IUser";
 import { ReviewInterface } from "../interfaces/IReview";
 import { SignInInterface } from "../interfaces/ISignIn";
 import { BlogInterface } from "../interfaces/IBlog";
-import { useState } from "react";
+import { AdminInterface } from "../interfaces/IAdmin";
 import { FoodInformationInterface } from "../interfaces/IFoodInformation";
 import { NutrientInterface } from "../interfaces/INutrient";
 import { PaymentInterface } from "../interfaces/IPayment";
@@ -42,6 +43,29 @@ async function Login(data: SignInInterface) {
 
   return res;
 }
+
+// Admin Login
+const AdminLogin = async (data: AdminInterface) => {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/adminLogin`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("uid", res.data.id);
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+};
 
 async function GetCourseService() {
   const requestOptions = {
@@ -487,7 +511,10 @@ const DeleteFoodInformation = async (id: string) => {
     },
   };
 
-  let res = await fetch(`${apiUrl}/delete-food_information/${id}`, requestOptions)
+  let res = await fetch(
+    `${apiUrl}/delete-food_information/${id}`,
+    requestOptions
+  )
     .then((response) => response.json())
     .then((result) => {
       return result.data ? result.data : false;
@@ -556,7 +583,7 @@ const CreateNutrient = async (data: NutrientInterface) => {
 
 //===========================Member===========================
 
-const CreateMember= async (data: UserInterface) => {
+const CreateMember = async (data: UserInterface) => {
   const requestOptions = {
     method: "POST",
     headers: {
@@ -769,30 +796,19 @@ async function Payments(data: PaymentInterface) {
       }
     });
 
-  return res;
-}
+    return res;
+  }
 
 export {
-  // Login
-  Login,
+  GetCourseService,
   GetUser,
   GetCourseDetail,
   GetTrainer,
   GetAdmin,
   GetPrice,
   GetDescription,
-  // CourseService
-  GetCourseService,
-  GetCourseDetailByID,
-  SelectCourseDetail,
   CourseServices,
-  // Payment
-  GetPayment,
-  GetDuration,
-  GetDiscountByCode,
-  GetDurationByID,
-  GetCourseServiceBYUID,
-  Payments,
+  Login,
   // Blog
   CreateBlog,
   UpdateBlog,

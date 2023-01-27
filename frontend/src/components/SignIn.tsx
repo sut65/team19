@@ -35,10 +35,10 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 
 type Prop = {
-  signIn: any;
+  loginRole: any;
 };
 
-function SignIn() {
+function SignIn({ loginRole }: Prop) {
   const [signin, setSignin] = useState<Partial<SignInInterface>>({});
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
@@ -63,7 +63,8 @@ function SignIn() {
   };
 
   const submit = async () => {
-    let res = await Login(signin);
+    let res = await loginRole(signin);
+    console.log(res)
     if (res) {
       setSuccess(true);
       setTimeout(() => {

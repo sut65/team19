@@ -12,7 +12,7 @@ function Trainer() {
   }, []);
 
   if (!token) {
-    return <SignIn />;
+    // return <SignIn />;
   }
   
   return (
