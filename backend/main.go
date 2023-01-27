@@ -7,6 +7,7 @@ import (
 	"github.com/sut65/team19/controller"
 	foodInformation "github.com/sut65/team19/controller/FoodInformation"
 	nutrient "github.com/sut65/team19/controller/Nutrient"
+	trainer "github.com/sut65/team19/controller/Trainer"
 	blog "github.com/sut65/team19/controller/blog"
 	review "github.com/sut65/team19/controller/review"
 	"github.com/sut65/team19/entity"
@@ -42,6 +43,13 @@ func main() {
 	{
 		router.Use(middlewares.Authorizes())
 		{
+			// Subtable for trainers and members
+			r.GET("/status/:id", controller.GetStatus)
+			r.GET("/statuses", controller.ListStatus)
+
+			r.GET("/religion/:id", controller.GetReligion)
+			r.GET("/religions", controller.ListReligion)
+
 			// course_service Routes
 			router.POST("/course_service", controller.CreateCourseService)
 			router.GET("/course_service/:id", controller.GetCourseService)
@@ -64,11 +72,17 @@ func main() {
 			router.PATCH("/members", controller.UpdateMember)
 
 			// trainer Routes
-			router.POST("/trainer", controller.CreateTrainer)
-			router.GET("/trainer/:id", controller.GetTrainer)
-			router.GET("/trainers", controller.ListTrainer)
-			router.DELETE("/trainer/:id", controller.DeleteTrainer)
-			router.PATCH("/trainers", controller.UpdateTrainer)
+			r.GET("/trainer/:id", trainer.GetTrainer)
+			r.GET("/trainer", trainer.ListTrainers)
+			r.POST("/trainer", trainer.CreateTrainder)
+			router.DELETE("/trainer/:id", trainer.DeleteTrainer)
+			router.PATCH("/trainers", trainer.UpdateTrainer)
+
+			r.GET("/form/:id", trainer.GetForm)
+			r.GET("/forms", trainer.ListForms)
+
+			r.GET("/education/:id", trainer.GetEducation)
+			r.GET("/educations", trainer.ListEducation)
 
 			// FoodInformation Routes
 			router.GET("/food_informations", foodInformation.ListFoodInformations)

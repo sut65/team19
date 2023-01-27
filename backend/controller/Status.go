@@ -19,7 +19,7 @@ func GetStatus(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": status})
 }
 
-// GET /religions
+// GET /statuses
 func ListStatus(c *gin.Context) {
 	var status []entity.Religion
 
