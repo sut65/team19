@@ -3,14 +3,18 @@ import { Link } from "react-router-dom";
 // Component
 import Box from "@mui/material/Box";
 import { Button, Grid } from "@mui/material";
-import CardRegisterCourse from "./CardRegisterCourse";
+import CardCourseService from "./CardCourseService";
 import { Margin } from "@mui/icons-material";
 import "../../App.css";
 import { CourseDetailInterface } from "../../interfaces/ICourseDetail";
-import { GetCourseDetail } from "../../services/HttpClientService";
+import { DescriptionInterface } from "../../interfaces/IDescription";
+import { PriceInterface } from "../../interfaces/IPrice";
+import { GetCourseDetail, GetDescription, GetPrice } from "../../services/HttpClientService";
 
 function ShowCardCourseService() {
   const [CourseDetail, setCourseDetail] = useState<CourseDetailInterface[]>([])
+  const [Price, setPrice] = useState<PriceInterface[]>([])
+  const [Description, setDescription] = useState<DescriptionInterface[]>([])
 
   const getCourseDetail = async () => {
     let res = await GetCourseDetail();
@@ -19,8 +23,24 @@ function ShowCardCourseService() {
     }
   };
 
+  const getPrice = async () => {
+    let res = await GetPrice();
+    if (res) {
+      setPrice(res);
+    }
+  };
+
+  const getDescription = async () => {
+    let res = await GetDescription();
+    if (res) {
+      setDescription(res);
+    }
+  };
+
   useEffect(() => {
     getCourseDetail();
+    getPrice();
+    getDescription();
   }, []);
 
   return (
@@ -36,34 +56,12 @@ function ShowCardCourseService() {
         display: "flex",
         justifyContent: "flex-end"
       }}>
-        <Link
-          to="/article/create-article"
-          style={{
-            textDecoration: "none",
-          }}
-        >
-          <Button
-            className="btn-user"
-            variant="contained"
-            style={{
-              width: "120px",
-              margin: "0 0 16px 14px",
-              color: "#fff",
-              borderRadius: 20,
-              backgroundColor: "#3b82f6",
-              padding: "4px 8px",
-              fontSize: "1.5rem",
-            }}
-          >
-            Write
-          </Button>
-        </Link>
       </Box>
       <Grid container rowSpacing={3} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         {CourseDetail.map((item) => {
           return (
             <Grid item xs={6} sm={4} md={4} key={item.ID}>
-              <CardRegisterCourse
+              <CardCourseService
                 ID={item.ID}
                 CourseName={item.CourseName}
                 CoverPage={item.CoverPage}

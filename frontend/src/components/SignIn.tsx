@@ -34,6 +34,10 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
+type Prop = {
+  signIn: any;
+};
+
 function SignIn() {
   const [signin, setSignin] = useState<Partial<SignInInterface>>({});
   const [success, setSuccess] = useState(false);

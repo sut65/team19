@@ -123,7 +123,7 @@ function CardCourseService({
           </Button>
         </Link>
         <Link
-          to={`/register-course/${ID}`}
+          to={`${ID}`}
           style={{
             textDecoration: "none",
           }}
