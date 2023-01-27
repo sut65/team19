@@ -22,7 +22,7 @@ import "../../App.css";
 import { CourseDetailInterface } from "../../interfaces/ICourseDetail";
 import { TrainerInterface } from "../../interfaces/ITrainer";
 import { CourseServiceInterface } from "../../interfaces/ICourseService";
-import { GetTrainer, CourseServices } from "../../services/HttpClientService";
+import { GetTrainer, CreateCourseService } from "../../services/HttpClientService";
 
 const apiUrl = `http://localhost:8080`;
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -137,7 +137,7 @@ function RegisterCourse() {
       TrainerID: convertType(CourseService.TrainerID),
     };
     console.log(data)
-    let res = await CourseServices(data);
+    let res = await CreateCourseService(data);
     if (res) {
       setSuccess(true);
     } else {

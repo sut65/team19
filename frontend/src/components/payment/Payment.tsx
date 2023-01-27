@@ -20,15 +20,7 @@ import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 
 import { PaymentInterface } from "../../interfaces/IPayment";
-import {
-  GetPayment,
-  Payments,
-  GetCourseServiceBYUID,
-  GetCourseDetailByID,
-  GetDuration,
-  GetDiscountByCode,
-  GetDurationByID,
-} from "../../services/HttpClientService";
+import { GetPayment, CreatePayment, GetCourseServiceBYUID, GetCourseDetailByID, GetDuration, GetDiscountByCode, GetDurationByID } from "../../services/HttpClientService";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { CourseServiceInterface } from "../../interfaces/ICourseService";
@@ -224,7 +216,7 @@ function Payment() {
       DurationID: convertType(Payment.DurationID),
       DiscountID: convertType(Discount?.ID),
     };
-    let res = await Payments(data);
+    let res = await CreatePayment(data);
     if (res) {
       setSuccess(true);
     } else {
