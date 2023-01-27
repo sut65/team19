@@ -75,6 +75,10 @@ func SetupDatabase() {
 		// Nutrient
 		&MostNutrient{},
 		&Nutrient{},
+		//Behavior
+		&Behavior{},
+		&Taste{},
+		&Exercise{},
 	)
 
 	db = database
@@ -810,5 +814,49 @@ func SetupDatabase() {
 		Date:            "21/12/2022 16:00",
 	}
 	db.Model(&Nutrient{}).Create(&NutrientB)
+
+	/////////////////////////////////////Behavior/////////////////////////////////////////////
+	Taste1 := Taste{
+		Name: "รสขม",
+	}
+	db.Model(&Taste{}).Create(&Taste1)
+
+	Tastes := []Taste{
+		{Name: "รสหวาน"},
+		{Name: "รสเปรี้ยว"},
+		{Name: "รสเค็ม"},
+		{Name: "รสเผ็ด"},
+	}
+	db.Model(&Taste{}).Create(&Tastes)
+
+	Exercise1 := Exercise{
+		Name: "ไม่ออกเลย",
+	}
+	db.Model(&Exercise{}).Create(&Exercise1)
+
+	Exercises := []Exercise{
+		{Name: "มาก(5-7วัน/สัปดาห์)"},
+		{Name: "ปกติ(3-4วัน/สัปดาห์)"},
+		{Name: "น้อย(1-2วัน/สัปดาห์)"},
+	}
+	db.Model(&Exercise{}).Create(&Exercises)
+
+	BehaviorA := Behavior{
+		Meals:    "กินวันละ 4 มื้อ",
+		Time:     "21/12/2022 17:00",
+		Member:   Member1,
+		Exercise: Exercise1,
+		Taste:    Taste1,
+	}
+	db.Model(&Behavior{}).Create(&BehaviorA)
+
+	BehaviorB := Behavior{
+		Meals:    "กินวันละ 4 มื้อ",
+		Time:     "21/12/2022 15:00",
+		Member:   Member1,
+		Exercise: Exercise1,
+		Taste:    Taste1,
+	}
+	db.Model(&Behavior{}).Create(&BehaviorB)
 
 }
