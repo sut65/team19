@@ -26,6 +26,7 @@ import User from "./pages/login/User";
 import Trainer from "./pages/login/Trainer";
 import Admin from "./pages/login/Admin";
 import Payment from "./components/Payment/Payment";
+import UpdateFood from "./components/FoodInformation/UpdateFood";
 
 function App() {
   const [token, setToken] = useState<String>("");
@@ -90,6 +91,7 @@ function App() {
           <Route path="register" element={<Register />}></Route>
           <Route path="create-review" element={<CreateReview />} />
           <Route path="reviews" element={<ShowReview />} />
+          <Route path="/food-display/update-food/:id" element={<UpdateFood />}></Route>
         </Route>
         {/* <Route path="/" element={<Navbar />}> */}
         {/* </Route> */}

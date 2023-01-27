@@ -17,6 +17,7 @@ import {
 import { 
   Link,
   useParams,
+  useNavigate,
  } from "react-router-dom";
 
 import FoodIcon from "../../images/FoodIcon2.png"
@@ -31,6 +32,7 @@ import { DeleteFoodInformation } from '../../services/HttpClientService';
 
 function FoodDisplay() {
   const { id } = useParams();
+  let navigate = useNavigate();
   const [foodinformations, setFoodInformations] = useState<FoodInformationInterface[]>([]);
 
   const fetchFoodInformation = async () => {
@@ -131,7 +133,8 @@ function FoodDisplay() {
                     <TableCell align="right">{foodinformations.ID}</TableCell>
                     <TableCell align="center">
                       <Box sx={{ display: "flex", justifyContent: "center" }}>
-                        <Avatar src={foodinformations.Image} />
+                        <Avatar src={foodinformations.Image}
+                        sx={{ width: 110, height: 110 }} />
                       </Box>
                     </TableCell>
                     <TableCell align="center">{foodinformations.Name}</TableCell>
@@ -141,9 +144,16 @@ function FoodDisplay() {
                     <TableCell align="center">{foodinformations.Admin?.Name}</TableCell>
                     {/* ปุ่มลบข้อมูล */}
                     <TableCell align="right">
+                      <Button variant="contained" 
+                        sx = {{ borderRadius: 20 }} onClick={() => navigate(`update-food/${foodinformations.ID}`)}>
+                        แก้ไขข้อมูล
+                      </Button>
+                      <h1> </h1>
                       <Button onClick={() => DeleteFood(foodinformations.ID+"")} variant="contained" color="error"
                         sx = {{ borderRadius: 20 }}>
-                        ลบข้อมูล</Button>
+                        ลบข้อมูล
+                      </Button>
+
                     </TableCell>
                   </TableRow>
                 ))}
