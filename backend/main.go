@@ -5,8 +5,10 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team19/controller"
+	CourseService "github.com/sut65/team19/controller/CourseService"
 	foodInformation "github.com/sut65/team19/controller/FoodInformation"
 	nutrient "github.com/sut65/team19/controller/Nutrient"
+	Payment "github.com/sut65/team19/controller/Payment"
 	trainer "github.com/sut65/team19/controller/Trainer"
 	blog "github.com/sut65/team19/controller/blog"
 	review "github.com/sut65/team19/controller/review"
@@ -54,11 +56,12 @@ func main() {
 			r.GET("/genders", controller.Listgenders)
 
 			// course_service Routes
-			router.POST("/course_service", controller.CreateCourseService)
-			router.GET("/course_service/:id", controller.GetCourseService)
-			router.GET("/course_services", controller.ListCourseServices)
-			router.DELETE("/course_service/:id", controller.DeleteCourseService)
-			router.PATCH("/course_services", controller.UpdateCourseService)
+			router.POST("/course_service", CourseService.CreateCourseService)
+			router.GET("/course_service/:id", CourseService.GetCourseService)
+			router.GET("/course_services", CourseService.ListCourseServices)
+			router.GET("/course_service_by_uid/:uid", CourseService.GetCourseServiceByUID)
+			router.DELETE("/course_service/:id", CourseService.DeleteCourseService)
+			router.PATCH("/course_services", CourseService.UpdateCourseService)
 
 			// course_detail Routes
 			router.POST("/course_detail", controller.CreateCourseDetail)
@@ -164,6 +167,25 @@ func main() {
 
 			router.GET("/most_nutrients", nutrient.ListMostNutrients)
 			router.GET("/most_nutrient/:id", nutrient.GetMostNutrient)
+
+			// discount Routes
+			router.POST("/discount", Payment.CreateDiscount)
+			router.GET("/discount/:discount_code", Payment.GetDiscount)
+			router.GET("/discounts", Payment.ListDiscounts)
+			router.DELETE("/discount/:id", Payment.DeleteDiscount)
+			router.PATCH("/discounts", Payment.UpdateDiscount)
+
+			// duration Routes
+			router.POST("/duration", Payment.CreateDuration)
+			router.GET("/duration/:id", Payment.GetDuration)
+			router.GET("/durations", Payment.ListDurations)
+			router.DELETE("/duration/:id", Payment.DeleteDuration)
+			router.PATCH("/durations", Payment.UpdateDuration)
+
+			// payment Routes
+			router.POST("/payment", Payment.CreatePayment)
+			router.GET("/payment/:id", Payment.GetPayment)
+			router.GET("/payments", Payment.ListPayments)
 		}
 	}
 	// login User Route
