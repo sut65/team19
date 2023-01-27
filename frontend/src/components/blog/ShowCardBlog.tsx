@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BlogInterface } from "../../interfaces/IBlog";
 import { Link } from "react-router-dom";
-import CreateIcon from '@mui/icons-material/Create';
+import CreateIcon from "@mui/icons-material/Create";
 // Component
 import Box from "@mui/material/Box";
 import { Button, Grid, styled } from "@mui/material";
@@ -17,9 +17,9 @@ const ButtonWrite = styled(Button)({
   "&:hover": {
     color: "#252525",
     backgroundColor: "#fff",
-    border: "#252525 1px solid"  
-  }
-})
+    border: "#252525 1px solid",
+  },
+});
 
 function ShowCardBlog() {
   const [blogs, setBlogs] = useState<BlogInterface[]>([]);
@@ -49,7 +49,7 @@ function ShowCardBlog() {
         }}
       >
         <Link
-          to="/article/create-article"
+          to="/user/create-article"
           style={{
             textDecoration: "none",
           }}

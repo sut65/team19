@@ -50,7 +50,7 @@ function Article() {
   const deleteArticle = async () => {
     let res = await DeleteBlog(id + "");
     if (res) {
-      window.location.href = "/articles";
+      window.location.href = "/user/articles";
     }
   };
 

@@ -21,10 +21,13 @@ import {
 
 import FoodIcon from "../../images/FoodIcon2.png"
 import AddIcon from "../../images/AddIcon.png"
+import homeBg from "../../images/FoodBG.jpg"
 
 //Interface
 import { FoodInformationInterface } from '../../interfaces/IFoodInformation';
-import { DeleteFoodInformation, GetFoodInformations } from '../../services/HttpClientService';
+
+//API
+import { DeleteFoodInformation } from '../../services/HttpClientService';
 
 function FoodDisplay() {
   const { id } = useParams();
@@ -58,6 +61,21 @@ function FoodDisplay() {
   }, []);
 
   return (
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: 6,
+          height: "100vh",
+          width: "100vw",
+          overflow: "hidden",
+          backgroundSize: "cover",
+          color: "#f5f5f5",
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url(${homeBg})`,
+        }}
+      >
     <Container>
         {/* Header */}
         <Stack direction="row" spacing={2}>
@@ -81,7 +99,8 @@ function FoodDisplay() {
               textDecoration: "none",
             }}
           >
-            <Button variant="contained" color="success">
+            <Button variant="contained" color="success"
+              sx = {{ borderRadius: 20 }}>
               เพิ่มข้อมูลอาหาร
               <Avatar src={AddIcon} />
             </Button>
@@ -103,6 +122,7 @@ function FoodDisplay() {
                 <TableCell align="center">ประเภท</TableCell>
                 <TableCell align="center">วันที่ทำการเพิ่ม</TableCell>
                 <TableCell align="center">ผู้ดูแลที่ทำการเพิ่ม</TableCell>
+                <TableCell align="center"> </TableCell>
               </TableRow>
             </TableHead>
               <TableBody>
@@ -121,7 +141,9 @@ function FoodDisplay() {
                     <TableCell align="center">{foodinformations.Admin?.Name}</TableCell>
                     {/* ปุ่มลบข้อมูล */}
                     <TableCell align="right">
-                      <Button onClick={() => DeleteFood(foodinformations.ID+"")}>ลบข้อมูล</Button>
+                      <Button onClick={() => DeleteFood(foodinformations.ID+"")} variant="contained" color="error"
+                        sx = {{ borderRadius: 20 }}>
+                        ลบข้อมูล</Button>
                     </TableCell>
                   </TableRow>
                 ))}
@@ -130,6 +152,7 @@ function FoodDisplay() {
         </TableContainer>
 
       </Container>
+      </Box>
   );
 }
 
