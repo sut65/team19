@@ -2,6 +2,12 @@ import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   IconButton,
   Menu,
   MenuItem,
@@ -12,8 +18,12 @@ import {
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 import { useNavigate } from "react-router-dom";
 import { MemberInterface } from "../../interfaces/IMember";
+
+// api
+import { DeleteReview } from "../../services/HttpClientService";
 
 type Props = {
   id: number;
@@ -75,6 +85,13 @@ function ReviewCard({
     if (memberID === memberLogin.ID) {
       console.log("same");
       setIsShow(!isShow);
+    }
+  };
+
+  const deleteReview = async () => {
+    let res = await DeleteReview(id + "");
+    if (res) {
+      window.location.href = "/user/reviews";
     }
   };
 
@@ -185,6 +202,36 @@ function ReviewCard({
           <img src={image} alt="" style={{ width: "100%" }} />
         </Box>
       </Box>
+
+      {/* Popup */}
+      <Dialog
+        open={isOpenPopup}
+        onClose={handleClickClosePopup}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              color: "#e65100",
+              fontSize: "2rem",
+            }}
+          >
+            Delete Review {<PriorityHighIcon fontSize="large" />}
+          </Box>
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure to delete this review (id: {id})?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClickClosePopup}>Cancel</Button>
+          <Button onClick={deleteReview}>Sure</Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }
