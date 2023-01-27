@@ -27,7 +27,7 @@ func CreateAdmin(c *gin.Context) {
 func GetAdmin(c *gin.Context) {
 	var admin entity.Admin
 	id := c.Param("id")
-	if tx := entity.DB().Preload(clause.Associations).Preload("CourseDetail." + clause.Associations).Preload("FoodInformation." + clause.Associations).Where("id = ?", id).First(&admin); tx.RowsAffected == 0 {
+	if tx := entity.DB().Preload(clause.Associations).Preload("CourseDetail."+clause.Associations).Preload("FoodInformation."+clause.Associations).Where("id = ?", id).First(&admin); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "admin not found"})
 		return
 	}
