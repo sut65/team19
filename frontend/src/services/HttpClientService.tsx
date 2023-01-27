@@ -264,7 +264,7 @@ const GetReviewByID = async (id: string) => {
   return res;
 };
 
-const CreateReview = async (data: ReviewInterface) => {
+const CreateReviews = async (data: ReviewInterface) => {
   const requestOptions = {
     method: "POST",
     headers: {
@@ -515,6 +515,34 @@ const DeleteFoodInformation = async (id: string) => {
   return res;
 };
 
+const GetInfoBody = async () => {
+  let res = await fetch(`${apiUrl}/bodies`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const DeleteInfoBody = async (id: string) => {
+  const requestOptions = {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/body/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
 // ============================== Nutrient ==============================
 const GetMostNutrient = async () => {
   let res = await fetch(`${apiUrl}/most_nutrients`, requestOptionsGet)
@@ -537,6 +565,27 @@ const CreateNutrient = async (data: NutrientInterface) => {
   };
 
   let res = await fetch(`${apiUrl}/nutrients`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+//===========================Member===========================
+
+const CreateMember= async (data: UserInterface) => {
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/member`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
       return result.data ? result.data : false;
@@ -572,7 +621,7 @@ export {
   GetFoodInformations,
   DeleteFoodInformation,
   // Review
-  CreateReview,
+  CreateReviews,
   UpdateReview,
   DeleteReview,
   GetReviews,
@@ -581,4 +630,9 @@ export {
   // Nutrient
   GetMostNutrient,
   CreateNutrient,
+  // Member
+  CreateMember,
+  //Body
+  DeleteInfoBody,
+  GetInfoBody,
 };
