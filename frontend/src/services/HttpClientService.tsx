@@ -545,6 +545,27 @@ const CreateNutrient = async (data: NutrientInterface) => {
   return res;
 };
 
+//===========================Member===========================
+
+const CreateMember= async (data: UserInterface) => {
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/member`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
 export {
   GetCourseService,
   GetUser,
@@ -581,4 +602,6 @@ export {
   // Nutrient
   GetMostNutrient,
   CreateNutrient,
+  // Member
+  CreateMember,
 };
