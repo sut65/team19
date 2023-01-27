@@ -50,6 +50,9 @@ func main() {
 			r.GET("/religion/:id", controller.GetReligion)
 			r.GET("/religions", controller.ListReligion)
 
+			r.GET("/gender/:id", controller.GetGender)
+			r.GET("/genders", controller.Listgenders)
+
 			// course_service Routes
 			router.POST("/course_service", controller.CreateCourseService)
 			router.GET("/course_service/:id", controller.GetCourseService)
@@ -83,6 +86,12 @@ func main() {
 
 			r.GET("/education/:id", trainer.GetEducation)
 			r.GET("/educations", trainer.ListEducation)
+
+			// Body routes
+			router.POST("/body", controller.CreateBody)
+			router.GET("/body/:id", controller.GetBody)
+			router.GET("/bodies", controller.ListBodies)
+			router.DELETE("/body/:id", controller.DeleteBody)
 
 			// FoodInformation Routes
 			router.GET("/food_informations", foodInformation.ListFoodInformations)

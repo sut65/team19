@@ -384,7 +384,7 @@ type Advice struct {
 	DailyActivities   DailyActivities
 }
 
-// -------------------------------------------<< ระบบบันทึกการเปลี่ยนแปลงร่างกาย >>------------------------------------
+// -----------------------------<Bodyschema>--------------<< ระบบบันทึกการเปลี่ยนแปลงร่างกาย >>------------------------------------
 type Body struct {
 	gorm.Model
 	Hieght        float32
@@ -397,7 +397,6 @@ type Body struct {
 	NarrowWaist   float32
 	NavelWaist    float32
 	Bmi           float32
-	Date          time.Time
 	Note          string
 	Advice        []Advice `gorm:"foreignKey:BodyID"`
 
