@@ -121,7 +121,7 @@ function UpdateArticle() {
 
     let res = await UpdateBlog(newData);
     res ? setSuccess(true) : setError(true);
-    window.location.href = "/articles";
+    window.location.href = "/user/articles";
   };
 
   useEffect(() => {
@@ -315,7 +315,7 @@ function UpdateArticle() {
         >
           Update
         </Button>
-        <Link to="/articles" style={{ textDecoration: "none" }}>
+        <Link to="/user/articles" style={{ textDecoration: "none" }}>
           <Button
             className="btn-user"
             variant="contained"

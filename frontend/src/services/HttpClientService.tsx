@@ -1,10 +1,11 @@
+import { useState } from "react";
 import { CourseDetailInterface } from "../interfaces/ICourseDetail";
 import { CourseServiceInterface } from "../interfaces/ICourseService";
 import { UserInterface } from "../interfaces/IUser";
 import { ReviewInterface } from "../interfaces/IReview";
 import { SignInInterface } from "../interfaces/ISignIn";
 import { BlogInterface } from "../interfaces/IBlog";
-import { useState } from "react";
+import { AdminInterface } from "../interfaces/IAdmin";
 import { FoodInformationInterface } from "../interfaces/IFoodInformation";
 import { NutrientInterface } from "../interfaces/INutrient";
 
@@ -41,6 +42,29 @@ async function Login(data: SignInInterface) {
 
   return res;
 }
+
+// Admin Login
+const AdminLogin = async (data: AdminInterface) => {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/adminLogin`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("uid", res.data.id);
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+};
 
 async function GetCourseService() {
   const requestOptions = {
@@ -468,6 +492,25 @@ const CreateFoodInformation = async (data: FoodInformationInterface) => {
   return res;
 };
 
+const UpdateFoodInformation = async (data: FoodInformationInterface) => {
+  const requestOptions = {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/update-food_information`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
 const GetAdminByID = async () => {
   const id = localStorage.getItem("uid");
 
@@ -497,6 +540,17 @@ const GetFoodInformations = async () => {
   return res;
 };
 
+const GetFoodInformationByID = async (id: string) => {
+  // let { id } = useParams();
+  let res = await fetch(`${apiUrl}/food_information/${id}`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
 const DeleteFoodInformation = async (id: string) => {
   const requestOptions = {
     method: "DELETE",
@@ -506,7 +560,10 @@ const DeleteFoodInformation = async (id: string) => {
     },
   };
 
-  let res = await fetch(`${apiUrl}/delete-food_information/${id}`, requestOptions)
+  let res = await fetch(
+    `${apiUrl}/delete-food_information/${id}`,
+    requestOptions
+  )
     .then((response) => response.json())
     .then((result) => {
       return result.data ? result.data : false;
@@ -575,7 +632,7 @@ const CreateNutrient = async (data: NutrientInterface) => {
 
 //===========================Member===========================
 
-const CreateMember= async (data: UserInterface) => {
+const CreateMember = async (data: UserInterface) => {
   const requestOptions = {
     method: "POST",
     headers: {
@@ -612,8 +669,6 @@ const DeleteNutrient = async (id: string) => {
   return res;
 };
 
-
-
 export {
   GetCourseService,
   GetUser,
@@ -624,7 +679,9 @@ export {
   GetDescription,
   CreateCourseService,
   CourseServices,
+  // Login
   Login,
+  AdminLogin,
   // Blog
   CreateBlog,
   UpdateBlog,
@@ -640,6 +697,8 @@ export {
   GetAdminByID,
   GetFoodInformations,
   DeleteFoodInformation,
+  GetFoodInformationByID,
+  UpdateFoodInformation,
   // Review
   CreateReviews,
   UpdateReview,

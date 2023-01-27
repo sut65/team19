@@ -82,7 +82,7 @@ function Navbar() {
             >
               <Grid item xs={2}>
                 <Link
-                  to="/"
+                  to="/user"
                   style={{
                     color: "#000",
                     textDecoration: "none",

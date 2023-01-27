@@ -15,7 +15,7 @@ import {
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 // Interface
 import { FoodTypeInterface } from '../../interfaces/IFoodType';
@@ -27,16 +27,17 @@ import { FoodInformationInterface } from '../../interfaces/IFoodInformation';
 import { 
     GetFoodTypes,
     GetMainIngredients,
-    CreateFoodInformation,
+    UpdateFoodInformation,
     GetAdminByID,
+    GetFoodInformationByID,
  } from '../../services/HttpClientService';
 
 const ImgBox = styled(Box)({
     width: "280px",
 });
 
-function CreateFood() {
-
+function UpdateFood() {
+    const { id } = useParams();
     const [foodinformation, setFoodInformation] = useState<FoodInformationInterface>({});
     const [foodtypes, setFoodTypes] = useState<FoodTypeInterface[]>([]);
     const [mainingredients, setMainIngredients] = useState<MainIngredientInterface[]>([]);
@@ -113,10 +114,16 @@ function CreateFood() {
         setAdmin(res);
       }
     };
+
+    const fetchFoodInformation = async () => {
+        let res = await GetFoodInformationByID(id + "");
+        res && setFoodInformation(res);
+    };
     
     // เพิ่มข้อมูลเข้า Database
     const submit = async () => {
-      let data = {
+      let newdata = {
+        ID: convertType(id),
         FoodTypeID: convertType(foodinformation.FoodTypeID),
         MainIngredientID: convertType(foodinformation.MainIngredientID),
         AdminID: convertType(foodinformation.AdminID),
@@ -125,22 +132,22 @@ function CreateFood() {
         Datetime: datetime?.toLocaleString(),
         };
 
-        console.log(data.Image)
+        console.log(newdata.Image)
     
-        let res = await CreateFoodInformation(data);
+        let res = await UpdateFoodInformation(newdata);
         res ? setSuccess(true) : setError(true);
         window.location.href = "/food-display"
-        console.log(JSON.stringify(data))
+        console.log(JSON.stringify(newdata))
       };
 
     useEffect(() => {
         fetchFoodTypes();
         fetchMainIngredients();
         fetchAdminByID();
+        fetchFoodInformation();
     }, []);
 
     return(
-
         <Container>
 
         <h1>เพิ่มข้อมูลอาหาร</h1>
@@ -307,7 +314,7 @@ function CreateFood() {
             <Paper>
             <h1> </h1>
             <ImgBox>
-                <img src={image.src} alt={image.name} style={{ width: "100%" }} />
+                <img src={foodinformation.Image} style={{ width: "100%" }} />
             </ImgBox>
             <h1> </h1>
             </Paper>
@@ -330,7 +337,7 @@ function CreateFood() {
 
                 <Button variant="outlined" color="success" onClick={submit}
                 sx = {{ borderRadius: 20 }}>
-                    เพิ่มอาหาร
+                    อัปเดตข้อมูลอาหาร
                 </Button>
 
                 <Link
@@ -347,8 +354,7 @@ function CreateFood() {
 
             </Stack>
         </Container>
-
     );
 }
 
-export default CreateFood;
+export default UpdateFood;

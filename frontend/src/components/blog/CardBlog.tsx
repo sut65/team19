@@ -116,7 +116,7 @@ function CardBlog({
         </Typography>
       </CardContent>
       <Link
-        to={`/article/${id}`}
+        to={`/user/article/${id}`}
         style={{
           textDecoration: "none",
         }}

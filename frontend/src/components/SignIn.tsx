@@ -34,7 +34,11 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-function SignIn() {
+type Prop = {
+  loginRole: any;
+};
+
+function SignIn({ loginRole }: Prop) {
   const [signin, setSignin] = useState<Partial<SignInInterface>>({});
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
@@ -59,7 +63,8 @@ function SignIn() {
   };
 
   const submit = async () => {
-    let res = await Login(signin);
+    let res = await loginRole(signin);
+    console.log(res)
     if (res) {
       setSuccess(true);
       setTimeout(() => {

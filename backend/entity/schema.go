@@ -444,6 +444,8 @@ type Payment struct {
 	Discount   Discount
 }
 
+// ======================================================
+
 // ================== ระบบจัดการสารอาหาร ==================
 type MostNutrient struct {
 	gorm.Model
