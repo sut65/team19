@@ -17,8 +17,12 @@ import { RankInterface } from "../../interfaces/IRank";
 import { ReviewInterface } from "../../interfaces/IReview";
 
 // api
-import { GetRanks, CreateReviews } from "../../services/HttpClientService";
-import { Link } from "react-router-dom";
+import {
+  GetRanks,
+  UpdateReview as UdRv,
+  GetReviewByID,
+} from "../../services/HttpClientService";
+import { Link, useParams } from "react-router-dom";
 
 // style
 const BoxRating = styled(Box)({
@@ -38,10 +42,10 @@ interface RatingLabelsInterface {
   [index: string]: string;
 }
 
-function CreateReview() {
+function UpdateReview() {
+  let { id } = useParams();
   const [review, setReview] = useState<ReviewInterface>({ RankID: 0 });
   const [ranks, setRanks] = useState<RankInterface[]>([]);
-  const [ratingValue, setRatingValue] = useState<number | null>(0);
   const [hover, setHover] = useState(-1);
   const [labels, setLabels] = useState<RatingLabelsInterface>({});
   const [image, setImage] = useState({ name: "", src: "" });
@@ -74,14 +78,6 @@ function CreateReview() {
     };
   };
 
-  // const handleSelectChange = (event: React.SyntheticEvent, newValue: number) => {
-  //   // const name = event.target.name as keyof typeof review;
-  //   setReview({
-  //     ...review,
-  //     "RankID": newValue,
-  //   });
-  // };
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name;
     setReview({ ...review, [name]: e.target.value });
@@ -92,6 +88,11 @@ function CreateReview() {
     res && setRanks(res);
   };
 
+  const fetchReviewByID = async () => {
+    let res = await GetReviewByID(id + "");
+    res && setReview(res);
+  };
+
   const convertType = (data: string | number | undefined) => {
     let val = typeof data === "string" ? parseInt(data) : data;
     return val;
@@ -100,20 +101,24 @@ function CreateReview() {
   // insert data to db
   const submit = async () => {
     let data = {
+      ID: convertType(id),
       // CourseDetailID: convertType(review.CourseDetailID),
-      CourseDetailID: convertType(1),
+      CourseDetailID: convertType(2),
       RankID: convertType(review.RankID),
       MemberID: Number(localStorage.getItem("uid")),
       Content: review.Content,
       Image: review.Image,
     };
 
-    let res = await CreateReviews(data);
+    console.log("data", data);
+
+    let res = await UdRv(data);
     res ? setSuccess(true) : setError(true);
     // window.location.href = "/reviews"
   };
 
   useEffect(() => {
+    fetchReviewByID();
     fetchRanks();
     return () => {
       const objRating: any = ranks.reduce(
@@ -122,7 +127,7 @@ function CreateReview() {
       );
       setLabels(objRating);
     };
-  }, [hover, ratingValue]);
+  }, []);
 
   return (
     <Box
@@ -134,7 +139,6 @@ function CreateReview() {
         alignItems: "center",
         m: "2.5rem auto",
         gap: "1rem",
-        // boxShadow: 1,
       }}
     >
       {/* Alert */}
@@ -159,23 +163,26 @@ function CreateReview() {
           บันทึกข้อมูลไม่สำเร็จ
         </Alert>
       </Snackbar>
-      
+
       <BoxRating>
-        {ratingValue !== null && (
+        {review.RankID !== null && (
           <Box sx={{ position: "absolute", top: "-24px" }}>
-            {labels[hover !== -1 ? hover : ratingValue]}
+            {labels[hover !== -1 ? hover : review.RankID + ""]}
           </Box>
         )}
         <Rating
-          name="hover-feedback"
-          value={review.Rank?.ID}
+          name="RankID"
+          value={review.RankID}
           // getLabelText={getLabelText}
           onChange={(event, newValue: any) => {
+            console.log(newValue);
             setReview({
               ...review,
               ["RankID"]: newValue,
             });
+            console.log(review.RankID)
           }}
+          
           onChangeActive={(event, newHover) => {
             setHover(newHover);
           }}
@@ -225,8 +232,9 @@ function CreateReview() {
         </IconButton>
       </Box>
       <ImgBox>
-        <img src={image.src} alt={image.name} style={{ width: "100%" }} />
+        <img src={review.Image} alt={image.name} style={{ width: "100%" }} />
       </ImgBox>
+
       {/* Button */}
       <Box
         sx={{
@@ -273,4 +281,4 @@ function CreateReview() {
   );
 }
 
-export default CreateReview;
+export default UpdateReview;

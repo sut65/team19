@@ -29,6 +29,7 @@ import Admin from "./pages/login/Admin";
 import Payment from "./components/payment/Payment";
 import UpdateFood from "./components/FoodInformation/UpdateFood";
 import CreateBehaviors from "./components/Behavior/CreateBehavior";
+import UpdateReview from "./components/review/UpdateReview";
 
 function App() {
   const [token, setToken] = useState<String>("");
@@ -52,6 +53,7 @@ function App() {
   return (
     <div>
       <Routes>
+        {/* path ไม่ต้องใส่ / ด้วยเพราะมันอยู่ครอบด้วย LoginRole ที่เป็น root อยู่แล้ว */}
         <Route path="/" element={<LoginRole />} />
         {/* Routes Admin */}
         <Route path="admin" element={<Admin />}>
@@ -83,19 +85,15 @@ function App() {
           <Route path="create-article" element={<CreateArticle />} />
           <Route path="articles" element={<ShowCardBlog />} />
           <Route path="article/:id" element={<Article />} />
+          <Route path="article/:id/update-article" element={<UpdateArticle />} />
           <Route path="register-course" element={<ShowCardCourseService />} />
           <Route path="register-course/:id" element={<RegisterCourse />} />
           <Route path="payment/:id" element={<Payment />} />
-          <Route path="article/create-article" element={<CreateArticle />} />
-          <Route path="article/:id/update-article" element={<UpdateArticle />} />
-          <Route path="/register" element={<Register />}></Route>
-          <Route path="/food-display" element={<FoodDisplay />}></Route>
-          <Route path="/BodyRecord" element={<BodyDisplay />}></Route>
-          <Route path="/food-display/create-food" element={<CreateFood />}></Route>
-          <Route path="/nutrient-display/create-nutrient" element={<CreateNutrientUI />}></Route>
-          <Route path="/nutrient-display" element={<NutrientDisplayUI />}></Route>
+          <Route path="register" element={<Register />}></Route>
+          <Route path="BodyRecord" element={<BodyDisplay />}></Route>
           <Route path="create-review" element={<CreateReview />} />
           <Route path="reviews" element={<ShowReview />} />
+          <Route path="reviews/update-review/:id" element={<UpdateReview />} />
           <Route path="behavior" element={<CreateBehaviors />} />
         </Route>
         {/* <Route path="/" element={<Navbar />}> */}
