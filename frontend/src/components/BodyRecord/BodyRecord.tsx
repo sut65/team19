@@ -22,7 +22,7 @@ import EnvironmentIcon from "../../images/environmentIcon.png"
 import { BodyInterface } from "../../interfaces/IBody";
 import { TrainerInterface } from "../../interfaces/ITrainer";
 import { CourseDetailInterface } from "../../interfaces/ICourseDetail";
-import { UserInterface } from "../../interfaces/IUser";
+import { MemberInterface } from "../../interfaces/IMember";
 
 // import { GetAdminByID } from "../services/HttpClientService";
 import Snackbar from "@mui/material/Snackbar";
@@ -47,7 +47,7 @@ function Trainer() {
 
   const [body, setBody] = useState<BodyInterface>({}); 
   const [trainer, setTrainer] = useState<TrainerInterface[]>([]); 
-  const [member, setMember] = useState<UserInterface[]>([]); 
+  const [member, setMember] = useState<MemberInterface[]>([]); 
   const [courseD, setCourseDetail] = useState<CourseDetailInterface[]>([]); 
 
   const [hight, setHight] = useState<number>(0);
