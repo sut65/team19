@@ -69,7 +69,7 @@ function Navbar() {
               color: "#000000",
               paddingTop: 2,
               paddingBottom: 0.5,
-              padding: "0"
+              padding: "0.5rem"
             }}
           >
             <Grid container spacing={0} 
@@ -141,7 +141,7 @@ function Navbar() {
               {/* =====================================< Body Record >==================================== */}
               <Grid item xs={1}>
                 <Link
-                  to="BodyDisplay"
+                  to="BodyRecord"
                   style={{
                     color: "#000",
                     textDecoration: "none",
