@@ -30,6 +30,7 @@ import Payment from "./components/payment/Payment";
 import UpdateFood from "./components/FoodInformation/UpdateFood";
 import CreateBehaviors from "./components/Behavior/CreateBehavior";
 import UpdateReview from "./components/review/UpdateReview";
+import UpdateNutrient from "./components/Nutrient/UpdateNutrient";
 
 function App() {
   const [token, setToken] = useState<String>("");
@@ -73,6 +74,10 @@ function App() {
           <Route
             path="food-display/update-food/:id"
             element={<UpdateFood />}
+          ></Route>
+          <Route
+            path="nutrient-display/update-nutrient/:id"
+            element={<UpdateNutrient />}
           ></Route>
         </Route>
 

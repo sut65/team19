@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Container } from '@mui/system';
 import {
   Box,
   Table,
@@ -11,19 +10,19 @@ import {
   Paper,
   Avatar,
   Button,
-  Stack,
 } from '@mui/material';
 
 import {
   Link,
-  useParams,
   useNavigate,
 } from "react-router-dom";
 
+import "../../App.css"
+
+//Iamge Import
 import FoodIcon from "../../images/FoodIcon2.png"
 import AddIcon from "../../images/AddIcon.png"
 import homeBg from "../../images/FoodBG.jpg"
-import "../../App.css"
 
 //Interface
 import { FoodInformationInterface } from '../../interfaces/IFoodInformation';
@@ -32,10 +31,17 @@ import { FoodInformationInterface } from '../../interfaces/IFoodInformation';
 import { DeleteFoodInformation } from '../../services/HttpClientService';
 
 function FoodDisplay() {
-  const { id } = useParams();
   let navigate = useNavigate();
   const [foodinformations, setFoodInformations] = useState<FoodInformationInterface[]>([]);
 
+  const DeleteFood = async (id: string) => {
+    let res = await DeleteFoodInformation(id);
+    if (res) {
+      window.location.href = "/admin/food-display";
+    }
+  }
+
+  //Fetch API
   const fetchFoodInformation = async () => {
     const requestOptions = {
       method: "GET",
@@ -52,24 +58,17 @@ function FoodDisplay() {
       });
   };
 
-  const DeleteFood = async (id: string) => {
-    let res = await DeleteFoodInformation(id);
-    if (res) {
-      window.location.href = "/admin/food-display";
-    }
-  }
-
   useEffect(() => {
     fetchFoodInformation();
   }, []);
 
   return (
+    //ภาพพื้นหลัง
     <Box
       sx={{
         display: "flex",
         flexDirection: "column",
         flexFlow: "",
-        // justifyContent: "center",  
         overflow: "auto",
         alignItems: "center",
         gap: 6,

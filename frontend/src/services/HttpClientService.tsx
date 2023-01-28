@@ -527,7 +527,6 @@ const GetFoodInformations = async () => {
 };
 
 const GetFoodInformationByID = async (id: string) => {
-  // let { id } = useParams();
   let res = await fetch(`${apiUrl}/food_information/${id}`, requestOptionsGet)
     .then((response) => response.json())
     .then((result) => {
@@ -648,6 +647,35 @@ const CreateNutrient = async (data: NutrientInterface) => {
   };
 
   let res = await fetch(`${apiUrl}/nutrients`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetNutrientByID = async (id: string) => {
+  let res = await fetch(`${apiUrl}/nutrient/${id}`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const UpdateNut = async (data: NutrientInterface) => {
+  const requestOptions = {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/update-nutrient`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
       return result.data ? result.data : false;
@@ -983,6 +1011,8 @@ export {
   GetMostNutrient,
   CreateNutrient,
   DeleteNutrient,
+  GetNutrientByID,
+  UpdateNut,
   // Member
   GetMemberByID,
   CreateMember,

@@ -122,7 +122,7 @@ func UpdateFoodInformation(c *gin.Context) {
 		return
 	}
 
-	// สร้าง food_information
+	// อัปเดต food_information
 	update := entity.FoodInformation{
 		Admin:   			admin,
 		MainIngredient:     mainingredient,

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Container } from '@mui/system';
 import { 
   Link,
-  useParams 
+  useNavigate,
   } from "react-router-dom";
+
 import { 
     Box,
     Stack,
@@ -18,10 +18,13 @@ import {
     Avatar,
 } from '@mui/material';
 
+import "../../App.css"
+
 // Image Import
 import FoodIcon from "../../images/FoodIcon.png"
 import AddIcon from "../../images/AddIcon.png"
 import homeBg from "../../images/NutBG.jpg";
+
 
 //Interface
 import { NutrientInterface } from '../../interfaces/INutrient';
@@ -30,7 +33,7 @@ import { NutrientInterface } from '../../interfaces/INutrient';
 import { DeleteNutrient } from '../../services/HttpClientService';
 
 function NutrientDisplayUI() {
-    const { id } = useParams();
+    let navigate = useNavigate();
     const [nutrients, setNutrients] = useState<NutrientInterface[]>([]);
 
     const DeleteNut = async (id : string) => {
@@ -67,7 +70,6 @@ function NutrientDisplayUI() {
         sx={{
           display: "flex",
           flexDirection: "column",
-          // justifyContent: "center",
           alignItems: "center",
           gap: 6,
           height: "100vh",
@@ -127,6 +129,7 @@ function NutrientDisplayUI() {
                   <TableCell align="center">วันที่ทำการเพิ่ม</TableCell>
                   <TableCell align="center">ผู้ดูแลที่ทำการเพิ่ม</TableCell>
                   <TableCell align="center"> </TableCell>
+                  <TableCell align="center"> </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -139,6 +142,14 @@ function NutrientDisplayUI() {
                     <TableCell align="center">{nutrients.Comment}</TableCell>
                     <TableCell align="center">{nutrients.Date}</TableCell>
                     <TableCell align="center">{nutrients.Admin?.Name}</TableCell>
+                    {/* ปุ่มแก้ไขข้อมูล */}
+                    <TableCell align="right">
+                      <Button variant="contained"
+                        sx={{ borderRadius: 20 }} onClick={() => navigate(`update-nutrient/${nutrients.ID}`)}>
+                        แก้ไขข้อมูล
+                      </Button>
+                    </TableCell>
+                    {/* ปุ่มลบข้อมูล */}
                     <TableCell align="right">
                       <Button onClick={() => DeleteNut(nutrients.ID+"") } variant="contained" color="error"
                       sx = {{ borderRadius: 20 }}>ลบข้อมูล</Button>
