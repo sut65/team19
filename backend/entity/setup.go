@@ -450,6 +450,13 @@ func SetupDatabase() {
 	}
 	db.Model(&MainIngredient{}).Create(&MainIngredientG)
 
+	MainIngredientH := MainIngredient{
+		Name:    "เนื้อกุ้ง",
+		Carolie: 99,
+		Type:    "วัตถุดิบจากสัตว์",
+	}
+	db.Model(&MainIngredient{}).Create(&MainIngredientH)
+
 	FoodTypeA := FoodType{
 		Name: "อาหารคาว",
 	}
@@ -461,11 +468,11 @@ func SetupDatabase() {
 	db.Model(&FoodType{}).Create(&FoodTypeB)
 
 	FoodInformationA := FoodInformation{
-		Name:           "ไข่เจียว",
+		Name:           "ล็อบสเตอร์อบชีส",
 		Datetime:       "25/1/2566 18:29:33",
-		Image:          "https://s359.kapook.com/pagebuilder/1c0a0dac-e4a9-4651-baa0-052a597ab7bf.jpg",
+		Image:          "https://img.wongnai.com/p/1920x0/2018/05/03/1d12ded0c8b943a7a8a7d281d694876b.jpg",
 		Admin:          AdminA,
-		MainIngredient: MainIngredientA,
+		MainIngredient: MainIngredientH,
 		FoodType:       FoodTypeA,
 	}
 	db.Model(&FoodInformation{}).Create(&FoodInformationA)
@@ -475,10 +482,20 @@ func SetupDatabase() {
 		Datetime:       "26/1/2566 19:45:54",
 		Image:          "https://s359.kapook.com/pagebuilder/9568b809-b606-404a-8253-26fe7287bda7.jpg",
 		Admin:          AdminB,
-		MainIngredient: MainIngredientB,
+		MainIngredient: MainIngredientC,
 		FoodType:       FoodTypeB,
 	}
 	db.Model(&FoodInformation{}).Create(&FoodInformationB)
+
+	FoodInformationC := FoodInformation{
+		Name:           "สเต๊กเนื้อ",
+		Datetime:       "26/1/2566 19:45:54",
+		Image:          "https://img.wongnai.com/p/1920x0/2019/03/23/73a95587aa2f46e0b160e5a7d9ef430f.jpg",
+		Admin:          AdminC,
+		MainIngredient: MainIngredientE,
+		FoodType:       FoodTypeA,
+	}
+	db.Model(&FoodInformation{}).Create(&FoodInformationC)
 
 	// BodyMakeup for bodychange recording system --------------------------------------------------------------------------------------
 	BodyChangeA := Body{
@@ -749,9 +766,9 @@ func SetupDatabase() {
 
 	NutrientA := Nutrient{
 		FoodInformation: FoodInformationA,
-		MostNutrient:    MostNutrientA,
-		TotalCalorie:    165,
-		Comment:         "ไม่ควรกินเกิน 3 ฟอง",
+		MostNutrient:    MostNutrientB,
+		TotalCalorie:    253,
+		Comment:         "กินเยอะจะไม่ดีกับสุขภาพ",
 		Admin:           AdminA,
 		Date:            "20/12/2022 15:00",
 	}
@@ -759,9 +776,9 @@ func SetupDatabase() {
 
 	NutrientB := Nutrient{
 		FoodInformation: FoodInformationB,
-		MostNutrient:    MostNutrientB,
-		TotalCalorie:    100,
-		Comment:         "กินเพื่อลดน้ำหนักได้ดี",
+		MostNutrient:    MostNutrientA,
+		TotalCalorie:    400,
+		Comment:         "อร่อยม๊ากกกก !!!",
 		Admin:           AdminB,
 		Date:            "21/12/2022 16:00",
 	}
