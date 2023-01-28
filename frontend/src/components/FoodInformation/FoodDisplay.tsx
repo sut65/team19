@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import {
   Box,
   Table,
@@ -10,6 +12,7 @@ import {
   Paper,
   Avatar,
   Button,
+  IconButton,
 } from '@mui/material';
 
 import {
@@ -122,6 +125,7 @@ function FoodDisplay() {
                 <TableCell align="center">วันที่ทำการเพิ่ม</TableCell>
                 <TableCell align="center">ผู้ดูแลที่ทำการเพิ่ม</TableCell>
                 <TableCell align="center"> </TableCell>
+                <TableCell align="center"> </TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -139,19 +143,15 @@ function FoodDisplay() {
                   <TableCell align="center">{foodinformations.FoodType?.Name}</TableCell>
                   <TableCell align="center">{foodinformations.Datetime}</TableCell>
                   <TableCell align="center">{foodinformations.Admin?.Name}</TableCell>
-                  <TableCell align="right">
+                  <TableCell align="center">
                     {/* ปุ่มแก้ไขข้อมูล */}
-                    <Button variant="contained"
-                      sx={{ borderRadius: 20 }} onClick={() => navigate(`update-food/${foodinformations.ID}`)}>
-                      แก้ไขข้อมูล
-                    </Button>
-                    <h1> </h1>
+                    <IconButton aria-label="delete" size="large" onClick={() => navigate(`update-food/${foodinformations.ID}`)} color="info">
+                      <EditIcon fontSize="inherit" />
+                    </IconButton>
                     {/* ปุ่มลบข้อมูล */}
-                    <Button onClick={() => DeleteFood(foodinformations.ID + "")} variant="contained" color="error"
-                      sx={{ borderRadius: 20 }}>
-                      ลบข้อมูล
-                    </Button>
-
+                    <IconButton aria-label="delete" size="large" onClick={() => DeleteFood(foodinformations.ID + "")} color="error">
+                      <DeleteIcon fontSize="inherit" />
+                    </IconButton>
                   </TableCell>
                 </TableRow>
               ))}

@@ -12,7 +12,6 @@ import { GetPaymentByID, GetPaymentByUID, GetMemberByID } from "../../services/H
 function PaymentHistory() {
   const [Payment, setPayment] = useState<PaymentInterface[]>([])
   const [PaymentByID, setPaymentByID] = useState<PaymentInterface>()
-  const [Member, setMember] = useState<MemberInterface>()
   const [ID, setID] = useState<string>()
   const [PTime, setPTime] = useState<string>()
   let TempDate, TempTimeAndZone: any, TempSecondAndZone,  TempHour, TempMinute, TempSecond
@@ -21,6 +20,9 @@ function PaymentHistory() {
   const [Minute, setMinute] = useState<string>()
   const [Second, setSecond] = useState<string>()
   const uid = localStorage.getItem("uid")
+  const UFirstName = localStorage.getItem("firstname") + ""
+  const ULastName = localStorage.getItem("lastname") + ""
+  const UserName = UFirstName + " " + ULastName
 
   // function formatDate(date: string){
   //   var options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -41,20 +43,12 @@ function PaymentHistory() {
     }
   };
 
-  const getMember = async () => {
-    let res = await GetMemberByID();
-    if (res) {
-      setMember(res);
-    }
-  };
-
   useEffect(() => {
     getPaymentByUID();
   }, [uid]);
 
   useEffect(() => {
     getPaymentByID();
-    getMember();
   }, [ID]);
 
   useEffect(() => {
@@ -63,7 +57,6 @@ function PaymentHistory() {
     if (TempTimeAndZone !== undefined) {
       [TempHour, TempMinute, TempSecondAndZone] = TempTimeAndZone.split(":")
       TempSecond = TempSecondAndZone.split(".")
-      console.log(TempTimeAndZone)
       setHour(TempHour)
       setMinute(TempMinute)
       setSecond(TempSecond[0])
@@ -157,7 +150,7 @@ function PaymentHistory() {
                 <Divider />
                 <br></br>
                 <Grid item xs={12}>
-                  {PaymentByID?.CourseService?.Member?.Firstname}
+                  {UserName}
                 </Grid>
                 
               </Box>

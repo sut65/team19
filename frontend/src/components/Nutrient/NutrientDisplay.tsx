@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import { 
   Link,
   useNavigate,
@@ -16,6 +18,7 @@ import {
     Paper,
     Button,
     Avatar,
+    IconButton,
 } from '@mui/material';
 
 import "../../App.css"
@@ -142,17 +145,15 @@ function NutrientDisplayUI() {
                     <TableCell align="center">{nutrients.Comment}</TableCell>
                     <TableCell align="center">{nutrients.Date}</TableCell>
                     <TableCell align="center">{nutrients.Admin?.Name}</TableCell>
-                    {/* ปุ่มแก้ไขข้อมูล */}
                     <TableCell align="right">
-                      <Button variant="contained"
-                        sx={{ borderRadius: 20 }} onClick={() => navigate(`update-nutrient/${nutrients.ID}`)}>
-                        แก้ไขข้อมูล
-                      </Button>
-                    </TableCell>
-                    {/* ปุ่มลบข้อมูล */}
-                    <TableCell align="right">
-                      <Button onClick={() => DeleteNut(nutrients.ID+"") } variant="contained" color="error"
-                      sx = {{ borderRadius: 20 }}>ลบข้อมูล</Button>
+                       {/* ปุ่มแก้ไขข้อมูล */}
+                      <IconButton aria-label="delete" size="large" onClick={() => navigate(`update-food/${nutrients.ID}`)} color="info">
+                      <EditIcon fontSize="inherit" />
+                      </IconButton>
+                      {/* ปุ่มลบข้อมูล */}
+                      <IconButton aria-label="delete" size="large" onClick={() => DeleteNut(nutrients.ID + "")} color="error">
+                        <DeleteIcon fontSize="inherit" />
+                      </IconButton>
                     </TableCell>
                   </TableRow>
                 ))}

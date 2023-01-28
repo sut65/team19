@@ -218,6 +218,25 @@ const DeleteTrainer= async (id: string) => {
   return res;
 };
 
+const UpdateTrainer = async (data: NutrientInterface) => {
+  const requestOptions = {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/trainers`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
 //
 
 async function CreateCourseService(data: CourseServiceInterface) {
@@ -900,7 +919,6 @@ async function GetPaymentByUID() {
     .then((response) => response.json())
     .then((res) => {
       if (res.data) {
-        console.log(res)
         return res.data;
       } else {
         return false;
@@ -923,7 +941,6 @@ async function GetPaymentByID(id: string | undefined) {
     .then((response) => response.json())
     .then((res) => {
       if (res.data) {
-        console.log(res)
         return res.data;
       } else {
         return false;
@@ -1058,6 +1075,7 @@ export {
   GetTrainer,
   GetTrainerByID,
   DeleteTrainer,
+  UpdateTrainer,
   //
   GetAdmin,
   GetPrice,
