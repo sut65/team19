@@ -29,6 +29,27 @@ function LoginRole() {
         >
           Team 19
         </Typography>
+
+        <Link
+              to={`/register-member`} // รอแก้เป็นรีวิว
+              style={{
+                textDecoration: "none",
+              }}
+            >
+              <Button
+                className="btn-user"
+                variant="contained"
+                style={{
+                  color: "#fff",
+                  borderRadius: 20,
+                  backgroundColor: "#576F72",
+                  padding: "6px 28px",
+                  fontSize: "16px",
+                }}
+              >
+                Register
+              </Button>
+            </Link>
         <Box
           sx={{
             display: "flex",
