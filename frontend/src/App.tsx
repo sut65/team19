@@ -77,7 +77,7 @@ function App() {
         </Route>
 
         {/* Routes Trainer */}
-        <Route path="trainer" element={<Trainer />}></Route>
+        <Route path="trainerLogin" element={<Trainer />}></Route>
 
         {/* Routes User */}
         <Route path="user" element={<User />}>

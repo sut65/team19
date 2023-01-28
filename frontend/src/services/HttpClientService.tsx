@@ -68,6 +68,29 @@ const AdminLogin = async (data: AdminInterface) => {
   return res;
 };
 
+// Trainer Login
+const TrainerLogin = async (data: AdminInterface) => {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/trainerLogin`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("uid", res.data.id);
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+};
+
 async function GetCourseService() {
   const requestOptions = {
     method: "GET",
@@ -912,6 +935,7 @@ export {
   // Login
   Login,
   AdminLogin,
+  TrainerLogin,
   //
   GetUser,
   GetCourseDetail,
