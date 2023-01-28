@@ -95,24 +95,47 @@ func DeleteNutrient(c *gin.Context) {
 // PATCH /food_information
 func UpdateNutrient(c *gin.Context) {
 	var nutrient entity.Nutrient
-	var newNutrient entity.Nutrient
+	var foodinformation entity.FoodInformation
+	var admin entity.Admin
+	var mostnutrient entity.MostNutrient
 
 	if err := c.ShouldBindJSON(&nutrient); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	newNutrient.Comment = nutrient.Comment
-	newNutrient.Date = nutrient.Date
-	newNutrient.TotalCalorie = nutrient.TotalCalorie
-	newNutrient.Admin = nutrient.Admin
-	newNutrient.MostNutrient = nutrient.MostNutrient
-	newNutrient.FoodInformation = nutrient.FoodInformation
-
-	if err := entity.DB().Where("id = ?", nutrient.ID).Updates(&newNutrient).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	// ค้นหา admin ด้วย id
+	if tx := entity.DB().Where("id = ?", nutrient.AdminID).First(&admin); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "admin not found"})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": newNutrient})
+	// ค้นหา food_information ด้วย id
+	if tx := entity.DB().Where("id = ?", nutrient.FoodInformationID).First(&foodinformation); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "food_informations not found"})
+		return
+	}
+
+	// ค้นหา most_nutrient ด้วย id
+	if tx := entity.DB().Where("id = ?", nutrient.MostNutrientID).First(&mostnutrient); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "most_nutrient not found"})
+		return
+	}
+
+	// สร้าง nutrient
+	update := entity.Nutrient{
+		Admin:   			admin,
+		FoodInformation:    foodinformation,
+		MostNutrient:       mostnutrient,
+		Comment: 			nutrient.Comment,
+		TotalCalorie:     	nutrient.TotalCalorie,
+		Date:    			nutrient.Date,
+	}
+
+	// บันทึก
+	if err := entity.DB().Where("id = ?", nutrient.ID).Updates(&update).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusCreated, gin.H{"data": update})
 }

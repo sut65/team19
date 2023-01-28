@@ -60,7 +60,7 @@ function LoginRole() {
           
           {/* Trainer */}
           <Link
-            to="trainerLogin"
+            to="trainer"
             style={{
               textDecoration: "none",
             }}

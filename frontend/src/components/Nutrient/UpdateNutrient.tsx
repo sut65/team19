@@ -3,7 +3,7 @@ import { Container, Box } from '@mui/system';
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { 
     Select,
     SelectChangeEvent,
@@ -14,7 +14,7 @@ import {
     Button,
  } from '@mui/material';
 
- //Interface
+//Interface
 import { MostNutrientInterface } from '../../interfaces/IMostNutrient';
 import { FoodInformationInterface } from '../../interfaces/IFoodInformation';
 import { AdminInterface } from '../../interfaces/IAdmin';
@@ -25,81 +25,87 @@ import {
     GetFoodInformations,
     GetAdminByID,
     GetMostNutrient,
-    CreateNutrient,
+    GetNutrientByID,
+    UpdateNut,
  } from '../../services/HttpClientService';
 
+function UpdateNutrient() {
+    const { id } = useParams();
+    const [nutrient, setNutrient] = useState<NutrientInterface>({});
+    const [mostnutrient, setMostNutrient] = useState<MostNutrientInterface[]>([]);
+    const [foodinformation, setFoodInformation] = useState<FoodInformationInterface[]>([]);
+    const [date, setDate] = useState<Date | string | null>(new Date());
+    const [admin, setAdmin] = useState<AdminInterface>({ Name: ""});
+    const [success, setSuccess] = useState(false);
+    const [error, setError] = useState(false);
 
-function CreateNutrientUI() {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const name = e.target.name;
+        console.log(name);
+        setNutrient({ ...nutrient, [name]: e.target.value });
+    };
 
-const [nutrient, setNutrient] = useState<NutrientInterface>({});
-const [mostnutrient, setMostNutrient] = useState<MostNutrientInterface[]>([]);
-const [foodinformation, setFoodInformation] = useState<FoodInformationInterface[]>([]);
-const [date, setDate] = useState<Date | string | null>(new Date());
-const [admin, setAdmin] = useState<AdminInterface>({ Name: ""});
-const [success, setSuccess] = useState(false);
-const [error, setError] = useState(false);
+    const handleSelectChange = (event: SelectChangeEvent) => {
+        const name = event.target.name as keyof typeof nutrient;
+        setNutrient({
+          ...nutrient,
+          [name]: event.target.value,
+        });
+    };
 
-const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const name = e.target.name;
-    console.log(name);
-    setNutrient({ ...nutrient, [name]: e.target.value });
-};
+    const convertType = (data: string | number | undefined) => {
+        let val = typeof data === "string" ? parseInt(data) : data;
+        return val;
+    };
 
-const handleSelectChange = (event: SelectChangeEvent) => {
-    const name = event.target.name as keyof typeof nutrient;
-    setNutrient({
-      ...nutrient,
-      [name]: event.target.value,
-    });
-};
+    //FectAPI
+    const fetchMostNutrients = async () => {
+        let res = await GetMostNutrient();
+        res && setMostNutrient(res);
+    };
 
-const convertType = (data: string | number | undefined) => {
-    let val = typeof data === "string" ? parseInt(data) : data;
-    return val;
-};
+    const fetchFoodInformation = async () => {
+        let res = await GetFoodInformations();
+        res && setFoodInformation(res);
+    };
 
-//FectAPI
-const fetchMostNutrients = async () => {
-    let res = await GetMostNutrient();
-    res && setMostNutrient(res);
-};
+    const fetchAdminByID = async () => {
+        let res = await GetAdminByID();
+        nutrient.AdminID = res.ID;
+        if (res) {
+        setAdmin(res);
+        }
+    };
 
-const fetchFoodInformation = async () => {
-    let res = await GetFoodInformations();
-    res && setFoodInformation(res);
-};
+    const fetchNutrient = async () => {
+        let res = await GetNutrientByID(id + "");
+        res && setNutrient(res);
+    };
 
-const fetchAdminByID = async () => {
-    let res = await GetAdminByID();
-    nutrient.AdminID = res.ID;
-    if (res) {
-      setAdmin(res);
-    }
-};
+    // อัปเดตข้อมูลเข้า Database
+    const submit = async () => {
+        let newdata = {
+            ID: convertType(id),
+            MostNutrientID: convertType(nutrient.MostNutrientID),
+            FoodInformationID: convertType(nutrient.FoodInformationID),
+            AdminID: convertType(nutrient.AdminID),
+            Comment: nutrient.Comment,
+            TotalCalorie: convertType(nutrient.TotalCalorie),
+            Date: date?.toLocaleString(),
+            };
 
-// เพิ่มข้อมูลเข้า Database
-const submit = async () => {
-    let data = {
-      MostNutrientID: convertType(nutrient.MostNutrientID),
-      FoodInformationID: convertType(nutrient.FoodInformationID),
-      AdminID: convertType(nutrient.AdminID),
-      Comment: nutrient.Comment,
-      TotalCalorie: convertType(nutrient.TotalCalorie),
-      Date: date?.toLocaleString(),
-      };
+            let res = await UpdateNut(newdata);
+            res ? setSuccess(true) : setError(true);
+            window.location.href = "/admin/nutrient-display"
+            console.log(JSON.stringify(newdata))
+    };
 
-      let res = await CreateNutrient(data);
-      res ? setSuccess(true) : setError(true);
-      window.location.href = "/admin/nutrient-display"
-      console.log(JSON.stringify(data))
-};
-
-useEffect(() => {
-    fetchMostNutrients();
-    fetchFoodInformation();
-    fetchAdminByID();
-}, []);
-
+    useEffect(() => {
+        fetchMostNutrients();
+        fetchFoodInformation();
+        fetchAdminByID();
+        fetchNutrient();
+    }, []);
 
     return(
         <Container>
@@ -309,4 +315,4 @@ useEffect(() => {
     );
 }
 
-export default CreateNutrientUI;
+export default UpdateNutrient;

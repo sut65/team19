@@ -157,7 +157,7 @@ async function GetCourseDetail() {
 
   return res;
 }
-
+// Trainer
 async function GetTrainer() {
   const requestOptions = {
     method: "GET",
@@ -179,6 +179,46 @@ async function GetTrainer() {
 
   return res;
 }
+
+
+const GetTrainerByID = async () => {
+  const id = localStorage.getItem("uid");
+
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+  let res = await fetch(`${apiUrl}/trainer/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const DeleteTrainer= async (id: string) => {
+  const requestOptions = {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/trainer/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+//
 
 async function CreateCourseService(data: CourseServiceInterface) {
   const requestOptions = {
@@ -527,7 +567,6 @@ const GetFoodInformations = async () => {
 };
 
 const GetFoodInformationByID = async (id: string) => {
-  // let { id } = useParams();
   let res = await fetch(`${apiUrl}/food_information/${id}`, requestOptionsGet)
     .then((response) => response.json())
     .then((result) => {
@@ -648,6 +687,35 @@ const CreateNutrient = async (data: NutrientInterface) => {
   };
 
   let res = await fetch(`${apiUrl}/nutrients`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetNutrientByID = async (id: string) => {
+  let res = await fetch(`${apiUrl}/nutrient/${id}`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const UpdateNut = async (data: NutrientInterface) => {
+  const requestOptions = {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/update-nutrient`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
       return result.data ? result.data : false;
@@ -939,7 +1007,11 @@ export {
   //
   GetUser,
   GetCourseDetail,
+  //Trainer
   GetTrainer,
+  GetTrainerByID,
+  DeleteTrainer,
+  //
   GetAdmin,
   GetPrice,
   GetDescription,
@@ -983,6 +1055,8 @@ export {
   GetMostNutrient,
   CreateNutrient,
   DeleteNutrient,
+  GetNutrientByID,
+  UpdateNut,
   // Member
   GetMemberByID,
   CreateMember,

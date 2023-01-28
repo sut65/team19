@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import SignIn from '../../components/SignIn';
 
  import { TrainerLogin } from '../../services/HttpClientService';
+import ProfileTrainer from "../../components/Trainer/ProfileTrainer";
+
 
 
 function Trainer() {
@@ -19,7 +21,7 @@ function Trainer() {
   }
   
   return (
-    <div>Trainer</div>
+    <ProfileTrainer/>
   )
 }
 

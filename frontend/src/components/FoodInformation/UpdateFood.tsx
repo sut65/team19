@@ -121,7 +121,7 @@ function UpdateFood() {
         res && setFoodInformation(res);
     };
     
-    // เพิ่มข้อมูลเข้า Database
+    // อัปเดตข้อมูลเข้า Database
     const submit = async () => {
       let newdata = {
         ID: convertType(id),
