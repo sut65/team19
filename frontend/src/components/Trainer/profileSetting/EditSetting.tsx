@@ -8,6 +8,16 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
+import { Link, useParams } from "react-router-dom";
+import Button from "@mui/material/Button";
+
+
+import { TrainerInterface } from "../../../interfaces/ITrainer";
+
+import {GetTrainerByID,UpdateTrainer} from "../../../services/HttpClientService"
+import Fingerprint from '@mui/icons-material/Fingerprint';
+import { AlignVerticalCenterTwoTone, Update } from "@mui/icons-material";
+import { display } from "@mui/system";
 
 
 
@@ -15,6 +25,16 @@ function EditSettings() {
 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
+  const { id } = useParams();
+
+  const [name, setName] = useState<string>("");
+  const [address, setAddress] = useState<String>("");
+  const [email, setEmail] = useState<String>("");
+
+  
+  const [trainer, setTrainer] = useState<TrainerInterface>({}); 
+
+
 
   const [pass, setPass] = React.useState<State>({
     password: "",
@@ -31,9 +51,24 @@ function EditSettings() {
     showPassword: false,
   });// condition ตอน submit
   
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const name = e.target.name;
+    console.log(name);
+    setTrainer({ ...trainer, [name]: e.target.value });
+};
 
 
+  const fetchTrainerID = async () => {
+    let res = await GetTrainerByID();
+    if (res) {
+      setTrainer(res);
+    }
+  };
 
+  useEffect(() => {
+    fetchTrainerID()
+   
+  }, []);
 
      // ==============================(handle password)=====================================
 
@@ -79,6 +114,40 @@ function EditSettings() {
     event.preventDefault();
   };
 
+  const convertType = (data: string | number | undefined) => {
+    let val = typeof data === "string" ? parseInt(data) : data;
+    return val;
+};
+
+// Equalation password
+const passwordchange = () =>{
+  if(pass.password == passNew.password){
+   return passNew.password
+  }}
+
+  //======================< submit >===============
+
+  const submit = async () => {
+
+    let data = {
+      ID: convertType(trainer.ID),
+      Name: trainer.Name,
+      Email: trainer.Email,
+      Address: trainer.Address,
+      Password: passwordchange(),
+    };
+    console.log(data);
+    console.log(JSON.stringify(data));
+
+    let res = await UpdateTrainer(data);
+    if (res) {
+        setSuccess(true);
+        window.location.reload();
+      } else {
+        setError(true);
+    }
+
+  };
 
 
   return (
@@ -100,14 +169,13 @@ function EditSettings() {
           </b>
         </p>
         <TextField
-          id="outlined-basic"
-          label="ที่อยู่"
+          id="Name"
+          name="Name"
           variant="outlined"
+          value={trainer.Name}
           fullWidth
           required
-          onChange={(event) => {
-            // setAddress(event.target.value);
-          }}
+          onChange={handleInputChange}
         />
       </Grid>
       {/*==============================================(Email)====================================================*/}
@@ -117,14 +185,13 @@ function EditSettings() {
         </p>
         <TextField
           id="email"
+          name="Email"
           type="email"
-          label="้ป้อนอีเมล"
           variant="outlined"
+          value={trainer.Email}
           fullWidth
           required
-          onChange={(event) => {
-            // setEmail(event.target.value);
-          }}
+          onChange={handleInputChange}
         />
       </Grid>
       {/*==============================================(location)====================================================*/}
@@ -135,14 +202,13 @@ function EditSettings() {
           </b>
         </p>
         <TextField
-          id="outlined-basic"
-          label="ที่อยู่"
+          id="Address"
+          name="Address"
           variant="outlined"
           fullWidth
           required
-          onChange={(event) => {
-            // setAddress(event.target.value);
-          }}
+          value={trainer.Address}
+          onChange={handleInputChange}
         />
       </Grid>
       {/* =================================( New password)=============================================================== */}
@@ -199,10 +265,33 @@ function EditSettings() {
           inputProps={{ maxLength: 10 }}
         />
       </Grid>
-
-
+      {/*==============================================(Button)====================================================*/}
+      <Grid sx = {{display:"flex" ,justifyContent:"flex-end"}}>
+ 
+        <Link
+          to="/"
+          style={{
+            color: "#252525",
+            textDecoration: "none",
+            display: "flex",
+            justifyContent: "flex-end",
+          }}
+        >
+          <Button variant="text" size="large" sx={{ marginRight: 5,marginTop:5 }}>
+            back
+          </Button>
+          <Button
+          variant="contained"
+          size="large"
+          onClick={submit}
+          sx={{ marginTop: 5, marginRight: 0 }}
+        >
+          Update
+        </Button>
+        </Link>
+      </Grid>
     </Paper>
   );
-}
+ }
 
 export default EditSettings;

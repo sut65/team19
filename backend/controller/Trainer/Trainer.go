@@ -106,23 +106,26 @@ func DeleteTrainer(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": id})
 }
 
-// PATCH /trainer
+// PATCH /trainers
 func UpdateTrainer(c *gin.Context) {
 	var trainer entity.Trainer
+
 	if err := c.ShouldBindJSON(&trainer); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error not access": err.Error()})
+		return
+	}
+	pass, _ := bcrypt.GenerateFromPassword([]byte(trainer.Password), 14)
+
+	update := entity.Trainer{
+		Name:     trainer.Name,
+		Email:    trainer.Email,
+		Address:  trainer.Address,
+		Password: string(pass),
+	}
+
+	if err := entity.DB().Where("id = ?", trainer.ID).Updates(&update).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	if tx := entity.DB().Where("id = ?", trainer.ID).First(&trainer); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "trainer not found"})
-		return
-	}
-
-	if err := entity.DB().Save(&trainer).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{"data": trainer})
+	c.JSON(http.StatusCreated, gin.H{"data": update})
 }
