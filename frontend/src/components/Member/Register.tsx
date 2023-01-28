@@ -14,10 +14,10 @@ import IconButton from "@mui/material/IconButton";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
-import { MemberInterface } from "../interfaces/IMember";
-import { ReligionInterface } from "../interfaces/IReligion";
-import { StatusInterface } from "../interfaces/IStatus";
-import { GenderInterface } from "../interfaces/IGender";
+import { MemberInterface } from "../../interfaces/IMember";
+import { ReligionInterface } from "../../interfaces/IReligion";
+import { StatusInterface } from "../../interfaces/IStatus";
+import { GenderInterface } from "../../interfaces/IGender";
 import { Link as RouterLink } from "react-router-dom";
 import { Box } from "@mui/system";
 import {styled} from "@mui/material";
@@ -27,8 +27,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Link } from "react-router-dom";
 import { dark } from "@mui/material/styles/createPalette";
-import { BlogInterface } from "../interfaces/IBlog";
-import { CreateMember } from "../services/HttpClientService";
+import { CreateMember } from "../../services/HttpClientService";
 
 const ImgBox = styled(Box)({
     width: "280px",
@@ -41,7 +40,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-function App() {
+function RegisterMember() {
   // =========================(Use State)====================================================
 
   const [rg, setRg] = useState<MemberInterface>({});
@@ -228,6 +227,7 @@ function App() {
                   value={rg.Firstname}
                   onChange={handleInputChange}
                 />
+                
               </Grid>
               {/*=============================================(Last name)=====================================================*/}
               <Grid xs={6} md={6}>
@@ -472,4 +472,4 @@ function App() {
   );
 }
 
-export default App;
+export default RegisterMember;

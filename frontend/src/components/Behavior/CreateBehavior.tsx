@@ -106,8 +106,8 @@ function CreateBehaviors() {
         ExerciseID: convertType(behaviors.ExerciseID),
         TasteID: convertType(behaviors.TatseID),
         MemberID: convertType(behaviors.MemberID),
-        Datetime: datetime?.toLocaleString(),
-        Meal: behaviors.Meals,
+        Time: datetime?.toLocaleString(),
+        Meals: behaviors.Meals,
         };
         let res = await CreateBehavior(data);
         res ? setSuccess(true) : setError(true);
@@ -130,12 +130,11 @@ function CreateBehaviors() {
 
         <h1> </h1>
     
-        <Stack direction="row" spacing={1}>
+        <Stack direction="column" spacing={1}>
             
             {/* มื้ออาหาร*/}
             <Typography variant="h2" component="h1">
-              มื้ออาหารที่
-              คุณกิน :
+              มื้ออาหารที่คุณกิน :
             </Typography>
             <TextField
                 id="meals"
@@ -144,6 +143,7 @@ function CreateBehaviors() {
                 onChange={handleInputChange}
                 placeholder="กรอกจำนวนมื้ออาหาร"
                 label="มื้อ"
+                sx={{ width: "20%" }}
             />
 
             {/* รสอาหาร*/}
@@ -287,7 +287,7 @@ function CreateBehaviors() {
 
                 <Button variant="outlined" color="success" onClick={submit}
                 sx = {{ borderRadius: 20 }}>
-                    เพิ่มอาหาร
+                    เพิ่มการสำรวจ
                 </Button>
 
                 <Link

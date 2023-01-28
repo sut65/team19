@@ -10,7 +10,7 @@ import Article from "./components/blog/Article";
 import SignIn from "./components/SignIn";
 import CreateArticle from "./components/blog/CreateArticle";
 import UpdateArticle from "./components/blog/UpdateArticle";
-import Register from "./components/Register";
+import Register from "./components/Member/Register";
 import Home from "./components/Home";
 import ShowCardCourseService from "./components/CourseService/ShowCardCourseService";
 import FoodDisplay from "./components/FoodInformation/FoodDisplay";
@@ -34,6 +34,11 @@ import UpdateReview from "./components/review/UpdateReview";
 import ApplyTrainer from "./components/Trainer/ApplyTrainer";
 import ProfileTrainer from "./components/Trainer/ProfileTrainer";
 import UpdateNutrient from "./components/Nutrient/UpdateNutrient";
+import CreateCourseDetail from "./components/CourseDetail/CreateCourseDetail";
+import CourseDetail from "./components/CourseDetail/CourseDetail";
+import ShowCardCourseDetail from "./components/CourseDetail/ShowCardCourseDetail";
+import RegisterMember from "./components/Member/Register";
+import ProfileMember from "./components/Member/ProfileMember";
 
 function App() {
   const [token, setToken] = useState<String>("");
@@ -59,6 +64,7 @@ function App() {
       <Routes>
         {/* path ไม่ต้องใส่ / ด้วยเพราะมันอยู่ครอบด้วย LoginRole ที่เป็น root อยู่แล้ว */}
         <Route path="/" element={<LoginRole />} />
+        <Route path="/register-member" element={<RegisterMember />}></Route>
         {/* Routes Admin */}
         <Route path="admin" element={<Admin />}>
           <Route path="food-display" element={<FoodDisplay />}></Route>
@@ -82,13 +88,25 @@ function App() {
             path="nutrient-display/update-nutrient/:id"
             element={<UpdateNutrient />}
           ></Route>
+
+          {/* course_detail */}
+          <Route path="course" element={<ShowCardCourseDetail />}></Route>
+          <Route
+            path="create"
+            element={<CreateCourseDetail />}
+          ></Route>
+          <Route
+            path="course_detail/:id"
+            element={<CourseDetail />}
+          ></Route>
+          
         </Route>
 
         {/* Routes Trainer */}
         <Route path="trainer" element={<Trainer />}>
           <Route path="profile" element={<ProfileTrainer />} ></Route>
         </Route>
-          <Route path="apply" element={<ApplyTrainer />} ></Route>
+        <Route path="apply" element={<ApplyTrainer />} ></Route>
 
         {/* Routes User */}
         <Route path="user" element={<User />}>
@@ -118,6 +136,8 @@ function App() {
           <Route path="reviews" element={<ShowReview />} />
           <Route path="reviews/update-review/:id" element={<UpdateReview />} />
           <Route path="behavior" element={<CreateBehaviors />} />
+          
+          <Route path="profile-member" element={<ProfileMember />}></Route>
         </Route>
         {/* <Route path="/" element={<Navbar />}> */}
         {/* </Route> */}
