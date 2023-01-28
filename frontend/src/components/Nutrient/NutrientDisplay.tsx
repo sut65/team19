@@ -147,7 +147,7 @@ function NutrientDisplayUI() {
                     <TableCell align="center">{nutrients.Admin?.Name}</TableCell>
                     <TableCell align="right">
                        {/* ปุ่มแก้ไขข้อมูล */}
-                      <IconButton aria-label="delete" size="large" onClick={() => navigate(`update-food/${nutrients.ID}`)} color="info">
+                      <IconButton aria-label="delete" size="large" onClick={() => navigate(`update-nutrient/${nutrients.ID}`)} color="info">
                       <EditIcon fontSize="inherit" />
                       </IconButton>
                       {/* ปุ่มลบข้อมูล */}

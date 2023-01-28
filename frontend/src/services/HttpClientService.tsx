@@ -218,6 +218,25 @@ const DeleteTrainer= async (id: string) => {
   return res;
 };
 
+const UpdateTrainer = async (data: NutrientInterface) => {
+  const requestOptions = {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/trainers`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
 //
 
 async function CreateCourseService(data: CourseServiceInterface) {
@@ -1056,6 +1075,7 @@ export {
   GetTrainer,
   GetTrainerByID,
   DeleteTrainer,
+  UpdateTrainer,
   //
   GetAdmin,
   GetPrice,
