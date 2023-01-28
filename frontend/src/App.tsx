@@ -18,6 +18,7 @@ import CreateFood from "./components/FoodInformation/CreateFood";
 import CreateNutrientUI from "./components/Nutrient/CreateNutrient";
 import NutrientDisplayUI from "./components/Nutrient/NutrientDisplay";
 import BodyDisplay from "./components/BodyRecord/BodyDisplay";
+import BodyUpdate from "./components/BodyRecord/BodyUpdate";
 import BodyRecord from "./components/BodyRecord/BodyRecord"
 import ShowReview from "./components/review/ShowReview";
 import CreateReview from "./components/review/CreateReview";
@@ -128,10 +129,8 @@ function App() {
           <Route path="payment/:id" element={<Payment />} />
           <Route path="register" element={<Register />}></Route>
           <Route path="body-display" element={<BodyDisplay />}></Route>
-          <Route
-            path="body-display/body-record"
-            element={<BodyRecord />}
-          ></Route>
+          <Route path="body-display/body-update/:id" element={<BodyUpdate />}></Route>
+          <Route path="body-display/body-record"element={<BodyRecord />}></Route>
           <Route path="create-review" element={<CreateReview />} />
           <Route path="reviews" element={<ShowReview />} />
           <Route path="reviews/update-review/:id" element={<UpdateReview />} />

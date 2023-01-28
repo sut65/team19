@@ -11,11 +11,14 @@ import {Avatar} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import {Box} from "@mui/material";
 
-
-import {GetTrainer} from "../../services/HttpClientService"
-import {GetCourseDetail} from "../../services/HttpClientService"
-import {GetMemberByID} from "../../services/HttpClientService"
-import {CreateBody} from "../../services/HttpClientService"
+import {
+  GetTrainer,
+  GetMemberByID,
+  GetBodyByID,
+  CreateBody,
+  GetCourseDetail,
+  UpdateBody,
+} from "../../services/HttpClientService";
 import EnvironmentIcon from "../../images/environmentIcon.png"
 import toneLight from "../../images/toneLight.jpg"
 
@@ -24,6 +27,7 @@ import { BodyInterface } from "../../interfaces/IBody";
 import { TrainerInterface } from "../../interfaces/ITrainer";
 import { CourseDetailInterface } from "../../interfaces/ICourseDetail";
 import { MemberInterface } from "../../interfaces/IMember";
+
 
 // import { GetAdminByID } from "../services/HttpClientService";
 import Snackbar from "@mui/material/Snackbar";
@@ -41,9 +45,10 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-function BodyRecord() {
+function BodyUpdate() {
   // =========================(Use State)====================================================
 
+  const { id } = useParams();
   const [body, setBody] = useState<BodyInterface>({}); 
   const [trainer, setTrainer] = useState<TrainerInterface[]>([]); 
   const [member, setMember] = useState<MemberInterface[]>([]); 
@@ -61,6 +66,14 @@ function BodyRecord() {
   const [note, setnote] = useState<string>("");
 
 
+//   ====================( handleInput )=================
+
+const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const name = e.target.name;
+    console.log(name);
+    setBody({ ...body, [name]: e.target.value });
+  };
+// ===========================================================
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   // =========================(handleClose)====================================================
@@ -117,11 +130,17 @@ const fetchMemberByID = async () => {
     }
   };
 
+  const fetchBodyByID = async () => {
+    let res = await GetBodyByID(String(id));
+    res && setBody(res);
+  };
+
 
   useEffect(() => {
     fetchTrainer()
     fetchCourseDetail()
     fetchMemberByID()
+    fetchBodyByID()
  
   }, []);
 
@@ -130,18 +149,19 @@ const fetchMemberByID = async () => {
     return val;
   };
 
-  const submit = async () => {
+  const update = async () => {
     let data = {
-        Height:       hight,
-        Weight:        weight,
-        Hip:           hip,
-        UpperArmLeft:  armLeft,
-        UpperArmRight: armRight,
-        LeftThigh :    leftThigh,
-        RightThigh:   rightThigh,
-        NarrowWaist:  narrowWaist,
-        NavelWaist:   navelWaist,
-        Bmi:          ((hight/100)**2)/weight,
+       ID: convertType(id),
+        Height:       convertType(body.Height+""),
+        Weight:        convertType(body.Weight+""),
+        Hip:          convertType(body.Hip+""),
+        UpperArmLeft:  convertType(body.UpperArmLeft+""),
+        UpperArmRight: convertType(body.UpperArmRight+""),
+        LeftThigh :    convertType(body.LeftThigh+""),
+        RightThigh:   convertType(body.RightThigh+""),
+        NarrowWaist:  convertType(body.NarrowWaist+""),
+        NavelWaist:   convertType(body.NavelWaist+""),
+        Bmi:          ((Number(body.Height)/100)**2)/Number(body.Weight),
         Note :         note,
       
         TrainerID: convertType(body.TrainerID),
@@ -151,7 +171,7 @@ const fetchMemberByID = async () => {
     console.log(data);
     console.log(JSON.stringify(data));
     
-    let res = await CreateBody(data);
+    let res = await UpdateBody(data);
     if (res) {
       setTimeout(() => {
         window.location.reload();
@@ -218,22 +238,19 @@ return (
                 justifyContent: "center"
               }}
             >
-              <FormLabel sx={{ marginRight: 2, fontSize: 15 }}>
+          
+              <FormLabel  
+              sx={{ marginRight: 2, fontSize: 15 }}>
                 <b>Height</b>
               </FormLabel>
               <TextField
                 id="outlined-number"
                 type="number"
+                name="Height"
+                value={body.Height}
                 fullWidth
                 required
-                onChange={(event) => {
-                  if (Number(event.target.value) < 0) {
-                    return (event.target.value = "0");
-                  } else {
-                    setHight(Number(event.target.value));
-                    return event.target.value;
-                  }
-                }}
+                onChange={handleInputChange}
               />
             </Grid>
             {/*===============================================(Weight)===================================================*/}
@@ -252,17 +269,12 @@ return (
               </FormLabel>
               <TextField
                 id="outlined-number"
-                type="number"
+                name="Weight"
+                type="Weight"
                 fullWidth
                 required
-                onChange={(event) => {
-                  if (Number(event.target.value) < 0) {
-                    return (event.target.value = "0");
-                  } else {
-                    setWeight(Number(event.target.value));
-                    return event.target.value;
-                  }
-                }}
+                value={body.Weight}
+                onChange={handleInputChange}
               />
             </Grid>
             {/*===============================================(HIP)===================================================*/}
@@ -281,17 +293,13 @@ return (
               </FormLabel>
               <TextField
                 id="outlined-number"
-                type="number"
+                type="Hip"
                 fullWidth
+                name="Hip"
+                value={body.Hip}
                 required
-                onChange={(event) => {
-                  if (Number(event.target.value) < 0) {
-                    return (event.target.value = "0");
-                  } else {
-                    setHip(Number(event.target.value));
-                    return event.target.value;
-                  }
-                }}
+                onChange={handleInputChange}
+
               />
             </Grid>
             {/*===============================================(Uper arm left)===================================================*/}
@@ -310,17 +318,13 @@ return (
               </FormLabel>
               <TextField
                 id="outlined-number"
-                type="number"
+                type="UpperArmLeft"
                 fullWidth
+                name="UpperArmLeft"
+                value={body.UpperArmLeft}
                 required
-                onChange={(event) => {
-                  if (Number(event.target.value) < 0) {
-                    return (event.target.value = "0");
-                  } else {
-                    setarmL(Number(event.target.value));
-                    return event.target.value;
-                  }
-                }}
+                onChange={handleInputChange}
+
               />
             </Grid>
             {/*===============================================(Upper arm right)===================================================*/}
@@ -341,17 +345,13 @@ return (
               </FormLabel>
               <TextField
                 id="outlined-number"
-                type="number"
+                type="UpperArmRight"
                 fullWidth
+                name="UpperArmRight"
+                value={body.UpperArmRight}
                 required
-                onChange={(event) => {
-                  if (Number(event.target.value) < 0) {
-                    return (event.target.value = "0");
-                  } else {
-                    setarmR(Number(event.target.value));
-                    return event.target.value;
-                  }
-                }}
+                onChange={handleInputChange}
+
               />
             </Grid>
             {/*===============================================(Left thigh)===================================================*/}
@@ -370,17 +370,13 @@ return (
               </FormLabel>
               <TextField
                 id="outlined-number"
+                name="LeftThigh"
                 type="number"
                 fullWidth
+                value={body.LeftThigh}
                 required
-                onChange={(event) => {
-                  if (Number(event.target.value) < 0) {
-                    return (event.target.value = "0");
-                  } else {
-                    setLthigh(Number(event.target.value));
-                    return event.target.value;
-                  }
-                }}
+                onChange={handleInputChange}
+
               />
             </Grid>
             {/*===============================================(Right thigh)===================================================*/}
@@ -400,16 +396,12 @@ return (
               <TextField
                 id="outlined-number"
                 type="number"
+                name="RightThigh"
                 fullWidth
+                value={body.RightThigh}
                 required
-                onChange={(event) => {
-                  if (Number(event.target.value) < 0) {
-                    return (event.target.value = "0");
-                  } else {
-                    setRthigh(Number(event.target.value));
-                    return event.target.value;
-                  }
-                }}
+                onChange={handleInputChange}
+
               />
             </Grid>
             {/*===============================================(Narrow waist)===================================================*/}
@@ -430,15 +422,11 @@ return (
                 id="outlined-number"
                 type="number"
                 fullWidth
+                name="NarrowWaist"
                 required
-                onChange={(event) => {
-                  if (Number(event.target.value) < 0) {
-                    return (event.target.value = "0");
-                  } else {
-                    setnarrow(Number(event.target.value));
-                    return event.target.value;
-                  }
-                }}
+                value={body.NarrowWaist}
+                onChange={handleInputChange}
+
               />
             </Grid>
             {/*===============================================(Navel waist)===================================================*/}
@@ -459,16 +447,12 @@ return (
               <TextField
                 id="outlined-number"
                 type="number"
+                name="NavelWaist"
                 fullWidth
                 required
-                onChange={(event) => {
-                  if (Number(event.target.value) < 0) {
-                    return (event.target.value = "0");
-                  } else {
-                    setnavel(Number(event.target.value));
-                    return event.target.value;
-                  }
-                }}
+                value={body.NavelWaist}
+                onChange={handleInputChange}
+
               />
             </Grid>
 
@@ -481,15 +465,15 @@ return (
               </FormLabel>
 
               <TextField
-                id="Name"
+                id="Note"
                 type="string"
                 variant="outlined"
                 fullWidth
+                name="Note"
+                value={body.Note}
                 sx={{ marginTop: 2 }}
                 required
-                onChange={(event) => {
-                  setnote(event.target.value);
-                }}
+                onChange={handleInputChange}
               />
             </Grid>
 
@@ -571,8 +555,8 @@ return (
                   back
                 </Button>
               </Link>
-              <Button variant="contained" size="large" onClick={submit} sx= {{marginBottom:2}}>
-                บันทึกข้อมูลร่างกาย
+              <Button variant="contained" size="large" onClick={update} sx= {{marginBottom:2}}>
+                Update
               </Button>
             </Grid>
           </Grid>
@@ -604,4 +588,4 @@ return (
 );
 }
 
-export default BodyRecord;
+export default BodyUpdate;

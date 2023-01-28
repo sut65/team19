@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from '@mui/system';
 import {Box,Table,TableBody,TableCell,TableContainer,TableHead,TableRow,Paper,Avatar,Button,Stack,} from "@mui/material";
-import { Link,useParams,} from "react-router-dom";
+import { Link,useParams,useNavigate} from "react-router-dom";
 
 import EnvironmentIcon from "../../images/environmentIcon.png"
 import Body from "../../images/Body.png"
@@ -11,7 +11,17 @@ import exercise from "../../images/exercies.jpg"
 import { BodyInterface } from '../../interfaces/IBody';
 import { DeleteInfoBody, GetInfoBody } from '../../services/HttpClientService';
 
+
+
+
+
+
+
+
+
+
 function BodyDisplay() {
+  let navigate = useNavigate();
   const { id } = useParams();
   const [infoBody, setInfoBody] = useState<BodyInterface[]>([]);
 
@@ -106,13 +116,14 @@ function BodyDisplay() {
                 <TableCell align="right" width={100} sx ={{color:"#3f51b5"}}>เอวสะดือ</TableCell>
                 <TableCell align="right" sx ={{color:"#4db6ac"}}>BMI</TableCell>
                 <TableCell align="right" sx ={{color:"#78909c"}}>Note</TableCell>
+                
               </TableRow>
             </TableHead>
               <TableBody>
                 {infoBody.map((infoBody) => (
                   <TableRow key={infoBody.ID}>
                     <TableCell align="right" >{infoBody.ID}</TableCell>
-                    <TableCell align="center">{String(infoBody.Hieght)}</TableCell>
+                    <TableCell align="center">{String(infoBody.Height)}</TableCell>
                     <TableCell align="center">{String(infoBody.Weight)}</TableCell>
                     <TableCell align="center">{String(infoBody.Hip)}</TableCell>
                     <TableCell align="center">{String(infoBody.UpperArmLeft)}</TableCell>
@@ -124,8 +135,9 @@ function BodyDisplay() {
                     <TableCell align="center">{String(infoBody.Bmi)}</TableCell>
                     <TableCell align="center">{infoBody.Note}</TableCell>
                     {/* ปุ่มลบข้อมูล */}
-                    <TableCell align="right">
+                    <TableCell align="right" sx={{display:"flex"}} >
                       <Button onClick={() => DeleteBody(infoBody.ID+"")}>ลบข้อมูล</Button>
+                      <Button onClick={() => navigate(`body-update/${infoBody.ID}`)}>แก้ไขข้อมูล</Button>
                     </TableCell>
                   </TableRow>
                 ))}

@@ -388,7 +388,7 @@ type Advice struct {
 // -----------------------------<Bodyschema>--------------<< ระบบบันทึกการเปลี่ยนแปลงร่างกาย >>------------------------------------
 type Body struct {
 	gorm.Model
-	Hieght        float32
+	Height        float32
 	Weight        float32
 	Hip           float32
 	UpperArmLeft  float32
