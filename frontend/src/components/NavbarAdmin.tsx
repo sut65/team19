@@ -10,6 +10,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 
 import ProfileLogo from "../images/user.png";
+import LogoutIcon from "@mui/icons-material/Logout";
 import IconButton from "@mui/material/IconButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Divider from "@mui/material/Divider";
@@ -37,6 +38,11 @@ const theme = createTheme({
 });
 
 function NavbarAdmin() {
+  const Logout = () => {
+    localStorage.clear();
+    window.location.href = "/admin";
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Fragment>
@@ -147,6 +153,11 @@ function NavbarAdmin() {
                     <Avatar src={NutIcon} />
                   </Button>
                 </Link>
+              </Grid>
+              <Grid item xs={1} sx={{ ml: 4 }}>
+                <IconButton onClick={Logout}>
+                  <LogoutIcon fontSize="large" />
+                </IconButton>
               </Grid>
               <Outlet />
             </Grid>
