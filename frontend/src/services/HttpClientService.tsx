@@ -157,6 +157,44 @@ async function GetCourseDetail() {
 
   return res;
 }
+
+const DeleteCourseDetail = async (id: string) => {
+  const requestOptions = {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/course_detail/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const createCourseDetail = async (data: CourseDetailInterface) => {
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/course_detail`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
 // Trainer
 async function GetTrainer() {
   const requestOptions = {
@@ -210,6 +248,25 @@ const DeleteTrainer= async (id: string) => {
   };
 
   let res = await fetch(`${apiUrl}/trainer/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const UpdateTrainer = async (data: NutrientInterface) => {
+  const requestOptions = {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/trainers`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
       return result.data ? result.data : false;
@@ -1056,6 +1113,7 @@ export {
   GetTrainer,
   GetTrainerByID,
   DeleteTrainer,
+  UpdateTrainer,
   //
   GetAdmin,
   GetPrice,
@@ -1115,4 +1173,7 @@ export {
   GetExercise,
   GetTatse,
   CreateBehavior,
+  //CourseDetail
+  DeleteCourseDetail,
+  createCourseDetail,
 };
