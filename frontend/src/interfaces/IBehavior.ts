@@ -1,4 +1,4 @@
-import { UserInterface } from "./IUser";
+import { MemberInterface } from "./IMember";
 import { ExerciseInterface } from "./IExercise";
 import { TatseInterface } from "./ITatse";
 
@@ -10,6 +10,6 @@ export interface Behavior {
     ExerciseID?: number;
     Tatse?: TatseInterface;
     TatseID?: number;
-    Member?:  UserInterface 
+    Member?:  MemberInterface 
     MemberID?:   number;
 }

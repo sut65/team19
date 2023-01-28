@@ -2,7 +2,7 @@ import { GenderInterface } from "./IGender";
 import { ReligionInterface } from "./IReligion";
 import { StatusInterface } from "./IStatus";
 
-export interface UserInterface {
+export interface MemberInterface {
     ID?:                    number;
     Firstname?:             string;
     Lastname?:              string;

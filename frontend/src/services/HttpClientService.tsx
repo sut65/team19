@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { CourseDetailInterface } from "../interfaces/ICourseDetail";
 import { CourseServiceInterface } from "../interfaces/ICourseService";
-import { UserInterface } from "../interfaces/IUser";
+import { MemberInterface } from "../interfaces/IMember";
 import { ReviewInterface } from "../interfaces/IReview";
 import { SignInInterface } from "../interfaces/ISignIn";
 import { BlogInterface } from "../interfaces/IBlog";
@@ -613,7 +613,7 @@ const CreateNutrient = async (data: NutrientInterface) => {
 
 //===========================Member===========================
 
-const CreateMember = async (data: UserInterface) => {
+const CreateMember = async (data: MemberInterface) => {
   const requestOptions = {
     method: "POST",
     headers: {
@@ -707,6 +707,75 @@ async function GetPayment() {
     .then((res) => {
       if (res.data) {
         console.log(res)
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
+async function GetPaymentByUID() {
+  const uid = localStorage.getItem("uid")
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/payment-history/${uid}`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        console.log(res)
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
+async function GetPaymentByID(id: string | undefined) {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/payment/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        console.log(res)
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
+async function GetMemberByID(id: number | undefined) {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/member/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
         return res.data;
       } else {
         return false;
@@ -835,6 +904,7 @@ export {
   AdminLogin,
   //
   GetUser,
+  GetMemberByID,
   GetCourseDetail,
   GetTrainer,
   GetAdmin,
@@ -847,6 +917,8 @@ export {
   SelectCourseDetail,
   // Payment
   GetPayment,
+  GetPaymentByID,
+  GetPaymentByUID,
   GetDuration,
   GetDiscountByCode,
   GetDurationByID,

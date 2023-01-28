@@ -27,6 +27,7 @@ import Trainer from "./pages/login/Trainer";
 import Admin from "./pages/login/Admin";
 import Payment from "./components/payment/Payment";
 import UpdateFood from "./components/FoodInformation/UpdateFood";
+import PaymentHistory from "./components/payment/PaymentHistory";
 
 function App() {
   const [token, setToken] = useState<String>("");
@@ -84,6 +85,7 @@ function App() {
           <Route path="register-course" element={<ShowCardCourseService />} />
           <Route path="register-course/:id" element={<RegisterCourse />} />
           <Route path="payment/:id" element={<Payment />} />
+          <Route path="payment-history" element={<PaymentHistory />} />
           <Route path="article/create-article" element={<CreateArticle />} />
           <Route
             path="article/:id/update-article"
