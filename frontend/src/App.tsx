@@ -30,6 +30,10 @@ import Payment from "./components/payment/Payment";
 import UpdateFood from "./components/FoodInformation/UpdateFood";
 import CreateBehaviors from "./components/Behavior/CreateBehavior";
 import UpdateReview from "./components/review/UpdateReview";
+import ApplyTrainer from "./components/Trainer/ApplyTrainer";
+import ProfileTrainer from "./components/Trainer/ProfileTrainer";
+
+
 import UpdateNutrient from "./components/Nutrient/UpdateNutrient";
 
 function App() {
@@ -82,7 +86,10 @@ function App() {
         </Route>
 
         {/* Routes Trainer */}
-        <Route path="trainerLogin" element={<Trainer />}></Route>
+        <Route path="trainer" element={<Trainer />}>
+          <Route path="profile" element={<ProfileTrainer />} ></Route>
+        </Route>
+          <Route path="apply" element={<ApplyTrainer />} ></Route>
 
         {/* Routes User */}
         <Route path="user" element={<User />}>
@@ -90,13 +97,19 @@ function App() {
           <Route path="create-article" element={<CreateArticle />} />
           <Route path="articles" element={<ShowCardBlog />} />
           <Route path="article/:id" element={<Article />} />
-          <Route path="article/:id/update-article" element={<UpdateArticle />} />
+          <Route
+            path="article/:id/update-article"
+            element={<UpdateArticle />}
+          />
           <Route path="register-course" element={<ShowCardCourseService />} />
           <Route path="register-course/:id" element={<RegisterCourse />} />
           <Route path="payment/:id" element={<Payment />} />
           <Route path="register" element={<Register />}></Route>
           <Route path="body-display" element={<BodyDisplay />}></Route>
-          <Route path="body-display/body-record" element={<BodyRecord />}></Route>
+          <Route
+            path="body-display/body-record"
+            element={<BodyRecord />}
+          ></Route>
           <Route path="create-review" element={<CreateReview />} />
           <Route path="reviews" element={<ShowReview />} />
           <Route path="reviews/update-review/:id" element={<UpdateReview />} />
