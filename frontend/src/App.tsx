@@ -34,6 +34,9 @@ import UpdateReview from "./components/review/UpdateReview";
 import ApplyTrainer from "./components/Trainer/ApplyTrainer";
 import ProfileTrainer from "./components/Trainer/ProfileTrainer";
 import UpdateNutrient from "./components/Nutrient/UpdateNutrient";
+import CreateCourseDetail from "./components/CourseDetail/CreateCourseDetail";
+import CourseDetail from "./components/CourseDetail/CourseDetail";
+import ShowCardCourseDetail from "./components/CourseDetail/ShowCardCourseDetail";
 
 function App() {
   const [token, setToken] = useState<String>("");
@@ -82,13 +85,25 @@ function App() {
             path="nutrient-display/update-nutrient/:id"
             element={<UpdateNutrient />}
           ></Route>
+
+          {/* course_detail */}
+          <Route path="course" element={<ShowCardCourseDetail />}></Route>
+          <Route
+            path="create"
+            element={<CreateCourseDetail />}
+          ></Route>
+          <Route
+            path="course_detail/:id"
+            element={<CourseDetail />}
+          ></Route>
+          
         </Route>
 
         {/* Routes Trainer */}
         <Route path="trainer" element={<Trainer />}>
           <Route path="profile" element={<ProfileTrainer />} ></Route>
         </Route>
-          <Route path="apply" element={<ApplyTrainer />} ></Route>
+        <Route path="apply" element={<ApplyTrainer />} ></Route>
 
         {/* Routes User */}
         <Route path="user" element={<User />}>
