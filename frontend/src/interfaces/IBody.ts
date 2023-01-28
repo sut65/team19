@@ -4,7 +4,7 @@ import {CourseDetailInterface} from "./ICourseDetail"
 
 export interface BodyInterface {
     ID?:        number,
-    Hieght?:        Number,
+    Height?:        Number,
 	Weight?:        Number,
 	Hip?:           Number,
 	UpperArmLeft?:  Number,

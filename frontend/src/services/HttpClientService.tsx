@@ -10,6 +10,8 @@ import { FoodInformationInterface } from "../interfaces/IFoodInformation";
 import { NutrientInterface } from "../interfaces/INutrient";
 import { PaymentInterface } from "../interfaces/IPayment";
 import { BehaviorInterface } from "../interfaces/IBehavior";
+import { TrainerInterface } from "../interfaces/ITrainer";
+import { BodyInterface } from "../interfaces/IBody";
 
 const apiUrl = `http://localhost:8080`;
 
@@ -157,6 +159,44 @@ async function GetCourseDetail() {
 
   return res;
 }
+
+const DeleteCourseDetail = async (id: string) => {
+  const requestOptions = {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/course_detail/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const createCourseDetail = async (data: CourseDetailInterface) => {
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/course_detail`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
 // Trainer
 async function GetTrainer() {
   const requestOptions = {
@@ -218,7 +258,7 @@ const DeleteTrainer= async (id: string) => {
   return res;
 };
 
-const UpdateTrainer = async (data: NutrientInterface) => {
+const UpdateTrainer = async (data: TrainerInterface) => {
   const requestOptions = {
     method: "PATCH",
     headers: {
@@ -684,6 +724,46 @@ const DeleteInfoBody = async (id: string) => {
   return res;
 };
 
+
+
+const GetBodyByID = async (id :string) => {
+
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+  let res = await fetch(`${apiUrl}/body/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+
+const UpdateBody = async (data: BodyInterface) => {
+  const requestOptions = {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/body`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
 // ============================== Nutrient ==============================
 const GetMostNutrient = async () => {
   let res = await fetch(`${apiUrl}/most_nutrients`, requestOptionsGet)
@@ -1131,8 +1211,13 @@ export {
   CreateBody,
   DeleteInfoBody,
   GetInfoBody,
+  GetBodyByID,
+  UpdateBody,
   //behavior
   GetExercise,
   GetTatse,
   CreateBehavior,
+  //CourseDetail
+  DeleteCourseDetail,
+  createCourseDetail,
 };

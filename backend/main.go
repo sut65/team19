@@ -77,7 +77,7 @@ func main() {
 			router.PATCH("/course_details", controller.UpdateCourseDetail)
 
 			// member Routes
-			router.POST("/member", controller.CreateMember)
+
 			router.GET("/member/:id", controller.GetMember)
 			router.GET("/members", controller.ListMembers)
 			router.DELETE("/member/:id", controller.DeleteMember)
@@ -100,6 +100,7 @@ func main() {
 			router.POST("/body", controller.CreateBody)
 			router.GET("/body/:id", controller.GetBody)
 			router.GET("/bodies", controller.ListBodies)
+			router.PATCH("/body", controller.UpdateBody)
 			router.DELETE("/body/:id", controller.DeleteBody)
 
 			// FoodInformation Routes
@@ -206,6 +207,8 @@ func main() {
 	r.POST("/login", controller.Login)
 	r.POST("/trainerLogin", controller.LoginTrainer)
 	r.POST("/adminLogin", controller.LoginAdmin)
+
+	r.POST("/member", controller.CreateMember)
 
 	// Run the server go run main.go
 	r.Run("localhost: " + PORT)

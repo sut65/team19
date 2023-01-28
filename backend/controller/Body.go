@@ -42,7 +42,7 @@ func CreateBody(c *gin.Context) {
 	}
 
 	rm := entity.Body{
-		Hieght:        body.Hieght,
+		Height:        body.Height,
 		Weight:        body.Weight,
 		Hip:           body.Hip,
 		UpperArmLeft:  body.UpperArmLeft,
@@ -104,20 +104,51 @@ func DeleteBody(c *gin.Context) {
 // PATCH /body
 func UpdateBody(c *gin.Context) {
 	var body entity.Body
+	var trainer entity.Trainer
+	var member entity.Member
+	var courseDetail entity.CourseDetail
+
 	if err := c.ShouldBindJSON(&body); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error not access": err.Error()})
+		return
+	}
+
+	if tx := entity.DB().Where("id = ?", body.TrainerID).First(&trainer); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "trainer not found"})
+		return
+	}
+
+	if tx := entity.DB().Where("id = ?", body.MemberID).First(&member); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "member not found"})
+		return
+	}
+
+	if tx := entity.DB().Where("id = ?", body.CourseDetailID).First(&courseDetail); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "courseDetail not found"})
+		return
+	}
+
+	update := entity.Body{
+		Height:        body.Height,
+		Weight:        body.Weight,
+		Hip:           body.Hip,
+		UpperArmLeft:  body.UpperArmLeft,
+		UpperArmRight: body.UpperArmRight,
+		LeftThigh:     body.LeftThigh,
+		RightThigh:    body.RightThigh,
+		NarrowWaist:   body.NarrowWaist,
+		NavelWaist:    body.NavelWaist,
+		Bmi:           body.Bmi,
+		Note:          body.Note,
+
+		Trainer:      trainer,
+		Member:       member,
+		CourseDetail: courseDetail,
+	}
+
+	if err := entity.DB().Where("id = ?", body.ID).Updates(&update).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	if tx := entity.DB().Where("id = ?", body.ID).First(&body); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "body not found"})
-		return
-	}
-
-	if err := entity.DB().Save(&body).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-
-	c.JSON(http.StatusOK, gin.H{"data": body})
+	c.JSON(http.StatusCreated, gin.H{"data": update})
 }
