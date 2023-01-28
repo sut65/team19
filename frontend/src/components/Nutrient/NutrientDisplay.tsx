@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Container } from '@mui/system';
 import { 
   Link,
-  useParams 
+  useNavigate,
   } from "react-router-dom";
+
 import { 
     Box,
     Stack,
@@ -18,10 +18,13 @@ import {
     Avatar,
 } from '@mui/material';
 
+import "../../App.css"
+
 // Image Import
 import FoodIcon from "../../images/FoodIcon.png"
 import AddIcon from "../../images/AddIcon.png"
 import homeBg from "../../images/NutBG.jpg";
+
 
 //Interface
 import { NutrientInterface } from '../../interfaces/INutrient';
@@ -30,13 +33,13 @@ import { NutrientInterface } from '../../interfaces/INutrient';
 import { DeleteNutrient } from '../../services/HttpClientService';
 
 function NutrientDisplayUI() {
-    const { id } = useParams();
+    let navigate = useNavigate();
     const [nutrients, setNutrients] = useState<NutrientInterface[]>([]);
 
     const DeleteNut = async (id : string) => {
       let res = await DeleteNutrient(id);
       if (res) {
-        window.location.href = "/nutrient-display";
+        window.location.href = "/admin/nutrient-display";
       }
     }
 
@@ -67,29 +70,29 @@ function NutrientDisplayUI() {
         sx={{
           display: "flex",
           flexDirection: "column",
-          justifyContent: "center",
           alignItems: "center",
           gap: 6,
           height: "100vh",
           width: "100vw",
-          overflow: "hidden",
+          overflow: "auto",
           backgroundSize: "cover",
           color: "#f5f5f5",
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url(${homeBg})`,
         }}
       >
-        <Container>
 
+
+        <Box mb={"10rem"}>
             {/* ส่วนหัว */}
-            <Stack direction="row" spacing={2}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
 
-                <Avatar src={FoodIcon} />
+            <Avatar src={FoodIcon} />
 
-                <h1>ข้อมูลสารอาหารที่มีอยู่</h1>
+            <h1>ข้อมูลอาหารสารอาหารทั้งหมด</h1>
 
-                <Avatar src={FoodIcon} />
+            <Avatar src={FoodIcon} />
 
-            </Stack>
+          </Box>
 
                 <h1> </h1>
 
@@ -97,7 +100,7 @@ function NutrientDisplayUI() {
 
                 {/* ปุ่มเพิ่มข้อมูล */}
                 <Link
-                    to="/nutrient-display/create-nutrient"
+                    to="/admin/nutrient-display/create-nutrient"
                     style={{
                     textDecoration: "none",
                     }}
@@ -126,6 +129,7 @@ function NutrientDisplayUI() {
                   <TableCell align="center">วันที่ทำการเพิ่ม</TableCell>
                   <TableCell align="center">ผู้ดูแลที่ทำการเพิ่ม</TableCell>
                   <TableCell align="center"> </TableCell>
+                  <TableCell align="center"> </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -138,6 +142,14 @@ function NutrientDisplayUI() {
                     <TableCell align="center">{nutrients.Comment}</TableCell>
                     <TableCell align="center">{nutrients.Date}</TableCell>
                     <TableCell align="center">{nutrients.Admin?.Name}</TableCell>
+                    {/* ปุ่มแก้ไขข้อมูล */}
+                    <TableCell align="right">
+                      <Button variant="contained"
+                        sx={{ borderRadius: 20 }} onClick={() => navigate(`update-nutrient/${nutrients.ID}`)}>
+                        แก้ไขข้อมูล
+                      </Button>
+                    </TableCell>
+                    {/* ปุ่มลบข้อมูล */}
                     <TableCell align="right">
                       <Button onClick={() => DeleteNut(nutrients.ID+"") } variant="contained" color="error"
                       sx = {{ borderRadius: 20 }}>ลบข้อมูล</Button>
@@ -148,8 +160,10 @@ function NutrientDisplayUI() {
             </Table>
           </TableContainer>
 
-        </Container>
+  
       </Box>
+    </Box>
+    
     )
 
 }

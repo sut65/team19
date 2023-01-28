@@ -1,6 +1,6 @@
 import { CategoryInterface } from "./ICategory";
 import { TagInterface } from "./ITag";
-import { UserInterface } from "./IUser";
+import { MemberInterface } from "./IMember";
 
 export interface BlogInterface {
   ID?: number;
@@ -16,5 +16,5 @@ export interface BlogInterface {
   Tag?: TagInterface
 
   MemberID?: number
-  Member?: UserInterface
+  Member?: MemberInterface
 }

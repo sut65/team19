@@ -14,7 +14,7 @@ import IconButton from "@mui/material/IconButton";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
-import { UserInterface } from "../interfaces/IUser";
+import { MemberInterface } from "../interfaces/IMember";
 import { ReligionInterface } from "../interfaces/IReligion";
 import { StatusInterface } from "../interfaces/IStatus";
 import { GenderInterface } from "../interfaces/IGender";
@@ -44,7 +44,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 function App() {
   // =========================(Use State)====================================================
 
-  const [rg, setRg] = useState<UserInterface>({});
+  const [rg, setRg] = useState<MemberInterface>({});
   const [gen, setGen] = useState<GenderInterface[]>([]);
   const [sta, setSta] = useState<StatusInterface[]>([]);
   const [prv, setPrv] = useState<ReligionInterface[]>([]);

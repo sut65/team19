@@ -18,7 +18,8 @@ import FastfoodRoundedIcon from "@mui/icons-material/FastfoodRounded";
 import PaymentRoundedIcon from "@mui/icons-material/PaymentRounded";
 import { Avatar } from "@mui/material";
 
-import Healthy from "../images/Health.png";
+import FoodIcon from "../images/FoodIcon2.png";
+import NutIcon from "../images/FoodIcon.png";
 import AppLogo from "../images/nutrition.png";
 
 import "../App.css";
@@ -75,7 +76,7 @@ function NavbarAdmin() {
                     alt="logo"
                   />
                   <Link
-                    to="/user"
+                    to="/admin"
                     style={{
                       color: "#000",
                       textDecoration: "none",
@@ -113,6 +114,7 @@ function NavbarAdmin() {
                 >
                   <Button color="inherit" style={{ fontSize: "1.2rem" }}>
                     Food
+                    <Avatar src={FoodIcon} />
                   </Button>
                 </Link>
               </Grid>
@@ -133,7 +135,7 @@ function NavbarAdmin() {
               {/* =====================================< Body Record >==================================== */}
               <Grid item xs={1}>
                 <Link
-                  to="nutrient"
+                  to="nutrient-display"
                   style={{
                     color: "#000",
                     textDecoration: "none",
@@ -142,7 +144,7 @@ function NavbarAdmin() {
                 >
                   <Button color="inherit" style={{ fontSize: "1.2rem" }}>
                     Nutrient
-                    <Avatar src={Healthy} />
+                    <Avatar src={NutIcon} />
                   </Button>
                 </Link>
               </Grid>

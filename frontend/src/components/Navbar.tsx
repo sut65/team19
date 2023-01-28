@@ -25,7 +25,7 @@ import AppLogo from "../images/nutrition.png"
 import '../App.css';
 import '../index.css';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { UserInterface } from "../interfaces/IUser";
+import { MemberInterface } from "../interfaces/IMember";
 
 const apiUrl = `http://localhost:8080`;
 
@@ -61,17 +61,18 @@ function Navbar() {
   return (
     <ThemeProvider theme={theme}>
       <Fragment>
-        <Box sx={{marginBottom: "7rem"}}>
+        <Box sx={{marginBottom: ""}}>
           <AppBar
-            // position="static"
+            position="static"
             sx={{
               bgcolor: "#f5f5f5",
               color: "#000000",
               paddingTop: 2,
-              paddingBottom: 0.5
+              paddingBottom: 0.5,
+              padding: "0.5rem"
             }}
           >
-            <Grid container spacing={2} 
+            <Grid container spacing={0} 
               sx={{
                 marginLeft: "2%",
                 marginRight: "2%",
@@ -137,10 +138,10 @@ function Navbar() {
                   </Button>
                 </Link>
               </Grid>
-              {/* =====================================< Body Record >==================================== */}
+              {/* =====================================< Body >==================================== */}
               <Grid item xs={1}>
                 <Link
-                  to="BodyRecord"
+                  to="body-display"
                   style={{
                     color: "#000",
                     textDecoration: "none",
@@ -215,12 +216,20 @@ function Navbar() {
                       </ListItemIcon>
                       Eating behavior (before training)
                     </MenuItem>
-                    <MenuItem>
-                      <ListItemIcon>
-                        <PaymentRoundedIcon fontSize="small" />
-                      </ListItemIcon>
+                    <Link
+                      to={`payment-history`} // รอแก้เป็นรีวิว
+                      style={{
+                        textDecoration: "none",
+                        color: "black"
+                      }}
+                    >
+                      <MenuItem>
+                        <ListItemIcon>
+                          <PaymentRoundedIcon fontSize="small" />
+                        </ListItemIcon>
                       Payment History
-                    </MenuItem>
+                      </MenuItem>
+                    </Link>
                     <MenuItem onClick={signout}>
                       <ListItemIcon>
                         <LogoutRoundedIcon fontSize="small" />

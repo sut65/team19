@@ -12,7 +12,7 @@ import {
 // import { Box } from "@mui/system";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
-import { UserInterface } from "../../interfaces/IUser";
+import { MemberInterface } from "../../interfaces/IMember";
 import { CategoryInterface } from "../../interfaces/ICategory";
 import { TagInterface } from "../../interfaces/ITag";
 import { BlogInterface } from "../../interfaces/IBlog";
@@ -131,7 +131,7 @@ function CreateArticle() {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        // mt: "6rem",
+        mt: "2rem",
         gap: "1rem",
         mb: "2rem",
       }}

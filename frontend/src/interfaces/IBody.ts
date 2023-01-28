@@ -1,5 +1,5 @@
 import {TrainerInterface} from "./ITrainer"
-import {UserInterface} from "./IUser"
+import { MemberInterface } from "./IMember";
 import {CourseDetailInterface} from "./ICourseDetail"
 
 export interface BodyInterface {
@@ -20,7 +20,7 @@ export interface BodyInterface {
     Trainer?: TrainerInterface
 
     MemberID?: number
-    Member?: UserInterface
+    Member?: MemberInterface
 
     CourseDetailID?: number
     CourseDetail?: CourseDetailInterface
