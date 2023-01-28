@@ -133,7 +133,7 @@ function UpdateNutrient() {
     }, []);
 
     return(
-        <Container>
+        <Container sx={{height: "100vh"}}>
 
             <Snackbar
                 open={success}
