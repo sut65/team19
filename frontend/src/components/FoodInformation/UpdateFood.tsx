@@ -10,12 +10,13 @@ import {
     Stack,
     Paper,
     Typography,
-    Avatar,
+    Snackbar,
 } from '@mui/material';
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { Link, useParams } from "react-router-dom";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
 // Interface
 import { FoodTypeInterface } from '../../interfaces/IFoodType';
@@ -34,6 +35,13 @@ import {
 
 const ImgBox = styled(Box)({
     width: "280px",
+});
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
 function UpdateFood() {
@@ -136,8 +144,12 @@ function UpdateFood() {
         console.log(newdata.Image)
     
         let res = await UpdateFoodInformation(newdata);
-        res ? setSuccess(true) : setError(true);
-        window.location.href = "/admin/food-display"
+        if (res) {
+          setSuccess(true);
+          window.location.href = "/admin/food-display"
+        } else {
+          setError(true);
+        }
         console.log(JSON.stringify(newdata))
       };
 
@@ -150,6 +162,28 @@ function UpdateFood() {
 
     return(
         <Container>
+        
+        <Snackbar
+          open={success}
+          autoHideDuration={1000}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        >
+          <Alert onClose={handleClose} severity="success">
+            อัปเดตข้อมูลอาหารสำเร็จ
+          </Alert>
+        </Snackbar>
+
+        <Snackbar
+          open={error}
+          autoHideDuration={1000}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        >
+          <Alert onClose={handleClose} severity="error">
+            อัปเดตข้อมูลอาหารไม่สำเร็จ
+          </Alert>
+        </Snackbar>
 
         <h1>แก้ไขข้อมูลอาหาร</h1>
 

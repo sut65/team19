@@ -450,6 +450,13 @@ func SetupDatabase() {
 	}
 	db.Model(&MainIngredient{}).Create(&MainIngredientG)
 
+	MainIngredientH := MainIngredient{
+		Name:    "เนื้อกุ้ง",
+		Carolie: 99,
+		Type:    "วัตถุดิบจากสัตว์",
+	}
+	db.Model(&MainIngredient{}).Create(&MainIngredientH)
+
 	FoodTypeA := FoodType{
 		Name: "อาหารคาว",
 	}
@@ -461,11 +468,11 @@ func SetupDatabase() {
 	db.Model(&FoodType{}).Create(&FoodTypeB)
 
 	FoodInformationA := FoodInformation{
-		Name:           "ไข่เจียว",
+		Name:           "ล็อบสเตอร์อบชีส",
 		Datetime:       "25/1/2566 18:29:33",
-		Image:          "https://s359.kapook.com/pagebuilder/1c0a0dac-e4a9-4651-baa0-052a597ab7bf.jpg",
+		Image:          "https://img.wongnai.com/p/1920x0/2018/05/03/1d12ded0c8b943a7a8a7d281d694876b.jpg",
 		Admin:          AdminA,
-		MainIngredient: MainIngredientA,
+		MainIngredient: MainIngredientH,
 		FoodType:       FoodTypeA,
 	}
 	db.Model(&FoodInformation{}).Create(&FoodInformationA)
@@ -475,10 +482,20 @@ func SetupDatabase() {
 		Datetime:       "26/1/2566 19:45:54",
 		Image:          "https://s359.kapook.com/pagebuilder/9568b809-b606-404a-8253-26fe7287bda7.jpg",
 		Admin:          AdminB,
-		MainIngredient: MainIngredientB,
+		MainIngredient: MainIngredientC,
 		FoodType:       FoodTypeB,
 	}
 	db.Model(&FoodInformation{}).Create(&FoodInformationB)
+
+	FoodInformationC := FoodInformation{
+		Name:           "สเต๊กเนื้อ",
+		Datetime:       "26/1/2566 19:45:54",
+		Image:          "https://img.wongnai.com/p/1920x0/2019/03/23/73a95587aa2f46e0b160e5a7d9ef430f.jpg",
+		Admin:          AdminC,
+		MainIngredient: MainIngredientE,
+		FoodType:       FoodTypeA,
+	}
+	db.Model(&FoodInformation{}).Create(&FoodInformationC)
 
 	// BodyMakeup for bodychange recording system --------------------------------------------------------------------------------------
 	BodyChangeA := Body{
@@ -517,37 +534,6 @@ func SetupDatabase() {
 	}
 	db.Model(&Body{}).Create(&BodyChangeB)
 
-	// Advice Part --------------------------------------------------------------------------------------
-
-	Advice1 := Advice{
-		Advice:        "กินโปรตีนเพิ่มให้ได้ 2 g ต่อน้ำหนักตัว 1 kg",
-		RecordingDate: time.Now(),
-		Member:        Member1,
-		Trainer:       Trainer1,
-		// Body: ,
-		// DailyActivitie: ,
-	}
-	db.Model(&Advice{}).Create(&Advice1)
-
-	Advice2 := Advice{
-		Advice:        "ออกกำลังกายแบบคาร์ดิโอเพิ่มเป็นสัปดาห์ละ 4 วัน วันละ 1 ชม.",
-		RecordingDate: time.Now(),
-		Member:        Member2,
-		Trainer:       Trainer2,
-		// Body: ,
-		// DailyActivitie
-	}
-	db.Model(&Advice{}).Create(&Advice2)
-
-	Advice3 := Advice{
-		Advice:        "เล่นเวทเทรนนิ่ง เพิ่มเป็นสัปดาห์ละ 3 วัน วันละ 1.5 ชม.",
-		RecordingDate: time.Now(),
-		Member:        Member3,
-		Trainer:       Trainer2,
-		// Body: ,
-		// DailyActivitie: ,
-	}
-	db.Model(&Advice{}).Create(&Advice3)
 	Discount1 := Discount{
 		DiscountCode:       "NOCODE",
 		DiscountPercentage: 0,
@@ -780,9 +766,9 @@ func SetupDatabase() {
 
 	NutrientA := Nutrient{
 		FoodInformation: FoodInformationA,
-		MostNutrient:    MostNutrientA,
-		TotalCalorie:    165,
-		Comment:         "ไม่ควรกินเกิน 3 ฟอง",
+		MostNutrient:    MostNutrientB,
+		TotalCalorie:    253,
+		Comment:         "กินเยอะจะไม่ดีกับสุขภาพ",
 		Admin:           AdminA,
 		Date:            "20/12/2022 15:00",
 	}
@@ -790,9 +776,9 @@ func SetupDatabase() {
 
 	NutrientB := Nutrient{
 		FoodInformation: FoodInformationB,
-		MostNutrient:    MostNutrientB,
-		TotalCalorie:    100,
-		Comment:         "กินเพื่อลดน้ำหนักได้ดี",
+		MostNutrient:    MostNutrientA,
+		TotalCalorie:    400,
+		Comment:         "อร่อยม๊ากกกก !!!",
 		Admin:           AdminB,
 		Date:            "21/12/2022 16:00",
 	}
@@ -841,5 +827,36 @@ func SetupDatabase() {
 		Taste:    Taste1,
 	}
 	db.Model(&Behavior{}).Create(&BehaviorB)
+
+	// Advice part ------------------------------------------------------
+	Advice1 := Advice{
+		Advice:        "กินโปรตีนเพิ่มให้ได้ 2 g ต่อน้ำหนักตัว 1 kg",
+		RecordingDate: time.Date(2023, time.January, 4, 14, 14, 00, 0, time.UTC),
+		Member:        Member1,
+		Trainer:       Trainer1,
+		Body: BodyChangeA,
+		DailyActivities: DailyActivitiesA,
+	}
+	db.Model(&Advice{}).Create(&Advice1)
+
+	Advice2 := Advice{
+		Advice:        "ออกกำลังกายแบบคาร์ดิโอเพิ่มเป็นสัปดาห์ละ 4 วัน วันละ 1 ชม.",
+		RecordingDate: time.Date(2023, time.January, 25, 12, 30, 00, 0, time.UTC),
+		Member:        Member2,
+		Trainer:       Trainer2,
+		Body: BodyChangeB,
+		DailyActivities: DailyActivitiesB,
+	}
+	db.Model(&Advice{}).Create(&Advice2)
+
+	Advice3 := Advice{
+		Advice:        "เล่นเวทเทรนนิ่ง เพิ่มเป็นสัปดาห์ละ 3 วัน วันละ 1.5 ชม.",
+		RecordingDate: time.Date(2023, time.January, 27, 11, 47, 00, 0, time.UTC),
+		Member:        Member3,
+		Trainer:       Trainer2,
+		Body:BodyChangeA,
+		DailyActivities: DailyActivitiesC,
+	}
+	db.Model(&Advice{}).Create(&Advice3)
 
 }

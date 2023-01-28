@@ -12,7 +12,9 @@ import {
     InputAdornment,
     TextField,
     Button,
+    Snackbar
  } from '@mui/material';
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
 //Interface
 import { MostNutrientInterface } from '../../interfaces/IMostNutrient';
@@ -29,15 +31,33 @@ import {
     UpdateNut,
  } from '../../services/HttpClientService';
 
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref
+  ) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 function UpdateNutrient() {
     const { id } = useParams();
     const [nutrient, setNutrient] = useState<NutrientInterface>({});
     const [mostnutrient, setMostNutrient] = useState<MostNutrientInterface[]>([]);
-    const [foodinformation, setFoodInformation] = useState<FoodInformationInterface[]>([]);
+    const [foodinformation, setFoodInformation] = useState<FoodInformationInterface>({});
     const [date, setDate] = useState<Date | string | null>(new Date());
     const [admin, setAdmin] = useState<AdminInterface>({ Name: ""});
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
+
+    const handleClose = (
+        event?: React.SyntheticEvent | Event,
+        reason?: string
+      ) => {
+        if (reason === "clickaway") {
+          return;
+        }
+        setSuccess(false);
+        setError(false);
+    };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const name = e.target.name;
@@ -66,7 +86,8 @@ function UpdateNutrient() {
 
     const fetchFoodInformation = async () => {
         let res = await GetFoodInformations();
-        res && setFoodInformation(res);
+        res && setFoodInformation(res[Number(id)-1]);
+        console.log(res[Number(id)-1])
     };
 
     const fetchAdminByID = async () => {
@@ -95,8 +116,12 @@ function UpdateNutrient() {
             };
 
             let res = await UpdateNut(newdata);
-            res ? setSuccess(true) : setError(true);
-            window.location.href = "/admin/nutrient-display"
+            if (res) {
+                setSuccess(true);
+                window.location.href = "/admin/nutrient-display"
+              } else {
+                setError(true);
+            }
             console.log(JSON.stringify(newdata))
     };
 
@@ -110,6 +135,28 @@ function UpdateNutrient() {
     return(
         <Container>
 
+            <Snackbar
+                open={success}
+                autoHideDuration={1000}
+                onClose={handleClose}
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                >
+                <Alert onClose={handleClose} severity="success">
+                    บันทึกข้อมูลอาหารสำเร็จ
+                </Alert>
+            </Snackbar>
+
+            <Snackbar
+                open={error}
+                autoHideDuration={1000}
+                onClose={handleClose}
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                >
+                <Alert onClose={handleClose} severity="error">
+                    บันทึกข้อมูลอาหารไม่สำเร็จ
+                </Alert>
+            </Snackbar>
+
             <Box
                 sx={{
                 display: 'flex',
@@ -120,7 +167,7 @@ function UpdateNutrient() {
                 }}
             >
 
-            <h1>เพิ่มข้อมูลสารอาหาร</h1>
+            <h1>อัปเดตข้อมูลสารอาหาร</h1>
 
             </Box>
 
@@ -130,37 +177,20 @@ function UpdateNutrient() {
             
             {/* ชื่ออาหาร */}
             <Typography variant="h2" component="h1">
-            อาหาร :
+            อาหาร:
             </Typography>
-            <Box
-                sx={{
-                    width: "30%",
-                }}
-            >
-                <Select
-                    native
+            <Box sx={{ width: "25%" }}>
+                <TextField
                     fullWidth
-                    id="food_information"
-                    value={nutrient.FoodInformationID + ""}
-                    onChange={handleSelectChange}
-                    inputProps={{
-                    name: "FoodInformationID",
-                    }}
-                >
-                <option aria-label="None" value="">
-                    เลือกอาหารที่ต้องการใส่ข้อมูล
-                </option>
-                {foodinformation.map((item: FoodInformationInterface) => (
-                <option key={item.ID} value={item.ID}>
-                    {item.Name}
-                </option>
-                ))}
-                </Select>
+                    disabled
+                    id="foodname"
+                    value={foodinformation.Name}
+                />
             </Box>
             
             {/* หมู่อาหารที่พบมาก */}
             <Typography variant="h2" component="h1" mt={2}>
-            หมู่อาหารที่พบมากและแคลอรี่ทั้งหมด :
+            หมู่อาหารที่พบมากและแคลอรี่ทั้งหมด:
             </Typography>
             <Box
                 sx={{
@@ -210,7 +240,7 @@ function UpdateNutrient() {
 
             <Stack direction="row" spacing={3}>
             <Typography variant="h2" component="h1">
-                ความคิดเห็นเกี่ยวกับอาหาร
+                ความคิดเห็นเกี่ยวกับอาหาร:
             </Typography>
             </Stack>
 
@@ -239,7 +269,7 @@ function UpdateNutrient() {
 
                 {/* วันเวลาที่ทำการเพิ่ม */}
                 <Typography variant="h2" component="h1">
-                วันเวลาที่ทำการเพิ่ม :
+                วันเวลาที่ทำการเพิ่ม:
                 </Typography>
                 <Box
                 sx={{
@@ -270,7 +300,7 @@ function UpdateNutrient() {
 
                 {/* Admin ถูก Lock เป็น Disable*/}
                 <Typography variant="h2" component="h1">
-                ผู้ดูแลที่ทำการเพิ่มข้อมูล :
+                ผู้ดูแลที่ทำการเพิ่มข้อมูล:
                 </Typography>
                 <Box sx={{ width: "30%" }}>
                 <TextField
@@ -292,7 +322,7 @@ function UpdateNutrient() {
 
             <Button variant="outlined" color="success" onClick={submit}
                 sx = {{ borderRadius: 20 }}>
-                    เพิ่มสารอาหาร
+                    อัปเดตสารอาหาร
             </Button>
 
             <Link

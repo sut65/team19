@@ -10,12 +10,13 @@ import {
     Stack,
     Paper,
     Typography,
-    Avatar,
+    Snackbar,
 } from '@mui/material';
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { Link } from "react-router-dom";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
 // Interface
 import { FoodTypeInterface } from '../../interfaces/IFoodType';
@@ -34,6 +35,14 @@ import {
 const ImgBox = styled(Box)({
     width: "280px",
 });
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 
 function CreateFood() {
 
@@ -128,8 +137,12 @@ function CreateFood() {
         console.log(data.Image)
     
         let res = await CreateFoodInformation(data);
-        res ? setSuccess(true) : setError(true);
-        window.location.href = "/admin/food-display"
+        if (res) {
+          setSuccess(true);
+          window.location.href = "/admin/food-display"
+        } else {
+          setError(true);
+        }
         console.log(JSON.stringify(data))
       };
 
@@ -141,7 +154,29 @@ function CreateFood() {
 
     return(
 
-        <Container>
+      <Container>
+
+        <Snackbar
+          open={success}
+          autoHideDuration={1000}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        >
+          <Alert onClose={handleClose} severity="success">
+            บันทึกข้อมูลอาหารสำเร็จ
+          </Alert>
+        </Snackbar>
+
+        <Snackbar
+          open={error}
+          autoHideDuration={1000}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        >
+          <Alert onClose={handleClose} severity="error">
+            บันทึกข้อมูลอาหารไม่สำเร็จ
+          </Alert>
+        </Snackbar>
 
         <h1>เพิ่มข้อมูลอาหาร</h1>
 
