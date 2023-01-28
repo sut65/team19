@@ -37,7 +37,7 @@ function ShowCardBlog() {
     <Box
       sx={{
         maxWidth: "1024px",
-        margin: "5rem auto",
+        margin: "2rem auto",
       }}
     >
       {/* Button Write */}

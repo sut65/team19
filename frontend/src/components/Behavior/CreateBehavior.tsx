@@ -18,33 +18,35 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { Link } from "react-router-dom";
 
 // Interface
-import { FoodTypeInterface } from '../../interfaces/IFoodType';
-import { MainIngredientInterface } from '../../interfaces/IMainIngredient';
-import { AdminInterface } from '../../interfaces/IAdmin';
-import { FoodInformationInterface } from '../../interfaces/IFoodInformation';
+import { ExerciseInterface } from '../../interfaces/IExercise';
+import { TatseInterface } from '../../interfaces/ITatse';
+import { MemberInterface } from '../../interfaces/IMember';
+import { BehaviorInterface } from '../../interfaces/IBehavior';
+
 
 //API
 import { 
-    GetFoodTypes,
-    GetMainIngredients,
-    CreateFoodInformation,
-    GetAdminByID,
+    GetTatse,
+    GetExercise,
+    GetMemberByID,
+    CreateBehavior,
  } from '../../services/HttpClientService';
+import { time } from 'console';
+
 
 const ImgBox = styled(Box)({
     width: "280px",
 });
 
-function CreateFood() {
+function CreateBehaviors() {
 
-    const [foodinformation, setFoodInformation] = useState<FoodInformationInterface>({});
-    const [foodtypes, setFoodTypes] = useState<FoodTypeInterface[]>([]);
-    const [mainingredients, setMainIngredients] = useState<MainIngredientInterface[]>([]);
+    const [behaviors, setBehaviors] = useState<BehaviorInterface>({});
+    const [exercises, setExercises] = useState<ExerciseInterface[]>([]);
+    const [member, setMember] = useState<MemberInterface[]>([]);
     const [datetime, setDatetime] = useState<Date | string | null>(new Date());
-    const [admin, setAdmin] = useState<AdminInterface>({ Name: ""});
+    const [tastes, settastes] = useState<TatseInterface[]>([]);
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
-    const [image, setImage] = useState({ name: "", src: "" });
 
     console.log(datetime)
 
@@ -60,35 +62,19 @@ function CreateFood() {
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const name = e.target.name;
-      console.log(name);
-      setFoodInformation({ ...foodinformation, [name]: e.target.value });
+      const meals = e.target.name;
+      console.log(meals);
+      setBehaviors({ ...behaviors, [meals]: e.target.value });
     };
 
     const handleSelectChange = (event: SelectChangeEvent) => {
-        const name = event.target.name as keyof typeof foodinformation;
-        setFoodInformation({
-          ...foodinformation,
+        const name = event.target.name as keyof typeof behaviors;
+        setBehaviors({
+          ...behaviors,
           [name]: event.target.value,
         });
       };
 
-    const handleChangeImages = (event: any, id?: string) => {
-      const input = event.target.files[0];
-      const name = event.target.name as keyof typeof foodinformation;
-    
-      var reader = new FileReader();
-      reader.readAsDataURL(input);
-      reader.onload = function () {
-        const dataURL = reader.result;
-        setImage({ name: input.name, src: dataURL?.toString() as string });
-        if (event.target.name === "Image") {
-          setFoodInformation({ ...foodinformation, [name]: dataURL?.toString() });
-        }
-      };
-    };
-
-    console.log("image", image)
 
     const convertType = (data: string | number | undefined) => {
       let val = typeof data === "string" ? parseInt(data) : data;
@@ -96,125 +82,124 @@ function CreateFood() {
     };
 
     //FetchAPI
-    const fetchFoodTypes = async () => {
-        let res = await GetFoodTypes();
-        res && setFoodTypes(res);
+    const fetchExercise = async () => {
+        let res = await GetExercise();
+        res && setExercises(res);
     };
 
-    const fetchMainIngredients = async () => {
-        let res = await GetMainIngredients();
-        res && setMainIngredients(res);
+    const fetchTaste = async () => {
+        let res = await GetTatse();
+        res && settastes(res);
     };
 
-    const fetchAdminByID = async () => {
-      let res = await GetAdminByID();
-      foodinformation.AdminID = res.ID;
+    const fetchMember = async () => {
+      let res = await GetMemberByID();
+      behaviors.MemberID = res.ID;
       if (res) {
-        setAdmin(res);
+        setMember(res);
       }
     };
     
     // เพิ่มข้อมูลเข้า Database
     const submit = async () => {
       let data = {
-        FoodTypeID: convertType(foodinformation.FoodTypeID),
-        MainIngredientID: convertType(foodinformation.MainIngredientID),
-        AdminID: convertType(foodinformation.AdminID),
-        Image: foodinformation.Image,
-        Name: foodinformation.Name,
+        ExerciseID: convertType(behaviors.ExerciseID),
+        TasteID: convertType(behaviors.TatseID),
+        MemberID: convertType(behaviors.MemberID),
         Datetime: datetime?.toLocaleString(),
+        Meal: behaviors.Meals,
         };
-
-        console.log(data.Image)
-    
-        let res = await CreateFoodInformation(data);
+        let res = await CreateBehavior(data);
         res ? setSuccess(true) : setError(true);
-        window.location.href = "/admin/food-display"
-        console.log(JSON.stringify(data))
+        // window.location.href = "/behavior-display"
+        console.log()
+        
       };
 
     useEffect(() => {
-        fetchFoodTypes();
-        fetchMainIngredients();
-        fetchAdminByID();
+        fetchExercise();
+        fetchMember();
+        fetchTaste();
     }, []);
 
     return(
 
         <Container>
 
-        <h1>เพิ่มข้อมูลอาหาร</h1>
+        <h1>สำรวจพฤติกรรมก่อนเข้าเทรน</h1>
 
         <h1> </h1>
     
-        <Stack direction="row" spacing={2}>
+        <Stack direction="row" spacing={1}>
             
-            {/* ชื่ออาหาร*/}
+            {/* มื้ออาหาร*/}
             <Typography variant="h2" component="h1">
-              ชื่ออาหาร :
+              มื้ออาหารที่
+              คุณกิน :
             </Typography>
             <TextField
-                id="name"
-                name="Name"
-                value={foodinformation.Name}
+                id="meals"
+                name="Meals"
+                value={behaviors.Meals}
                 onChange={handleInputChange}
-                placeholder="กรอกชื่ออาหาร"
-                label="ชื่ออาหาร"
+                placeholder="กรอกจำนวนมื้ออาหาร"
+                label="มื้อ"
             />
 
-            {/* วัตถุดิบหลัก*/}
+            {/* รสอาหาร*/}
             <Typography variant="h2" component="h1">
-              วัตถุดิบ :
+              รสอาหารที่
+              คุณชอบกิน :
             </Typography>
             <Box
                 sx={{
-                    width: "25%",
+                    width: "20%",
                 }}
             >
                 <Select
                     native
                     fullWidth
-                    id="main_ingredient"
-                    value={foodinformation.MainIngredientID + ""}
+                    id="tatse"
+                    value={behaviors.TatseID + ""}
                     onChange={handleSelectChange}
                     inputProps={{
-                    name: "MainIngredientID",
-                    }}
-                >
-                <option aria-label="None" value="">
-                    เลือกวัตถุดิบหลัก
-                </option>
-                {mainingredients.map((item: MainIngredientInterface) => (
-                <option key={item.ID} value={item.ID}>
-                    {item.Name}
-                </option>
-                ))}
-                    </Select>
-            </Box>
-            
-            {/* ประเภทอาหาร*/}
-            <Typography variant="h2" component="h1">
-              ประเภท :
-            </Typography>
-            <Box
-                sx={{
-                    width: "30%",
-                }}
-            >
-                <Select
-                    native
-                    fullWidth
-                    id="food_type"
-                    value={foodinformation.FoodTypeID + ""}
-                    onChange={handleSelectChange}
-                    inputProps={{
-                    name: "FoodTypeID",
+                    name: "TatseID",
                     }}
                 >
                   <option aria-label="None" value="">
-                      เลือกประเภทของอาหาร
+                      เลือกรสชาติ
                   </option>
-                  {foodtypes.map((item: FoodTypeInterface) => (
+                  {tastes.map((item: TatseInterface) => (
+                  <option key={item.ID} value={item.ID}>
+                      {item.Name}
+                  </option>
+                  ))}
+                </Select>
+            </Box>
+            
+            {/* จำนวนครั้งการออกกำลังกาย*/}
+            <Typography variant="h2" component="h1">
+              จำนวนครั้งการออกกำลังกาย :
+            </Typography>
+            <Box
+                sx={{
+                    width: "20%",
+                }}
+            >
+                <Select
+                    native
+                    fullWidth
+                    id="exercise"
+                    value={behaviors.ExerciseID + ""}
+                    onChange={handleSelectChange}
+                    inputProps={{
+                    name: "ExerciseID",
+                    }}
+                >
+                  <option aria-label="None" value="">
+                      เลือกจำนวนครั้งการออกำลังกาย
+                  </option>
+                  {exercises.map((item: ExerciseInterface) => (
                   <option key={item.ID} value={item.ID}>
                       {item.Name}
                   </option>
@@ -226,7 +211,7 @@ function CreateFood() {
 
             <h1> </h1>
 
-            <Stack direction="row" spacing={2}>
+            <Stack direction="row" spacing={1}>
 
             {/* เลือกวันเวลาที่เพิ่ม*/}
             <Typography variant="h2" component="h1">
@@ -240,7 +225,7 @@ function CreateFood() {
                 }}>
               <Box
                   sx={{
-                    width: "300px"
+                    width: "200px"
                   }}>
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DateTimePicker
@@ -260,43 +245,21 @@ function CreateFood() {
 
         
 
-            {/* Admin ถูก Lock เป็น Disable*/}
+            {/* Member ถูก Lock เป็น Disable*/}
             <Typography variant="h2" component="h1">
-              ผู้ดูแลที่ทำการเพิ่ม :
+              ผู้ใช้ที่ทำการเพิ่ม :
             </Typography>
             <Box sx={{ width: "30%"  }}>
               <TextField
                 fullWidth
                 disabled
-                id="admin"
-                label="ผู้ดูแล"
-                value={admin.Name}
+                id="member"
+                label="ผู้ใช้"
+                value={member}
               />
             </Box>
             
-            {/* ปุ่มอัพโหลดรูปภาพ*/}
-            <Box>
-                <Button
-                variant="contained"
-                component="label"
-                sx={{
-                    left: "0",
-                    backgroundColor: "#f2f2f2",
-                    color: "#252525",
-                }}
-                >
-                อัพโหลดรูปภาพ
-                <input
-                    id="image"
-                    name="Image"
-                    hidden
-                    accept="image/*"
-                    multiple
-                    type="file"
-                    onChange={handleChangeImages}
-                />
-                </Button>
-            </Box>
+           
 
             </Stack>
 
@@ -304,13 +267,7 @@ function CreateFood() {
 
             <Stack direction="row" spacing={2}>
             
-            <Paper>
-            <h1> </h1>
-            <ImgBox>
-                <img src={image.src} alt={image.name} style={{ width: "100%" }} />
-            </ImgBox>
-            <h1> </h1>
-            </Paper>
+         
             
             </Stack>
 
@@ -334,7 +291,7 @@ function CreateFood() {
                 </Button>
 
                 <Link
-                    to="/admin/food-display"
+                    to="/food-display"
                     style={{
                     textDecoration: "none",
                     }}
@@ -351,4 +308,4 @@ function CreateFood() {
     );
 }
 
-export default CreateFood;
+export default CreateBehaviors;

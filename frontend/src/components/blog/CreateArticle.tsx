@@ -131,7 +131,7 @@ function CreateArticle() {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        // mt: "6rem",
+        mt: "2rem",
         gap: "1rem",
         mb: "2rem",
       }}

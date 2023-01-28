@@ -1,5 +1,5 @@
 import {TrainerInterface} from "./ITrainer"
-import {MemberInterface} from "./IMember"
+import { MemberInterface } from "./IMember";
 import {CourseDetailInterface} from "./ICourseDetail"
 
 export interface BodyInterface {

@@ -42,8 +42,7 @@ function PaymentHistory() {
   };
 
   const getMember = async () => {
-    console.log(PaymentByID?.CourseService?.MemberID)
-    let res = await GetMemberByID(PaymentByID?.CourseService?.MemberID);
+    let res = await GetMemberByID();
     if (res) {
       setMember(res);
     }

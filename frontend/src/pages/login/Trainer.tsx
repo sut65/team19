@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import SignIn from '../../components/SignIn';
 
+ import { TrainerLogin } from '../../services/HttpClientService';
+import ProfileTrainer from "../../components/Trainer/ProfileTrainer";
+
+
+
 function Trainer() {
   const [token, setToken] = useState<String>("");
 
@@ -12,11 +17,11 @@ function Trainer() {
   }, []);
 
   if (!token) {
-    // return <SignIn />;
+    return <SignIn loginRole={TrainerLogin} />;
   }
   
   return (
-    <div>Trainer</div>
+    <ProfileTrainer/>
   )
 }
 

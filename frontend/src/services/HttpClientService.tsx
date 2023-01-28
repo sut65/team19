@@ -9,6 +9,7 @@ import { AdminInterface } from "../interfaces/IAdmin";
 import { FoodInformationInterface } from "../interfaces/IFoodInformation";
 import { NutrientInterface } from "../interfaces/INutrient";
 import { PaymentInterface } from "../interfaces/IPayment";
+import { BehaviorInterface } from "../interfaces/IBehavior";
 
 const apiUrl = `http://localhost:8080`;
 
@@ -53,6 +54,29 @@ const AdminLogin = async (data: AdminInterface) => {
   };
 
   let res = await fetch(`${apiUrl}/adminLogin`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("uid", res.data.id);
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+};
+
+// Trainer Login
+const TrainerLogin = async (data: AdminInterface) => {
+  const requestOptions = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/trainerLogin`, requestOptions)
     .then((response) => response.json())
     .then((res) => {
       if (res.data) {
@@ -133,7 +157,7 @@ async function GetCourseDetail() {
 
   return res;
 }
-
+// Trainer
 async function GetTrainer() {
   const requestOptions = {
     method: "GET",
@@ -155,6 +179,46 @@ async function GetTrainer() {
 
   return res;
 }
+
+
+const GetTrainerByID = async () => {
+  const id = localStorage.getItem("uid");
+
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+  let res = await fetch(`${apiUrl}/trainer/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const DeleteTrainer= async (id: string) => {
+  const requestOptions = {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/trainer/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+//
 
 async function CreateCourseService(data: CourseServiceInterface) {
   const requestOptions = {
@@ -503,7 +567,6 @@ const GetFoodInformations = async () => {
 };
 
 const GetFoodInformationByID = async (id: string) => {
-  // let { id } = useParams();
   let res = await fetch(`${apiUrl}/food_information/${id}`, requestOptionsGet)
     .then((response) => response.json())
     .then((result) => {
@@ -553,6 +616,7 @@ const DeleteFoodInformation = async (id: string) => {
   return res;
 };
 
+// ====================< Body >===============================
 const GetInfoBody = async () => {
   let res = await fetch(`${apiUrl}/bodies`, requestOptionsGet)
     .then((response) => response.json())
@@ -562,6 +626,26 @@ const GetInfoBody = async () => {
 
   return res;
 };
+
+const CreateBody = async (data: BlogInterface) => {
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/body`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
 
 const DeleteInfoBody = async (id: string) => {
   const requestOptions = {
@@ -611,6 +695,35 @@ const CreateNutrient = async (data: NutrientInterface) => {
   return res;
 };
 
+const GetNutrientByID = async (id: string) => {
+  let res = await fetch(`${apiUrl}/nutrient/${id}`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const UpdateNut = async (data: NutrientInterface) => {
+  const requestOptions = {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/update-nutrient`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
 //===========================Member===========================
 
 const CreateMember = async (data: MemberInterface) => {
@@ -642,6 +755,63 @@ const DeleteNutrient = async (id: string) => {
   };
 
   let res = await fetch(`${apiUrl}/delete-nutrient/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+/////////////////////////behavior//////////////////////////////////
+const CreateBehavior= async (data: BehaviorInterface) => {
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+  let res = await fetch(`${apiUrl}/behavior`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetTatse = async () => {
+  let res = await fetch(`${apiUrl}/tastes`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetExercise = async () => {
+  let res = await fetch(`${apiUrl}/exercises`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetMemberByID = async () => {
+  const id = localStorage.getItem("uid");
+
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+  let res = await fetch(`${apiUrl}/member/${id}`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
       return result.data ? result.data : false;
@@ -754,28 +924,6 @@ async function GetPaymentByID(id: string | undefined) {
     .then((res) => {
       if (res.data) {
         console.log(res)
-        return res.data;
-      } else {
-        return false;
-      }
-    });
-
-  return res;
-}
-
-async function GetMemberByID(id: number | undefined) {
-  const requestOptions = {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "application/json",
-    },
-  };
-
-  let res = await fetch(`${apiUrl}/member/${id}`, requestOptions)
-    .then((response) => response.json())
-    .then((res) => {
-      if (res.data) {
         return res.data;
       } else {
         return false;
@@ -902,11 +1050,15 @@ export {
   // Login
   Login,
   AdminLogin,
+  TrainerLogin,
   //
   GetUser,
-  GetMemberByID,
   GetCourseDetail,
+  //Trainer
   GetTrainer,
+  GetTrainerByID,
+  DeleteTrainer,
+  //
   GetAdmin,
   GetPrice,
   GetDescription,
@@ -952,9 +1104,17 @@ export {
   GetMostNutrient,
   CreateNutrient,
   DeleteNutrient,
+  GetNutrientByID,
+  UpdateNut,
   // Member
+  GetMemberByID,
   CreateMember,
   //Body
+  CreateBody,
   DeleteInfoBody,
   GetInfoBody,
+  //behavior
+  GetExercise,
+  GetTatse,
+  CreateBehavior,
 };
