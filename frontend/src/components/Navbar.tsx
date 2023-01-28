@@ -83,21 +83,22 @@ function Navbar() {
               }}
             >
               <Grid item xs={1.2}>
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: "space-between" }}>
+                <Link
+                  to="/user"
+                  style={{
+                    color: "#000",
+                    textDecoration: "none",
+                    textAlign: "center",
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: "space-between",
+                  }}
+                >
                   <img style={{height: 40, justifyItems: 'center' }} src={AppLogo} alt="logo" />
-                  <Link
-                    to="/user"
-                    style={{
-                      color: "#000",
-                      textDecoration: "none",
-                      textAlign: "center",
-                    }}
-                  >
-                    <Typography component="div" sx={{ flexGrow: 1 , fontWeight: "bold", fontSize: 30 }}>
-                      Nutrition
-                    </Typography>
-                  </Link>
-                </Box>
+                  <Typography component="div" sx={{ flexGrow: 1 , fontWeight: "bold", fontSize: 30 }}>
+                    Nutrition
+                  </Typography>
+                </Link>
               </Grid>
 
               <Grid item xs={5}></Grid>

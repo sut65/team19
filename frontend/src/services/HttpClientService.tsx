@@ -900,7 +900,6 @@ async function GetPaymentByUID() {
     .then((response) => response.json())
     .then((res) => {
       if (res.data) {
-        console.log(res)
         return res.data;
       } else {
         return false;
@@ -923,7 +922,6 @@ async function GetPaymentByID(id: string | undefined) {
     .then((response) => response.json())
     .then((res) => {
       if (res.data) {
-        console.log(res)
         return res.data;
       } else {
         return false;
