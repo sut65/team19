@@ -534,37 +534,6 @@ func SetupDatabase() {
 	}
 	db.Model(&Body{}).Create(&BodyChangeB)
 
-	// Advice Part --------------------------------------------------------------------------------------
-
-	Advice1 := Advice{
-		Advice:        "กินโปรตีนเพิ่มให้ได้ 2 g ต่อน้ำหนักตัว 1 kg",
-		RecordingDate: time.Now(),
-		Member:        Member1,
-		Trainer:       Trainer1,
-		// Body: ,
-		// DailyActivitie: ,
-	}
-	db.Model(&Advice{}).Create(&Advice1)
-
-	Advice2 := Advice{
-		Advice:        "ออกกำลังกายแบบคาร์ดิโอเพิ่มเป็นสัปดาห์ละ 4 วัน วันละ 1 ชม.",
-		RecordingDate: time.Now(),
-		Member:        Member2,
-		Trainer:       Trainer2,
-		// Body: ,
-		// DailyActivitie
-	}
-	db.Model(&Advice{}).Create(&Advice2)
-
-	Advice3 := Advice{
-		Advice:        "เล่นเวทเทรนนิ่ง เพิ่มเป็นสัปดาห์ละ 3 วัน วันละ 1.5 ชม.",
-		RecordingDate: time.Now(),
-		Member:        Member3,
-		Trainer:       Trainer2,
-		// Body: ,
-		// DailyActivitie: ,
-	}
-	db.Model(&Advice{}).Create(&Advice3)
 	Discount1 := Discount{
 		DiscountCode:       "NOCODE",
 		DiscountPercentage: 0,
@@ -858,5 +827,36 @@ func SetupDatabase() {
 		Taste:    Taste1,
 	}
 	db.Model(&Behavior{}).Create(&BehaviorB)
+
+	// Advice part ------------------------------------------------------
+	Advice1 := Advice{
+		Advice:        "กินโปรตีนเพิ่มให้ได้ 2 g ต่อน้ำหนักตัว 1 kg",
+		RecordingDate: time.Date(2023, time.January, 4, 14, 14, 00, 0, time.UTC),
+		Member:        Member1,
+		Trainer:       Trainer1,
+		Body: BodyChangeA,
+		DailyActivities: DailyActivitiesA,
+	}
+	db.Model(&Advice{}).Create(&Advice1)
+
+	Advice2 := Advice{
+		Advice:        "ออกกำลังกายแบบคาร์ดิโอเพิ่มเป็นสัปดาห์ละ 4 วัน วันละ 1 ชม.",
+		RecordingDate: time.Date(2023, time.January, 25, 12, 30, 00, 0, time.UTC),
+		Member:        Member2,
+		Trainer:       Trainer2,
+		Body: BodyChangeB,
+		DailyActivities: DailyActivitiesB,
+	}
+	db.Model(&Advice{}).Create(&Advice2)
+
+	Advice3 := Advice{
+		Advice:        "เล่นเวทเทรนนิ่ง เพิ่มเป็นสัปดาห์ละ 3 วัน วันละ 1.5 ชม.",
+		RecordingDate: time.Date(2023, time.January, 27, 11, 47, 00, 0, time.UTC),
+		Member:        Member3,
+		Trainer:       Trainer2,
+		Body:BodyChangeA,
+		DailyActivities: DailyActivitiesC,
+	}
+	db.Model(&Advice{}).Create(&Advice3)
 
 }
