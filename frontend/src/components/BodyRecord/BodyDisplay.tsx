@@ -35,7 +35,7 @@ function BodyDisplay() {
   const DeleteBody = async (id : string) => {
     let res = await DeleteInfoBody(id);
     if (res) {
-      window.location.href = "/BodyDisplay";
+      window.location.reload();
     }
   }
 
@@ -76,7 +76,7 @@ function BodyDisplay() {
 
           {/* ปุ่มเพิ่มข้อมูล */}
           <Link
-            to="/BodyRecord"
+            to="body-record"
             style={{textDecoration: "none",}}
             >
             <Button variant="contained" color="info">

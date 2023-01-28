@@ -14,7 +14,7 @@ import {Box} from "@mui/material";
 
 import {GetTrainer} from "../../services/HttpClientService"
 import {GetCourseDetail} from "../../services/HttpClientService"
-import {GetUser} from "../../services/HttpClientService"
+import {GetMemberByID} from "../../services/HttpClientService"
 import {CreateBody} from "../../services/HttpClientService"
 import EnvironmentIcon from "../../images/environmentIcon.png"
 
@@ -29,8 +29,6 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { Grain } from "@mui/icons-material";
 
-import exercise2 from "../../images/exercies.jpg"
-import exercies2 from "../../images/exercies.jpg"
 
 
 
@@ -109,27 +107,6 @@ const fetchCourseDetail = async () => {
     res && setCourseDetail(res);
 };
 
-// ===============================< ชั่วคราว >======================================
-
-const GetMemberByID = async () => {
-    const id = localStorage.getItem("uid");
-  
-    const requestOptions = {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      },
-    };
-    let res = await fetch(`${apiUrl}/member/${id}`, requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        return result.data ? result.data : false;
-      });
-  
-    return res;
-  };
-// =====================================================================
 
 const fetchMemberByID = async () => {
     let res = await GetMemberByID();
@@ -174,8 +151,15 @@ const fetchMemberByID = async () => {
     console.log(JSON.stringify(data));
     
     let res = await CreateBody(data);
-    res ? setSuccess(true) : setError(true);
-    window.location.href = "/BodyDisplay";
+    if (res) {
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+      setSuccess(true);
+      window.location.href = "/user/body-display";
+    } else {
+      setError(true);
+    }
     console.log(JSON.stringify(data))
 
   };
@@ -572,7 +556,7 @@ return (
               sx={{ margin: 1, marginLeft: 5, justifyContent: "right" }}
             >
               <Link
-                to="/BodyDisplay"
+                to="/user/body-display"
                 style={{
                   color: "#252525",
                   textDecoration: "none",
@@ -580,12 +564,12 @@ return (
                   justifyContent: "center",
                 }}
               >
-                <Button variant="text" size="large" sx={{ marginRight: 5 }}>
+                <Button variant="text" size="large" sx={{ marginRight: 5 ,marginBottom:2 }}>
                   back
                 </Button>
               </Link>
-              <Button variant="contained" size="large" onClick={submit}>
-                apply
+              <Button variant="contained" size="large" onClick={submit} sx= {{marginBottom:2}}>
+                บันทึกข้อมูลร่างกาย
               </Button>
             </Grid>
           </Grid>

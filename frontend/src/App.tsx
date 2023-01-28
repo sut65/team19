@@ -90,7 +90,8 @@ function App() {
           <Route path="register-course/:id" element={<RegisterCourse />} />
           <Route path="payment/:id" element={<Payment />} />
           <Route path="register" element={<Register />}></Route>
-          <Route path="BodyRecord" element={<BodyDisplay />}></Route>
+          <Route path="body-display" element={<BodyDisplay />}></Route>
+          <Route path="body-display/body-record" element={<BodyRecord />}></Route>
           <Route path="create-review" element={<CreateReview />} />
           <Route path="reviews" element={<ShowReview />} />
           <Route path="reviews/update-review/:id" element={<UpdateReview />} />
