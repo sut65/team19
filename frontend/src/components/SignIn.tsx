@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect,useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -16,6 +16,8 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { SignInInterface } from "../interfaces/ISignIn";
 import { Login } from "../services/HttpClientService";
 import '../App.css';
+import { Link, useLocation } from "react-router-dom";
+
 
 const theme = createTheme({
   typography: {
@@ -42,6 +44,17 @@ function SignIn({ loginRole }: Prop) {
   const [signin, setSignin] = useState<Partial<SignInInterface>>({});
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
+  const [openTrainer, setOpenTrainer] = useState(false);
+
+  const location = useLocation();
+
+  const checkLocation = () => {
+    location.pathname === "/trainerLogin" && setOpenTrainer(!openTrainer);
+  };
+
+  useEffect(() => {
+    checkLocation();
+  }, []);
 
   const handleInputChange = (
     event: React.ChangeEvent<{ id?: string; value: any }>
@@ -98,7 +111,7 @@ function SignIn({ loginRole }: Prop) {
             อีเมลหรือรหัสผ่านไม่ถูกต้อง
           </Alert>
         </Snackbar>
-        
+
         <CssBaseline />
         <Grid
           item
@@ -167,6 +180,34 @@ function SignIn({ loginRole }: Prop) {
               >
                 Sign In
               </Button>
+              {/* ถ้าเข้ามาที่หน้า login ด้วยบทบาทของ trainer */}
+              {openTrainer && (
+                <Box sx={{ mb: 2, display: "flex", justifyContent: "center" }}>
+                  <Button>
+                    <Link
+                      to="/apply-trainer"
+                      style={{
+                        color: "#252525",
+                        textDecoration: "none",
+                      }}
+                    >
+                      Sign up
+                    </Link>
+                  </Button>
+                </Box>
+              )}
+              {/* ปุ่ม back */}
+              <Link
+                to="/"
+                style={{
+                  color: "#252525",
+                  textDecoration: "none",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                Back
+              </Link>
             </Box>
           </Box>
         </Grid>
