@@ -157,7 +157,7 @@ async function GetCourseDetail() {
 
   return res;
 }
-
+// Trainer
 async function GetTrainer() {
   const requestOptions = {
     method: "GET",
@@ -179,6 +179,46 @@ async function GetTrainer() {
 
   return res;
 }
+
+
+const GetTrainerByID = async () => {
+  const id = localStorage.getItem("uid");
+
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+  let res = await fetch(`${apiUrl}/trainer/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const DeleteTrainer= async (id: string) => {
+  const requestOptions = {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/trainer/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+//
 
 async function CreateCourseService(data: CourseServiceInterface) {
   const requestOptions = {
@@ -846,6 +886,53 @@ async function GetPayment() {
   return res;
 }
 
+async function GetPaymentByUID() {
+  const uid = localStorage.getItem("uid")
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/payment-history/${uid}`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        console.log(res)
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
+async function GetPaymentByID(id: string | undefined) {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/payment/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        console.log(res)
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
 async function GetDuration() {
   const requestOptions = {
     method: "GET",
@@ -967,7 +1054,11 @@ export {
   //
   GetUser,
   GetCourseDetail,
+  //Trainer
   GetTrainer,
+  GetTrainerByID,
+  DeleteTrainer,
+  //
   GetAdmin,
   GetPrice,
   GetDescription,
@@ -978,6 +1069,8 @@ export {
   SelectCourseDetail,
   // Payment
   GetPayment,
+  GetPaymentByID,
+  GetPaymentByUID,
   GetDuration,
   GetDiscountByCode,
   GetDurationByID,

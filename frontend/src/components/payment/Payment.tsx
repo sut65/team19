@@ -325,20 +325,6 @@ function Payment() {
               margin: "16px 14px 16px 14px",
             }}
           >
-            <Button
-              className="btn-user"
-              variant="contained"
-              style={{
-                color: "#384648",
-                borderRadius: 20,
-                backgroundColor: "#FEF5ED",
-                padding: "6px 28px",
-                fontSize: "16px",
-              }}
-              onClick={() => navigate(-1)}
-            >
-              Back
-            </Button>
             <Link
               to={`/articles`} // รอแก้เป็นรีวิว
               style={{
@@ -446,7 +432,7 @@ function Payment() {
                   }}
                   color="success"
                 >
-                  <option aria-label="None" value="">
+                  <option aria-label="None" value="" style={{color: "grey"}}>
                     Please select duration
                   </option>
                   {Duration.map((item: DurationInterface) => (

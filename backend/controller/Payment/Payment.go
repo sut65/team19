@@ -67,6 +67,17 @@ func GetPayment(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": payment})
 }
 
+// GET /payment-history/:uid
+func ListPaymentByUID(c *gin.Context) {
+	var payments []entity.Payment
+	uid := c.Param("uid")
+	if err := entity.DB().Preload("CourseService").Preload("Discount").Preload("Duration").Raw("SELECT course_services.id, payments.id, payments.payment_date, payments.slip, payments.balance, payments.course_service_id, payments.duration_id, payments.discount_id, course_services.member_id FROM payments INNER JOIN course_services WHERE payments.course_service_id = course_services.id AND course_services.member_id = ?", uid).Find(&payments).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "payment not found"})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": payments})
+	
+}
 
 // GET /payments
 func ListPayments(c *gin.Context) {

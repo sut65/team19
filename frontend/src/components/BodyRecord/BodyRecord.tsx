@@ -17,6 +17,7 @@ import {GetCourseDetail} from "../../services/HttpClientService"
 import {GetMemberByID} from "../../services/HttpClientService"
 import {CreateBody} from "../../services/HttpClientService"
 import EnvironmentIcon from "../../images/environmentIcon.png"
+import toneLight from "../../images/toneLight.jpg"
 
 
 import { BodyInterface } from "../../interfaces/IBody";
@@ -176,7 +177,7 @@ return (
       width: "100vw",
       backgroundSize: "cover",
       color: "#f5f5f5",
-    //   backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url(${ exercise2 })`,
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url(${ toneLight })`,
     }}
   >
     <Container maxWidth="md" sx={{ marginTop: 6 }}>
@@ -199,7 +200,7 @@ return (
       <form>
         <Paper
           variant="outlined"
-          sx={{display: "flex",justifyContent: "center",flexDirection: "column",alignItems: "center"}}
+          sx={{display: "flex",justifyContent: "center",flexDirection: "column",alignItems: "center", borderRadius: "25px",}}
         >
           <FormLabel sx={{ marginRight: 0, fontSize: 17 }}>
             <b>บันทึกการเปลี่ยนแปลงร่างกาย หน่วยเป็น cm</b>

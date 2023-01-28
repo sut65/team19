@@ -49,7 +49,7 @@ function SignIn({ loginRole }: Prop) {
   const location = useLocation();
 
   const checkLocation = () => {
-    location.pathname === "/trainerLogin" && setOpenTrainer(!openTrainer);
+    location.pathname === "/trainer" && setOpenTrainer(!openTrainer);
   };
 
   useEffect(() => {
@@ -185,7 +185,7 @@ function SignIn({ loginRole }: Prop) {
                 <Box sx={{ mb: 2, display: "flex", justifyContent: "center" }}>
                   <Button>
                     <Link
-                      to="/apply-trainer"
+                      to="/apply"
                       style={{
                         color: "#252525",
                         textDecoration: "none",

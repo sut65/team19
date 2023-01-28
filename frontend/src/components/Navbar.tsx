@@ -216,12 +216,20 @@ function Navbar() {
                       </ListItemIcon>
                       Eating behavior (before training)
                     </MenuItem>
-                    <MenuItem>
-                      <ListItemIcon>
-                        <PaymentRoundedIcon fontSize="small" />
-                      </ListItemIcon>
+                    <Link
+                      to={`payment-history`} // รอแก้เป็นรีวิว
+                      style={{
+                        textDecoration: "none",
+                        color: "black"
+                      }}
+                    >
+                      <MenuItem>
+                        <ListItemIcon>
+                          <PaymentRoundedIcon fontSize="small" />
+                        </ListItemIcon>
                       Payment History
-                    </MenuItem>
+                      </MenuItem>
+                    </Link>
                     <MenuItem onClick={signout}>
                       <ListItemIcon>
                         <LogoutRoundedIcon fontSize="small" />

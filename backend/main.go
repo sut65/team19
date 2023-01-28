@@ -199,6 +199,7 @@ func main() {
 			router.POST("/payment", Payment.CreatePayment)
 			router.GET("/payment/:id", Payment.GetPayment)
 			router.GET("/payments", Payment.ListPayments)
+			router.GET("/payment-history/:uid", Payment.ListPaymentByUID)
 		}
 	}
 	// login User Route

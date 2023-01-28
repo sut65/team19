@@ -12,7 +12,9 @@ import {
     InputAdornment,
     TextField,
     Button,
+    Snackbar,
  } from '@mui/material';
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
  //Interface
 import { MostNutrientInterface } from '../../interfaces/IMostNutrient';
@@ -28,6 +30,12 @@ import {
     CreateNutrient,
  } from '../../services/HttpClientService';
 
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+    props,
+    ref
+  ) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 function CreateNutrientUI() {
 
@@ -38,6 +46,17 @@ const [date, setDate] = useState<Date | string | null>(new Date());
 const [admin, setAdmin] = useState<AdminInterface>({ Name: ""});
 const [success, setSuccess] = useState(false);
 const [error, setError] = useState(false);
+
+const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSuccess(false);
+    setError(false);
+};
 
 const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name;
@@ -89,8 +108,12 @@ const submit = async () => {
       };
 
       let res = await CreateNutrient(data);
-      res ? setSuccess(true) : setError(true);
-      window.location.href = "/admin/nutrient-display"
+      if (res) {
+        setSuccess(true);
+        window.location.href = "/admin/nutrient-display"
+      } else {
+        setError(true);
+      }
       console.log(JSON.stringify(data))
 };
 
@@ -103,6 +126,28 @@ useEffect(() => {
 
     return(
         <Container>
+
+            <Snackbar
+                open={success}
+                autoHideDuration={1000}
+                onClose={handleClose}
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                >
+                <Alert onClose={handleClose} severity="success">
+                    บันทึกข้อมูลสารอาหารสำเร็จ
+                </Alert>
+            </Snackbar>
+
+            <Snackbar
+                open={error}
+                autoHideDuration={1000}
+                onClose={handleClose}
+                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                >
+                <Alert onClose={handleClose} severity="error">
+                    บันทึกข้อมูลสารอาหารไม่สำเร็จ
+                </Alert>
+            </Snackbar>
 
             <Box
                 sx={{
@@ -124,7 +169,7 @@ useEffect(() => {
             
             {/* ชื่ออาหาร */}
             <Typography variant="h2" component="h1">
-            อาหาร :
+            อาหาร:
             </Typography>
             <Box
                 sx={{
@@ -154,7 +199,7 @@ useEffect(() => {
             
             {/* หมู่อาหารที่พบมาก */}
             <Typography variant="h2" component="h1" mt={2}>
-            หมู่อาหารที่พบมากและแคลอรี่ทั้งหมด :
+            หมู่อาหารที่พบมากและแคลอรี่ทั้งหมด:
             </Typography>
             <Box
                 sx={{
@@ -264,7 +309,7 @@ useEffect(() => {
 
                 {/* Admin ถูก Lock เป็น Disable*/}
                 <Typography variant="h2" component="h1">
-                ผู้ดูแลที่ทำการเพิ่มข้อมูล :
+                ผู้ดูแลที่ทำการเพิ่มข้อมูล:
                 </Typography>
                 <Box sx={{ width: "30%" }}>
                 <TextField
