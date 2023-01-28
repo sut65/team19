@@ -317,7 +317,7 @@ function RegisterCourse() {
                   }}
                   color= "success"
                 >
-                  <option aria-label="None" value="">
+                  <option aria-label="None" value="" style={{color: "grey"}} >
                     Please select trainer
                   </option>
                   {Trainer.map((item: TrainerInterface) => (

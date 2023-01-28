@@ -400,23 +400,6 @@ func SetupDatabase() {
 	}
 	db.Model(&Blog{}).Create(&BlogA)
 
-	db.Model(&CourseService{}).Create(&CourseService{
-		CRegisterDate: time.Date(2023, time.January, 1, 15, 03, 00, 0, time.UTC),
-		Agreement:     "Agree",
-		Status:        "Active",
-		Member:        Member1,
-		CourseDetail:  CourseDetail1,
-		Trainer:       Trainer1,
-	})
-	db.Model(&CourseService{}).Create(&CourseService{
-		CRegisterDate: time.Date(2023, time.January, 2, 15, 03, 00, 0, time.UTC),
-		Agreement:     "Agree",
-		Status:        "Inactive",
-		Member:        Member2,
-		CourseDetail:  CourseDetail2,
-		Trainer:       Trainer1,
-	})
-
 	// ------------ Food Information ------------
 	MainIngredientA := MainIngredient{
 		Name:    "ไข่",
