@@ -138,10 +138,10 @@ function Navbar() {
                   </Button>
                 </Link>
               </Grid>
-              {/* =====================================< Body Record >==================================== */}
+              {/* =====================================< Body >==================================== */}
               <Grid item xs={1}>
                 <Link
-                  to="BodyRecord"
+                  to="body-display"
                   style={{
                     color: "#000",
                     textDecoration: "none",
