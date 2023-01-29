@@ -7,6 +7,7 @@ import (
 	"github.com/sut65/team19/controller"
 	CourseService "github.com/sut65/team19/controller/CourseService"
 	foodInformation "github.com/sut65/team19/controller/FoodInformation"
+	MealPlan "github.com/sut65/team19/controller/MealPlan"
 	nutrient "github.com/sut65/team19/controller/Nutrient"
 	Payment "github.com/sut65/team19/controller/Payment"
 	trainer "github.com/sut65/team19/controller/Trainer"
@@ -77,11 +78,22 @@ func main() {
 			router.PATCH("/course_details", controller.UpdateCourseDetail)
 
 			// member Routes
-
 			router.GET("/member/:id", controller.GetMember)
 			router.GET("/members", controller.ListMembers)
 			router.DELETE("/member/:id", controller.DeleteMember)
 			router.PATCH("/members", controller.UpdateMember)
+
+			// MealPlan Routes
+			r.POST("/mealplans", MealPlan.CreateMealPlans)
+			r.GET("/mealplans/:id", MealPlan.GetMealPlans)
+			r.GET("/mealplans", MealPlan.ListMealPlans)
+			r.PATCH("/mealplans", MealPlan.UpdateMealPlans)
+			r.DELETE("/mealplans/:id", MealPlan.DeleteMealPlans)
+
+			r.GET("/nutritious/:id", MealPlan.GetNutritious)
+			r.GET("/nutritious", MealPlan.ListNutritious)
+			r.GET("/avoidfoods/:id", MealPlan.GetAvoidFood)
+			r.GET("/avoidfoods", MealPlan.ListAvoidFoods)
 
 			// trainer Routes
 			r.GET("/trainer/:id", trainer.GetTrainer)

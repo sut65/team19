@@ -30,8 +30,11 @@ func SetupDatabase() {
 		&FoodAllergies{},
 		&BedTimes{},
 		// Meal Plan ย่อย
-		&MealType{},
-		&DayOfWeeks{},
+		&AvoidFood{},
+		&MealsOfDay{},
+		&BreakFast{},
+		&Lunch{},
+		&Dinner{},
 		&Nutritious{},
 		// Member
 		&Status{},
@@ -64,8 +67,8 @@ func SetupDatabase() {
 		&MainIngredient{},
 		// Activity หลัก
 		&DailyActivities{},
-		// MealPlan
-		&MealPlan{},
+		// MealPlans
+		&MealPlans{},
 		//Advice
 		&Advice{},
 		// Payment
@@ -567,37 +570,61 @@ func SetupDatabase() {
 	db.Model(&Duration{}).Create(&Duration2)
 
 	// --------------------------------------------------------------------------------------------------
-	// ----------------------------------------  MealPlan  ----------------------------------------------
+	// ----------------------------------------  MealPlans  ----------------------------------------------
 	// --------------------------------------------------------------------------------------------------
-	MealTypeA := MealType{
+	MealsOfDayA := MealsOfDay{
 		Name: "beakfast",
 	}
-	db.Model(&MealType{}).Create(&MealTypeA)
+	db.Model(&MealsOfDay{}).Create(&MealsOfDayA)
 
-	MealTypeB := MealType{
+	MealsOfDayB := MealsOfDay{
 		Name: "lunch",
 	}
-	db.Model(&MealType{}).Create(&MealTypeB)
+	db.Model(&MealsOfDay{}).Create(&MealsOfDayB)
 
-	MealTypeC := MealType{
+	MealsOfDayC := MealsOfDay{
 		Name: "dinner",
 	}
-	db.Model(&MealType{}).Create(&MealTypeC)
+	db.Model(&MealsOfDay{}).Create(&MealsOfDayC)
 
-	DayOfWeeksA := DayOfWeeks{
-		Name: "Sunday",
+	BreakFastA := BreakFast{
+		FoodInformation: FoodInformationA,
 	}
-	db.Model(&DayOfWeeks{}).Create(&DayOfWeeksA)
+	db.Model(&BreakFast{}).Create(&BreakFastA)
 
-	DayOfWeeksB := DayOfWeeks{
-		Name: "Monday",
+	BreakFastB := BreakFast{
+		FoodInformation: FoodInformationB,
 	}
-	db.Model(&DayOfWeeks{}).Create(&DayOfWeeksB)
+	db.Model(&BreakFast{}).Create(&BreakFastB)
 
-	DayOfWeeksC := DayOfWeeks{
-		Name: "Friday",
+	BreakFastC := BreakFast{
+		FoodInformation: FoodInformationC,
 	}
-	db.Model(&DayOfWeeks{}).Create(&DayOfWeeksC)
+	db.Model(&BreakFast{}).Create(&BreakFastC)
+	LunchA := Lunch{
+		FoodInformation: FoodInformationA,
+	}
+	db.Model(&Lunch{}).Create(&LunchA)
+	LunchB := Lunch{
+		FoodInformation: FoodInformationB,
+	}
+	db.Model(&Lunch{}).Create(&LunchB)
+	LunchC := Lunch{
+		FoodInformation: FoodInformationC,
+	}
+	db.Model(&Lunch{}).Create(&LunchC)
+	DinnerA := Dinner{
+		FoodInformation: FoodInformationA,
+	}
+	db.Model(&Dinner{}).Create(&DinnerA)
+	DinnerB := Dinner{
+		FoodInformation: FoodInformationB,
+	}
+	db.Model(&Dinner{}).Create(&DinnerB)
+	DinnerC := Dinner{
+		FoodInformation: FoodInformationC,
+	}
+	db.Model(&Dinner{}).Create(&DinnerC)
 
 	NutritiousA := Nutritious{
 		Calories:     271.1,
@@ -620,45 +647,56 @@ func SetupDatabase() {
 	}
 	db.Model(&Nutritious{}).Create(&NutritiousC)
 
+	AvoidFoodA := AvoidFood{
+		Name: "ถั่ว",
+	}
+	db.Model(&AvoidFood{}).Create(&AvoidFoodA)
+
+	AvoidFoodB := AvoidFood{
+		Name: "นม",
+	}
+	db.Model(&AvoidFood{}).Create(&AvoidFoodB)
+
+	AvoidFoodC := AvoidFood{
+		Name: "ไข่",
+	}
+	db.Model(&AvoidFood{}).Create(&AvoidFoodC)
+
 	//Main Entity
-	MealPlanA := MealPlan{
-		Name:            "Meal Plan A",
-		Notes:           "รับประทานโปรตีนเพิ่ม",
-		Date:            time.Now(),
-		MealType:        MealTypeA,
-		DayOfWeeks:      DayOfWeeksA,
-		Nutritious:      NutritiousA,
-		Admin:           AdminA,
-		Member:          Member1,
-		FoodInformation: FoodInformationA,
-	}
-	db.Model(&MealPlan{}).Create(&MealPlanA)
+	MealPlansA := MealPlans{
+		Date:        time.Date(2023, time.January, 3, 15, 03, 00, 0, time.UTC),
+		Description: "รับประทานโปรตีนเพิ่ม",
 
-	MealPlanB := MealPlan{
-		Name:            "Meal Plan B",
-		Notes:           "รับประทานอาหารเพิ่มเป็น 4 มื้อ",
-		Date:            time.Now(),
-		MealType:        MealTypeB,
-		DayOfWeeks:      DayOfWeeksB,
-		Nutritious:      NutritiousB,
-		Admin:           AdminB,
-		Member:          Member2,
-		FoodInformation: FoodInformationB,
+		MealsOfDay: MealsOfDayA,
+		AvoidFood:  AvoidFoodA,
+		Nutritious: NutritiousA,
+		Admin:      AdminA,
+		Member:     Member1,
 	}
-	db.Model(&MealPlan{}).Create(&MealPlanB)
+	db.Model(&MealPlans{}).Create(&MealPlansA)
 
-	MealPlanC := MealPlan{
-		Name:            "Meal Plan C",
-		Notes:           "งดอาหารรสจัด",
-		Date:            time.Now(),
-		MealType:        MealTypeC,
-		DayOfWeeks:      DayOfWeeksC,
-		Nutritious:      NutritiousC,
-		Admin:           AdminC,
-		Member:          Member3,
-		FoodInformation: FoodInformationA,
+	MealPlansB := MealPlans{
+		Date:        time.Date(2023, time.January, 4, 10, 05, 00, 0, time.UTC),
+		Description: "รับประทานอาหารเพิ่มเป็น 4 มื้อ",
+
+		MealsOfDay: MealsOfDayB,
+		AvoidFood:  AvoidFoodB,
+		Nutritious: NutritiousB,
+		Admin:      AdminB,
+		Member:     Member2,
 	}
-	db.Model(&MealPlan{}).Create(&MealPlanC)
+	db.Model(&MealPlans{}).Create(&MealPlansB)
+	MealPlansC := MealPlans{
+		Date:        time.Date(2023, time.January, 4, 10, 02, 01, 0, time.UTC),
+		Description: "งดอาหารรสจัด",
+
+		MealsOfDay: MealsOfDayC,
+		AvoidFood:  AvoidFoodC,
+		Nutritious: NutritiousC,
+		Admin:      AdminC,
+		Member:     Member3,
+	}
+	db.Model(&MealPlans{}).Create(&MealPlansC)
 
 	//--------------------------------------------------------------------------------------------------
 	//----------------------------------------  DailyActivities  ---------------------------------------

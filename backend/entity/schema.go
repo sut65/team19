@@ -59,7 +59,7 @@ type Member struct {
 	CourseService  []CourseService   `gorm:"foreignKey:MemberID"`
 	Blogs          []Blog            `gorm:"foreignKey:MemberID"`
 	DailyActivitie []DailyActivities `gorm:"foreignKey:MemberID"`
-	MealPlan       []MealPlan        `gorm:"foreignKey:MemberID"`
+	MealPlan       []MealPlans       `gorm:"foreignKey:MemberID"`
 	Body           []Body            `gorm:"foreignKey:MemberID"`
 	Advice         []Advice          `gorm:"foreignKey:MemberID"`
 	Reviews        []Review          `gorm:"foreignKey:MemberID"`
@@ -81,7 +81,7 @@ type Admin struct {
 	Email           string `gorm:"uniqueIndex"`
 	Name            string
 	Password        string
-	MealPlan        []MealPlan        `gorm:"foreignKey:AdminID"`
+	MealPlan        []MealPlans       `gorm:"foreignKey:AdminID"`
 	DailyActivitie  []DailyActivities `gorm:"foreignKey:AdminID"`
 	CourseDetail    []CourseDetail    `gorm:"foreignKey:AdminID"`
 	FoodInformation []FoodInformation `gorm:"foreignKey:AdminID"`
@@ -258,7 +258,7 @@ type FoodInformation struct {
 	FoodTypeID *uint
 	FoodType   FoodType
 
-	MealPlan []MealPlan `gorm:"foreignKey:FoodInformationID"`
+	// MealPlan []MealPlan `gorm:"foreignKey:FoodInformationID"`
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -315,18 +315,56 @@ type DailyActivities struct {
 // --------------------------------------------------------------------------------------------------
 // ----------------------------------------  MealPlan  ----------------------------------------------
 // --------------------------------------------------------------------------------------------------
-type MealType struct {
+type MealsOfDay struct {
 	gorm.Model
 
-	Name     string
-	MealPlan []MealPlan `gorm:"foreignKey:MealTypeID"`
+	Name string
+
+	BreakFastID *uint
+	BreakFast   BreakFast
+	LunchID     *uint
+	Lunch       Lunch
+	DinnerID    *uint
+	Dinner      Dinner
+
+	MealPlan []MealPlans `gorm:"foreignKey: MealsOfDayID"`
 }
 
-type DayOfWeeks struct {
+type BreakFast struct {
 	gorm.Model
 
-	Name     string
-	MealPlan []MealPlan `gorm:"foreignKey: DayOfWeeksID"`
+	FoodInformationID *uint
+	FoodInformation   FoodInformation
+
+	MealsOfDay []MealsOfDay `gorm:"foreignKey: BreakFastID"`
+}
+type Lunch struct {
+	gorm.Model
+
+	Name string
+
+	FoodInformationID *uint
+	FoodInformation   FoodInformation
+
+	MealsOfDay []MealsOfDay `gorm:"foreignKey: LunchID"`
+}
+type Dinner struct {
+	gorm.Model
+
+	Name string
+
+	FoodInformationID *uint
+	FoodInformation   FoodInformation
+
+	MealsOfDay []MealsOfDay `gorm:"foreignKey: DinnerID"`
+}
+
+type AvoidFood struct {
+	gorm.Model
+
+	Name string
+
+	MealPlans []MealPlans `gorm:"foreignKey: AvoidFoodID"`
 }
 
 type Nutritious struct {
@@ -335,16 +373,15 @@ type Nutritious struct {
 	Calories     float32
 	Carbohydrate float32
 	Protein      float32
-	MealPlan     []MealPlan `gorm:"foreignKey: NutritiousID"`
+	MealPlans    []MealPlans `gorm:"foreignKey: NutritiousID"`
 }
 
 // Main Entity
-type MealPlan struct {
+type MealPlans struct {
 	gorm.Model
 
-	Name  string
-	Notes string
-	Date  time.Time
+	Description string
+	Date        time.Time
 
 	AdminID *uint
 	Admin   Admin
@@ -352,17 +389,14 @@ type MealPlan struct {
 	MemberID *uint
 	Member   Member
 
-	FoodInformationID *uint
-	FoodInformation   FoodInformation
-
-	MealTypeID *uint
-	MealType   MealType
-
-	DayOfWeeksID *uint
-	DayOfWeeks   DayOfWeeks
-
 	NutritiousID *uint
 	Nutritious   Nutritious
+
+	AvoidFoodID *uint
+	AvoidFood   AvoidFood
+
+	MealsOfDayID *uint
+	MealsOfDay   MealsOfDay
 }
 
 // -------------------------------------------<< ระบบให้คำแนะนำ >>------------------------------------
