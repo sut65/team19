@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team19/controller"
 	CourseService "github.com/sut65/team19/controller/CourseService"
+	DailyActivities "github.com/sut65/team19/controller/DailyActivities"
 	foodInformation "github.com/sut65/team19/controller/FoodInformation"
 	MealPlan "github.com/sut65/team19/controller/MealPlan"
 	nutrient "github.com/sut65/team19/controller/Nutrient"
@@ -82,6 +83,16 @@ func main() {
 			router.GET("/members", controller.ListMembers)
 			router.DELETE("/member/:id", controller.DeleteMember)
 			router.PATCH("/members", controller.UpdateMember)
+
+			// DailyActivities Routes
+			r.POST("/dailyactivities", DailyActivities.CreateActivity)
+			r.GET("/dailyactivities/:id", DailyActivities.GetActivity)
+			r.GET("/dailyactivities", DailyActivities.ListActivities)
+			r.PATCH("/dailyactivity", DailyActivities.UpdateActivity)
+			r.DELETE("/dailyactivities/:id", DailyActivities.DeleteActivity)
+
+			r.GET("/activitiestypes", DailyActivities.GetActivitiesTypes)
+			r.GET("/activitiestypes/:id", DailyActivities.ListActivitiesTypes)
 
 			// MealPlan Routes
 			r.POST("/mealplans", MealPlan.CreateMealPlans)
