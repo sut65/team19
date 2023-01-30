@@ -67,6 +67,19 @@ func GetReview(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": review})
 }
 
+// GET /review-cid/:id
+func GetReviewByCourseID(c *gin.Context) {
+	var review []entity.Review
+	id := c.Param("id")
+
+	if tx := entity.DB().Preload("CourseDetail").Preload("Rank").Preload("Member").Where("course_detail_id = ?", id).Find(&review); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Review not found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": review})
+}
+
 // GET /reviews
 func ListReviews(c *gin.Context) {
 	var reviews []entity.Review
