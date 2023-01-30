@@ -160,18 +160,16 @@ function Payment() {
     getCourseDetailByID();
   }, [CourseService]);
 
-  // useEffect(() => {
-  //   getDurationByID();
-  // }, [Payment.DurationID]);
+  useEffect(() => {
+    getDurationByID();
+  }, [Payment.DurationID]);
 
-  // useEffect(() => {
-  //   getDiscountCode();
-  // }, [Code]);
+  useEffect(() => {
+    getDiscountCode();
+  }, [Code]);
 
   useEffect(() => {
     console.log(Payment.DurationID);
-    getDurationByID();
-    getDiscountCode();
     CourseDuration = convertType(CourseDetail.Price?.Duration) + "";
     CalBalance(
       Number(CourseDetail.Price?.Price),
@@ -180,7 +178,7 @@ function Payment() {
       ShowDurationPercentage,
       NumberOfDays
     );
-  }, [Payment.DurationID, Code, NumberOfDays, CourseDetail.Price?.Price]);
+  }, [Payment.DurationID, Code, NumberOfDays, CourseDetail.Price?.Price, ShowCodePercentage]);
 
   const convertType = (data: string | number | undefined) => {
     let val = typeof data === "string" ? parseInt(data) : data;
