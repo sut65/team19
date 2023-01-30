@@ -20,7 +20,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 import { useNavigate } from "react-router-dom";
-import { MemberInterface } from "../../interfaces/IMember";
+import { MemberInterface } from "../../interfaces/IMember"; 
 
 // api
 import { DeleteReview } from "../../services/HttpClientService";
@@ -132,7 +132,13 @@ function ReviewCard({
             </Box>
           </Typography>
           {/* Rating */}
-          <Rating name="simple-controlled" value={rating} readOnly />
+          <Box sx={{display: "flex", gap: "12px"}}>
+            <Rating name="simple-controlled" value={rating} readOnly />
+            <Typography sx={{ wordSpacing: "4px", opacity: "0.6" }}>
+              {rankName}
+            </Typography>
+          
+          </Box>
           <Typography sx={{ wordSpacing: "4px" }}>
             course: {courseName}
           </Typography>

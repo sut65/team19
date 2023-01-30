@@ -45,6 +45,7 @@ function PaymentHistory() {
 
   useEffect(() => {
     getPaymentByUID();
+    console.log(PaymentByID)
   }, [uid]);
 
   useEffect(() => {
