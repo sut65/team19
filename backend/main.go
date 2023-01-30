@@ -141,6 +141,7 @@ func main() {
 			// Review Routes
 			router.GET("/reviews", review.ListReviews)
 			router.GET("/review/:id", review.GetReview)
+			router.GET("/review-cid/:id", review.GetReviewByCourseID)
 			router.POST("/reviews", review.CreateReview)
 			router.PATCH("/update-review", review.UpdateReview)
 			router.DELETE("/delete-review/:id", review.DeleteReview)
