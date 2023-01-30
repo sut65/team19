@@ -45,12 +45,15 @@ function PaymentHistory() {
 
   useEffect(() => {
     getPaymentByUID();
-    console.log(PaymentByID)
   }, [uid]);
 
   useEffect(() => {
     getPaymentByID();
   }, [ID]);
+
+  useEffect(() => {
+    console.log(PaymentByID)
+  }, [PaymentByID]);
 
   useEffect(() => {
     [TempDate, TempTimeAndZone] = (PaymentByID?.PaymentDate + "").split("T")
