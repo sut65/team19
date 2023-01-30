@@ -248,7 +248,7 @@ function RegisterCourse() {
               Back
             </Button>
             <Link
-              to={`/articles`} // รอแก้เป็นรีวิว
+              to={`/user/reviews`} // รอแก้เป็นรีวิว
               style={{
                 textDecoration: "none",
               }}

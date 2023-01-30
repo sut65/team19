@@ -103,7 +103,7 @@ function CardCourseService({
       </CardContent>
       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: "space-between", margin: "16px 14px 16px 14px"}}>
         <Link
-          to={`/articles`}
+          to={`/user/reviews`}
           style={{
             textDecoration: "none",
           }}
