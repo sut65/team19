@@ -18,7 +18,7 @@ import { ReviewInterface } from "../../interfaces/IReview";
 
 // api
 import { GetRanks, CreateReviews } from "../../services/HttpClientService";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 // style
 const BoxRating = styled(Box)({
@@ -39,6 +39,7 @@ interface RatingLabelsInterface {
 }
 
 function CreateReview() {
+  const { id } = useParams();
   const [review, setReview] = useState<ReviewInterface>({ RankID: 0 });
   const [ranks, setRanks] = useState<RankInterface[]>([]);
   const [ratingValue, setRatingValue] = useState<number | null>(0);
@@ -74,14 +75,6 @@ function CreateReview() {
     };
   };
 
-  // const handleSelectChange = (event: React.SyntheticEvent, newValue: number) => {
-  //   // const name = event.target.name as keyof typeof review;
-  //   setReview({
-  //     ...review,
-  //     "RankID": newValue,
-  //   });
-  // };
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name;
     setReview({ ...review, [name]: e.target.value });
@@ -100,8 +93,7 @@ function CreateReview() {
   // insert data to db
   const submit = async () => {
     let data = {
-      // CourseDetailID: convertType(review.CourseDetailID),
-      CourseDetailID: convertType(1),
+      CourseDetailID: convertType(id),
       RankID: convertType(review.RankID),
       MemberID: Number(localStorage.getItem("uid")),
       Content: review.Content,
@@ -110,7 +102,7 @@ function CreateReview() {
 
     let res = await CreateReviews(data);
     res ? setSuccess(true) : setError(true);
-    // window.location.href = "/reviews"
+    window.location.href = `/user/reviews/${id}`
   };
 
   useEffect(() => {
@@ -159,7 +151,7 @@ function CreateReview() {
           บันทึกข้อมูลไม่สำเร็จ
         </Alert>
       </Snackbar>
-      
+
       <BoxRating>
         {ratingValue !== null && (
           <Box sx={{ position: "absolute", top: "-24px" }}>
@@ -251,7 +243,7 @@ function CreateReview() {
         >
           Publish
         </Button>
-        <Link to="/user/reviews" style={{ textDecoration: "none" }}>
+        <Link to={`/user/reviews/${id}`} style={{ textDecoration: "none" }}>
           <Button
             className="btn-user"
             variant="contained"

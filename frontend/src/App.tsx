@@ -131,9 +131,9 @@ function App() {
           <Route path="body-display" element={<BodyDisplay />}></Route>
           <Route path="body-display/body-update/:id" element={<BodyUpdate />}></Route>
           <Route path="body-display/body-record"element={<BodyRecord />}></Route>
-          <Route path="create-review" element={<CreateReview />} />
-          <Route path="reviews" element={<ShowReview />} />
-          <Route path="reviews/update-review/:id" element={<UpdateReview />} />
+          <Route path="reviews/:id" element={<ShowReview />} />
+          <Route path="reviews/:id/create" element={<CreateReview />} />
+          <Route path="reviews/:slug/update-review/:id" element={<UpdateReview />} />
           <Route path="behavior" element={<CreateBehaviors />} />
           
           <Route path="profile-member" element={<ProfileMember />}></Route>

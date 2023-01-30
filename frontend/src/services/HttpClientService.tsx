@@ -392,6 +392,16 @@ const GetReviewByID = async (id: string) => {
   return res;
 };
 
+const GetReviewByCourseID = async (id: string) => {
+  let res = await fetch(`${apiUrl}/review-cid/${id}`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
 const CreateReviews = async (data: ReviewInterface) => {
   const requestOptions = {
     method: "POST",
@@ -411,7 +421,7 @@ const CreateReviews = async (data: ReviewInterface) => {
   return res;
 };
 
-const UpdateReview = async (data: BlogInterface) => {
+const UpdateReview = async (data: ReviewInterface) => {
   const requestOptions = {
     method: "PATCH",
     headers: {
@@ -1197,6 +1207,7 @@ export {
   DeleteReview,
   GetReviews,
   GetReviewByID,
+  GetReviewByCourseID,
   GetRanks,
   // Nutrient
   GetMostNutrient,

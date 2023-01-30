@@ -20,12 +20,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 import { useNavigate } from "react-router-dom";
-import { MemberInterface } from "../../interfaces/IMember"; 
+import { MemberInterface } from "../../interfaces/IMember";
 
 // api
 import { DeleteReview } from "../../services/HttpClientService";
 
 type Props = {
+  idCourse: number;
   id: number;
   image: string;
   content: string;
@@ -52,6 +53,7 @@ const options = [
 ];
 
 function ReviewCard({
+  idCourse,
   id,
   image,
   content,
@@ -91,7 +93,7 @@ function ReviewCard({
   const deleteReview = async () => {
     let res = await DeleteReview(id + "");
     if (res) {
-      window.location.href = "/user/reviews";
+      window.location.href = `/user/reviews/${idCourse}`;
     }
   };
 
@@ -132,12 +134,11 @@ function ReviewCard({
             </Box>
           </Typography>
           {/* Rating */}
-          <Box sx={{display: "flex", gap: "12px"}}>
+          <Box sx={{ display: "flex", gap: "12px" }}>
             <Rating name="simple-controlled" value={rating} readOnly />
             <Typography sx={{ wordSpacing: "4px", opacity: "0.6" }}>
               {rankName}
             </Typography>
-          
           </Box>
           <Typography sx={{ wordSpacing: "4px" }}>
             course: {courseName}

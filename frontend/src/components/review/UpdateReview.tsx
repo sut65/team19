@@ -43,7 +43,8 @@ interface RatingLabelsInterface {
 }
 
 function UpdateReview() {
-  let { id } = useParams();
+  let { id, slug } = useParams();
+  console.log(useParams());
   const [review, setReview] = useState<ReviewInterface>({ RankID: 0 });
   const [ranks, setRanks] = useState<RankInterface[]>([]);
   const [hover, setHover] = useState(-1);
@@ -98,12 +99,11 @@ function UpdateReview() {
     return val;
   };
 
-  // insert data to db
+  // update data to db
   const submit = async () => {
     let data = {
       ID: convertType(id),
-      // CourseDetailID: convertType(review.CourseDetailID),
-      CourseDetailID: convertType(2),
+      CourseDetailID: convertType(slug),
       RankID: convertType(review.RankID),
       MemberID: Number(localStorage.getItem("uid")),
       Content: review.Content,
@@ -114,8 +114,8 @@ function UpdateReview() {
 
     let res = await UdRv(data);
     res ? setSuccess(true) : setError(true);
-    // window.location.href = "/reviews"
-  };
+    window.location.href = `/user/reviews/${slug}`
+  };    
 
   useEffect(() => {
     fetchReviewByID();
@@ -259,7 +259,7 @@ function UpdateReview() {
         >
           Publish
         </Button>
-        <Link to="/user/reviews" style={{ textDecoration: "none" }}>
+        <Link to={`/user/reviews/${slug}`} style={{ textDecoration: "none" }}>
           <Button
             className="btn-user"
             variant="contained"
