@@ -286,17 +286,6 @@ func SetupDatabase() {
 	}
 	db.Model(&Education{}).Create(&educations)
 
-	// Trainer1 := Trainer{
-	// 	Name:  "ธนกฤต สามเมือง",
-	// 	Email: "Trainer1@mail.com",
-	// }
-	// db.Model(&Trainer{}).Create(&Trainer1)
-	// Trainer2 := Trainer{
-	// 	Name:  "Tname2",
-	// 	Email: "Trainer2@mail.com",
-	// }
-	// db.Model(&Trainer{}).Create(&Trainer2)
-
 	// -------------------(Create value Trainer)------------------------------
 	pass1, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
 	Trainer1 := Trainer{

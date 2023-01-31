@@ -74,9 +74,12 @@ function CardCourseService({
         <Typography
           sx={{ fontSize: "1.2rem" }}
           variant="h5"
-          style={{ marginBottom: "2rem" }}
+          style={{ marginBottom: "1rem" }}
         >
           {Description?.Description.slice(0, 100)}
+        </Typography>
+        <Typography variant="body2" color="text.secondary" mb={2} style={{marginBottom: "2rem"}}>
+          Goal: {Description?.Goal}
         </Typography>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography

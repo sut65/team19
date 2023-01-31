@@ -23,6 +23,7 @@ import { CourseDetailInterface } from "../../interfaces/ICourseDetail";
 import { TrainerInterface } from "../../interfaces/ITrainer";
 import { CourseServiceInterface } from "../../interfaces/ICourseService";
 import { GetTrainer, CreateCourseService } from "../../services/HttpClientService";
+import { Description } from "@mui/icons-material";
 
 const apiUrl = `http://localhost:8080`;
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -108,7 +109,6 @@ function RegisterCourse() {
         if (res.data) {
           setCourseDetail(res.data)
           setMemberID(uid + "")
-          console.log(res.data)
           return res.data;
         } else {
           return false;
@@ -136,7 +136,6 @@ function RegisterCourse() {
       CourseDetailID: convertType(CourseDetail?.ID),
       TrainerID: convertType(CourseService.TrainerID),
     };
-    console.log(data)
     let res = await CreateCourseService(data);
     if (res) {
       setSuccess(true);
@@ -206,9 +205,12 @@ function RegisterCourse() {
             <Typography
               sx={{ fontSize: "1.2rem" }}
               variant="h5"
-              style={{ marginBottom: "3rem", marginTop: "0.5rem" }}
+              style={{ marginBottom: "1rem", marginTop: "0.5rem" }}
             >
               {CourseDetail?.Description?.Description}
+            </Typography>
+            <Typography variant="body2" color="text.secondary" mb={2} style={{marginBottom: "2rem"}}>
+              Goal: {CourseDetail?.Description?.Goal}
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <Typography

@@ -4,7 +4,7 @@ import { Button, Grid, Select } from "@mui/material";
 import { Divider } from "@mui/material";
 import "../../App.css";
 import { PaymentInterface } from "../../interfaces/IPayment";
-import { GetPaymentByID, GetPaymentByUID, GetCourseDetailByID } from "../../services/HttpClientService";
+import { GetPaymentByID, ListPaymentByUID, GetCourseDetailByID } from "../../services/HttpClientService";
 import { CourseDetailInterface } from "../../interfaces/ICourseDetail";
 import CardMedia from "@mui/material/CardMedia";
 import BG from "../../images/bg-payment-history.jpg";
@@ -22,10 +22,6 @@ function PaymentHistory() {
   const [Hour, setHour] = useState<string>()
   const [Minute, setMinute] = useState<string>()
   const [Second, setSecond] = useState<string>()
-  const [Balance, setBalance] = useState<number>(0);
-  const [NumberOfDays, setNumberOfDays] = useState<number>(0);
-  let SumaryBalance = 0;
-  let CourseDuration: string | undefined;
   const uid = localStorage.getItem("uid")
   const UFirstName = localStorage.getItem("firstname") + ""
   const ULastName = localStorage.getItem("lastname") + ""
@@ -37,7 +33,7 @@ function PaymentHistory() {
   // }
 
   const getPaymentByUID = async () => {
-    let res = await GetPaymentByUID();
+    let res = await ListPaymentByUID();
     if (res) {
       setPayment(res);
     }
@@ -49,7 +45,6 @@ function PaymentHistory() {
       setPaymentByID(res);
       setShowCodePercentage(res.Discount.DiscountPercentage)
       setShowDurationPercentage(res.Duration.DurationPercentage)
-      setNumberOfDays(res.Duration.NumberOfDays);
     }
   };
 
@@ -73,17 +68,6 @@ function PaymentHistory() {
   }, [PaymentByID]);
 
   useEffect(() => {
-    CourseDuration = convertType(CourseDetail.Price?.Duration) + "";
-    CalBalance(
-      Number(CourseDetail?.Price?.Price),
-      parseInt(CourseDuration),
-      ShowCodePercentage,
-      ShowDurationPercentage,
-      NumberOfDays
-    );
-  }, [CourseDetail]);
-
-  useEffect(() => {
     [TempDate, TempTimeAndZone] = (PaymentByID?.PaymentDate + "").split("T")
     setPDate(TempDate)
     if (TempTimeAndZone !== undefined) {
@@ -94,30 +78,6 @@ function PaymentHistory() {
       setSecond(TempSecond[0])
     }
   }, [PaymentByID?.ID]);
-
-  function CalBalance(
-    Price: number,
-    Duration: number,
-    ShowCodePercentage: number,
-    ShowDurationPercentage: number,
-    NumberOfDays: number
-  ) {
-    SumaryBalance =
-      (Price / Duration) *
-      NumberOfDays *
-      (1 - (ShowCodePercentage + ShowDurationPercentage) / 100);
-    SumaryBalance = parseInt((Math.ceil(SumaryBalance * 100) / 100).toFixed(2));
-    if (Number.isNaN(Balance)) {
-      setBalance(Number(CourseDetail?.Price?.Price));
-    } else {
-      setBalance(SumaryBalance);
-    }
-  }
-
-  const convertType = (data: string | number | undefined) => {
-    let val = typeof data === "string" ? parseInt(data) : data;
-    return val;
-  };
 
   return (
     <Box sx={{
@@ -271,7 +231,7 @@ function PaymentHistory() {
                     amount paid:
                   </Grid>
                   <Grid item xs={6}>
-                    {Balance} บาท
+                    {PaymentByID?.Balance} บาท
                   </Grid>
                 </Grid>
 

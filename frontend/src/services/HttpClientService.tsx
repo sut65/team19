@@ -150,7 +150,6 @@ async function GetCourseDetail() {
     .then((response) => response.json())
     .then((res) => {
       if (res.data) {
-        console.log(res.data);
         return res.data;
       } else {
         return false;
@@ -338,7 +337,6 @@ async function GetPrice() {
     .then((response) => response.json())
     .then((res) => {
       if (res.data) {
-        console.log(res.data);
         return res.data;
       } else {
         return false;
@@ -361,7 +359,6 @@ async function GetDescription() {
     .then((response) => response.json())
     .then((res) => {
       if (res.data) {
-        console.log(res.data);
         return res.data;
       } else {
         return false;
@@ -995,6 +992,29 @@ async function GetPayment() {
   return res;
 }
 
+async function ListPaymentByUID() {
+  const uid = localStorage.getItem("uid")
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/payment-historys/${uid}`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
 async function GetPaymentByUID() {
   const uid = localStorage.getItem("uid")
   const requestOptions = {
@@ -1129,6 +1149,29 @@ async function GetCourseServiceBYUID() {
   return res;
 }
 
+async function GetCourseServiceByUidAndStatus() {
+  const uid = localStorage.getItem("uid")
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/course_service_by_uid_and_status/${uid}`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
 async function CreatePayment(data: PaymentInterface) {
   const requestOptions = {
     method: "POST",
@@ -1178,12 +1221,14 @@ export {
   // Payment
   GetPayment,
   GetPaymentByID,
-  GetPaymentByUID,
+  ListPaymentByUID,
   GetDuration,
   GetDiscountByCode,
   GetDurationByID,
   GetCourseServiceBYUID,
   CreatePayment,
+  GetCourseServiceByUidAndStatus,
+  GetPaymentByUID,
   // Blog
   CreateBlog,
   UpdateBlog,

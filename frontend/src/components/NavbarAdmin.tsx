@@ -40,7 +40,7 @@ const theme = createTheme({
 function NavbarAdmin() {
   const Logout = () => {
     localStorage.clear();
-    window.location.href = "/admin";
+    window.location.href = "/";
   };
 
   return (
