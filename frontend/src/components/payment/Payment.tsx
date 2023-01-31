@@ -178,7 +178,7 @@ function Payment() {
       ShowDurationPercentage,
       NumberOfDays
     );
-  }, [Payment.DurationID, Code, NumberOfDays, CourseDetail.Price?.Price, ShowCodePercentage]);
+  }, [Payment.DurationID, NumberOfDays, CourseDetail.Price?.Price, ShowCodePercentage]);
 
   const convertType = (data: string | number | undefined) => {
     let val = typeof data === "string" ? parseInt(data) : data;
@@ -192,10 +192,7 @@ function Payment() {
     ShowDurationPercentage: number,
     NumberOfDays: number
   ) {
-    SumaryBalance =
-      (Price / Duration) *
-      NumberOfDays *
-      (1 - (ShowCodePercentage + ShowDurationPercentage) / 100);
+    SumaryBalance = ((Price / Duration) * NumberOfDays) * (1 - (ShowCodePercentage + ShowDurationPercentage) / 100);
     SumaryBalance = parseInt((Math.ceil(SumaryBalance * 100) / 100).toFixed(2));
     if (Number.isNaN(Balance)) {
       setBalance(Number(CourseDetail.Price?.Price));
@@ -225,7 +222,7 @@ function Payment() {
     <div>
       <Snackbar
         open={success}
-        autoHideDuration={3000}
+        autoHideDuration={2000}
         onClose={handleClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
@@ -235,7 +232,7 @@ function Payment() {
       </Snackbar>
       <Snackbar
         open={error}
-        autoHideDuration={6000}
+        autoHideDuration={5000}
         onClose={handleClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
@@ -245,7 +242,7 @@ function Payment() {
       </Snackbar>
       <Box
         sx={{
-          margin: "0 16% 0 10%",
+          margin: "3rem 16% 0 10%",
           display: "flex",
           justifyContent: "space-between",
         }}
