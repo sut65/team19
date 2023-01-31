@@ -70,6 +70,7 @@ func main() {
 			router.GET("/course_service/:id", CourseService.GetCourseService)
 			router.GET("/course_services", CourseService.ListCourseServices)
 			router.GET("/course_service_by_uid/:uid", CourseService.GetCourseServiceByUID)
+			router.GET("/course_service_by_uid_and_status/:uid", CourseService.GetCourseServiceByUidAndStatus)
 			router.DELETE("/course_service/:id", CourseService.DeleteCourseService)
 			router.PATCH("/course_services", CourseService.UpdateCourseService)
 
@@ -218,7 +219,8 @@ func main() {
 			router.POST("/payment", Payment.CreatePayment)
 			router.GET("/payment/:id", Payment.GetPayment)
 			router.GET("/payments", Payment.ListPayments)
-			router.GET("/payment-history/:uid", Payment.ListPaymentByUID)
+			router.GET("/payment-history/:uid", Payment.GetPaymentByUID)
+			router.GET("/payment-historys/:uid", Payment.ListPaymentByUID)
 		}
 	}
 	// login User Route
