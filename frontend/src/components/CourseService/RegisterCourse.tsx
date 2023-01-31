@@ -149,7 +149,7 @@ function RegisterCourse() {
     <div>
       <Snackbar
         open={success}
-        autoHideDuration={3000}
+        autoHideDuration={2000}
         onClose={handleClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
@@ -159,7 +159,7 @@ function RegisterCourse() {
       </Snackbar>
       <Snackbar
         open={error}
-        autoHideDuration={6000}
+        autoHideDuration={5000}
         onClose={handleClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
@@ -167,7 +167,7 @@ function RegisterCourse() {
           เกิดข้อผิดพลาดกับการสมัครคอร์ส โปรดลองอีกครั้ง
         </Alert>
       </Snackbar>
-      <Box sx={{ margin: "0 16% 0 10%", display: 'flex', justifyContent: "space-between" }}>
+      <Box sx={{ margin: "3rem 16% 0 10%", display: 'flex', justifyContent: "space-between" }}>
         <Card
           sx={{
             maxWidth: 600,
@@ -248,7 +248,7 @@ function RegisterCourse() {
               Back
             </Button>
             <Link
-              to={`/user/reviews`} // รอแก้เป็นรีวิว
+              to={`/user/reviews/${params.id}`} // รอแก้เป็นรีวิว
               style={{
                 textDecoration: "none",
               }}

@@ -76,7 +76,7 @@ function PaymentHistory() {
   // }, [PaymentByID?.ID]);
 
   return (
-    <Box style={{margin: "0 10% 0 10%"}}>
+    <Box style={{margin: "3rem 10% 0 10%"}}>
       <Grid item xs={12} style={{textAlign: "center", marginBottom: "50px"}}>
         <Button 
           variant="contained"
