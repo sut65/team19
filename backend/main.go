@@ -15,6 +15,7 @@ import (
 	CourseDetail "github.com/sut65/team19/controller/CourseDetail"
 	blog "github.com/sut65/team19/controller/blog"
 	review "github.com/sut65/team19/controller/review"
+	Advice "github.com/sut65/team19/controller/Advice"
 	"github.com/sut65/team19/entity"
 	"github.com/sut65/team19/middlewares"
 )
@@ -176,11 +177,11 @@ func main() {
 			router.PATCH("/admins", controller.UpdateAdmin)
 
 			// advice Routes
-			router.POST("/advice", controller.CreateAdvice)
-			router.GET("/advice/:id", controller.GetAdvice)
-			router.GET("/advices", controller.ListAdvice)
-			router.DELETE("/advice/:id", controller.DeleteAdvice)
-			router.PATCH("/advices", controller.UpdateAdvice)
+			router.POST("/advice", Advice.CreateAdvice)
+			router.GET("/advice/:id", Advice.GetAdvice)
+			router.GET("/advices", Advice.ListAdvice)
+			router.DELETE("/advice/:id", Advice.DeleteAdvice)
+			router.PATCH("/advices", Advice.UpdateAdvice)
 
 			// Nutrient Routes
 			router.GET("/nutrients", nutrient.ListNutrients)
