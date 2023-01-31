@@ -13,7 +13,7 @@ func GetPrice(c *gin.Context) {
 	var price entity.Price
 	id := c.Param("id")
 
-	if tx := entity.DB().Preload(clause.Associations).Preload("course_details."+clause.Associations).Where("id = ?", id).First(&price); tx.RowsAffected == 0 {
+	if tx := entity.DB().Preload(clause.Associations).Preload("CourseDetail."+clause.Associations).Where("id = ?", id).First(&price); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "price not found"})
 		return
 	}
@@ -24,7 +24,7 @@ func GetPrice(c *gin.Context) {
 // GET /prices
 func ListPrices(c *gin.Context) {
 	var prices []entity.Price
-	if err := entity.DB().Preload(clause.Associations).Preload("course_details." + clause.Associations).Raw("SELECT * FROM prices").Find(&prices).Error; err != nil {
+	if err := entity.DB().Preload(clause.Associations).Preload("CourseDetail." + clause.Associations).Raw("SELECT * FROM prices").Find(&prices).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

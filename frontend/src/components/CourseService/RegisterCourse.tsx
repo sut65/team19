@@ -167,7 +167,7 @@ function RegisterCourse() {
           เกิดข้อผิดพลาดกับการสมัครคอร์ส โปรดลองอีกครั้ง
         </Alert>
       </Snackbar>
-      <Box sx={{ margin: "0 16% 0 10%", display: 'flex', justifyContent: "space-between" }}>
+      <Box sx={{ margin: "3rem 16% 0 10%", display: 'flex', justifyContent: "space-between" }}>
         <Card
           sx={{
             maxWidth: 600,

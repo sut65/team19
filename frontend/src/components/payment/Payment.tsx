@@ -7,10 +7,8 @@ import {
   Divider,
   FormControl,
   Grid,
-  InputAdornment,
   Select,
   SelectChangeEvent,
-  styled,
   TextField,
   Typography,
 } from "@mui/material";
@@ -84,7 +82,7 @@ function Payment() {
     setError(false);
 
     if (success === true) {
-      navigate(`/user/home`);
+      navigate(`/user`);
     }
   };
 
@@ -245,7 +243,7 @@ function Payment() {
       </Snackbar>
       <Box
         sx={{
-          margin: "0 16% 0 10%",
+          margin: "3rem 16% 0 10%",
           display: "flex",
           justifyContent: "space-between",
         }}

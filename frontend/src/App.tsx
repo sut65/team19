@@ -111,7 +111,7 @@ function App() {
 
         {/* Routes User */}
         <Route path="user" element={<User />}>
-          <Route path="home" element={<Home />} />
+          <Route path="" element={<Home />} />
           <Route path="create-article" element={<CreateArticle />} />
           <Route path="articles" element={<ShowCardBlog />} />
           <Route path="article/:id" element={<Article />} />

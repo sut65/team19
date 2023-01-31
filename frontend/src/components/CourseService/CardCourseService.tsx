@@ -47,7 +47,6 @@ function CardCourseService({
         component="img"
         height="300"
         image={CoverPage}
-        alt="green iguana"
       />
       <CardContent>
         <Box
