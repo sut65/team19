@@ -12,6 +12,7 @@ import (
 	nutrient "github.com/sut65/team19/controller/Nutrient"
 	Payment "github.com/sut65/team19/controller/Payment"
 	trainer "github.com/sut65/team19/controller/Trainer"
+	CourseDetail "github.com/sut65/team19/controller/CourseDetail"
 	blog "github.com/sut65/team19/controller/blog"
 	review "github.com/sut65/team19/controller/review"
 	"github.com/sut65/team19/entity"
@@ -72,11 +73,17 @@ func main() {
 			router.PATCH("/course_services", CourseService.UpdateCourseService)
 
 			// course_detail Routes
-			router.POST("/course_detail", controller.CreateCourseDetail)
-			router.GET("/course_detail/:id", controller.GetCourseDetail)
-			router.GET("/course_details", controller.ListCourseDetails)
-			router.DELETE("/course_detail/:id", controller.DeleteCourseDetail)
-			router.PATCH("/course_details", controller.UpdateCourseDetail)
+			router.POST("/course_detail", CourseDetail.CreateCourseDetail)
+			router.GET("/course_detail/:id", CourseDetail.GetCourseDetail)
+			router.GET("/course_details", CourseDetail.ListCourseDetails)
+			router.DELETE("/course_detail/:id", CourseDetail.DeleteCourseDetail)
+			router.PATCH("/course_details", CourseDetail.UpdateCourseDetail)
+
+			router.GET("/description/:id", CourseDetail.GetDescription)
+			router.GET("/descriptions", CourseDetail.ListDescriptions)
+
+			router.GET("/price/:id", CourseDetail.GetPrice)
+			router.GET("/prices", CourseDetail.ListPrices)
 
 			// member Routes
 			router.GET("/member/:id", controller.GetMember)
@@ -167,20 +174,6 @@ func main() {
 			router.GET("/admins", controller.ListAdmins)
 			router.DELETE("/admin/:id", controller.DeleteAdmin)
 			router.PATCH("/admins", controller.UpdateAdmin)
-
-			// price Routes
-			router.POST("/price", controller.CreatePrice)
-			router.GET("/price/:id", controller.GetPrice)
-			router.GET("/prices", controller.ListPrices)
-			router.DELETE("/price/:id", controller.DeletePrice)
-			router.PATCH("/prices", controller.UpdatePrice)
-
-			// description Routes
-			router.POST("/description", controller.CreateDescription)
-			router.GET("/description/:id", controller.GetDescription)
-			router.GET("/descriptions", controller.ListDescriptions)
-			router.DELETE("/description/:id", controller.DeleteDescription)
-			router.PATCH("/descriptions", controller.UpdateDescription)
 
 			// advice Routes
 			router.POST("/advice", controller.CreateAdvice)

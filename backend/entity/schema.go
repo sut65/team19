@@ -99,8 +99,6 @@ type CourseDetail struct {
 	gorm.Model
 	CourseName string
 	CoverPage  string
-	Body       []Body   `gorm:"foreignKey:CourseDetailID"`
-	Reviews    []Review `gorm:"foreignKey:CourseDetailID"`
 
 	DescriptionID *uint
 	Description   Description
@@ -112,6 +110,8 @@ type CourseDetail struct {
 	Price   Price
 
 	CourseService []CourseService `gorm:"foreignKey:CourseDetailID"`
+	Body          []Body          `gorm:"foreignKey:CourseDetailID"`
+	Reviews       []Review        `gorm:"foreignKey:CourseDetailID"`
 }
 
 // Review
