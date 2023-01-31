@@ -233,7 +233,7 @@ func SetupDatabase() {
 	//Course Details Part -----------------------------------------------------------------------------
 	CourseDetail1 := CourseDetail{
 		CourseName:  "บอกลาร่างผอม",
-		CoverPage:   "https://img.kapook.com/u/2019/wittawat_ch/aug/0.1.jpg",
+		CoverPage:   "https://www.iglss.org/wp-content/uploads/2019/02/diet-plan.jpg",
 		Description: Description1,
 		Admin:       AdminA,
 		Price:       Price3,
@@ -242,7 +242,7 @@ func SetupDatabase() {
 
 	CourseDetail2 := CourseDetail{
 		CourseName:  "ลดพุงกู้ร่างกลับคืน",
-		CoverPage:   "https://men.mthai.com/app/uploads/2016/06/iStock_000035061564_Small.jpg",
+		CoverPage:   "https://bgh.sgp1.digitaloceanspaces.com/old-site/inline-images/before-weight-loss-01.jpg",
 		Description: Description2,
 		Admin:       AdminB,
 		Price:       Price1,
@@ -698,6 +698,8 @@ func SetupDatabase() {
 	}
 	db.Model(&MealPlans{}).Create(&MealPlansC)
 
+	
+
 	//--------------------------------------------------------------------------------------------------
 	//----------------------------------------  DailyActivities  ---------------------------------------
 	//--------------------------------------------------------------------------------------------------
@@ -769,6 +771,38 @@ func SetupDatabase() {
 		Member:         Member3,
 	}
 	db.Model(&DailyActivities{}).Create(&DailyActivitiesC)
+
+	// Advice part ------------------------------------------------------
+	Advice1 := Advice{
+		Advice:          "กินโปรตีนเพิ่มให้ได้ 2 g ต่อน้ำหนักตัว 1 kg",
+		RecordingDate:   time.Date(2023, time.January, 4, 14, 14, 00, 0, time.UTC),
+		Member:          Member1,
+		Trainer:         Trainer1,
+		Body:            BodyChangeA,
+		DailyActivities: DailyActivitiesA,
+	}
+	db.Model(&Advice{}).Create(&Advice1)
+
+	Advice2 := Advice{
+		Advice:          "ออกกำลังกายแบบคาร์ดิโอเพิ่มเป็นสัปดาห์ละ 4 วัน วันละ 1 ชม.",
+		RecordingDate:   time.Date(2023, time.January, 25, 12, 30, 00, 0, time.UTC),
+		Member:          Member2,
+		Trainer:         Trainer2,
+		Body:            BodyChangeB,
+		DailyActivities: DailyActivitiesB,
+	}
+	db.Model(&Advice{}).Create(&Advice2)
+
+	Advice3 := Advice{
+		Advice:          "เล่นเวทเทรนนิ่ง เพิ่มเป็นสัปดาห์ละ 3 วัน วันละ 1.5 ชม.",
+		RecordingDate:   time.Date(2023, time.January, 27, 11, 47, 00, 0, time.UTC),
+		Member:          Member3,
+		Trainer:         Trainer2,
+		Body:            BodyChangeA,
+		DailyActivities: DailyActivitiesC,
+	}
+	db.Model(&Advice{}).Create(&Advice3)
+
 
 	//==========================ระบบจัดการสารอาหาร==========================
 
@@ -865,36 +899,5 @@ func SetupDatabase() {
 		Taste:    Taste1,
 	}
 	db.Model(&Behavior{}).Create(&BehaviorB)
-
-	// Advice part ------------------------------------------------------
-	Advice1 := Advice{
-		Advice:          "กินโปรตีนเพิ่มให้ได้ 2 g ต่อน้ำหนักตัว 1 kg",
-		RecordingDate:   time.Date(2023, time.January, 4, 14, 14, 00, 0, time.UTC),
-		Member:          Member1,
-		Trainer:         Trainer1,
-		Body:            BodyChangeA,
-		DailyActivities: DailyActivitiesA,
-	}
-	db.Model(&Advice{}).Create(&Advice1)
-
-	Advice2 := Advice{
-		Advice:          "ออกกำลังกายแบบคาร์ดิโอเพิ่มเป็นสัปดาห์ละ 4 วัน วันละ 1 ชม.",
-		RecordingDate:   time.Date(2023, time.January, 25, 12, 30, 00, 0, time.UTC),
-		Member:          Member2,
-		Trainer:         Trainer2,
-		Body:            BodyChangeB,
-		DailyActivities: DailyActivitiesB,
-	}
-	db.Model(&Advice{}).Create(&Advice2)
-
-	Advice3 := Advice{
-		Advice:          "เล่นเวทเทรนนิ่ง เพิ่มเป็นสัปดาห์ละ 3 วัน วันละ 1.5 ชม.",
-		RecordingDate:   time.Date(2023, time.January, 27, 11, 47, 00, 0, time.UTC),
-		Member:          Member3,
-		Trainer:         Trainer2,
-		Body:            BodyChangeA,
-		DailyActivities: DailyActivitiesC,
-	}
-	db.Model(&Advice{}).Create(&Advice3)
 
 }
