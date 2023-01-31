@@ -565,9 +565,24 @@ func SetupDatabase() {
 	db.Model(&Duration{}).Create(&Duration1)
 	Duration2 := Duration{
 		NumberOfDays:       60,
-		DurationPercentage: 5,
+		DurationPercentage: 2,
 	}
 	db.Model(&Duration{}).Create(&Duration2)
+	Duration3 := Duration{
+		NumberOfDays:       90,
+		DurationPercentage: 5,
+	}
+	db.Model(&Duration{}).Create(&Duration3)
+	Duration4 := Duration{
+		NumberOfDays:       180,
+		DurationPercentage: 10,
+	}
+	db.Model(&Duration{}).Create(&Duration4)
+	Duration5 := Duration{
+		NumberOfDays:       365,
+		DurationPercentage: 20,
+	}
+	db.Model(&Duration{}).Create(&Duration5)
 
 	// --------------------------------------------------------------------------------------------------
 	// ----------------------------------------  MealPlans  ----------------------------------------------

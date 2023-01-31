@@ -7,10 +7,8 @@ import {
   Divider,
   FormControl,
   Grid,
-  InputAdornment,
   Select,
   SelectChangeEvent,
-  styled,
   TextField,
   Typography,
 } from "@mui/material";
@@ -84,7 +82,7 @@ function Payment() {
     setError(false);
 
     if (success === true) {
-      navigate(`/user/home`);
+      navigate(`/user`);
     }
   };
 

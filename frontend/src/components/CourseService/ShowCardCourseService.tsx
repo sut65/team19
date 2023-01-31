@@ -47,7 +47,7 @@ function ShowCardCourseService() {
     <Box
       sx={{
         maxWidth: "1024px",
-        margin: "2rem auto",
+        margin: "3rem auto",
       }}
     >
       {/* Button Write */}

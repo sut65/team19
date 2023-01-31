@@ -13,7 +13,7 @@ func GetDescription(c *gin.Context) {
 	var description entity.Description
 	id := c.Param("id")
 
-	if tx := entity.DB().Preload(clause.Associations).Preload("course_details."+clause.Associations).Where("id = ?", id).First(&description); tx.RowsAffected == 0 {
+	if tx := entity.DB().Preload(clause.Associations).Preload("CourseDetail."+clause.Associations).Where("id = ?", id).First(&description); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "description not found"})
 		return
 	}
@@ -24,7 +24,7 @@ func GetDescription(c *gin.Context) {
 // GET /description
 func ListDescriptions(c *gin.Context) {
 	var descriptions []entity.Description
-	if err := entity.DB().Preload(clause.Associations).Preload("course_details." + clause.Associations).Raw("SELECT * FROM descriptions").Find(&descriptions).Error; err != nil {
+	if err := entity.DB().Preload(clause.Associations).Preload("CourseDetail." + clause.Associations).Raw("SELECT * FROM descriptions").Find(&descriptions).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
