@@ -201,21 +201,21 @@ function PaymentHistory() {
                     - course:
                   </Grid>
                   <Grid item xs={6}>
-                    {CourseDetail?.Price?.Price} บาท
+                    {CourseDetail?.Price?.Price} baht
                   </Grid>
                   
                   <Grid item xs={6}>
                     - course duration:
                   </Grid>
                   <Grid item xs={6}>
-                    {CourseDetail?.Price?.Duration}
+                    {parseInt(CourseDetail?.Price?.Duration + "")} day
                   </Grid>
 
                   <Grid item xs={6}>
                     - service duration:
                   </Grid>
                   <Grid item xs={6}>
-                    {PaymentByID?.Duration?.NumberOfDays} วัน
+                    {PaymentByID?.Duration?.NumberOfDays} day
                   </Grid>
 
                   <Grid item xs={6}>
@@ -231,7 +231,7 @@ function PaymentHistory() {
                     amount paid:
                   </Grid>
                   <Grid item xs={6}>
-                    {PaymentByID?.Balance} บาท
+                    {PaymentByID?.Balance} baht
                   </Grid>
                 </Grid>
 
