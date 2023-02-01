@@ -214,7 +214,7 @@ type CourseService struct {
 	gorm.Model
 	CRegisterDate time.Time		
 	Agreement     string 		`json:"agreement" valid:"matches(Agree)~Please read a agreement and check 'Agree'"`
-	Status        string
+	Status        string		`json:"status" valid:"required~Status cannot blank"`
 
 	MemberID *uint
 	Member   Member
