@@ -213,7 +213,7 @@ type Trainer struct {
 type CourseService struct {
 	gorm.Model
 	CRegisterDate time.Time
-	Agreement     string
+	Agreement     bool
 	Status        string
 
 	MemberID *uint
@@ -245,7 +245,7 @@ type FoodType struct {
 
 type FoodInformation struct {
 	gorm.Model
-	Name     string
+	Name     string `valid:"required~Name cannot be blank"`
 	Datetime string
 	Image    string
 

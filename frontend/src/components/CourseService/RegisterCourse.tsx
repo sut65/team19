@@ -23,7 +23,6 @@ import { CourseDetailInterface } from "../../interfaces/ICourseDetail";
 import { TrainerInterface } from "../../interfaces/ITrainer";
 import { CourseServiceInterface } from "../../interfaces/ICourseService";
 import { GetTrainer, CreateCourseService } from "../../services/HttpClientService";
-import { Description } from "@mui/icons-material";
 
 const apiUrl = `http://localhost:8080`;
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -38,7 +37,7 @@ function RegisterCourse() {
   const [CourseDetail, setCourseDetail] = useState<CourseDetailInterface>()
   const [Trainer, setTrainer] = useState<TrainerInterface[]>([])
   const [MemberID, setMemberID] = useState<string>()
-  const [Agreement, setAgreement] = useState<string>()
+  const [Agreement, setAgreement] = useState<boolean>(false)
 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
@@ -56,10 +55,10 @@ function RegisterCourse() {
   const handleCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
     if (checked === false) {
-      setAgreement("Agree")
+      setAgreement(true)
     }
     else {
-      setAgreement("Disagree")
+      setAgreement(false)
     }
     setDisButton(!DisButton)
   };
@@ -137,6 +136,7 @@ function RegisterCourse() {
       TrainerID: convertType(CourseService.TrainerID),
     };
     let res = await CreateCourseService(data);
+    console.log(data)
     if (res) {
       setSuccess(true);
     } else {
@@ -382,7 +382,7 @@ function RegisterCourse() {
                   inputProps={{ 'aria-label': 'controlled' }}
                   />
                 }
-                label="Agree"
+                label="Agreement"
               />
             </Grid>}
             
