@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team19/entity"
 	"gorm.io/gorm/clause"
+	"github.com/asaskevich/govalidator"
 )
 
 // POST /course_service
@@ -21,21 +22,27 @@ func CreateCourseService(c *gin.Context) {
 		return
 	}
 
+	// แทรกการ validate ไว้ช่วงนี้ของ controller
+	if _, err := govalidator.ValidateStruct(course_service); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	// ค้นหา member ด้วย id
 	if tx := entity.DB().Where("id = ?", course_service.MemberID).First(&member); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "member not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Member not found"})
 		return
 	}
 
 	// ค้นหา course ด้วย id
 	if tx := entity.DB().Preload("Price").Preload("Description").Preload("Admin").Where("id = ?", course_service.CourseDetailID).Find(&course_detail); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "course not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Course not found"})
 		return
 	}
 
 	// ค้นหา trainer ด้วย id
 	if tx := entity.DB().Where("id = ?", course_service.TrainerID).First(&trainer); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "trainer not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Trainer not found"})
 		return
 	}
 

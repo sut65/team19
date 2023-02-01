@@ -291,9 +291,9 @@ async function CreateCourseService(data: CourseServiceInterface) {
     .then((response) => response.json())
     .then((res) => {
       if (res.data) {
-        return res.data;
+        return { status: true, message: res.data };
       } else {
-        return false;
+        return { status: false, message: res.error };
       }
     });
 
