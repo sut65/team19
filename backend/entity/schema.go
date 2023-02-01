@@ -465,7 +465,7 @@ type Duration struct {
 type Payment struct {
 	gorm.Model
 	PaymentDate time.Time
-	Slip        string			`valid:"required~Please upload slip,matches((jpeg|jpg|png|svg|gif|tiff|tif|bmp|apng|eps|jfif|pjp|xbm|dib|jxl|svgz|webp|ico|pjpeg|avif))~Please upload image file (jpg/png/...)"`
+	Slip        string			`valid:"required~Please upload slip,length(0|2802088)~Please upload file size less than 2MB,matches((jpeg|jpg|png|svg|gif|tiff|tif|bmp|apng|eps|jfif|pjp|xbm|dib|jxl|svgz|webp|ico|pjpeg|avif))~Please upload image file (jpg/png/...)"`
 	Balance     float32			`valid:"numeric~Invalid balance. Please try again"`
 
 	CourseServiceID *uint
