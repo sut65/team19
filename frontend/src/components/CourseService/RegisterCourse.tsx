@@ -37,7 +37,8 @@ function RegisterCourse() {
   const [CourseDetail, setCourseDetail] = useState<CourseDetailInterface>()
   const [Trainer, setTrainer] = useState<TrainerInterface[]>([])
   const [MemberID, setMemberID] = useState<string>()
-  const [Agreement, setAgreement] = useState<boolean>(false)
+  const [Agreement, setAgreement] = useState<string>("Disagree")
+  const [message, setAlertMessage] = React.useState("");
 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
@@ -55,10 +56,10 @@ function RegisterCourse() {
   const handleCheck = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChecked(event.target.checked);
     if (checked === false) {
-      setAgreement(true)
+      setAgreement("Agree")
     }
     else {
-      setAgreement(false)
+      setAgreement("Disagree")
     }
     setDisButton(!DisButton)
   };
@@ -136,12 +137,14 @@ function RegisterCourse() {
       TrainerID: convertType(CourseService.TrainerID),
     };
     let res = await CreateCourseService(data);
-    console.log(data)
-    if (res) {
+    if (res.status) {
       setSuccess(true);
+      setAlertMessage("ลงทะเบียนคอร์สสำเร็จ กำลังเข้าสู่หน้าชำระเงิน");
     } else {
       setError(true);
+      setAlertMessage(res.message);
     }
+    console.log(JSON.stringify(data))
   }
 
   return (
@@ -153,7 +156,7 @@ function RegisterCourse() {
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="success">
-          สมัครคอร์สสำเร็จ กำลังเข้าสู่หน้าชำระเงิน
+          {message}
         </Alert>
       </Snackbar>
       <Snackbar
@@ -163,7 +166,7 @@ function RegisterCourse() {
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="error">
-          เกิดข้อผิดพลาดกับการสมัครคอร์ส โปรดลองอีกครั้ง
+          {message}
         </Alert>
       </Snackbar>
       <Box sx={{ margin: "3rem 16% 0 10%", display: 'flex', justifyContent: "space-between" }}>
@@ -398,7 +401,7 @@ function RegisterCourse() {
                   padding: "6px 28px",
                 }}
                 onClick={Submit}
-                disabled={!DisButton}
+                // disabled={!DisButton}
               >
                 Register
               </Button>

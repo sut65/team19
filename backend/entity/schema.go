@@ -212,8 +212,8 @@ type Trainer struct {
 // ================== ระบบการใช้บริการคอร์ส ==================
 type CourseService struct {
 	gorm.Model
-	CRegisterDate time.Time
-	Agreement     bool
+	CRegisterDate time.Time		
+	Agreement     string 		`json:"agreement" valid:"matches(Agree)~Please read a agreement and check 'Agree'"`
 	Status        string
 
 	MemberID *uint

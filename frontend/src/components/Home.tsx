@@ -108,7 +108,7 @@ function Home() {
           }}
         >
           <Grid container spacing={4}>
-            <Grid item xs={12} style={{textAlign: "center", marginBottom: "-3rem"}}>
+            <Grid item xs={12} style={{textAlign: "center", marginBottom: "-3rem" , marginTop: "-2rem"}}>
               <p style={{fontSize: "3rem", fontWeight: "bold"}}>{CourseDetail?.CourseName}</p>
             </Grid>
             <Grid item xs={6} style={{color: "grey"}}>
