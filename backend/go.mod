@@ -4,15 +4,19 @@ go 1.19
 
 require (
 	github.com/gin-gonic/gin v1.8.2
+	github.com/onsi/gomega v1.26.0
 	gorm.io/gorm v1.24.3
 )
 
 require (
+	github.com/google/go-cmp v0.5.9 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/mattn/go-sqlite3 v1.14.15 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
 require (
+	github.com/asaskevich/govalidator v0.0.0-20210307081110-f21760c49a8d
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
