@@ -1,16 +1,8 @@
 import {
   Box,
-  Button,
-  Card,
-  CardContent,
   CardMedia,
   Divider,
-  FormControl,
   Grid,
-  Select,
-  SelectChangeEvent,
-  TextField,
-  Typography,
 } from "@mui/material";
 import { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
@@ -18,7 +10,7 @@ import { CourseDetailInterface } from "../interfaces/ICourseDetail";
 import { CourseServiceInterface } from '../interfaces/ICourseService';
 import { PaymentInterface } from "../interfaces/IPayment";
 import { GetCourseServiceByUidAndStatus, GetCourseDetailByID, GetPaymentByUID } from '../services/HttpClientService';
-import { addDays, durationInMonths } from '@progress/kendo-date-math';
+import { addDays } from '@progress/kendo-date-math';
 import '../App.css';
 import BG from "../images/bg-course-service.jpg";
 
@@ -27,7 +19,7 @@ function Home() {
   const [Payment, setPayment] = useState<PaymentInterface>()
   const [CourseDetail, setCourseDetail] = useState<CourseDetailInterface>()
   const [HasCourseService, setHasCourseService] = useState(true)
-  let TempDate, TempTimeAndZone: any, TempSecondAndZone,  TempHour, TempMinute, TempSecond, days: any, Time
+  let TempDate, TempTimeAndZone: any, TempSecondAndZone: any,  TempHour: any, TempMinute: any, TempSecond, days: any, Time
   let TempPaymentDate: Date | null | undefined, CalDayLeft
   const [PDate, setPDate] = useState<string>()
   const [Hour, setHour] = useState<string>()
@@ -78,7 +70,10 @@ function Home() {
     if (CourseService !== undefined) {
       getPaymentByUID();
     }
-    [TempDate, TempTimeAndZone] = (CourseService?.CRegisterDate + "").split("T")
+  }, [CourseService]);
+
+  useEffect(() => {
+    [TempDate, TempTimeAndZone] = (Payment?.PaymentDate + "").split("T")
     setPDate(TempDate)
     if (TempTimeAndZone !== undefined) {
       [TempHour, TempMinute, TempSecondAndZone] = TempTimeAndZone.split(":")
@@ -86,18 +81,15 @@ function Home() {
       setHour(TempHour)
       setMinute(TempMinute)
       setSecond(TempSecond[0])
+      let [years, months, DaysAndTime] = (Payment?.PaymentDate + "").split("-")
+      if (DaysAndTime !== undefined) {
+        [days, Time] = DaysAndTime.split("T")
+        TempPaymentDate = new Date(Date.UTC(Number(years), Number(months) - 1, Number(days), Number(TempHour), Number(TempMinute), Number(TempSecond[0]))) // UTC should +7 but in database utc 0
+        CalDayLeft = addDays(TempPaymentDate, CourseDuration)
+        setDayLeft((CalDayLeft.getTime() - Date.now()) / (1000 * 3600 * 24))
+        console.log(DayLeft)
+      }
     }
-  }, [CourseService]);
-
-  useEffect(() => {
-    let [years, months, DaysAndTime] = (Payment?.PaymentDate + "").split("-")
-    if (DaysAndTime !== undefined) {
-      [days, Time] = DaysAndTime.split("T")
-    }
-    TempPaymentDate = new Date(Date.UTC(Number(years), Number(days), Number(months), 7, 0, 0))
-    CalDayLeft = addDays(TempPaymentDate, CourseDuration)
-    setDayLeft((CalDayLeft.getTime() - Date.now()) / (1000 * 3600 * 24))
-    console.log(DayLeft)
   }, [Payment]);
 
 
