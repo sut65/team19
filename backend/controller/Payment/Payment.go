@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team19/entity"
+	"github.com/asaskevich/govalidator"
 )
 
 // POST /payment
@@ -20,21 +21,27 @@ func CreatePayment(c *gin.Context) {
 		return
 	}
 
+	// แทรกการ validate ไว้ช่วงนี้ของ controller
+	if _, err := govalidator.ValidateStruct(payment); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	// ค้นหา course_service ด้วย id
 	if tx := entity.DB().Where("id = ?", payment.CourseServiceID).First(&course_service); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "course_service not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Service not found"})
 		return
 	}
 
 	// ค้นหา discount ด้วย id
 	if tx := entity.DB().Where("id = ?", payment.DiscountID).First(&discount); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "discount not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Code not found"})
 		return
 	}
 
 	// ค้นหา duration ด้วย id
 	if tx := entity.DB().Where("id = ?", payment.DurationID).First(&duration); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "duration not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Course duration not found"})
 		return
 	}
 

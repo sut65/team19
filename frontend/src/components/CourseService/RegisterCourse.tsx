@@ -43,7 +43,6 @@ function RegisterCourse() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [checked, setChecked] = useState(false);
-  const [DisButton, setDisButton] = useState(false);
   const [showText, setShowText] = useState(false);
   const UFirstName = localStorage.getItem("firstname") + ""
   const ULastName = localStorage.getItem("lastname") + ""
@@ -62,7 +61,6 @@ function RegisterCourse() {
     else {
       setAgreement("Disagree")
     }
-    setDisButton(!DisButton)
   };
 
   const handleClose = (
@@ -140,7 +138,7 @@ function RegisterCourse() {
     let res = await CreateCourseService(data);
     if (res.status) {
       setSuccess(true);
-      setAlertMessage("ลงทะเบียนคอร์สสำเร็จ กำลังเข้าสู่หน้าชำระเงิน");
+      setAlertMessage("Register course seccessful, bring to payment page");
     } else {
       setError(true);
       setAlertMessage(res.message);
@@ -404,7 +402,6 @@ function RegisterCourse() {
                   padding: "6px 28px",
                 }}
                 onClick={Submit}
-                // disabled={!DisButton}
               >
                 Register
               </Button>

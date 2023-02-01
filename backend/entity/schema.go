@@ -213,8 +213,8 @@ type Trainer struct {
 type CourseService struct {
 	gorm.Model
 	CRegisterDate time.Time		
-	Agreement     string 		`json:"agreement" valid:"matches(Agree)~Please read a agreement and check 'Agree'"`
-	Status        string		`json:"status" valid:"required~Status cannot blank"`
+	Agreement     string 		`valid:"matches(Agree)~Please click agreement and check 'Agree'"`
+	Status        string
 
 	MemberID *uint
 	Member   Member
@@ -465,8 +465,8 @@ type Duration struct {
 type Payment struct {
 	gorm.Model
 	PaymentDate time.Time
-	Slip        string
-	Balance     float32
+	Slip        string			`valid:"required~Please upload slip,matches((jpeg|jpg|png|svg|gif|tiff|tif|bmp|apng|eps|jfif|pjp|xbm|dib|jxl|svgz|webp|ico|pjpeg|avif))~Please upload image file (jpg/png/...)"`
+	Balance     float32			`valid:"numeric~Invalid balance. Please try again"`
 
 	CourseServiceID *uint
 	CourseService   CourseService

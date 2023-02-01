@@ -55,7 +55,8 @@ function Payment() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [image, setImage] = useState({ name: "", src: "" });
-  const [DisButton, setDisButton] = useState(false);
+  const [message, setAlertMessage] = React.useState("");
+  // const [DisButton, setDisButton] = useState(false);
 
   const UFirstName = localStorage.getItem("firstname") + "";
   const ULastName = localStorage.getItem("lastname") + "";
@@ -102,7 +103,7 @@ function Payment() {
     };
 
     if (Payment.Slip !== "") {
-      setDisButton(true);
+      // setDisButton(true);
     }
   };
 
@@ -168,7 +169,6 @@ function Payment() {
   }, [Code]);
 
   useEffect(() => {
-    console.log(Payment.DurationID);
     CourseDuration = convertType(CourseDetail.Price?.Duration) + "";
     CalBalance(
       Number(CourseDetail.Price?.Price),
@@ -210,11 +210,14 @@ function Payment() {
       DiscountID: convertType(Discount?.ID),
     };
     let res = await CreatePayment(data);
-    if (res) {
+    if (res.status) {
       setSuccess(true);
+      setAlertMessage("Paid successful");
     } else {
       setError(true);
+      setAlertMessage(res.message);
     }
+    console.log(Payment.Slip)
   }
 
   return (
@@ -226,7 +229,7 @@ function Payment() {
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="success">
-          ชำระเงินเสร็จสิ้น
+          {message}
         </Alert>
       </Snackbar>
       <Snackbar
@@ -236,7 +239,7 @@ function Payment() {
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="error">
-          จ่ายเงินไม่สำเร็จ
+          {message}
         </Alert>
       </Snackbar>
       <Box
@@ -545,7 +548,7 @@ function Payment() {
                   padding: "6px 28px",
                 }}
                 onClick={Submit}
-                disabled={!DisButton}
+                // disabled={!DisButton}
               >
                 Register
               </Button>
