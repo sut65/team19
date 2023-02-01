@@ -48,6 +48,7 @@ function RegisterCourse() {
   const UFirstName = localStorage.getItem("firstname") + ""
   const ULastName = localStorage.getItem("lastname") + ""
   const UserName = UFirstName + " " + ULastName
+  const NowDate = Date.now()
   
   const navigate = useNavigate();
   const params = useParams();
@@ -349,6 +350,7 @@ function RegisterCourse() {
                       });
                     }}
                     renderInput={(params) => <TextField {...params} />}
+                    minDate={new Date(NowDate)}
                   />
                 </LocalizationProvider>
               </FormControl>
