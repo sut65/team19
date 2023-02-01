@@ -219,7 +219,6 @@ async function GetTrainer() {
   return res;
 }
 
-
 const GetTrainerByID = async () => {
   const id = localStorage.getItem("uid");
 
@@ -239,7 +238,7 @@ const GetTrainerByID = async () => {
   return res;
 };
 
-const DeleteTrainer= async (id: string) => {
+const DeleteTrainer = async (id: string) => {
   const requestOptions = {
     method: "DELETE",
     headers: {
@@ -500,7 +499,11 @@ const CreateBlog = async (data: BlogInterface) => {
   let res = await fetch(`${apiUrl}/blogs`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
-      return result.data ? result.data : false;
+      if (result.data) {
+        return { status: true, message: result.data };
+      } else {
+        return { status: false, message: result.error };
+      }
     });
 
   return res;
@@ -717,7 +720,6 @@ const CreateBody = async (data: BlogInterface) => {
   return res;
 };
 
-
 const DeleteInfoBody = async (id: string) => {
   const requestOptions = {
     method: "DELETE",
@@ -736,10 +738,7 @@ const DeleteInfoBody = async (id: string) => {
   return res;
 };
 
-
-
-const GetBodyByID = async (id :string) => {
-
+const GetBodyByID = async (id: string) => {
   const requestOptions = {
     method: "GET",
     headers: {
@@ -755,7 +754,6 @@ const GetBodyByID = async (id :string) => {
 
   return res;
 };
-
 
 const UpdateBody = async (data: BodyInterface) => {
   const requestOptions = {
@@ -874,7 +872,7 @@ const DeleteNutrient = async (id: string) => {
   return res;
 };
 /////////////////////////behavior//////////////////////////////////
-const CreateBehavior= async (data: BehaviorInterface) => {
+const CreateBehavior = async (data: BehaviorInterface) => {
   const requestOptions = {
     method: "POST",
     headers: {
@@ -987,7 +985,7 @@ async function GetPayment() {
     .then((response) => response.json())
     .then((res) => {
       if (res.data) {
-        console.log(res)
+        console.log(res);
         return res.data;
       } else {
         return false;
@@ -998,7 +996,7 @@ async function GetPayment() {
 }
 
 async function ListPaymentByUID() {
-  const uid = localStorage.getItem("uid")
+  const uid = localStorage.getItem("uid");
   const requestOptions = {
     method: "GET",
     headers: {
@@ -1021,7 +1019,7 @@ async function ListPaymentByUID() {
 }
 
 async function GetPaymentByUID() {
-  const uid = localStorage.getItem("uid")
+  const uid = localStorage.getItem("uid");
   const requestOptions = {
     method: "GET",
     headers: {
@@ -1132,7 +1130,7 @@ async function GetDurationByID(id: number | undefined) {
 }
 
 async function GetCourseServiceBYUID() {
-  const uid = localStorage.getItem("uid")
+  const uid = localStorage.getItem("uid");
   const requestOptions = {
     method: "GET",
     headers: {
@@ -1141,7 +1139,10 @@ async function GetCourseServiceBYUID() {
     },
   };
 
-  let res = await fetch(`${apiUrl}/course_service_by_uid/${uid}`, requestOptions)
+  let res = await fetch(
+    `${apiUrl}/course_service_by_uid/${uid}`,
+    requestOptions
+  )
     .then((response) => response.json())
     .then((res) => {
       if (res.data) {
@@ -1155,7 +1156,7 @@ async function GetCourseServiceBYUID() {
 }
 
 async function GetCourseServiceByUidAndStatus() {
-  const uid = localStorage.getItem("uid")
+  const uid = localStorage.getItem("uid");
   const requestOptions = {
     method: "GET",
     headers: {
@@ -1164,7 +1165,10 @@ async function GetCourseServiceByUidAndStatus() {
     },
   };
 
-  let res = await fetch(`${apiUrl}/course_service_by_uid_and_status/${uid}`, requestOptions)
+  let res = await fetch(
+    `${apiUrl}/course_service_by_uid_and_status/${uid}`,
+    requestOptions
+  )
     .then((response) => response.json())
     .then((res) => {
       if (res.data) {
@@ -1191,7 +1195,7 @@ async function CreatePayment(data: PaymentInterface) {
     .then((response) => response.json())
     .then((res) => {
       if (res.data) {
-        console.log(res.data)
+        console.log(res.data);
         return res.data;
       } else {
         return false;

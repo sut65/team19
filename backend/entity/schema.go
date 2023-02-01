@@ -153,8 +153,8 @@ type Tag struct {
 type Blog struct {
 	gorm.Model
 	CoverImage string
-	Title      string
-	Content    string
+	Title      string `valid:"minstringlength(5)~Title not less than 5 characters"`
+	Content    string `valid:"minstringlength(20)~Content not less than 20 characters"`
 
 	MemberID *uint
 	Member   Member
