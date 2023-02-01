@@ -213,7 +213,7 @@ type Trainer struct {
 type CourseService struct {
 	gorm.Model
 	CRegisterDate time.Time
-	Agreement     string
+	Agreement     bool
 	Status        string
 
 	MemberID *uint

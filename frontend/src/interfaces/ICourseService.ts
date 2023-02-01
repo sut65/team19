@@ -5,10 +5,10 @@ import { TrainerInterface } from "./ITrainer";
 export interface CourseServiceInterface {
     ID?:                    number;
     CRegisterDate?:         Date | undefined | null;
-    Agreement?:             string;
+    Agreement?:             boolean;
     Status?:                string;
-    MemberID?:                number;
-    Member?:                  MemberInterface;
+    MemberID?:              number;
+    Member?:                MemberInterface;
     CourseDetailID?:        number;
     CourseDetail?:          CourseDetailInterface;
     TrainerID?:             number;
