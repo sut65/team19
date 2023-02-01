@@ -18,6 +18,7 @@ import { CourseDetailInterface } from "../interfaces/ICourseDetail";
 import { CourseServiceInterface } from '../interfaces/ICourseService';
 import { PaymentInterface } from "../interfaces/IPayment";
 import { GetCourseServiceByUidAndStatus, GetCourseDetailByID, GetPaymentByUID } from '../services/HttpClientService';
+import { addDays, durationInMonths } from '@progress/kendo-date-math';
 import '../App.css';
 import BG from "../images/bg-course-service.jpg";
 
@@ -26,6 +27,14 @@ function Home() {
   const [Payment, setPayment] = useState<PaymentInterface>()
   const [CourseDetail, setCourseDetail] = useState<CourseDetailInterface>()
   const [HasCourseService, setHasCourseService] = useState(true)
+  let TempDate, TempTimeAndZone: any, TempSecondAndZone,  TempHour, TempMinute, TempSecond, days: any, Time
+  let TempPaymentDate: Date | null | undefined, CalDayLeft
+  const [PDate, setPDate] = useState<string>()
+  const [Hour, setHour] = useState<string>()
+  const [Minute, setMinute] = useState<string>()
+  const [Second, setSecond] = useState<string>()
+  const [DayLeft, setDayLeft] = useState<number>(0)
+  const [CourseDuration, setCourseDuration] = useState<number>(0)
   const uid = localStorage.getItem("uid")
   const UFirstName = localStorage.getItem("firstname") + ""
   const ULastName = localStorage.getItem("lastname") + ""
@@ -47,6 +56,7 @@ function Home() {
     let res = await GetPaymentByUID();
     if (res) {
       setPayment(res);
+      setCourseDuration(res.Duration.NumberOfDays);
     } else {
       navigate(`/user/payment/${CourseService?.ID}`)
     }
@@ -68,8 +78,28 @@ function Home() {
     if (CourseService !== undefined) {
       getPaymentByUID();
     }
-    console.log(CourseService)
+    [TempDate, TempTimeAndZone] = (CourseService?.CRegisterDate + "").split("T")
+    setPDate(TempDate)
+    if (TempTimeAndZone !== undefined) {
+      [TempHour, TempMinute, TempSecondAndZone] = TempTimeAndZone.split(":")
+      TempSecond = TempSecondAndZone.split(".")
+      setHour(TempHour)
+      setMinute(TempMinute)
+      setSecond(TempSecond[0])
+    }
   }, [CourseService]);
+
+  useEffect(() => {
+    let [years, months, DaysAndTime] = (Payment?.PaymentDate + "").split("-")
+    if (DaysAndTime !== undefined) {
+      [days, Time] = DaysAndTime.split("T")
+    }
+    TempPaymentDate = new Date(Date.UTC(Number(years), Number(days), Number(months), 7, 0, 0))
+    CalDayLeft = addDays(TempPaymentDate, CourseDuration)
+    setDayLeft((CalDayLeft.getTime() - Date.now()) / (1000 * 3600 * 24))
+    console.log(DayLeft)
+  }, [Payment]);
+
 
   return (
     <Box
@@ -132,7 +162,7 @@ function Home() {
                     width: "100%",
                     height: "100%",
                     borderRadius: 10,
-                    backgroundColor: '#F0EBE3',
+                    backgroundColor: '#F1DBBF',
                     boxShadow: 12,
                     fontSize: "1.5rem",
                     textAlign: "left",
@@ -155,20 +185,44 @@ function Home() {
                     width: "100%",
                     height: "100%",
                     borderRadius: 10,
-                    backgroundColor: '#E4DCCF',
+                    backgroundColor: '#B99B6B',
                     boxShadow: 12,
                     fontSize: "1.5rem",
                     textAlign: "left",
                     display: "table",
-                    marginTop: "100px",
+                    marginTop: "24px",
                   }}
                 >
                   <Grid container spacing={4} style={{textAlign: "left", margin: "0 1rem 1.5rem 0.6rem"}}>
                     <Grid item xs={12} >
-                      Course rates: {CourseDetail?.Price?.Price} บาท
+                      Rates: {CourseDetail?.Price?.Price} baht
                     </Grid>
                     <Grid item xs={12} >
-                      Course Duration: {CourseDetail?.Price?.Duration}
+                      Duration: {Payment?.Duration?.NumberOfDays} day
+                    </Grid>
+                  </Grid>
+                </Box>
+              </Grid>
+              <Grid item xs={12}>
+                <Box 
+                  sx={{
+                    width: "100%",
+                    height: "100%",
+                    borderRadius: 10,
+                    backgroundColor: '#698269',
+                    boxShadow: 12,
+                    fontSize: "1.5rem",
+                    textAlign: "left",
+                    display: "table",
+                    marginTop: "24px",
+                  }}
+                >
+                  <Grid container spacing={4} style={{textAlign: "left", margin: "0 1rem 1.5rem 0.6rem"}}>
+                    <Grid item xs={12} >
+                      Date: {PDate}, {Hour}:{Minute}:{Second}
+                    </Grid>
+                    <Grid item xs={12} >
+                      Day left: {Math.floor(DayLeft)} day
                     </Grid>
                   </Grid>
                 </Box>
