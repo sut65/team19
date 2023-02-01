@@ -245,7 +245,7 @@ type FoodType struct {
 
 type FoodInformation struct {
 	gorm.Model
-	Name     string
+	Name     string `valid:"required~Name cannot be blank"`
 	Datetime string
 	Image    string
 
