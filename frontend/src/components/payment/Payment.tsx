@@ -143,7 +143,7 @@ function Payment() {
       } else {
         setShowCodePercentage(0);
       }
-    } else if (Code === "NOCODE") {
+      // Validation if not has code in database > it will set to NOCODE
     } else {
       setCode("NOCODE");
     }
