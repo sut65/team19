@@ -8,7 +8,6 @@ import { GetPaymentByID, ListPaymentByUID, GetCourseDetailByID } from "../../ser
 import { CourseDetailInterface } from "../../interfaces/ICourseDetail";
 import CardMedia from "@mui/material/CardMedia";
 import BG from "../../images/bg-payment-history.jpg";
-import { Typography } from "@mui/joy";
 
 function PaymentHistory() {
   const [Payment, setPayment] = useState<PaymentInterface[]>([])
@@ -26,11 +25,6 @@ function PaymentHistory() {
   const UFirstName = localStorage.getItem("firstname") + ""
   const ULastName = localStorage.getItem("lastname") + ""
   const UserName = UFirstName + " " + ULastName
-
-  // function formatDate(date: string){
-  //   var options = { year: 'numeric', month: 'long', day: 'numeric' };
-  //   return new Date(date).toLocaleDateString([],options);
-  // }
 
   const getPaymentByUID = async () => {
     let res = await ListPaymentByUID();
