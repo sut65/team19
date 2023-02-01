@@ -68,10 +68,7 @@ function Home() {
     if (CourseService !== undefined) {
       getPaymentByUID();
     }
-  }, [CourseService]);
-
-  useEffect(() => {
-    console.log(CourseService?.Status)
+    console.log(CourseService)
   }, [CourseService]);
 
   return (
