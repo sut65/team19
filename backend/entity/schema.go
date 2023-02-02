@@ -3,6 +3,7 @@ package entity
 import (
 	"time"
 
+	"github.com/asaskevich/govalidator"
 	"gorm.io/gorm"
 )
 
@@ -152,7 +153,7 @@ type Tag struct {
 
 type Blog struct {
 	gorm.Model
-	CoverImage string
+	CoverImage string `valid:"image~CoverImage must be images file"`
 	Title      string `valid:"minstringlength(5)~Title not less than 5 characters"`
 	Content    string `valid:"minstringlength(20)~Content not less than 20 characters"`
 
@@ -212,8 +213,8 @@ type Trainer struct {
 // ================== ระบบการใช้บริการคอร์ส ==================
 type CourseService struct {
 	gorm.Model
-	CRegisterDate time.Time		
-	Agreement     string 		`valid:"matches(Agree)~Please click agreement and check 'Agree'"`
+	CRegisterDate time.Time
+	Agreement     string `valid:"matches(Agree)~Please click agreement and check 'Agree'"`
 	Status        string
 
 	MemberID *uint
@@ -465,8 +466,8 @@ type Duration struct {
 type Payment struct {
 	gorm.Model
 	PaymentDate time.Time
-	Slip        string			`valid:"required~Please upload slip,length(0|2802088)~Please upload file size less than 2MB,matches((jpeg|jpg|png|svg|gif|tiff|tif|bmp|apng|eps|jfif|pjp|xbm|dib|jxl|svgz|webp|ico|pjpeg|avif))~Please upload image file (jpg/png/...)"`
-	Balance     float32			`valid:"numeric~Invalid balance. Please try again"`
+	Slip        string  `valid:"required~Please upload slip,length(0|2802088)~Please upload file size less than 2MB,matches((jpeg|jpg|png|svg|gif|tiff|tif|bmp|apng|eps|jfif|pjp|xbm|dib|jxl|svgz|webp|ico|pjpeg|avif))~Please upload image file (jpg/png/...)"`
+	Balance     float32 `valid:"numeric~Invalid balance. Please try again"`
 
 	CourseServiceID *uint
 	CourseService   CourseService
@@ -530,4 +531,12 @@ type Behavior struct {
 
 	TasteID *uint
 	Taste   Taste
+}
+
+func init() {
+	// Custom valid tag
+	govalidator.TagMap["image"] = govalidator.Validator(func(str string) bool {
+		pattern := "^data:image/(jpeg|jpg|png|svg|gif|tiff|tif|bmp|apng|eps|jfif|pjp|xbm|dib|jxl|svgz|webp|ico|pjpeg|avif);base64,[A-Za-z0-9+/]+={0,2}$"
+		return govalidator.Matches(str, pattern)
+	})
 }

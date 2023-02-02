@@ -127,6 +127,11 @@ func UpdateBlog(c *gin.Context) {
 		return
 	}
 
+	if _, err := govalidator.ValidateStruct(blog); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	update := entity.Blog{
 		CoverImage: blog.CoverImage,
 		Title:      blog.Title,
