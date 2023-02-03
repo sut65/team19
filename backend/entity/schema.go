@@ -124,17 +124,17 @@ type Rank struct {
 
 type Review struct {
 	gorm.Model
-	Content string
-	Image   string
+	Content string `valid:"minstringlength(10)~content not less than 10 characters,maxstringlength(200)~content not more than 200 characters"`
+	Image   string `valid:"image~Image must be images file"`
 
 	MemberID *uint
-	Member   Member
+	Member   Member `valid:"-"`
 
 	CourseDetailID *uint
-	CourseDetail   CourseDetail
+	CourseDetail   CourseDetail `valid:"-"`
 
 	RankID *uint
-	Rank   Rank
+	Rank   Rank `valid:"-"`
 }
 
 // *****************************************************************

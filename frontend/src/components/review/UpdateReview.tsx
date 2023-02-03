@@ -52,6 +52,7 @@ function UpdateReview() {
   const [image, setImage] = useState({ name: "", src: "" });
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
+  const [message, setAlertMessage] = useState("");
 
   const handleClose = (
     event?: React.SyntheticEvent | Event,
@@ -113,9 +114,17 @@ function UpdateReview() {
     console.log("data", data);
 
     let res = await UdRv(data);
-    res ? setSuccess(true) : setError(true);
-    window.location.href = `/user/reviews/${slug}`
-  };    
+    if (res.status) {
+      setAlertMessage("บันทึกข้อมูลสำเร็จ");
+      setSuccess(true);
+      setTimeout(() => {
+        window.location.href = `/user/reviews/${slug}`;
+      }, 1000);
+    } else {
+      setAlertMessage(res.message);
+      setError(true);
+    }
+  };
 
   useEffect(() => {
     fetchReviewByID();
@@ -149,7 +158,7 @@ function UpdateReview() {
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="success">
-          บันทึกข้อมูลสำเร็จ
+          {message}
         </Alert>
       </Snackbar>
 
@@ -160,7 +169,7 @@ function UpdateReview() {
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="error">
-          บันทึกข้อมูลไม่สำเร็จ
+          {message}
         </Alert>
       </Snackbar>
 
@@ -180,9 +189,8 @@ function UpdateReview() {
               ...review,
               ["RankID"]: newValue,
             });
-            console.log(review.RankID)
+            console.log(review.RankID);
           }}
-          
           onChangeActive={(event, newHover) => {
             setHover(newHover);
           }}

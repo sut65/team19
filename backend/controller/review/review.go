@@ -3,6 +3,7 @@ package controller
 import (
 	"net/http"
 
+	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team19/entity"
 )
@@ -34,6 +35,11 @@ func CreateReview(c *gin.Context) {
 	// ค้นหา rank ด้วย id
 	if tx := entity.DB().Where("id = ?", review.RankID).First(&rank); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "rank not found"})
+		return
+	}
+
+	if _, err := govalidator.ValidateStruct(review); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -130,6 +136,11 @@ func UpdateReview(c *gin.Context) {
 	// ค้นหา rank ด้วย id
 	if tx := entity.DB().Where("id = ?", review.RankID).First(&rank); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "rank not found"})
+		return
+	}
+
+	if _, err := govalidator.ValidateStruct(review); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 

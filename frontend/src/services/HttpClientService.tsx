@@ -411,7 +411,11 @@ const CreateReviews = async (data: ReviewInterface) => {
   let res = await fetch(`${apiUrl}/reviews`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
-      return result.data ? result.data : false;
+      if (result.data) {
+        return { status: true, message: result.data };
+      } else {
+        return { status: false, message: result.error };
+      }
     });
 
   return res;
@@ -430,7 +434,11 @@ const UpdateReview = async (data: ReviewInterface) => {
   let res = await fetch(`${apiUrl}/update-review`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
-      return result.data ? result.data : false;
+      if (result.data) {
+        return { status: true, message: result.data };
+      } else {
+        return { status: false, message: result.error };
+      }
     });
 
   return res;
