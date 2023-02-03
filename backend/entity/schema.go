@@ -216,6 +216,7 @@ type CourseService struct {
 	CRegisterDate time.Time
 	Agreement     string `valid:"matches(Agree)~Please click agreement and check 'Agree'"`
 	Status        string
+	RefundMessage string `valid:"minstringlength(1)~Message cannot be blank"`
 
 	MemberID *uint
 	Member   Member
@@ -223,7 +224,7 @@ type CourseService struct {
 	CourseDetailID *uint
 	CourseDetail   CourseDetail
 
-	TrainerID *uint
+	TrainerID *uint `valid:"alphanum~Trainer not found"`
 	Trainer   Trainer
 
 	Payment []Payment `gorm:"foreignKey:CourseServiceID"`
@@ -457,7 +458,7 @@ type Discount struct {
 
 type Duration struct {
 	gorm.Model
-	NumberOfDays       int
+	NumberOfDays       float32 // แก้เป็น int
 	DurationPercentage int
 
 	Payment []Payment `gorm:"foreignKey:DurationID"`
@@ -466,8 +467,8 @@ type Duration struct {
 type Payment struct {
 	gorm.Model
 	PaymentDate time.Time
-	Slip        string  `valid:"required~Please upload slip,length(0|2802088)~Please upload file size less than 2MB,matches((jpeg|jpg|png|svg|gif|tiff|tif|bmp|apng|eps|jfif|pjp|xbm|dib|jxl|svgz|webp|ico|pjpeg|avif))~Please upload image file (jpg/png/...)"`
-	Balance     float32 `valid:"numeric~Invalid balance. Please try again"`
+	Slip        string `valid:"required~Please upload slip,length(0|2802088)~File size must less than 2MB,image~Slip must be image file"`
+	Balance     float32
 
 	CourseServiceID *uint
 	CourseService   CourseService
@@ -491,18 +492,18 @@ type MostNutrient struct {
 
 type Nutrient struct {
 	gorm.Model
-	Comment      string
-	TotalCalorie int
+	Comment      string `valid:"maxstringlength(50)~ Comment ห้ามเกิน 50 ตัวอักษร "`
+	TotalCalorie int `valid:"range(0|10000)~ จำนวนแคลอรี่ผิดพลาด, required~ กรุณาใส่จำนวนแคลอรี่"`
 	Date         string
 
 	AdminID *uint
 	Admin   Admin
 
-	MostNutrientID *uint
-	MostNutrient   MostNutrient
+	MostNutrientID *uint `valid:"required~ กรุณาเลือกหมู่อาหารที่พบมาก "`
+	MostNutrient   MostNutrient 
 
-	FoodInformationID int
-	FoodInformation   FoodInformation
+	FoodInformationID int `valid:"required~ กรุณาเลือกอาหาร "`
+	FoodInformation   FoodInformation `gorm:"references:id" valid:"-"`
 }
 
 // ================== ระบบสำรวจพฤติกรรมก่อนเข้าเทรน ==================

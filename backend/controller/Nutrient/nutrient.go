@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team19/entity"
+	"github.com/asaskevich/govalidator"
 )
 
 // POST /foodinformations
@@ -16,6 +17,12 @@ func CreateNutrient(c *gin.Context) {
 	var mostnutrient entity.MostNutrient
 
 	if err := c.ShouldBindJSON(&nutrient); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// แทรกการ validate ไว้ช่วงนี้ของ controller
+	if _, err := govalidator.ValidateStruct(nutrient); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
