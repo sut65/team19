@@ -158,13 +158,13 @@ type Blog struct {
 	Content    string `valid:"minstringlength(20)~Content not less than 20 characters"`
 
 	MemberID *uint
-	Member   Member
+	Member   Member `valid:"-"`
 
 	CategoryID *uint
-	Category   Category
+	Category   Category `valid:"-"`
 
 	TagID *uint
-	Tag   Tag
+	Tag   Tag `valid:"-"`
 }
 
 // -------------------------------------------<< ระบบจัดการเทรนอร์ >>------------------------------------
@@ -493,16 +493,16 @@ type MostNutrient struct {
 type Nutrient struct {
 	gorm.Model
 	Comment      string `valid:"maxstringlength(50)~ Comment ห้ามเกิน 50 ตัวอักษร "`
-	TotalCalorie int `valid:"range(0|10000)~ จำนวนแคลอรี่ผิดพลาด, required~ กรุณาใส่จำนวนแคลอรี่"`
+	TotalCalorie int    `valid:"range(0|10000)~ จำนวนแคลอรี่ผิดพลาด, required~ กรุณาใส่จำนวนแคลอรี่"`
 	Date         string
 
 	AdminID *uint
 	Admin   Admin
 
 	MostNutrientID *uint `valid:"required~ กรุณาเลือกหมู่อาหารที่พบมาก "`
-	MostNutrient   MostNutrient 
+	MostNutrient   MostNutrient
 
-	FoodInformationID int `valid:"required~ กรุณาเลือกอาหาร "`
+	FoodInformationID int             `valid:"required~ กรุณาเลือกอาหาร "`
 	FoodInformation   FoodInformation `gorm:"references:id" valid:"-"`
 }
 

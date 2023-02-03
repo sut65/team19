@@ -530,7 +530,11 @@ const UpdateBlog = async (data: BlogInterface) => {
   let res = await fetch(`${apiUrl}/update-blog`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
-      return result.data ? result.data : false;
+      if (result.data) {
+        return { status: true, message: result.data };
+      } else {
+        return { status: false, message: result.error };
+      }
     });
 
   return res;
@@ -613,8 +617,7 @@ const CreateFoodInformation = async (data: FoodInformationInterface) => {
       } else {
         return { status: false, message: res.error };
       }
-      }
-    );
+    });
 
   return res;
 };
@@ -811,8 +814,7 @@ const CreateNutrient = async (data: NutrientInterface) => {
       } else {
         return { status: false, message: res.error };
       }
-      }
-    );
+    });
 
   return res;
 };
