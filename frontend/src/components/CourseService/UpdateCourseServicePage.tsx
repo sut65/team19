@@ -72,8 +72,7 @@ function UpdateCourseServicePage() {
     }
   };
 
-  // CourseService?.RefundMessage
-  const UpdateStatus = async () => {
+  const UpdateButton = async () => {
     let data = {
       ID: convertType(CourseService?.ID),
       CRegisterDate: CourseService?.CRegisterDate,
@@ -367,7 +366,7 @@ function UpdateCourseServicePage() {
                   backgroundColor: "#D3E4CD",
                   padding: "6px 28px",
                 }}
-                onClick={UpdateStatus}
+                onClick={UpdateButton}
               >
                 Update
               </Button>
