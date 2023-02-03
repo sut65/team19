@@ -45,7 +45,7 @@ function CreateArticle() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [image, setImage] = useState({ name: "", src: "" });
-  const [message, setAlertMessage] = React.useState("");
+  const [message, setAlertMessage] = useState("");
 
   const handleClose = (
     event?: React.SyntheticEvent | Event,
@@ -237,7 +237,7 @@ function CreateArticle() {
             }}
           >
             <option aria-label="None" value="">
-              หมวดหมู่
+              Category
             </option>
             {categories.map((item: CategoryInterface) => (
               <option key={item.ID} value={item.ID}>

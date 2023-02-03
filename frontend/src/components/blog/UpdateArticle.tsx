@@ -47,6 +47,7 @@ function UpdateArticle() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [image, setImage] = useState({ name: "", src: "" });
+  const [message, setAlertMessage] = useState("");
 
   const handleClose = (
     event?: React.SyntheticEvent | Event,
@@ -120,8 +121,16 @@ function UpdateArticle() {
     };
 
     let res = await UpdateBlog(newData);
-    res ? setSuccess(true) : setError(true);
-    window.location.href = "/user/articles";
+    if (res.status) {
+      setAlertMessage("บันทึกข้อมูลสำเร็จ");
+      setSuccess(true);
+      setTimeout(() => {
+        window.location.href = "/user/articles";
+      }, 1000);
+    } else {
+      setAlertMessage(res.message);
+      setError(true);
+    }
   };
 
   useEffect(() => {
@@ -139,7 +148,7 @@ function UpdateArticle() {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        // mt: "6rem",
+        mt: "3rem",
         gap: "1rem",
         mb: "2rem",
       }}
@@ -152,7 +161,7 @@ function UpdateArticle() {
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="success">
-          บันทึกข้อมูลสำเร็จ
+          {message}
         </Alert>
       </Snackbar>
 
@@ -163,7 +172,7 @@ function UpdateArticle() {
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="error">
-          บันทึกข้อมูลไม่สำเร็จ
+          {message}
         </Alert>
       </Snackbar>
 
@@ -193,7 +202,7 @@ function UpdateArticle() {
       </Box>
 
       <ImgBox>
-        <img src={article.CoverImage} alt="" style={{ width: "100%" }} />
+        <img src={article.CoverImage} alt={image.name} style={{ width: "100%" }} />
       </ImgBox>
 
       {/* Title */}
@@ -238,7 +247,7 @@ function UpdateArticle() {
             }}
           >
             <option aria-label="None" value="">
-              หมวดหมู่
+              Category
             </option>
             {categories.map((item: CategoryInterface) => (
               <option key={item.ID} value={item.ID}>
