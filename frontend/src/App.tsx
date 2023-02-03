@@ -40,6 +40,7 @@ import CourseDetail from "./components/CourseDetail/CourseDetail";
 import ShowCardCourseDetail from "./components/CourseDetail/ShowCardCourseDetail";
 import RegisterMember from "./components/Member/Register";
 import ProfileMember from "./components/Member/ProfileMember";
+import UpdateCourseServicePage from "./components/CourseService/UpdateCourseServicePage";
 
 function App() {
   const [token, setToken] = useState<String>("");
@@ -117,6 +118,7 @@ function App() {
           <Route path="article/:id" element={<Article />} />
           <Route path="register-course" element={<ShowCardCourseService />} />
           <Route path="register-course/:id" element={<RegisterCourse />} />
+          <Route path="update-course" element={<UpdateCourseServicePage />} />
           <Route path="payment/:id" element={<Payment />} />
           <Route path="payment-history" element={<PaymentHistory />} />
           <Route path="article/create-article" element={<CreateArticle />} />

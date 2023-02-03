@@ -572,6 +572,12 @@ func SetupDatabase() {
 		DurationPercentage: 20,
 	}
 	db.Model(&Duration{}).Create(&Duration5)
+	// for test update when expired
+	Duration6 := Duration{
+		NumberOfDays:       0.001,
+		DurationPercentage: 0,
+	}
+	db.Model(&Duration{}).Create(&Duration6)
 
 	// --------------------------------------------------------------------------------------------------
 	// ----------------------------------------  MealPlans  ----------------------------------------------
@@ -702,8 +708,6 @@ func SetupDatabase() {
 	}
 	db.Model(&MealPlans{}).Create(&MealPlansC)
 
-	
-
 	//--------------------------------------------------------------------------------------------------
 	//----------------------------------------  DailyActivities  ---------------------------------------
 	//--------------------------------------------------------------------------------------------------
@@ -806,7 +810,6 @@ func SetupDatabase() {
 		DailyActivities: DailyActivitiesC,
 	}
 	db.Model(&Advice{}).Create(&Advice3)
-
 
 	//==========================ระบบจัดการสารอาหาร==========================
 
