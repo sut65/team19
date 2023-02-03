@@ -286,6 +286,7 @@ function CreateFood() {
                     <DateTimePicker
                       renderInput={(props) => <TextField
                         required
+                        disabled
                         fullWidth
                         {...props} />}
                       label="เลือกวันเวลาในการเพิ่มอาหาร"

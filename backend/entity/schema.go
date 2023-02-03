@@ -246,17 +246,17 @@ type FoodType struct {
 
 type FoodInformation struct {
 	gorm.Model
-	Name     string `valid:"required~Name cannot be blank"`
+	Name     string `valid:"required~ กรุณาใส่ชื่ออาหาร "`
 	Datetime string
-	Image    string
+	Image    string `valid:"image~ รูปภาพต้องเป็นไฟล์รูปภาพเท่านั้น"`
 
 	AdminID *uint
 	Admin   Admin
 
-	MainIngredientID *uint
+	MainIngredientID *uint `valid:"required~ กรุณาเลือกวัตถุดิบหลัก "`
 	MainIngredient   MainIngredient
 
-	FoodTypeID *uint
+	FoodTypeID *uint `valid:"required~ กรุณาเลือกประเภทของอาหาร "`
 	FoodType   FoodType
 
 	// MealPlan []MealPlan `gorm:"foreignKey:FoodInformationID"`
