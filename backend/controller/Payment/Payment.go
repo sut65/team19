@@ -108,3 +108,14 @@ func ListPayments(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": payments})
 }
+
+// DELETE /payment/:cid
+func DeletePaymentByCID(c *gin.Context) {
+	cid := c.Param("cid")
+	if tx := entity.DB().Exec("DELETE FROM payments WHERE course_service_id = ?", cid); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "payments not found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": cid})
+}

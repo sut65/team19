@@ -1227,6 +1227,50 @@ const UpdateCourseService = async (data: CourseServiceInterface) => {
   return res;
 };
 
+const DeleteCourseService = async (id: number | undefined) => {
+  const requestOptions = {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/course_service/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return { status: true, message: res.data };
+      } else {
+        return { status: false, message: res.error };
+      }
+    });
+
+  return res;
+};
+
+const DeletePayment = async (id: number | undefined) => {
+  const requestOptions = {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/payment/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return { status: true, message: res.data };
+      } else {
+        return { status: false, message: res.error };
+      }
+    });
+
+  return res;
+};
+
 export {
   // Login
   Login,
@@ -1250,6 +1294,7 @@ export {
   GetCourseDetailByID,
   SelectCourseDetail,
   UpdateCourseService,
+  DeleteCourseService,
   // Payment
   GetPayment,
   GetPaymentByID,
@@ -1261,6 +1306,7 @@ export {
   CreatePayment,
   GetCourseServiceByUidAndStatus,
   GetPaymentByUID,
+  DeletePayment,
   // Blog
   CreateBlog,
   UpdateBlog,

@@ -221,6 +221,7 @@ func main() {
 			router.GET("/payments", Payment.ListPayments)
 			router.GET("/payment-history/:uid", Payment.GetPaymentByUID)
 			router.GET("/payment-historys/:uid", Payment.ListPaymentByUID)
+			router.DELETE("/payment/:cid", Payment.DeletePaymentByCID)
 		}
 	}
 	// login User Route

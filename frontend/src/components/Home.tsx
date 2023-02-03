@@ -5,13 +5,14 @@ import {
   Divider,
   Grid,
 } from "@mui/material";
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { CourseDetailInterface } from "../interfaces/ICourseDetail";
 import { CourseServiceInterface } from '../interfaces/ICourseService';
 import { PaymentInterface } from "../interfaces/IPayment";
-import { GetCourseServiceByUidAndStatus, GetCourseDetailByID, GetPaymentByUID, UpdateCourseService } from '../services/HttpClientService';
+import { GetCourseServiceByUidAndStatus, GetCourseDetailByID, GetPaymentByUID, UpdateCourseService, DeleteCourseService, DeletePayment } from '../services/HttpClientService';
 import { addDays } from '@progress/kendo-date-math';
+import Swal from 'sweetalert2'
 import '../App.css';
 import BG from "../images/bg-course-service.jpg";
 
@@ -26,11 +27,29 @@ function Home() {
   const [PDate, setPDate] = useState<string>()
   const [DayLeft, setDayLeft] = useState<number>(1)
   const [CourseDuration, setCourseDuration] = useState<number>(0)
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
+  const [message, setAlertMessage] = React.useState("");
   const uid = localStorage.getItem("uid")
   const UFirstName = localStorage.getItem("firstname") + ""
   const ULastName = localStorage.getItem("lastname") + ""
   const UserName = UFirstName + " " + ULastName
   const navigate = useNavigate();
+
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSuccess(false);
+    setError(false);
+
+    if (success === true) {
+      navigate(`/user`);
+    }
+  };
 
   const getCourseServiceByUidAndStatus = async () => {
     let res = await GetCourseServiceByUidAndStatus();
@@ -73,6 +92,33 @@ function Home() {
       setCourseDetail(res);
     }
   };
+
+  const DeleteButton = async () => {
+    Swal.fire({
+      title: 'Are you sure to refund?',
+      icon: 'warning',
+      html: "Words cannot express how grateful I am for your help. <br />I truly appreciate!",
+      showCancelButton: true,
+      cancelButtonColor: '#698269',
+      confirmButtonColor: '#AA5656',
+      confirmButtonText: 'Sure',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: 'Refunded!',
+          icon: 'success',
+          confirmButtonColor: '#698269',
+        }).then(async (result) => {
+          if (result.isConfirmed || result.isDenied || result.isDismissed || result.dismiss) {
+            await DeleteCourseService(CourseService?.ID);
+            await DeletePayment(CourseService?.ID);
+            localStorage.clear();
+            navigate("/")
+          }
+        })
+      }
+    })
+  }
 
   useEffect(() => {
     getCourseServiceByUidAndStatus();
@@ -277,29 +323,23 @@ function Home() {
                   </Box>
                 </Grid>
                 <Grid item xs={12} style={{display: "flex", justifyContent: "space-between"}}>
-                  <Link
-                    to={`update-course`} // รอแก้เป็นรีวิว
+                  <Button
+                    className="btn-user"
+                    variant="contained"
                     style={{
-                      textDecoration: "none",
+                      color: "#fff",
+                      borderRadius: 20,
+                      backgroundColor: "#C27664",
+                      padding: "6px 28px",
+                      fontSize: "16px",
+                      marginTop: "16px",
                     }}
+                    onClick={DeleteButton}
                   >
-                    <Button
-                      className="btn-user"
-                      variant="contained"
-                      style={{
-                        color: "#fff",
-                        borderRadius: 20,
-                        backgroundColor: "#C27664",
-                        padding: "6px 28px",
-                        fontSize: "16px",
-                        marginTop: "16px",
-                      }}
-                    >
-                      Refund
-                    </Button>
-                  </Link>
+                    Refund
+                  </Button>
                   <Link
-                    to={`update-course`} // รอแก้เป็นรีวิว
+                    to={`update-course`}
                     style={{
                       textDecoration: "none",
                     }}
