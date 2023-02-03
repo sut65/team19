@@ -140,7 +140,7 @@ function CreateFood() {
         let res = await CreateFoodInformation(data);
         if (res.status) {
           setSuccess(true);
-          setAlertMessage("บันทึกข้อมูลสำเร็จ");
+          setAlertMessage("บันทึกอาหารสำเร็จ");
           window.location.href = "/admin/food-display"
         } else {
           setError(true);
@@ -286,10 +286,10 @@ function CreateFood() {
                     <DateTimePicker
                       renderInput={(props) => <TextField
                         required
-                        disabled
                         fullWidth
                         {...props} />}
-                      label="เลือกวันเวลาในการเพิ่มอาหาร"
+                      label="วันเวลาในการเพิ่มอาหาร"
+                      readOnly
                       value={datetime}
                       onChange={(newValue) => {
                         setDatetime(newValue);

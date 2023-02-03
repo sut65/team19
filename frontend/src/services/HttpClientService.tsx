@@ -411,7 +411,11 @@ const CreateReviews = async (data: ReviewInterface) => {
   let res = await fetch(`${apiUrl}/reviews`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
-      return result.data ? result.data : false;
+      if (result.data) {
+        return { status: true, message: result.data };
+      } else {
+        return { status: false, message: result.error };
+      }
     });
 
   return res;
@@ -430,7 +434,11 @@ const UpdateReview = async (data: ReviewInterface) => {
   let res = await fetch(`${apiUrl}/update-review`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
-      return result.data ? result.data : false;
+      if (result.data) {
+        return { status: true, message: result.data };
+      } else {
+        return { status: false, message: result.error };
+      }
     });
 
   return res;
@@ -797,9 +805,14 @@ const CreateNutrient = async (data: NutrientInterface) => {
 
   let res = await fetch(`${apiUrl}/nutrients`, requestOptions)
     .then((response) => response.json())
-    .then((result) => {
-      return result.data ? result.data : false;
-    });
+    .then((res) => {
+      if (res.data) {
+        return { status: true, message: res.data };
+      } else {
+        return { status: false, message: res.error };
+      }
+      }
+    );
 
   return res;
 };
@@ -1204,6 +1217,29 @@ async function CreatePayment(data: PaymentInterface) {
   return res;
 }
 
+const UpdateCourseService = async (data: CourseServiceInterface) => {
+  const requestOptions = {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/course_services`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return { status: true, message: res.data };
+      } else {
+        return { status: false, message: res.error };
+      }
+    });
+
+  return res;
+};
+
 export {
   // Login
   Login,
@@ -1226,6 +1262,7 @@ export {
   GetCourseService,
   GetCourseDetailByID,
   SelectCourseDetail,
+  UpdateCourseService,
   // Payment
   GetPayment,
   GetPaymentByID,

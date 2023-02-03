@@ -46,6 +46,7 @@ const [date, setDate] = useState<Date | string | null>(new Date());
 const [admin, setAdmin] = useState<AdminInterface>({ Name: ""});
 const [success, setSuccess] = useState(false);
 const [error, setError] = useState(false);
+const [message, setAlertMessage] = React.useState("");
 
 const handleClose = (
     event?: React.SyntheticEvent | Event,
@@ -108,11 +109,13 @@ const submit = async () => {
       };
 
       let res = await CreateNutrient(data);
-      if (res) {
+      if (res.status) {
         setSuccess(true);
+        setAlertMessage("บันทึกสารอาหารสำเร็จ");
         window.location.href = "/admin/nutrient-display"
       } else {
         setError(true);
+        setAlertMessage(res.message);
       }
       console.log(JSON.stringify(data))
 };
@@ -134,7 +137,7 @@ useEffect(() => {
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                 >
                 <Alert onClose={handleClose} severity="success">
-                    บันทึกข้อมูลสารอาหารสำเร็จ
+                    {message}
                 </Alert>
             </Snackbar>
 
@@ -145,7 +148,7 @@ useEffect(() => {
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                 >
                 <Alert onClose={handleClose} severity="error">
-                    บันทึกข้อมูลสารอาหารไม่สำเร็จ
+                    {message}
                 </Alert>
             </Snackbar>
 
@@ -298,6 +301,7 @@ useEffect(() => {
                             fullWidth
                             {...props} />}
                         label="เลือกวันที่และเวลา"
+                        readOnly
                         value={date}
                         onChange={(newValue) => {
                             setDate(newValue);
@@ -327,24 +331,24 @@ useEffect(() => {
 
             <Stack direction="row" spacing={3}>
 
-            {/* ปุ่มยืนยันและย้อนกลับ */}
+                {/* ปุ่มยืนยันและย้อนกลับ */}
 
-            <Button variant="outlined" color="success" onClick={submit}
-                sx = {{ borderRadius: 20 }}>
-                    เพิ่มสารอาหาร
-            </Button>
+                <Button variant="outlined" color="success" onClick={submit}
+                    sx = {{ borderRadius: 20 }}>
+                        เพิ่มสารอาหาร
+                </Button>
 
-            <Link
-                to="/admin/nutrient-display"
-                style={{
-                textDecoration: "none",
-                }}
-            >
-            <Button variant="outlined" color="secondary"
-                sx = {{ borderRadius: 20 }}>
-                ย้อนกลับ
-            </Button>
-            </Link>
+                <Link
+                    to="/admin/nutrient-display"
+                    style={{
+                    textDecoration: "none",
+                    }}
+                >
+                <Button variant="outlined" color="secondary"
+                    sx = {{ borderRadius: 20 }}>
+                    ย้อนกลับ
+                </Button>
+                </Link>
 
             </Stack>
 

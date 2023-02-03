@@ -48,6 +48,7 @@ function CreateReview() {
   const [image, setImage] = useState({ name: "", src: "" });
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
+  const [message, setAlertMessage] = useState("");
 
   const handleClose = (
     event?: React.SyntheticEvent | Event,
@@ -101,8 +102,16 @@ function CreateReview() {
     };
 
     let res = await CreateReviews(data);
-    res ? setSuccess(true) : setError(true);
-    window.location.href = `/user/reviews/${id}`
+    if (res.status) {
+      setAlertMessage("บันทึกข้อมูลสำเร็จ");
+      setSuccess(true);
+      setTimeout(() => {
+        window.location.href = `/user/reviews/${id}`;
+      }, 1000);
+    } else {
+      setAlertMessage(res.message);
+      setError(true);
+    }
   };
 
   useEffect(() => {
@@ -137,7 +146,7 @@ function CreateReview() {
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="success">
-          บันทึกข้อมูลสำเร็จ
+          {message}
         </Alert>
       </Snackbar>
 
@@ -148,7 +157,7 @@ function CreateReview() {
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="error">
-          บันทึกข้อมูลไม่สำเร็จ
+          {message}
         </Alert>
       </Snackbar>
 
