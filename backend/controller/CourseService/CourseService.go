@@ -3,10 +3,10 @@ package controller
 import (
 	"net/http"
 
+	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team19/entity"
 	"gorm.io/gorm/clause"
-	"github.com/asaskevich/govalidator"
 )
 
 // POST /course_service
@@ -35,7 +35,7 @@ func CreateCourseService(c *gin.Context) {
 	}
 
 	// ค้นหา course ด้วย id
-	if tx := entity.DB().Preload("Price").Preload("Description").Preload("Admin").Where("id = ?", course_service.CourseDetailID).Find(&course_detail); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", course_service.CourseDetailID).Find(&course_detail); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Course not found"})
 		return
 	}
@@ -47,21 +47,22 @@ func CreateCourseService(c *gin.Context) {
 	}
 
 	// สร้าง CourseService
-	pb := entity.CourseService{
+	cs := entity.CourseService{
 		CRegisterDate: course_service.CRegisterDate, // ตั้งค่าฟิลด์ CRegisterDate
 		Agreement:     course_service.Agreement,     // ตั้งค่าฟิลด์ Agreement
 		Status:        course_service.Status,        // ตั้งค่าฟิลด์ Status
-		Member:        member,                       // โยงความสัมพันธ์กับ Entity User
-		CourseDetail:  course_detail,                // โยงความสัมพันธ์กับ Entity Course Details
+		RefundMessage: course_service.RefundMessage, // ตั้งค่าฟิลด์ RefundMessage
+		Member:        member,                       // โยงความสัมพันธ์กับ Entity Member
+		CourseDetail:  course_detail,                // โยงความสัมพันธ์กับ Entity Course Detail
 		Trainer:       trainer,                      // โยงความสัมพันธ์กับ Entity Trainer
 	}
 
 	// บันทึก
-	if err := entity.DB().Create(&pb).Error; err != nil {
+	if err := entity.DB().Create(&cs).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusCreated, gin.H{"data": pb})
+	c.JSON(http.StatusCreated, gin.H{"data": cs})
 }
 
 // GET /course_service/:id
@@ -95,7 +96,7 @@ func GetCourseServiceByUidAndStatus(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"data": course_service})
-	
+
 }
 
 // GET /course_services
@@ -123,20 +124,50 @@ func DeleteCourseService(c *gin.Context) {
 // PATCH /course_service
 func UpdateCourseService(c *gin.Context) {
 	var course_service entity.CourseService
-	var newCourse_Service entity.CourseService
+	var member entity.Member
+	var course_detail entity.CourseDetail
+	var trainer entity.Trainer
+
 	if err := c.ShouldBindJSON(&course_service); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	newCourse_Service.CRegisterDate = course_service.CRegisterDate // ตั้งค่าฟิลด์ CRegisterDate
-	newCourse_Service.Agreement = course_service.Agreement         // ตั้งค่าฟิลด์ Agreement
-	newCourse_Service.Status = course_service.Status               // ตั้งค่าฟิลด์ Status
-	newCourse_Service.Member = course_service.Member               // โยงความสัมพันธ์กับ Entity User
-	newCourse_Service.CourseDetail = course_service.CourseDetail   // โยงความสัมพันธ์กับ Entity Course Details
-	newCourse_Service.Trainer = course_service.Trainer             // โยงความสัมพันธ์กับ Entity Trainer
+	// ค้นหา member ด้วย id
+	if tx := entity.DB().Where("id = ?", course_service.MemberID).First(&member); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Member not found"})
+		return
+	}
 
-	if err := entity.DB().Save(&course_service).Error; err != nil {
+	// ค้นหา course ด้วย id
+	if tx := entity.DB().Where("id = ?", course_service.CourseDetailID).Find(&course_detail); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Course not found"})
+		return
+	}
+
+	// ค้นหา trainer ด้วย id
+	if tx := entity.DB().Where("id = ?", course_service.TrainerID).First(&trainer); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Trainer not found"})
+		return
+	}
+
+	// แทรกการ validate ไว้ช่วงนี้ของ controller
+	if _, err := govalidator.ValidateStruct(course_service); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	cs := entity.CourseService{
+		CRegisterDate: course_service.CRegisterDate, // ตั้งค่าฟิลด์ CRegisterDate
+		Agreement:     course_service.Agreement,     // ตั้งค่าฟิลด์ Agreement
+		Status:        course_service.Status,        // ตั้งค่าฟิลด์ Status
+		RefundMessage: course_service.RefundMessage, // ตั้งค่าฟิลด์ RefundMessage
+		Member:        member,                       // โยงความสัมพันธ์กับ Entity Member
+		CourseDetail:  course_detail,                // โยงความสัมพันธ์กับ Entity Course Detail
+		Trainer:       trainer,                      // โยงความสัมพันธ์กับ Entity Trainer
+	}
+
+	if err := entity.DB().Where("id = ?", course_service.ID).Updates(&cs).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

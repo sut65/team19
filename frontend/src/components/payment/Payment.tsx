@@ -18,7 +18,7 @@ import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 
 import { PaymentInterface } from "../../interfaces/IPayment";
-import { GetPayment, CreatePayment, GetCourseServiceBYUID, GetCourseDetailByID, GetDuration, GetDiscountByCode, GetDurationByID } from "../../services/HttpClientService";
+import { CreatePayment, GetCourseServiceBYUID, GetCourseDetailByID, GetDuration, GetDiscountByCode, GetDurationByID } from "../../services/HttpClientService";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { CourseServiceInterface } from "../../interfaces/ICourseService";
@@ -27,8 +27,6 @@ import { DurationInterface } from "../../interfaces/IDuration";
 import { DiscountInterface } from "../../interfaces/IDiscount";
 import Clock from "react-live-clock";
 import QRCode from "../../images/qr-code.png";
-
-const apiUrl = `http://localhost:8080`;
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -192,11 +190,11 @@ function Payment() {
     NumberOfDays: number
   ) {
     SumaryBalance = ((Price / Duration) * NumberOfDays) * (1 - (ShowCodePercentage + ShowDurationPercentage) / 100);
-    SumaryBalance = parseInt((Math.ceil(SumaryBalance * 100) / 100).toFixed(2));
+    // SumaryBalance = parseInt((Math.ceil(SumaryBalance * 100) / 100).toFixed(2));
     if (Number.isNaN(Balance)) {
       setBalance(Number(CourseDetail.Price?.Price));
     } else {
-      setBalance(SumaryBalance);
+      setBalance(parseFloat((Math.ceil(SumaryBalance * 100) / 100).toFixed(2)));
     }
   }
 
@@ -217,7 +215,6 @@ function Payment() {
       setError(true);
       setAlertMessage(res.message);
     }
-    console.log(Payment.Slip)
   }
 
   return (
@@ -452,7 +449,7 @@ function Payment() {
             <Grid item xs={6}>
               <TextField
                 fullWidth
-                id="Warter_Bill"
+                id="DiscountCode"
                 defaultValue=""
                 type="string"
                 variant="outlined"
@@ -496,7 +493,7 @@ function Payment() {
                     marginBottom: "10px",
                   }}
                 >
-                  Balance {">"} {Balance} baht
+                  Balance {">"} {Balance.toFixed(0)} baht
                 </Button>
               </Grid>
 
@@ -548,9 +545,8 @@ function Payment() {
                   padding: "6px 28px",
                 }}
                 onClick={Submit}
-                // disabled={!DisButton}
               >
-                Register
+                Pay
               </Button>
             </Grid>
           </Grid>
