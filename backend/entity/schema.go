@@ -492,18 +492,18 @@ type MostNutrient struct {
 
 type Nutrient struct {
 	gorm.Model
-	Comment      string
-	TotalCalorie int
+	Comment      string `valid:"maxstringlength(50)~ Comment ห้ามเกิน 50 ตัวอักษร "`
+	TotalCalorie int `valid:"range(0|10000)~ จำนวนแคลอรี่ผิดพลาด, required~ กรุณาใส่จำนวนแคลอรี่"`
 	Date         string
 
 	AdminID *uint
 	Admin   Admin
 
-	MostNutrientID *uint
-	MostNutrient   MostNutrient
+	MostNutrientID *uint `valid:"required~ กรุณาเลือกหมู่อาหารที่พบมาก "`
+	MostNutrient   MostNutrient 
 
-	FoodInformationID int
-	FoodInformation   FoodInformation
+	FoodInformationID int `valid:"required~ กรุณาเลือกอาหาร "`
+	FoodInformation   FoodInformation `gorm:"references:id" valid:"-"`
 }
 
 // ================== ระบบสำรวจพฤติกรรมก่อนเข้าเทรน ==================

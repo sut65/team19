@@ -797,9 +797,14 @@ const CreateNutrient = async (data: NutrientInterface) => {
 
   let res = await fetch(`${apiUrl}/nutrients`, requestOptions)
     .then((response) => response.json())
-    .then((result) => {
-      return result.data ? result.data : false;
-    });
+    .then((res) => {
+      if (res.data) {
+        return { status: true, message: res.data };
+      } else {
+        return { status: false, message: res.error };
+      }
+      }
+    );
 
   return res;
 };
