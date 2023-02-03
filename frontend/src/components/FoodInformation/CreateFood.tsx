@@ -286,10 +286,10 @@ function CreateFood() {
                     <DateTimePicker
                       renderInput={(props) => <TextField
                         required
-                        disabled
                         fullWidth
                         {...props} />}
-                      label="เลือกวันเวลาในการเพิ่มอาหาร"
+                      label="วันเวลาในการเพิ่มอาหาร"
+                      readOnly
                       value={datetime}
                       onChange={(newValue) => {
                         setDatetime(newValue);
