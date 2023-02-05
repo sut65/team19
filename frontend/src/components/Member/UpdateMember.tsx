@@ -20,14 +20,17 @@ import { StatusInterface } from "../../interfaces/IStatus";
 import { GenderInterface } from "../../interfaces/IGender";
 import { Link as RouterLink } from "react-router-dom";
 import { Box } from "@mui/system";
+
 import {styled} from "@mui/material";
+import { useParams } from "react-router-dom";
+import { UpdateMem } from "../../services/HttpClientService";
 
 
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Link } from "react-router-dom";
 import { dark } from "@mui/material/styles/createPalette";
-import { CreateMember } from "../../services/HttpClientService";
+
 
 const ImgBox = styled(Box)({
     width: "280px",
@@ -40,18 +43,15 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-function RegisterMember() {
-  // =========================(Use State)====================================================
 
+function UpdateMember() {
+  // =========================(Use State)====================================================
+  const { id } = useParams();
   const [rg, setRg] = useState<MemberInterface>({});
   const [gen, setGen] = useState<GenderInterface[]>([]);
   const [sta, setSta] = useState<StatusInterface[]>([]);
   const [prv, setPrv] = useState<ReligionInterface[]>([]);
   const [profileuser, setProfileUser] = useState({ name: "", src: "" });
-
-  const [first, setFirst] = useState<String>("");
-  const [last, setLast] = useState<String>("");
-  const [email, setEm] = useState<String>("");
   
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
@@ -175,11 +175,12 @@ function RegisterMember() {
     return val;
   };
 
-  const submit = async () => {
+  const update = async () => {
     let data = {
+        ID: convertType(id),
     Firstname: rg.Firstname,
     Lastname: rg.Lastname,
-    Password: pass.password,
+    Password: rg.Password,
     Email: rg.Email,
     GenderID: convertType(rg.GenderID),
     StatusID: convertType(rg.StatusID),
@@ -187,17 +188,18 @@ function RegisterMember() {
     Profileuser: rg.Profileuser,
     };
     // window.location.href = "/members"
-    console.log(data)
-    console.log(rg.Firstname)
-    let res = await CreateMember(data);
-    if (res.status) {
-      window.location.href = "/user/profile-member";
-      setSuccess(true);
-      setAlertMessage("บันทึกข้อมูลสำเร็จ");
-    } else {
-      setError(true);
-      setAlertMessage(res.message);
-    }
+    
+     console.log(data);
+     console.log(JSON.stringify(data));
+     
+     let res = await UpdateMem(data);
+     if (res) {
+       setSuccess(true);
+       window.location.href = "/user/profile-member";
+     } else {
+       setError(true);
+     }
+     console.log(JSON.stringify(data))
   };
 
   return (
@@ -447,8 +449,8 @@ function RegisterMember() {
                 md={12}
                 sx={{ justifyContent: "center", margin: 1 }}
               >
-                <Button variant="contained" size="large" onClick={submit}>
-                  สมัครสมาชิก
+                <Button variant="contained" size="large" onClick={update}>
+                  แก้ไขข้อมูลสมาชิก
                 </Button>
               </Grid>
             </Grid>
@@ -482,4 +484,4 @@ function RegisterMember() {
   );
 }
 
-export default RegisterMember;
+export default UpdateMember;

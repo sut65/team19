@@ -862,12 +862,37 @@ const CreateMember = async (data: MemberInterface) => {
 
   let res = await fetch(`${apiUrl}/member`, requestOptions)
     .then((response) => response.json())
+    .then((res) => {
+      console.log(res)
+      if (res.data) {
+        return { status: true, message: res.data };
+      } else {
+        return { status: false, message: res.error };
+      }
+    });
+
+  return res;
+};
+
+const UpdateMem = async (data: MemberInterface) => {
+  const requestOptions = {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/update-member`, requestOptions)
+    .then((response) => response.json())
     .then((result) => {
       return result.data ? result.data : false;
     });
 
   return res;
 };
+
 
 const DeleteNutrient = async (id: string) => {
   const requestOptions = {
@@ -1354,6 +1379,7 @@ export {
   GetNutrientByID,
   UpdateNut,
   // Member
+  UpdateMem,
   GetMemberByID,
   CreateMember,
   //Body
