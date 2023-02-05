@@ -41,6 +41,8 @@ import ShowCardCourseDetail from "./components/CourseDetail/ShowCardCourseDetail
 import RegisterMember from "./components/Member/Register";
 import ProfileMember from "./components/Member/ProfileMember";
 import UpdateCourseServicePage from "./components/CourseService/UpdateCourseServicePage";
+import  UpdateMember from "./components/Member/UpdateMember";
+import { UpdateMem } from "./services/HttpClientService";
 
 function App() {
   const [token, setToken] = useState<String>("");
@@ -139,6 +141,7 @@ function App() {
           <Route path="behavior" element={<CreateBehaviors />} />
           
           <Route path="profile-member" element={<ProfileMember />}></Route>
+          <Route path="profile-member/update-member" element={<UpdateMember />}></Route>
         </Route>
         {/* <Route path="/" element={<Navbar />}> */}
         {/* </Route> */}

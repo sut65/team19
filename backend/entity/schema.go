@@ -33,10 +33,10 @@ type Gender struct {
 
 type Member struct {
 	gorm.Model
-	Firstname   string
+	Firstname   string `valid:"required~Name cannot be blank"`
 	Lastname    string
 	ProfileUser string
-	Email       string `gorm:"uniqueIndex"`
+	Email       string `gorm:"uniqueIndex" valid:"email"`
 	Password    string
 
 	MealTimesID *uint

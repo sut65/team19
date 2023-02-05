@@ -5,6 +5,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team19/controller"
+	Advice "github.com/sut65/team19/controller/Advice"
+	CourseDetail "github.com/sut65/team19/controller/CourseDetail"
 	CourseService "github.com/sut65/team19/controller/CourseService"
 	DailyActivities "github.com/sut65/team19/controller/DailyActivities"
 	foodInformation "github.com/sut65/team19/controller/FoodInformation"
@@ -12,10 +14,8 @@ import (
 	nutrient "github.com/sut65/team19/controller/Nutrient"
 	Payment "github.com/sut65/team19/controller/Payment"
 	trainer "github.com/sut65/team19/controller/Trainer"
-	CourseDetail "github.com/sut65/team19/controller/CourseDetail"
 	blog "github.com/sut65/team19/controller/blog"
 	review "github.com/sut65/team19/controller/review"
-	Advice "github.com/sut65/team19/controller/Advice"
 	"github.com/sut65/team19/entity"
 	"github.com/sut65/team19/middlewares"
 )
@@ -91,7 +91,7 @@ func main() {
 			router.GET("/member/:id", controller.GetMember)
 			router.GET("/members", controller.ListMembers)
 			router.DELETE("/member/:id", controller.DeleteMember)
-			router.PATCH("/members", controller.UpdateMember)
+			router.PATCH("/update-member", controller.UpdateMember)
 
 			// DailyActivities Routes
 			r.POST("/dailyactivities", DailyActivities.CreateActivity)
