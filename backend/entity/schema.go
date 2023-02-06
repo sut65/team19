@@ -182,26 +182,26 @@ type Education struct {
 
 type Trainer struct {
 	gorm.Model
-	Name       string
-	University string
-	Gpax       float32
-	Gender     string
-	Age        int
-	Address    string
-	Email      string `gorm:"uniqueIndex"` // ใช้ Email ในการ login
-	Password   string
+	Name       string  `valid:"required~Name cannot be blank"`
+	University string  `valid:"required~University cannot be blank"`
+	Gpax       float32 `valid:"matches(^[+]?([1-3]+([.][0-9]*)?|[.][0]+)$)~Gpax must be between 0-4"`
+	Gender     string  `valid:"required~Gender cannot be blank"`
+	Age        int     `valid:"matches(^[1-9]\\d*$)~Age must be positive integer"` //matches(^(?<![-.])\b[1-9]+\b(?!\.[0-9])$)
+	Address    string  `valid:"required~Adrress cannot be blank"`
+	Email      string  `valid:"email~Invalid email format,maxstringlength(30)~must be no more than 20 characters long,required~Email cannot be blank"` // ใช้ Email ในการ login
+	Password   string  `valid:"required~Password cannot be blank,maxstringlength(20)~Password must be no more than 20 characters long"`
 
 	FormOfWorkID *uint
-	FormOfWork   FormOfWork
+	FormOfWork   FormOfWork `valid:"-"`
 
 	StatusID *uint
-	Status   Status
+	Status   Status `valid:"-"`
 
 	EducationID *uint
-	Education   Education
+	Education   Education `valid:"-"`
 
 	ReligionID *uint
-	Religion   Religion
+	Religion   Religion `valid:"-"`
 
 	CourseService []CourseService `gorm:"foreignKey:TrainerID"`
 	Body          []Body          `gorm:"foreignKey:TrainerID"`
