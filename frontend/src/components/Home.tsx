@@ -12,7 +12,7 @@ import { CourseServiceInterface } from '../interfaces/ICourseService';
 import { PaymentInterface } from "../interfaces/IPayment";
 import { GetCourseServiceByUidAndStatus, GetCourseDetailByID, GetPaymentByUID, UpdateCourseService, DeleteCourseService, DeletePayment } from '../services/HttpClientService';
 import { addDays } from '@progress/kendo-date-math';
-import Swal from 'sweetalert2'
+// import Swal from 'sweetalert2';
 import '../App.css';
 import BG from "../images/bg-course-service.jpg";
 
@@ -93,32 +93,32 @@ function Home() {
     }
   };
 
-  const DeleteButton = async () => {
-    Swal.fire({
-      title: 'Are you sure to refund?',
-      icon: 'warning',
-      html: "Words cannot express how grateful I am for your help. <br />I truly appreciate!",
-      showCancelButton: true,
-      cancelButtonColor: '#698269',
-      confirmButtonColor: '#AA5656',
-      confirmButtonText: 'Sure',
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        Swal.fire({
-          title: 'Refunded!',
-          icon: 'success',
-          confirmButtonColor: '#698269',
-        }).then(async (result) => {
-          if (result.isConfirmed || result.isDenied || result.isDismissed || result.dismiss) {
-            await DeleteCourseService(CourseService?.ID);
-            await DeletePayment(CourseService?.ID);
-            localStorage.clear();
-            navigate("/")
-          }
-        })
-      }
-    })
-  }
+  // const DeleteButton = async () => {
+  //   Swal.fire({
+  //     title: 'Are you sure to refund?',
+  //     icon: 'warning',
+  //     html: "Words cannot express how grateful I am for your help. <br />I truly appreciate!",
+  //     showCancelButton: true,
+  //     cancelButtonColor: '#698269',
+  //     confirmButtonColor: '#AA5656',
+  //     confirmButtonText: 'Sure',
+  //   }).then(async (result:any) => {
+  //     if (result.isConfirmed) {
+  //       Swal.fire({
+  //         title: 'Refunded!',
+  //         icon: 'success',
+  //         confirmButtonColor: '#698269',
+  //       }).then(async (result:any) => {
+  //         if (result.isConfirmed || result.isDenied || result.isDismissed || result.dismiss) {
+  //           await DeleteCourseService(CourseService?.ID);
+  //           await DeletePayment(CourseService?.ID);
+  //           localStorage.clear();
+  //           navigate("/")
+  //         }
+  //       })
+  //     }
+  //   })
+  // }
 
   useEffect(() => {
     getCourseServiceByUidAndStatus();
@@ -334,7 +334,7 @@ function Home() {
                       fontSize: "16px",
                       marginTop: "16px",
                     }}
-                    onClick={DeleteButton}
+                    // onClick={DeleteButton}
                   >
                     Refund
                   </Button>
