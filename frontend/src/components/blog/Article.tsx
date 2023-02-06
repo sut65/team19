@@ -168,6 +168,8 @@ function Article() {
                 <SpeedDialAction
                   sx={{
                     color: `${action.color}`,
+                    width: "55px",
+                    height: "55px"
                   }}
                   key={action.name}
                   icon={action.icon}
