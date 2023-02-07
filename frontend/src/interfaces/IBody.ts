@@ -7,14 +7,13 @@ export interface BodyInterface {
     Height?:        Number,
 	Weight?:        Number,
 	Hip?:           Number,
-	UpperArmLeft?:  Number,
-	UpperArmRight?: Number,
-	LeftThigh ?:    Number,
-	RightThigh ?:   Number,
+	UpperArm?:  Number,
+	Thigh ?:    Number,
 	NarrowWaist ?:  Number,
 	NavelWaist ?:   Number,
 	Bmi ?:          Number,
 	Note ?:         string,
+	CreatedAt ?:	string,
 
     TrainerID?: number
     Trainer?: TrainerInterface
