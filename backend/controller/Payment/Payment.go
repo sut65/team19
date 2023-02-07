@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team19/entity"
+	"github.com/asaskevich/govalidator"
 )
 
 // POST /payment
@@ -20,21 +21,27 @@ func CreatePayment(c *gin.Context) {
 		return
 	}
 
+	// แทรกการ validate ไว้ช่วงนี้ของ controller
+	if _, err := govalidator.ValidateStruct(payment); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	// ค้นหา course_service ด้วย id
 	if tx := entity.DB().Where("id = ?", payment.CourseServiceID).First(&course_service); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "course_service not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Service not found"})
 		return
 	}
 
 	// ค้นหา discount ด้วย id
 	if tx := entity.DB().Where("id = ?", payment.DiscountID).First(&discount); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "discount not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Code not found"})
 		return
 	}
 
 	// ค้นหา duration ด้วย id
 	if tx := entity.DB().Where("id = ?", payment.DurationID).First(&duration); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "duration not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Course duration not found"})
 		return
 	}
 
@@ -79,6 +86,18 @@ func ListPaymentByUID(c *gin.Context) {
 	
 }
 
+// GET /payment-history/:uid
+func GetPaymentByUID(c *gin.Context) {
+	var payments entity.Payment
+	uid := c.Param("uid")
+	if tx := entity.DB().Preload("CourseService").Preload("Discount").Preload("Duration").Raw("SELECT course_services.id, payments.id, payments.payment_date, payments.slip, payments.balance, payments.course_service_id, payments.duration_id, payments.discount_id, course_services.member_id FROM payments INNER JOIN course_services WHERE course_services.status = 'Active' AND payments.course_service_id = course_services.id AND course_services.member_id = ?", uid).Find(&payments); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "payment not found"})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": payments})
+	
+}
+
 // GET /payments
 func ListPayments(c *gin.Context) {
 	var payments []entity.Payment
@@ -88,4 +107,15 @@ func ListPayments(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"data": payments})
+}
+
+// DELETE /payment/:cid
+func DeletePaymentByCID(c *gin.Context) {
+	cid := c.Param("cid")
+	if tx := entity.DB().Exec("DELETE FROM payments WHERE course_service_id = ?", cid); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "payments not found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": cid})
 }

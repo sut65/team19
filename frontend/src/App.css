@@ -3,10 +3,22 @@
     src: url('https://fonts.googleapis.com/css2?family=Kanit&display=swap');
 }
   
-#root {
+* {
     font-family: 'Kanit', sans-serif;
 }
 
 body {
     overflow-y: scroll; /* Show vertical scrollbar */
+}
+
+::-webkit-scrollbar {
+    width: 20px;
+}
+
+::-webkit-scrollbar-track {
+    background: #dddddd;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #034138;
 }

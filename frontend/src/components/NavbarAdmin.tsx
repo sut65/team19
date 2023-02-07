@@ -22,10 +22,12 @@ import { Avatar } from "@mui/material";
 import FoodIcon from "../images/FoodIcon2.png";
 import NutIcon from "../images/FoodIcon.png";
 import AppLogo from "../images/nutrition.png";
+import CourseIcon from "../images/CourseIcon.png";
 
 import "../App.css";
 import "../index.css";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { Padding } from "@mui/icons-material";
 
 const theme = createTheme({
   typography: {
@@ -40,8 +42,22 @@ const theme = createTheme({
 function NavbarAdmin() {
   const Logout = () => {
     localStorage.clear();
-    window.location.href = "/admin";
+    window.location.href = "/";
   };
+
+  const menus = [{
+    to: "food-display",
+    label: "Food",
+    icons: FoodIcon,
+  }, {
+    to: "course",
+    label: "Course",
+    icons: CourseIcon,
+  }, {
+    to: "nutrient-display",
+    label: "Nutrient",
+    icons: NutIcon,
+  }];
 
   return (
     <ThemeProvider theme={theme}>
@@ -66,8 +82,10 @@ function NavbarAdmin() {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
+                flexDirection: "column"
               }}
             >
+            <div style={{ display: "flex", width: "100vw", justifyContent: "space-between"}}>
               <Grid item xs={1.2}>
                 <Box
                   sx={{
@@ -77,7 +95,7 @@ function NavbarAdmin() {
                   }}
                 >
                   <img
-                    style={{ height: 40, justifyItems: "center" }}
+                    style={{ height: 40, justifyItems: "center" ,paddingLeft: "20px"}}
                     src={AppLogo}
                     alt="logo"
                   />
@@ -99,72 +117,98 @@ function NavbarAdmin() {
                 </Box>
               </Grid>
 
-              <Grid item xs={5}></Grid>
+              <Grid item xs={3}></Grid>
 
               {/* ถ้าจะเพิ่ม menu ก็ลดอัตราส่วนลง เช่น
-            จาก
-            <Grid item xs={6}></Grid>
-            เป็น
-            <Grid item xs={5}></Grid>
-            <Grid item xs={1}>menu1</Grid> 
-            */}
-
-              <Grid item xs={1}>
-                <Link
-                  to="food-display"
-                  style={{
-                    color: "#000",
-                    textDecoration: "none",
-                    textAlign: "center",
-                  }}
-                >
-                  <Button color="inherit" style={{ fontSize: "1.2rem" }}>
-                    Food
-                    <Avatar src={FoodIcon} />
-                  </Button>
-                </Link>
-              </Grid>
-              <Grid item xs={1}>
-                <Link
-                  to="course"
-                  style={{
-                    color: "#000",
-                    textDecoration: "none",
-                    textAlign: "center",
-                  }}
-                >
-                  <Button color="inherit" style={{ fontSize: "1.2rem" }}>
-                    Course
-                  </Button>
-                </Link>
-              </Grid>
-              {/* =====================================< Body Record >==================================== */}
-              <Grid item xs={1}>
-                <Link
-                  to="nutrient-display"
-                  style={{
-                    color: "#000",
-                    textDecoration: "none",
-                    textAlign: "center",
-                  }}
-                >
-                  <Button color="inherit" style={{ fontSize: "1.2rem" }}>
-                    Nutrient
-                    <Avatar src={NutIcon} />
-                  </Button>
-                </Link>
-              </Grid>
-              <Grid item xs={1} sx={{ ml: 4 }}>
-                <IconButton onClick={Logout}>
+                จาก
+                <Grid item xs={6}></Grid>
+                เป็น
+                <Grid item xs={5}></Grid>
+                <Grid item xs={1}>menu1</Grid> 
+                */}
+              {/* <Grid item xs={1} sx={{ ml: 4 }}> */}
+              <div style={{ marginRight: 10 }}>
+                {menus.map((item) => {
+                  return (
+                    <>
+                      <Link
+                        to={item.to}
+                        style={{
+                          color: "#000",
+                          textDecoration: "none",
+                          textAlign: "center",
+                        }}
+                      >
+                        <Button color="inherit" style={{ fontSize: "1.2rem" }}>
+                          {item.label}
+                          {item.icons && <Avatar src={item.icons} />}
+                        </Button>
+                      </Link>
+                    </>
+                  );
+                })}
+                <IconButton onClick={Logout} style={{paddingRight: "20px"}}>
                   <LogoutIcon fontSize="large" />
                 </IconButton>
-              </Grid>
-              <Outlet />
-            </Grid>
-          </AppBar>
-        </Box>
-      </Fragment>
-    </ThemeProvider>
+              </div>
+                {/* </Grid> */}
+                {/* <Grid item xs={1}>
+                    <Link
+                      to="food-display"
+                      style={{
+                        color: "#000",
+                        textDecoration: "none",
+                        textAlign: "center",
+                      }}
+                    >
+                      <Button color="inherit" style={{ fontSize: "1.2rem" }}>
+                        Food
+                        <Avatar src={FoodIcon} />
+                      </Button>
+                    </Link>
+                  </Grid>
+                <Grid item xs={1}>
+                    <Link
+                      to="course"
+                      style={{
+                        color: "#000",
+                        textDecoration: "none",
+                        textAlign: "center",
+                      }}
+                    >
+                      <Button color="inherit" style={{ fontSize: "1.2rem" }}>
+                        Course
+                      </Button>
+                    </Link>
+                  </Grid> */}
+                {/* =====================================< Body Record >==================================== */}
+                {/* <Grid item xs={1}>
+                    <Link
+                      to="nutrient-display"
+                      style={{
+                        color: "#000",
+                        textDecoration: "none",
+                        textAlign: "center",
+                      }}
+                    >
+                      <Button color="inherit" style={{ fontSize: "1.2rem" }}>
+                        Nutrient
+                        <Avatar src={NutIcon} />
+                      </Button>
+                    </Link>
+                  </Grid>
+                <Grid item xs={1} sx={{ ml: 4 }}>
+                    <IconButton onClick={Logout}>
+                      <LogoutIcon fontSize="large" />
+                    </IconButton>
+                  </Grid> */}
+              </div>
+            <Outlet />
+          </Grid>
+        </AppBar>
+      </Box>
+    </Fragment>
+    </ThemeProvider >
   );
 }
 

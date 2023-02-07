@@ -38,8 +38,12 @@ import UpdateNutrient from "./components/Nutrient/UpdateNutrient";
 import CreateCourseDetail from "./components/CourseDetail/CreateCourseDetail";
 import CourseDetail from "./components/CourseDetail/CourseDetail";
 import ShowCardCourseDetail from "./components/CourseDetail/ShowCardCourseDetail";
+import UpdateCourseDetail from "./components/CourseDetail/UpdateCourseDetail";
 import RegisterMember from "./components/Member/Register";
 import ProfileMember from "./components/Member/ProfileMember";
+import UpdateCourseServicePage from "./components/CourseService/UpdateCourseServicePage";
+import  UpdateMember from "./components/Member/UpdateMember";
+import { UpdateMem } from "./services/HttpClientService";
 
 function App() {
   const [token, setToken] = useState<String>("");
@@ -92,15 +96,9 @@ function App() {
 
           {/* course_detail */}
           <Route path="course" element={<ShowCardCourseDetail />}></Route>
-          <Route
-            path="create"
-            element={<CreateCourseDetail />}
-          ></Route>
-          <Route
-            path="course_detail/:id"
-            element={<CourseDetail />}
-          ></Route>
-          
+          <Route path="create-course" element={<CreateCourseDetail />}></Route>
+          <Route path="course_detail/:id" element={<CourseDetail />}></Route>
+          <Route path="course_detail/:id/update-course" element={<UpdateCourseDetail />}></Route>
         </Route>
 
         {/* Routes Trainer */}
@@ -111,12 +109,13 @@ function App() {
 
         {/* Routes User */}
         <Route path="user" element={<User />}>
-          <Route path="home" element={<Home />} />
+          <Route path="" element={<Home />} />
           <Route path="create-article" element={<CreateArticle />} />
           <Route path="articles" element={<ShowCardBlog />} />
           <Route path="article/:id" element={<Article />} />
           <Route path="register-course" element={<ShowCardCourseService />} />
           <Route path="register-course/:id" element={<RegisterCourse />} />
+          <Route path="update-course" element={<UpdateCourseServicePage />} />
           <Route path="payment/:id" element={<Payment />} />
           <Route path="payment-history" element={<PaymentHistory />} />
           <Route path="article/create-article" element={<CreateArticle />} />
@@ -137,6 +136,7 @@ function App() {
           <Route path="behavior" element={<CreateBehaviors />} />
           
           <Route path="profile-member" element={<ProfileMember />}></Route>
+          <Route path="profile-member/update-member" element={<UpdateMember />}></Route>
         </Route>
         {/* <Route path="/" element={<Navbar />}> */}
         {/* </Route> */}

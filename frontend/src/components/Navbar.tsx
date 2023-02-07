@@ -101,7 +101,7 @@ function Navbar() {
                 </Link>
               </Grid>
 
-              <Grid item xs={5}></Grid>
+              <Grid item xs={6}></Grid>
 
               {/* ถ้าจะเพิ่ม menu ก็ลดอัตราส่วนลง เช่น
               จาก
@@ -110,21 +110,6 @@ function Navbar() {
               <Grid item xs={5}></Grid>
               <Grid item xs={1}>menu1</Grid> 
               */}
-
-              <Grid item xs={1}>
-                <Link
-                  to="register-course"
-                  style={{
-                    color: "#000",
-                    textDecoration: "none",
-                    textAlign: "center"
-                  }}
-                >
-                  <Button color="inherit" style={{ fontSize: "1.2rem" }}>
-                    Course
-                  </Button>
-                </Link>
-              </Grid>
               <Grid item xs={1}>
                 <Link
                   to="articles"

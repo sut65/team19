@@ -53,9 +53,9 @@ function RegisterMember() {
   const [last, setLast] = useState<String>("");
   const [email, setEm] = useState<String>("");
   
-
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
+  const [message,setAlertMessage] = React.useState("")
 
   const [pass, setPass] = React.useState<State>({
     password: "",
@@ -177,8 +177,8 @@ function RegisterMember() {
 
   const submit = async () => {
     let data = {
-    FirstName: rg.Firstname,
-    LastName: rg.Lastname,
+    Firstname: rg.Firstname,
+    Lastname: rg.Lastname,
     Password: pass.password,
     Email: rg.Email,
     GenderID: convertType(rg.GenderID),
@@ -186,10 +186,18 @@ function RegisterMember() {
     ReligionID: convertType(rg.ReligionID),
     Profileuser: rg.Profileuser,
     };
-
-    let res = await CreateMember(data);
-    res ? setSuccess(true) : setError(true);
     // window.location.href = "/members"
+    console.log(data)
+    console.log(rg.Firstname)
+    let res = await CreateMember(data);
+    if (res.status) {
+      window.location.href = "/user/profile-member";
+      setSuccess(true);
+      setAlertMessage("บันทึกข้อมูลสำเร็จ");
+    } else {
+      setError(true);
+      setAlertMessage(res.message);
+    }
   };
 
   return (
@@ -218,7 +226,7 @@ function RegisterMember() {
               <Grid xs={6} md={6}>
                 <p style={{ color: "grey", fontSize: 17 }}>Firstname</p>
                 <TextField
-                  id="firstname"
+                  id="Firstname"
                   label="ชื่อ"
                   name="Firstname"
                   variant="outlined"
@@ -297,6 +305,9 @@ function RegisterMember() {
                   }
                   inputProps={{ maxLength: 10 }}
                 />
+                <FormHelperText disabled sx={{ width: 350, marginLeft: 2 }}>
+                  กรุณากรอกรหัสของคุณ
+                </FormHelperText>
               </Grid>
               {/*=======================================(select Gender)===========================================================*/}
               <Grid
@@ -429,10 +440,7 @@ function RegisterMember() {
       <ImgBox>
         <img src={profileuser.src} alt={profileuser.name} style={{ width: "100%" }} />
       </ImgBox>
-                    
-
                 </Grid>
-
               <Grid
                 container
                 xs={12}
@@ -449,23 +457,25 @@ function RegisterMember() {
       </Container>
       <Snackbar
         open={success}
+        id = "success"
         autoHideDuration={5000}
         onClose={handleClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="success">
-          สมัครสมาชิกสำเร็จ
+          {message}
         </Alert>
       </Snackbar>
 
       <Snackbar
         open={error}
+        id = "error"
         autoHideDuration={5000}
         onClose={handleClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="error">
-        สมัครสมาชิกไม่สำเร็จ
+        {message}
         </Alert>
       </Snackbar>
     </div>

@@ -5,6 +5,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team19/controller"
+	Advice "github.com/sut65/team19/controller/Advice"
+	CourseDetail "github.com/sut65/team19/controller/CourseDetail"
 	CourseService "github.com/sut65/team19/controller/CourseService"
 	DailyActivities "github.com/sut65/team19/controller/DailyActivities"
 	foodInformation "github.com/sut65/team19/controller/FoodInformation"
@@ -12,10 +14,8 @@ import (
 	nutrient "github.com/sut65/team19/controller/Nutrient"
 	Payment "github.com/sut65/team19/controller/Payment"
 	trainer "github.com/sut65/team19/controller/Trainer"
-	CourseDetail "github.com/sut65/team19/controller/CourseDetail"
 	blog "github.com/sut65/team19/controller/blog"
 	review "github.com/sut65/team19/controller/review"
-	Advice "github.com/sut65/team19/controller/Advice"
 	"github.com/sut65/team19/entity"
 	"github.com/sut65/team19/middlewares"
 )
@@ -70,6 +70,7 @@ func main() {
 			router.GET("/course_service/:id", CourseService.GetCourseService)
 			router.GET("/course_services", CourseService.ListCourseServices)
 			router.GET("/course_service_by_uid/:uid", CourseService.GetCourseServiceByUID)
+			router.GET("/course_service_by_uid_and_status/:uid", CourseService.GetCourseServiceByUidAndStatus)
 			router.DELETE("/course_service/:id", CourseService.DeleteCourseService)
 			router.PATCH("/course_services", CourseService.UpdateCourseService)
 
@@ -90,7 +91,7 @@ func main() {
 			router.GET("/member/:id", controller.GetMember)
 			router.GET("/members", controller.ListMembers)
 			router.DELETE("/member/:id", controller.DeleteMember)
-			router.PATCH("/members", controller.UpdateMember)
+			router.PATCH("/update-member", controller.UpdateMember)
 
 			// DailyActivities Routes
 			r.POST("/dailyactivities", DailyActivities.CreateActivity)
@@ -218,7 +219,9 @@ func main() {
 			router.POST("/payment", Payment.CreatePayment)
 			router.GET("/payment/:id", Payment.GetPayment)
 			router.GET("/payments", Payment.ListPayments)
-			router.GET("/payment-history/:uid", Payment.ListPaymentByUID)
+			router.GET("/payment-history/:uid", Payment.GetPaymentByUID)
+			router.GET("/payment-historys/:uid", Payment.ListPaymentByUID)
+			router.DELETE("/payment/:cid", Payment.DeletePaymentByCID)
 		}
 	}
 	// login User Route

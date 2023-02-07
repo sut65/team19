@@ -45,6 +45,7 @@ function CreateArticle() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [image, setImage] = useState({ name: "", src: "" });
+  const [message, setAlertMessage] = useState("");
 
   const handleClose = (
     event?: React.SyntheticEvent | Event,
@@ -62,7 +63,7 @@ function CreateArticle() {
     const name = event.target.name as keyof typeof blog;
 
     var reader = new FileReader();
-    reader.readAsDataURL(input);    
+    reader.readAsDataURL(input);
     reader.onload = function () {
       const dataURL = reader.result;
       setImage({ name: input.name, src: dataURL?.toString() as string });
@@ -113,8 +114,16 @@ function CreateArticle() {
     };
 
     let res = await CreateBlog(data);
-    res ? setSuccess(true) : setError(true);
-    window.location.href = "/user/articles"
+    if (res.status) {
+      setAlertMessage("บันทึกข้อมูลสำเร็จ");
+      setSuccess(true);
+      setTimeout(() => {
+        window.location.href = "/user/articles";
+      }, 1000);
+    } else {
+      setAlertMessage(res.message);
+      setError(true);
+    }
   };
 
   useEffect(() => {
@@ -144,7 +153,7 @@ function CreateArticle() {
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="success">
-          บันทึกข้อมูลสำเร็จ
+          {message}
         </Alert>
       </Snackbar>
 
@@ -155,7 +164,7 @@ function CreateArticle() {
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="error">
-          บันทึกข้อมูลไม่สำเร็จ
+          {message}
         </Alert>
       </Snackbar>
       {/* Upload Cover Image */}
@@ -228,7 +237,7 @@ function CreateArticle() {
             }}
           >
             <option aria-label="None" value="">
-              หมวดหมู่
+              Category
             </option>
             {categories.map((item: CategoryInterface) => (
               <option key={item.ID} value={item.ID}>

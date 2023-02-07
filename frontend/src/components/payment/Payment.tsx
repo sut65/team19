@@ -7,10 +7,8 @@ import {
   Divider,
   FormControl,
   Grid,
-  InputAdornment,
   Select,
   SelectChangeEvent,
-  styled,
   TextField,
   Typography,
 } from "@mui/material";
@@ -20,7 +18,7 @@ import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 
 import { PaymentInterface } from "../../interfaces/IPayment";
-import { GetPayment, CreatePayment, GetCourseServiceBYUID, GetCourseDetailByID, GetDuration, GetDiscountByCode, GetDurationByID } from "../../services/HttpClientService";
+import { CreatePayment, GetCourseServiceBYUID, GetCourseDetailByID, GetDuration, GetDiscountByCode, GetDurationByID } from "../../services/HttpClientService";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { CourseServiceInterface } from "../../interfaces/ICourseService";
@@ -29,8 +27,6 @@ import { DurationInterface } from "../../interfaces/IDuration";
 import { DiscountInterface } from "../../interfaces/IDiscount";
 import Clock from "react-live-clock";
 import QRCode from "../../images/qr-code.png";
-
-const apiUrl = `http://localhost:8080`;
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -57,11 +53,13 @@ function Payment() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [image, setImage] = useState({ name: "", src: "" });
-  const [DisButton, setDisButton] = useState(false);
+  const [message, setAlertMessage] = React.useState("");
+  // const [DisButton, setDisButton] = useState(false);
 
   const UFirstName = localStorage.getItem("firstname") + "";
   const ULastName = localStorage.getItem("lastname") + "";
   const UserName = UFirstName + " " + ULastName;
+  const NowDate = Date.now()
 
   const navigate = useNavigate();
 
@@ -84,7 +82,7 @@ function Payment() {
     setError(false);
 
     if (success === true) {
-      navigate(`/user/home`);
+      navigate(`/user`);
     }
   };
 
@@ -103,7 +101,7 @@ function Payment() {
     };
 
     if (Payment.Slip !== "") {
-      setDisButton(true);
+      // setDisButton(true);
     }
   };
 
@@ -145,7 +143,7 @@ function Payment() {
       } else {
         setShowCodePercentage(0);
       }
-    } else if (Code === "NOCODE") {
+      // Validation if not has code in database > it will set to NOCODE
     } else {
       setCode("NOCODE");
     }
@@ -169,7 +167,6 @@ function Payment() {
   }, [Code]);
 
   useEffect(() => {
-    console.log(Payment.DurationID);
     CourseDuration = convertType(CourseDetail.Price?.Duration) + "";
     CalBalance(
       Number(CourseDetail.Price?.Price),
@@ -178,7 +175,7 @@ function Payment() {
       ShowDurationPercentage,
       NumberOfDays
     );
-  }, [Payment.DurationID, Code, NumberOfDays, CourseDetail.Price?.Price, ShowCodePercentage]);
+  }, [Payment.DurationID, NumberOfDays, CourseDetail.Price?.Price, ShowCodePercentage]);
 
   const convertType = (data: string | number | undefined) => {
     let val = typeof data === "string" ? parseInt(data) : data;
@@ -192,15 +189,12 @@ function Payment() {
     ShowDurationPercentage: number,
     NumberOfDays: number
   ) {
-    SumaryBalance =
-      (Price / Duration) *
-      NumberOfDays *
-      (1 - (ShowCodePercentage + ShowDurationPercentage) / 100);
-    SumaryBalance = parseInt((Math.ceil(SumaryBalance * 100) / 100).toFixed(2));
+    SumaryBalance = ((Price / Duration) * NumberOfDays) * (1 - (ShowCodePercentage + ShowDurationPercentage) / 100);
+    // SumaryBalance = parseInt((Math.ceil(SumaryBalance * 100) / 100).toFixed(2));
     if (Number.isNaN(Balance)) {
       setBalance(Number(CourseDetail.Price?.Price));
     } else {
-      setBalance(SumaryBalance);
+      setBalance(parseFloat((Math.ceil(SumaryBalance * 100) / 100).toFixed(2)));
     }
   }
 
@@ -214,10 +208,12 @@ function Payment() {
       DiscountID: convertType(Discount?.ID),
     };
     let res = await CreatePayment(data);
-    if (res) {
+    if (res.status) {
       setSuccess(true);
+      setAlertMessage("Paid successful");
     } else {
       setError(true);
+      setAlertMessage(res.message);
     }
   }
 
@@ -225,27 +221,27 @@ function Payment() {
     <div>
       <Snackbar
         open={success}
-        autoHideDuration={3000}
+        autoHideDuration={2000}
         onClose={handleClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="success">
-          ชำระเงินเสร็จสิ้น
+          {message}
         </Alert>
       </Snackbar>
       <Snackbar
         open={error}
-        autoHideDuration={6000}
+        autoHideDuration={5000}
         onClose={handleClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="error">
-          จ่ายเงินไม่สำเร็จ
+          {message}
         </Alert>
       </Snackbar>
       <Box
         sx={{
-          margin: "0 16% 0 10%",
+          margin: "3rem 16% 0 10%",
           display: "flex",
           justifyContent: "space-between",
         }}
@@ -411,6 +407,8 @@ function Payment() {
                       });
                     }}
                     renderInput={(params) => <TextField {...params} />}
+                    minDate={new Date(NowDate)}
+                    maxDate={new Date(NowDate)}
                   />
                 </LocalizationProvider>
               </FormControl>
@@ -451,7 +449,7 @@ function Payment() {
             <Grid item xs={6}>
               <TextField
                 fullWidth
-                id="Warter_Bill"
+                id="DiscountCode"
                 defaultValue=""
                 type="string"
                 variant="outlined"
@@ -495,7 +493,7 @@ function Payment() {
                     marginBottom: "10px",
                   }}
                 >
-                  Balance {">"} {Balance} baht
+                  Balance {">"} {Balance.toFixed(0)} baht
                 </Button>
               </Grid>
 
@@ -547,9 +545,8 @@ function Payment() {
                   padding: "6px 28px",
                 }}
                 onClick={Submit}
-                disabled={!DisButton}
               >
-                Register
+                Pay
               </Button>
             </Grid>
           </Grid>

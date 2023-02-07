@@ -37,16 +37,17 @@ function RegisterCourse() {
   const [CourseDetail, setCourseDetail] = useState<CourseDetailInterface>()
   const [Trainer, setTrainer] = useState<TrainerInterface[]>([])
   const [MemberID, setMemberID] = useState<string>()
-  const [Agreement, setAgreement] = useState<string>()
+  const [Agreement, setAgreement] = useState<string>("Disagree")
+  const [message, setAlertMessage] = React.useState("");
 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [checked, setChecked] = useState(false);
-  const [DisButton, setDisButton] = useState(false);
   const [showText, setShowText] = useState(false);
   const UFirstName = localStorage.getItem("firstname") + ""
   const ULastName = localStorage.getItem("lastname") + ""
   const UserName = UFirstName + " " + ULastName
+  const NowDate = Date.now()
   
   const navigate = useNavigate();
   const params = useParams();
@@ -60,7 +61,6 @@ function RegisterCourse() {
     else {
       setAgreement("Disagree")
     }
-    setDisButton(!DisButton)
   };
 
   const handleClose = (
@@ -108,7 +108,6 @@ function RegisterCourse() {
         if (res.data) {
           setCourseDetail(res.data)
           setMemberID(uid + "")
-          console.log(res.data)
           return res.data;
         } else {
           return false;
@@ -132,42 +131,45 @@ function RegisterCourse() {
       CRegisterDate: CourseService.CRegisterDate,
       Agreement: Agreement,
       Status: "Active",
+      RefundMessage: "-",
       MemberID: convertType(MemberID),
       CourseDetailID: convertType(CourseDetail?.ID),
       TrainerID: convertType(CourseService.TrainerID),
     };
-    console.log(data)
     let res = await CreateCourseService(data);
-    if (res) {
+    if (res.status) {
       setSuccess(true);
+      setAlertMessage("Register course seccessful, bring to payment page");
     } else {
       setError(true);
+      setAlertMessage(res.message);
     }
+    console.log(JSON.stringify(data))
   }
 
   return (
     <div>
       <Snackbar
         open={success}
-        autoHideDuration={3000}
+        autoHideDuration={2000}
         onClose={handleClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="success">
-          สมัครคอร์สสำเร็จ กำลังเข้าสู่หน้าชำระเงิน
+          {message}
         </Alert>
       </Snackbar>
       <Snackbar
         open={error}
-        autoHideDuration={6000}
+        autoHideDuration={5000}
         onClose={handleClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="error">
-          เกิดข้อผิดพลาดกับการสมัครคอร์ส โปรดลองอีกครั้ง
+          {message}
         </Alert>
       </Snackbar>
-      <Box sx={{ margin: "0 16% 0 10%", display: 'flex', justifyContent: "space-between" }}>
+      <Box sx={{ margin: "3rem 16% 0 10%", display: 'flex', justifyContent: "space-between" }}>
         <Card
           sx={{
             maxWidth: 600,
@@ -206,9 +208,12 @@ function RegisterCourse() {
             <Typography
               sx={{ fontSize: "1.2rem" }}
               variant="h5"
-              style={{ marginBottom: "3rem", marginTop: "0.5rem" }}
+              style={{ marginBottom: "1rem", marginTop: "0.5rem" }}
             >
               {CourseDetail?.Description?.Description}
+            </Typography>
+            <Typography variant="body2" color="text.secondary" mb={2} style={{marginBottom: "2rem"}}>
+              Goal: {CourseDetail?.Description?.Goal}
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <Typography
@@ -248,7 +253,7 @@ function RegisterCourse() {
               Back
             </Button>
             <Link
-              to={`/user/reviews`} // รอแก้เป็นรีวิว
+              to={`/user/reviews/${params.id}`} // รอแก้เป็นรีวิว
               style={{
                 textDecoration: "none",
               }}
@@ -344,6 +349,8 @@ function RegisterCourse() {
                       });
                     }}
                     renderInput={(params) => <TextField {...params} />}
+                    minDate={new Date(NowDate)}
+                    maxDate={new Date(NowDate)}
                   />
                 </LocalizationProvider>
               </FormControl>
@@ -363,15 +370,15 @@ function RegisterCourse() {
             </Grid>
 
             <Grid item xs={1.5} ></Grid>
-            {showText && <Grid item xs={10.5} style={{ fontSize: "1rem", color: "#343934", paddingLeft: "9%", marginTop: "-20px" }}>
+            <Grid item xs={10.5} style={{ fontSize: "1rem", color: "#343934", paddingLeft: "9%", marginTop: "-20px" }}>
               1) เว็บไซต์นี้มีการเก็บข้อมูลส่วนตัวของสมาชิก <br></br>
               2) ไม่รับผิดชอบการกระทำนอกเหนือคำแนะนำของคอร์สและเทรนเนอร์ <br></br>
               3) เมื่ออ่านครบทุกข้อแล้ว<u>กด "Agree" เพื่อยินยอมข้อตกลง</u> และกด Register เพื่อดำเนินการต่อ
 
-            </Grid>}
+            </Grid>
 
             <Grid item xs={6} ></Grid>
-            {showText && <Grid item xs={6} sx={{ textAlign: 'left', fontWeight: "bold" }}>
+            <Grid item xs={6} sx={{ textAlign: 'left', fontWeight: "bold" }}>
               <FormControlLabel control={
                 <Checkbox 
                   color="default"
@@ -382,7 +389,7 @@ function RegisterCourse() {
                 }
                 label="Agree"
               />
-            </Grid>}
+            </Grid>
             
             <Grid item xs={11}></Grid>
             <Grid item xs={1} sx={{ alignItems: 'center'}}>
@@ -396,7 +403,6 @@ function RegisterCourse() {
                   padding: "6px 28px",
                 }}
                 onClick={Submit}
-                disabled={!DisButton}
               >
                 Register
               </Button>

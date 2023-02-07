@@ -7,8 +7,9 @@ export interface CourseServiceInterface {
     CRegisterDate?:         Date | undefined | null;
     Agreement?:             string;
     Status?:                string;
-    MemberID?:                number;
-    Member?:                  MemberInterface;
+    RefundMessage?:         string;
+    MemberID?:              number;
+    Member?:                MemberInterface;
     CourseDetailID?:        number;
     CourseDetail?:          CourseDetailInterface;
     TrainerID?:             number;

@@ -3,6 +3,7 @@ package entity
 import (
 	"time"
 
+	"github.com/asaskevich/govalidator"
 	"gorm.io/gorm"
 )
 
@@ -32,10 +33,10 @@ type Gender struct {
 
 type Member struct {
 	gorm.Model
-	Firstname   string
+	Firstname   string `valid:"required~Name cannot be blank"`
 	Lastname    string
 	ProfileUser string
-	Email       string `gorm:"uniqueIndex"`
+	Email       string `gorm:"uniqueIndex" valid:"email"`
 	Password    string
 
 	MealTimesID *uint
@@ -97,9 +98,9 @@ type Price struct {
 
 type CourseDetail struct {
 	gorm.Model
-	CourseName string
-	CoverPage  string
-
+	CourseName string `valid:"required~CourseName cannot be blank"`
+	CoverPage  string `valid:"required~CoverPage cannot be blank"`
+	
 	DescriptionID *uint
 	Description   Description
 
@@ -123,17 +124,17 @@ type Rank struct {
 
 type Review struct {
 	gorm.Model
-	Content string
-	Image   string
+	Content string `valid:"minstringlength(10)~content not less than 10 characters,maxstringlength(200)~content not more than 200 characters"`
+	Image   string `valid:"image~Image must be images file"`
 
 	MemberID *uint
-	Member   Member
+	Member   Member `valid:"-"`
 
 	CourseDetailID *uint
-	CourseDetail   CourseDetail
+	CourseDetail   CourseDetail `valid:"-"`
 
 	RankID *uint
-	Rank   Rank
+	Rank   Rank `valid:"-"`
 }
 
 // *****************************************************************
@@ -152,18 +153,18 @@ type Tag struct {
 
 type Blog struct {
 	gorm.Model
-	CoverImage string
-	Title      string
-	Content    string
+	CoverImage string `valid:"image~CoverImage must be images file"`
+	Title      string `valid:"minstringlength(5)~Title not less than 5 characters"`
+	Content    string `valid:"minstringlength(20)~Content not less than 20 characters"`
 
 	MemberID *uint
-	Member   Member
+	Member   Member `valid:"-"`
 
 	CategoryID *uint
-	Category   Category
+	Category   Category `valid:"-"`
 
 	TagID *uint
-	Tag   Tag
+	Tag   Tag `valid:"-"`
 }
 
 // -------------------------------------------<< ระบบจัดการเทรนอร์ >>------------------------------------
@@ -181,26 +182,26 @@ type Education struct {
 
 type Trainer struct {
 	gorm.Model
-	Name       string
-	University string
-	Gpax       float32
-	Gender     string
-	Age        int
-	Address    string
-	Email      string `gorm:"uniqueIndex"` // ใช้ Email ในการ login
-	Password   string
+	Name       string  `valid:"required~Name cannot be blank"`
+	University string  `valid:"required~University cannot be blank"`
+	Gpax       float32 `valid:"matches(^[+]?([1-3]+([.][0-9]*)?|[.][0]+)$)~Gpax must be between 0-4"`
+	Gender     string  `valid:"required~Gender cannot be blank"`
+	Age        int     `valid:"matches(^[1-9]\\d*$)~Age must be positive integer"` //matches(^(?<![-.])\b[1-9]+\b(?!\.[0-9])$)
+	Address    string  `valid:"required~Adrress cannot be blank"`
+	Email      string  `valid:"email~Invalid email format,maxstringlength(30)~must be no more than 20 characters long,required~Email cannot be blank"` // ใช้ Email ในการ login
+	Password   string  `valid:"required~Password cannot be blank,maxstringlength(20)~Password must be no more than 20 characters long"`
 
 	FormOfWorkID *uint
-	FormOfWork   FormOfWork
+	FormOfWork   FormOfWork `valid:"-"`
 
 	StatusID *uint
-	Status   Status
+	Status   Status `valid:"-"`
 
 	EducationID *uint
-	Education   Education
+	Education   Education `valid:"-"`
 
 	ReligionID *uint
-	Religion   Religion
+	Religion   Religion `valid:"-"`
 
 	CourseService []CourseService `gorm:"foreignKey:TrainerID"`
 	Body          []Body          `gorm:"foreignKey:TrainerID"`
@@ -213,17 +214,18 @@ type Trainer struct {
 type CourseService struct {
 	gorm.Model
 	CRegisterDate time.Time
-	Agreement     string
+	Agreement     string `valid:"matches(Agree)~Please check 'Agree'"`
 	Status        string
+	RefundMessage string `valid:"required~Message cannot be blank"`
 
 	MemberID *uint
-	Member   Member
+	Member   Member `valid:"-"`
 
 	CourseDetailID *uint
-	CourseDetail   CourseDetail
+	CourseDetail   CourseDetail `valid:"-"`
 
 	TrainerID *uint
-	Trainer   Trainer
+	Trainer   Trainer `valid:"-"`
 
 	Payment []Payment `gorm:"foreignKey:CourseServiceID"`
 }
@@ -245,17 +247,17 @@ type FoodType struct {
 
 type FoodInformation struct {
 	gorm.Model
-	Name     string
+	Name     string `valid:"required~ กรุณาใส่ชื่ออาหาร "`
 	Datetime string
-	Image    string
+	Image    string `valid:"image~ รูปภาพต้องเป็นไฟล์รูปภาพเท่านั้น"`
 
 	AdminID *uint
 	Admin   Admin
 
-	MainIngredientID *uint
+	MainIngredientID *uint `valid:"required~ กรุณาเลือกวัตถุดิบหลัก "`
 	MainIngredient   MainIngredient
 
-	FoodTypeID *uint
+	FoodTypeID *uint `valid:"required~ กรุณาเลือกประเภทของอาหาร "`
 	FoodType   FoodType
 
 	// MealPlan []MealPlan `gorm:"foreignKey:FoodInformationID"`
@@ -422,18 +424,16 @@ type Advice struct {
 // -----------------------------<Bodyschema>--------------<< ระบบบันทึกการเปลี่ยนแปลงร่างกาย >>------------------------------------
 type Body struct {
 	gorm.Model
-	Height        float32
-	Weight        float32
-	Hip           float32
-	UpperArmLeft  float32
-	UpperArmRight float32
-	LeftThigh     float32
-	RightThigh    float32
-	NarrowWaist   float32
-	NavelWaist    float32
-	Bmi           float32
-	Note          string
-	Advice        []Advice `gorm:"foreignKey:BodyID"`
+	Height      float32
+	Weight      float32
+	Hip         float32
+	UpperArm    float32
+	Thigh       float32
+	NarrowWaist float32
+	NavelWaist  float32
+	Bmi         float32
+	Note        string
+	Advice      []Advice `gorm:"foreignKey:BodyID"`
 
 	TrainerID *uint
 	Trainer   Trainer
@@ -456,7 +456,7 @@ type Discount struct {
 
 type Duration struct {
 	gorm.Model
-	NumberOfDays       int
+	NumberOfDays       float32 // แก้เป็น int
 	DurationPercentage int
 
 	Payment []Payment `gorm:"foreignKey:DurationID"`
@@ -465,17 +465,17 @@ type Duration struct {
 type Payment struct {
 	gorm.Model
 	PaymentDate time.Time
-	Slip        string
+	Slip        string `valid:"required~Please upload slip,length(0|2802088)~File size must less than 2MB,image~Slip must be image file"`
 	Balance     float32
 
 	CourseServiceID *uint
-	CourseService   CourseService
+	CourseService   CourseService `valid:"-"`
 
 	DurationID *uint
-	Duration   Duration
+	Duration   Duration `valid:"-"`
 
 	DiscountID *uint
-	Discount   Discount
+	Discount   Discount `valid:"-"`
 }
 
 // ======================================================
@@ -490,18 +490,18 @@ type MostNutrient struct {
 
 type Nutrient struct {
 	gorm.Model
-	Comment      string
-	TotalCalorie int
+	Comment      string `valid:"maxstringlength(50)~ Comment ห้ามเกิน 50 ตัวอักษร "`
+	TotalCalorie int    `valid:"range(0|10000)~ จำนวนแคลอรี่ผิดพลาด, required~ กรุณาใส่จำนวนแคลอรี่"`
 	Date         string
 
 	AdminID *uint
 	Admin   Admin
 
-	MostNutrientID *uint
+	MostNutrientID *uint `valid:"required~ กรุณาเลือกหมู่อาหารที่พบมาก "`
 	MostNutrient   MostNutrient
 
-	FoodInformationID int
-	FoodInformation   FoodInformation
+	FoodInformationID int             `valid:"required~ กรุณาเลือกอาหาร "`
+	FoodInformation   FoodInformation `gorm:"references:id" valid:"-"`
 }
 
 // ================== ระบบสำรวจพฤติกรรมก่อนเข้าเทรน ==================
@@ -530,4 +530,12 @@ type Behavior struct {
 
 	TasteID *uint
 	Taste   Taste
+}
+
+func init() {
+	// Custom valid tag
+	govalidator.TagMap["image"] = govalidator.Validator(func(str string) bool {
+		pattern := "^data:image/(jpeg|jpg|png|svg|gif|tiff|tif|bmp|apng|eps|jfif|pjp|xbm|dib|jxl|svgz|webp|ico|pjpeg|avif);base64,[A-Za-z0-9+/]+={0,2}$"
+		return govalidator.Matches(str, pattern)
+	})
 }

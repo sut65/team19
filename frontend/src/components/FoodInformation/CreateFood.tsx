@@ -54,6 +54,7 @@ function CreateFood() {
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
     const [image, setImage] = useState({ name: "", src: "" });
+    const [message, setAlertMessage] = React.useState("");
 
     console.log(datetime)
 
@@ -137,11 +138,13 @@ function CreateFood() {
         console.log(data.Image)
     
         let res = await CreateFoodInformation(data);
-        if (res) {
+        if (res.status) {
           setSuccess(true);
+          setAlertMessage("บันทึกอาหารสำเร็จ");
           window.location.href = "/admin/food-display"
         } else {
           setError(true);
+          setAlertMessage(res.message);
         }
         console.log(JSON.stringify(data))
       };
@@ -158,23 +161,25 @@ function CreateFood() {
 
         <Snackbar
           open={success}
+          id="success"
           autoHideDuration={1000}
           onClose={handleClose}
           anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         >
           <Alert onClose={handleClose} severity="success">
-            บันทึกข้อมูลอาหารสำเร็จ
+            {message}
           </Alert>
         </Snackbar>
 
         <Snackbar
           open={error}
+          id="error"
           autoHideDuration={1000}
           onClose={handleClose}
           anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         >
           <Alert onClose={handleClose} severity="error">
-            บันทึกข้อมูลอาหารไม่สำเร็จ
+            {message}
           </Alert>
         </Snackbar>
 
@@ -283,7 +288,8 @@ function CreateFood() {
                         required
                         fullWidth
                         {...props} />}
-                      label="เลือกวันเวลาในการเพิ่มอาหาร"
+                      label="วันเวลาในการเพิ่มอาหาร"
+                      readOnly
                       value={datetime}
                       onChange={(newValue) => {
                         setDatetime(newValue);

@@ -286,17 +286,6 @@ func SetupDatabase() {
 	}
 	db.Model(&Education{}).Create(&educations)
 
-	// Trainer1 := Trainer{
-	// 	Name:  "ธนกฤต สามเมือง",
-	// 	Email: "Trainer1@mail.com",
-	// }
-	// db.Model(&Trainer{}).Create(&Trainer1)
-	// Trainer2 := Trainer{
-	// 	Name:  "Tname2",
-	// 	Email: "Trainer2@mail.com",
-	// }
-	// db.Model(&Trainer{}).Create(&Trainer2)
-
 	// -------------------(Create value Trainer)------------------------------
 	pass1, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
 	Trainer1 := Trainer{
@@ -502,38 +491,34 @@ func SetupDatabase() {
 
 	// BodyMakeup for bodychange recording system --------------------------------------------------------------------------------------
 	BodyChangeA := Body{
-		Height:        176.00,
-		Weight:        64.87,
-		Hip:           32.4,
-		UpperArmLeft:  45.4,
-		UpperArmRight: 46.2,
-		LeftThigh:     54.23,
-		RightThigh:    53.3,
-		NarrowWaist:   34.2,
-		NavelWaist:    36.23,
-		Bmi:           20.94,
-		Note:          "หิววววววววววว",
-		Trainer:       Trainer2,
-		Member:        Member2,
-		CourseDetail:  CourseDetail2,
+		Height:       176.00,
+		Weight:       64.87,
+		Hip:          32.4,
+		UpperArm:     46.2,
+		Thigh:        53.3,
+		NarrowWaist:  34.2,
+		NavelWaist:   36.23,
+		Bmi:          20.94,
+		Note:         "หิววววววววววว",
+		Trainer:      Trainer2,
+		Member:       Member2,
+		CourseDetail: CourseDetail2,
 	}
 	db.Model(&Body{}).Create(&BodyChangeA)
 
 	BodyChangeB := Body{
-		Height:        175.6,
-		Weight:        64.87,
-		Hip:           32.4,
-		UpperArmLeft:  45.4,
-		UpperArmRight: 46.2,
-		LeftThigh:     54.23,
-		RightThigh:    53.3,
-		NarrowWaist:   34.2,
-		NavelWaist:    36.23,
-		Bmi:           21.037,
-		Note:          "อยากกินกะหรี่..ปั้บ",
-		Trainer:       Trainer1,
-		Member:        Member1,
-		CourseDetail:  CourseDetail1,
+		Height:       175.6,
+		Weight:       64.87,
+		Hip:          32.4,
+		UpperArm:     46.2,
+		Thigh:        53.3,
+		NarrowWaist:  34.2,
+		NavelWaist:   36.23,
+		Bmi:          21.037,
+		Note:         "อยากกินกะหรี่..ปั้บ",
+		Trainer:      Trainer1,
+		Member:       Member1,
+		CourseDetail: CourseDetail1,
 	}
 	db.Model(&Body{}).Create(&BodyChangeB)
 
@@ -565,9 +550,30 @@ func SetupDatabase() {
 	db.Model(&Duration{}).Create(&Duration1)
 	Duration2 := Duration{
 		NumberOfDays:       60,
-		DurationPercentage: 5,
+		DurationPercentage: 2,
 	}
 	db.Model(&Duration{}).Create(&Duration2)
+	Duration3 := Duration{
+		NumberOfDays:       90,
+		DurationPercentage: 5,
+	}
+	db.Model(&Duration{}).Create(&Duration3)
+	Duration4 := Duration{
+		NumberOfDays:       180,
+		DurationPercentage: 10,
+	}
+	db.Model(&Duration{}).Create(&Duration4)
+	Duration5 := Duration{
+		NumberOfDays:       365,
+		DurationPercentage: 20,
+	}
+	db.Model(&Duration{}).Create(&Duration5)
+	// for test update when expired
+	Duration6 := Duration{
+		NumberOfDays:       0.001,
+		DurationPercentage: 0,
+	}
+	db.Model(&Duration{}).Create(&Duration6)
 
 	// --------------------------------------------------------------------------------------------------
 	// ----------------------------------------  MealPlans  ----------------------------------------------
@@ -698,8 +704,6 @@ func SetupDatabase() {
 	}
 	db.Model(&MealPlans{}).Create(&MealPlansC)
 
-	
-
 	//--------------------------------------------------------------------------------------------------
 	//----------------------------------------  DailyActivities  ---------------------------------------
 	//--------------------------------------------------------------------------------------------------
@@ -802,7 +806,6 @@ func SetupDatabase() {
 		DailyActivities: DailyActivitiesC,
 	}
 	db.Model(&Advice{}).Create(&Advice3)
-
 
 	//==========================ระบบจัดการสารอาหาร==========================
 

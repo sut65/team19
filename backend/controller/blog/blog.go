@@ -3,6 +3,7 @@ package controller
 import (
 	"net/http"
 
+	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team19/entity"
 )
@@ -34,6 +35,11 @@ func CreateBlog(c *gin.Context) {
 	// ค้นหา tag ด้วย id
 	if tx := entity.DB().Where("id = ?", blog.TagID).First(&tag); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "tag not found"})
+		return
+	}
+
+	if _, err := govalidator.ValidateStruct(blog); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -118,6 +124,16 @@ func UpdateBlog(c *gin.Context) {
 	// ค้นหา tag ด้วย id
 	if tx := entity.DB().Where("id = ?", blog.TagID).First(&tag); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "tag not found"})
+		return
+	}
+
+	if _, err := govalidator.ValidateStruct(blog); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if _, err := govalidator.ValidateStruct(blog); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
