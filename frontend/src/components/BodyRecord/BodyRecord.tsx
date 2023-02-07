@@ -46,16 +46,13 @@ function BodyRecord() {
 
   const [body, setBody] = useState<BodyInterface>({}); 
   const [trainer, setTrainer] = useState<TrainerInterface[]>([]); 
-  const [member, setMember] = useState<MemberInterface[]>([]); 
   const [courseD, setCourseDetail] = useState<CourseDetailInterface[]>([]); 
 
   const [hight, setHight] = useState<number>(0);
   const [weight, setWeight] = useState<number>(0);
   const [hip, setHip] = useState<number>(0);
-  const [armLeft, setarmL] = useState<number>(0);
-  const [armRight, setarmR] = useState<number>(0);
-  const [leftThigh, setLthigh] = useState<number>(0);
-  const [rightThigh, setRthigh] = useState<number>(0);
+  const [arm, setArm] = useState<number>(0);
+  const [Thigh, setThigh] = useState<number>(0);
   const [narrowWaist, setnarrow] = useState<number>(0);
   const [navelWaist, setnavel] = useState<number>(0);
   const [note, setnote] = useState<string>("");
@@ -112,9 +109,7 @@ const fetchCourseDetail = async () => {
 const fetchMemberByID = async () => {
     let res = await GetMemberByID();
     body.MemberID = res.ID;
-    if (res) {
-      setMember(res);
-    }
+ 
   };
 
 
@@ -135,10 +130,8 @@ const fetchMemberByID = async () => {
         Height:       hight,
         Weight:        weight,
         Hip:           hip,
-        UpperArmLeft:  armLeft,
-        UpperArmRight: armRight,
-        LeftThigh :    leftThigh,
-        RightThigh:   rightThigh,
+        UpperArm:      arm,
+        Thigh :        Thigh,
         NarrowWaist:  narrowWaist,
         NavelWaist:   navelWaist,
         Bmi:          ((hight/100)**2)/weight,
@@ -294,7 +287,7 @@ return (
                 }}
               />
             </Grid>
-            {/*===============================================(Uper arm left)===================================================*/}
+            {/*===============================================(Uper arm)===================================================*/}
             <Grid
               xs={5}
               md={5}
@@ -306,7 +299,7 @@ return (
               }}
             >
               <FormLabel sx={{ marginRight: 2, fontSize: 15 }}>
-                <b>Upper arm left:</b>
+                <b>Upper arm :</b>
               </FormLabel>
               <TextField
                 id="outlined-number"
@@ -317,73 +310,13 @@ return (
                   if (Number(event.target.value) < 0) {
                     return (event.target.value = "0");
                   } else {
-                    setarmL(Number(event.target.value));
+                    setArm(Number(event.target.value));
                     return event.target.value;
                   }
                 }}
               />
             </Grid>
-            {/*===============================================(Upper arm right)===================================================*/}
-            <Grid
-              xs={5}
-              md={5}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                paddingRight: 18,
-                marginTop: 2,
-              }}
-            >
-              <FormLabel
-                sx={{ marginRight: 2, fontSize: 15, tex: "flex-start" }}
-              >
-                <b>Upper arm right:</b>
-              </FormLabel>
-              <TextField
-                id="outlined-number"
-                type="number"
-                fullWidth
-                required
-                onChange={(event) => {
-                  if (Number(event.target.value) < 0) {
-                    return (event.target.value = "0");
-                  } else {
-                    setarmR(Number(event.target.value));
-                    return event.target.value;
-                  }
-                }}
-              />
-            </Grid>
-            {/*===============================================(Left thigh)===================================================*/}
-            <Grid
-              xs={5}
-              md={5}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                paddingRight: 18,
-                marginTop: 2,
-              }}
-            >
-              <FormLabel sx={{ marginRight: 2, fontSize: 15 }}>
-                <b>Left thigh:</b>
-              </FormLabel>
-              <TextField
-                id="outlined-number"
-                type="number"
-                fullWidth
-                required
-                onChange={(event) => {
-                  if (Number(event.target.value) < 0) {
-                    return (event.target.value = "0");
-                  } else {
-                    setLthigh(Number(event.target.value));
-                    return event.target.value;
-                  }
-                }}
-              />
-            </Grid>
-            {/*===============================================(Right thigh)===================================================*/}
+            {/*===============================================(thigh)===================================================*/}
             <Grid
               xs={6}
               md={5}
@@ -395,7 +328,7 @@ return (
               }}
             >
               <FormLabel sx={{ marginRight: 2, fontSize: 15 }}>
-                <b>Right thigh:</b>
+                <b>Thigh:</b>
               </FormLabel>
               <TextField
                 id="outlined-number"
@@ -406,7 +339,7 @@ return (
                   if (Number(event.target.value) < 0) {
                     return (event.target.value = "0");
                   } else {
-                    setRthigh(Number(event.target.value));
+                    setThigh(Number(event.target.value));
                     return event.target.value;
                   }
                 }}

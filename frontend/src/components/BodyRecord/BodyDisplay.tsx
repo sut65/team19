@@ -24,7 +24,7 @@ function BodyDisplay() {
   let navigate = useNavigate();
   const { id } = useParams();
   const [infoBody, setInfoBody] = useState<BodyInterface[]>([]);
-
+  
 
   const fetchInfoBody = async () => {
     const requestOptions = {
@@ -39,6 +39,7 @@ function BodyDisplay() {
       .then((res) => {
         console.log("Api", res.data);
         res.data && setInfoBody(res.data);
+        console.log(res.data)
     });
   };
 
@@ -103,36 +104,34 @@ function BodyDisplay() {
         <TableContainer component={Paper} sx ={{width:"100%",marginRight:0}}>
           <Table aria-label="simple table">
             <TableHead >
-              <TableRow>
-                <TableCell align="right" width={50} sx ={{color:"#ec407a"}}>ไอดี</TableCell>
-                <TableCell align="right" width={100} sx ={{color:"#3f51b5"}}>ส่วนสูง</TableCell>
-                <TableCell align="right" width={100} sx ={{color:"#3f51b5"}}>น้ำหนัก</TableCell>
-                <TableCell align="right" width={100} sx ={{color:"#3f51b5"}}>สะโพก</TableCell>
-                <TableCell align="right" width={100} sx ={{color:"#3f51b5"}}>ต้นแขนซ้าย</TableCell>
-                <TableCell align="right" width={100} sx ={{color:"#3f51b5"}}>ต้นแขนขวา</TableCell>
-                <TableCell align="right" width={100} sx ={{color:"#3f51b5"}}>ต้นขาซ้าย</TableCell>
-                <TableCell align="right" width={100} sx ={{color:"#3f51b5"}}>ต้นขาขวา</TableCell>
-                <TableCell align="right" width={100} sx ={{color:"#3f51b5"}}>เอวคอด</TableCell>
-                <TableCell align="right" width={100} sx ={{color:"#3f51b5"}}>เอวสะดือ</TableCell>
+              <TableRow >
+                <TableCell align="right"   sx ={{color:"#ec407a"}}>ไอดี</TableCell>
+                <TableCell align="right"  sx ={{color:"#3f51b5"}}>ส่วนสูง</TableCell>
+                <TableCell align="right"  sx ={{color:"#3f51b5"}}>น้ำหนัก</TableCell>
+                <TableCell align="right"  sx ={{color:"#3f51b5"}}>สะโพก</TableCell>
+                <TableCell align="right"  sx ={{color:"#3f51b5"}}>ต้นแขน</TableCell>
+                <TableCell align="right"  sx ={{color:"#3f51b5"}}>ต้นขา</TableCell>
+                <TableCell align="center" sx ={{color:"#3f51b5"}}>เอวคอด</TableCell>
+                <TableCell align="right"  sx ={{color:"#3f51b5"}}>เอวสะดือ</TableCell>
                 <TableCell align="right" sx ={{color:"#4db6ac"}}>BMI</TableCell>
-                <TableCell align="right" sx ={{color:"#78909c"}}>Note</TableCell>
-                
+                <TableCell align="right" sx ={{color:"#78909c"}}>Date</TableCell>
+                <TableCell align="center" sx ={{color:"#78909c"}}>Note</TableCell>
+                <TableCell align="center" sx ={{color:"#ff8a65"}}><pre>แก้ไข       ลบ</pre></TableCell>
               </TableRow>
             </TableHead>
-              <TableBody>
+              <TableBody >
                 {infoBody.map((infoBody) => (
                   <TableRow key={infoBody.ID}>
                     <TableCell align="right" >{infoBody.ID}</TableCell>
                     <TableCell align="center">{String(infoBody.Height)}</TableCell>
                     <TableCell align="center">{String(infoBody.Weight)}</TableCell>
                     <TableCell align="center">{String(infoBody.Hip)}</TableCell>
-                    <TableCell align="center">{String(infoBody.UpperArmLeft)}</TableCell>
-                    <TableCell align="center">{String(infoBody.UpperArmLeft)}</TableCell>
-                    <TableCell align="center">{String(infoBody.LeftThigh)}</TableCell>
-                    <TableCell align="center">{String(infoBody.RightThigh)}</TableCell>
+                    <TableCell align="center">{String(infoBody.UpperArm)}</TableCell>
+                    <TableCell align="center">{String(infoBody.Thigh)}</TableCell>
                     <TableCell align="center">{String(infoBody.NarrowWaist)}</TableCell>
-                    <TableCell align="center">{String(infoBody.NavelWaist)}</TableCell>
+                    <TableCell align="center" >{String(infoBody.NavelWaist)}</TableCell>
                     <TableCell align="center">{String(infoBody.Bmi)}</TableCell>
+                    <TableCell align="center">{infoBody.CreatedAt?.slice(0,10).replaceAll("-",".")}</TableCell>
                     <TableCell align="center">{infoBody.Note}</TableCell>
                     {/* ปุ่มลบข้อมูล */}
                     <TableCell align="right" sx={{display:"flex"}} >
