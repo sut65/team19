@@ -3,6 +3,7 @@ package controller
 import (
 	"net/http"
 
+	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team19/entity"
 	"golang.org/x/crypto/bcrypt"
@@ -16,6 +17,11 @@ func CreateMember(c *gin.Context) {
 	var religion entity.Religion
 
 	if err := c.ShouldBindJSON(&member); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if _, err := govalidator.ValidateStruct(member); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -98,26 +104,52 @@ func DeleteMember(c *gin.Context) {
 // PATCH /member
 func UpdateMember(c *gin.Context) {
 	var member entity.Member
-	var new_member entity.Member
+	var status entity.Status
+	var gender entity.Gender
+	var religion entity.Religion
 
 	if err := c.ShouldBindJSON(&member); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	new_member.Gender = member.Gender
-	new_member.Status = member.Status
-	new_member.Religion = member.Religion
-	new_member.ProfileUser = member.ProfileUser
-	new_member.Firstname = member.Firstname
-	new_member.Lastname = member.Lastname
-	new_member.Email = member.Email
-	new_member.Password = member.Password
-
-	if err := entity.DB().Where("id = ?", member.ID).Updates(&new_member).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	// ค้นหา status ด้วย id
+	if tx := entity.DB().Where("id = ?", member.StatusID).First(&status); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "status not found"})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": new_member})
+	// ค้นหา gender ด้วย id
+	if tx := entity.DB().Where("id = ?", member.GenderID).First(&gender); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "gender not found"})
+		return
+	}
+
+	// ค้นหา religion ด้วย id
+	if tx := entity.DB().Where("id = ?", member.ReligionID).First(&religion); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "religion not found"})
+		return
+	}
+
+	password, _ := bcrypt.GenerateFromPassword([]byte(member.Password), 14)
+
+	// สร้าง Member
+	update := entity.Member{
+		Gender:      gender,
+		Status:      status,
+		Religion:    religion,
+		ProfileUser: member.ProfileUser,
+		Firstname:   member.Firstname,
+		Lastname:    member.Lastname,
+		Email:       member.Email,
+		Password:    string(password),
+	}
+
+	// บันทึก
+	if err := entity.DB().Where("id = ?", member.ID).Updates(&update).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusCreated, gin.H{"data": update})
+
 }

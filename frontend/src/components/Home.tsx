@@ -12,7 +12,7 @@ import { CourseServiceInterface } from '../interfaces/ICourseService';
 import { PaymentInterface } from "../interfaces/IPayment";
 import { GetCourseServiceByUidAndStatus, GetCourseDetailByID, GetPaymentByUID, UpdateCourseService, DeleteCourseService, DeletePayment } from '../services/HttpClientService';
 import { addDays } from '@progress/kendo-date-math';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 import '../App.css';
 import BG from "../images/bg-course-service.jpg";
 
@@ -27,29 +27,11 @@ function Home() {
   const [PDate, setPDate] = useState<string>()
   const [DayLeft, setDayLeft] = useState<number>(1)
   const [CourseDuration, setCourseDuration] = useState<number>(0)
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState(false);
-  const [message, setAlertMessage] = React.useState("");
   const uid = localStorage.getItem("uid")
   const UFirstName = localStorage.getItem("firstname") + ""
   const ULastName = localStorage.getItem("lastname") + ""
   const UserName = UFirstName + " " + ULastName
   const navigate = useNavigate();
-
-  const handleClose = (
-    event?: React.SyntheticEvent | Event,
-    reason?: string
-  ) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setSuccess(false);
-    setError(false);
-
-    if (success === true) {
-      navigate(`/user`);
-    }
-  };
 
   const getCourseServiceByUidAndStatus = async () => {
     let res = await GetCourseServiceByUidAndStatus();
@@ -102,13 +84,13 @@ function Home() {
       cancelButtonColor: '#698269',
       confirmButtonColor: '#AA5656',
       confirmButtonText: 'Sure',
-    }).then(async (result) => {
+    }).then(async (result:any) => {
       if (result.isConfirmed) {
         Swal.fire({
           title: 'Refunded!',
           icon: 'success',
           confirmButtonColor: '#698269',
-        }).then(async (result) => {
+        }).then(async (result:any) => {
           if (result.isConfirmed || result.isDenied || result.isDismissed || result.dismiss) {
             await DeleteCourseService(CourseService?.ID);
             await DeletePayment(CourseService?.ID);

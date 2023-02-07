@@ -3,6 +3,7 @@ package controller
 import (
 	"net/http"
 
+	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team19/entity"
 	"golang.org/x/crypto/bcrypt"
@@ -24,6 +25,14 @@ func CreateTrainder(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error not access": err.Error()})
 		return
 	}
+
+	// validation
+
+	if _, err := govalidator.ValidateStruct(trainer); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	// First => คือการ select :> "SELECT * FROM users ORDER BY id LIMIT 1;"
 	// RowsAffected => มีการรีเทิร์นค่าที่มีการเปลี่ยนแปลงในเป็นจำนสน row  :  "returns found records count, equals `len(trainer)`"
 

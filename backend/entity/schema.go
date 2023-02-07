@@ -33,10 +33,10 @@ type Gender struct {
 
 type Member struct {
 	gorm.Model
-	Firstname   string
+	Firstname   string `valid:"required~Name cannot be blank"`
 	Lastname    string
 	ProfileUser string
-	Email       string `gorm:"uniqueIndex"`
+	Email       string `gorm:"uniqueIndex" valid:"email"`
 	Password    string
 
 	MealTimesID *uint
@@ -182,26 +182,26 @@ type Education struct {
 
 type Trainer struct {
 	gorm.Model
-	Name       string
-	University string
-	Gpax       float32
-	Gender     string
-	Age        int
-	Address    string
-	Email      string `gorm:"uniqueIndex"` // ใช้ Email ในการ login
-	Password   string
+	Name       string  `valid:"required~Name cannot be blank"`
+	University string  `valid:"required~University cannot be blank"`
+	Gpax       float32 `valid:"matches(^[+]?([1-3]+([.][0-9]*)?|[.][0]+)$)~Gpax must be between 0-4"`
+	Gender     string  `valid:"required~Gender cannot be blank"`
+	Age        int     `valid:"matches(^[1-9]\\d*$)~Age must be positive integer"` //matches(^(?<![-.])\b[1-9]+\b(?!\.[0-9])$)
+	Address    string  `valid:"required~Adrress cannot be blank"`
+	Email      string  `valid:"email~Invalid email format,maxstringlength(30)~must be no more than 20 characters long,required~Email cannot be blank"` // ใช้ Email ในการ login
+	Password   string  `valid:"required~Password cannot be blank,maxstringlength(20)~Password must be no more than 20 characters long"`
 
 	FormOfWorkID *uint
-	FormOfWork   FormOfWork
+	FormOfWork   FormOfWork `valid:"-"`
 
 	StatusID *uint
-	Status   Status
+	Status   Status `valid:"-"`
 
 	EducationID *uint
-	Education   Education
+	Education   Education `valid:"-"`
 
 	ReligionID *uint
-	Religion   Religion
+	Religion   Religion `valid:"-"`
 
 	CourseService []CourseService `gorm:"foreignKey:TrainerID"`
 	Body          []Body          `gorm:"foreignKey:TrainerID"`
@@ -214,18 +214,18 @@ type Trainer struct {
 type CourseService struct {
 	gorm.Model
 	CRegisterDate time.Time
-	Agreement     string `valid:"matches(Agree)~Please click agreement and check 'Agree'"`
+	Agreement     string `valid:"matches(Agree)~Please check 'Agree'"`
 	Status        string
-	RefundMessage string `valid:"minstringlength(1)~Message cannot be blank"`
+	RefundMessage string `valid:"required~Message cannot be blank"`
 
 	MemberID *uint
-	Member   Member
+	Member   Member `valid:"-"`
 
 	CourseDetailID *uint
-	CourseDetail   CourseDetail
+	CourseDetail   CourseDetail `valid:"-"`
 
-	TrainerID *uint `valid:"alphanum~Trainer not found"`
-	Trainer   Trainer
+	TrainerID *uint
+	Trainer   Trainer `valid:"-"`
 
 	Payment []Payment `gorm:"foreignKey:CourseServiceID"`
 }
@@ -471,13 +471,13 @@ type Payment struct {
 	Balance     float32
 
 	CourseServiceID *uint
-	CourseService   CourseService
+	CourseService   CourseService `valid:"-"`
 
 	DurationID *uint
-	Duration   Duration
+	Duration   Duration `valid:"-"`
 
 	DiscountID *uint
-	Discount   Discount
+	Discount   Discount `valid:"-"`
 }
 
 // ======================================================

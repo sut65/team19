@@ -35,7 +35,7 @@ func CreateCourseService(c *gin.Context) {
 	}
 
 	// ค้นหา course ด้วย id
-	if tx := entity.DB().Where("id = ?", course_service.CourseDetailID).Find(&course_detail); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", course_service.CourseDetailID).First(&course_detail); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Course not found"})
 		return
 	}

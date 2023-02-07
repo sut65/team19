@@ -370,15 +370,15 @@ function RegisterCourse() {
             </Grid>
 
             <Grid item xs={1.5} ></Grid>
-            {showText && <Grid item xs={10.5} style={{ fontSize: "1rem", color: "#343934", paddingLeft: "9%", marginTop: "-20px" }}>
+            <Grid item xs={10.5} style={{ fontSize: "1rem", color: "#343934", paddingLeft: "9%", marginTop: "-20px" }}>
               1) เว็บไซต์นี้มีการเก็บข้อมูลส่วนตัวของสมาชิก <br></br>
               2) ไม่รับผิดชอบการกระทำนอกเหนือคำแนะนำของคอร์สและเทรนเนอร์ <br></br>
               3) เมื่ออ่านครบทุกข้อแล้ว<u>กด "Agree" เพื่อยินยอมข้อตกลง</u> และกด Register เพื่อดำเนินการต่อ
 
-            </Grid>}
+            </Grid>
 
             <Grid item xs={6} ></Grid>
-            {showText && <Grid item xs={6} sx={{ textAlign: 'left', fontWeight: "bold" }}>
+            <Grid item xs={6} sx={{ textAlign: 'left', fontWeight: "bold" }}>
               <FormControlLabel control={
                 <Checkbox 
                   color="default"
@@ -387,9 +387,9 @@ function RegisterCourse() {
                   inputProps={{ 'aria-label': 'controlled' }}
                   />
                 }
-                label="Agreement"
+                label="Agree"
               />
-            </Grid>}
+            </Grid>
             
             <Grid item xs={11}></Grid>
             <Grid item xs={1} sx={{ alignItems: 'center'}}>
