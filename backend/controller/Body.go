@@ -42,17 +42,15 @@ func CreateBody(c *gin.Context) {
 	}
 
 	rm := entity.Body{
-		Height:        body.Height,
-		Weight:        body.Weight,
-		Hip:           body.Hip,
-		UpperArmLeft:  body.UpperArmLeft,
-		UpperArmRight: body.UpperArmRight,
-		LeftThigh:     body.LeftThigh,
-		RightThigh:    body.RightThigh,
-		NarrowWaist:   body.NarrowWaist,
-		NavelWaist:    body.NavelWaist,
-		Bmi:           body.Bmi,
-		Note:          body.Note,
+		Height:      body.Height,
+		Weight:      body.Weight,
+		Hip:         body.Hip,
+		UpperArm:    body.UpperArm,
+		Thigh:       body.Thigh,
+		NarrowWaist: body.NarrowWaist,
+		NavelWaist:  body.NavelWaist,
+		Bmi:         body.Bmi,
+		Note:        body.Note,
 
 		Trainer:      trainer,
 		Member:       member,
@@ -129,17 +127,15 @@ func UpdateBody(c *gin.Context) {
 	}
 
 	update := entity.Body{
-		Height:        body.Height,
-		Weight:        body.Weight,
-		Hip:           body.Hip,
-		UpperArmLeft:  body.UpperArmLeft,
-		UpperArmRight: body.UpperArmRight,
-		LeftThigh:     body.LeftThigh,
-		RightThigh:    body.RightThigh,
-		NarrowWaist:   body.NarrowWaist,
-		NavelWaist:    body.NavelWaist,
-		Bmi:           body.Bmi,
-		Note:          body.Note,
+		Height:      body.Height,
+		Weight:      body.Weight,
+		Hip:         body.Hip,
+		UpperArm:    body.UpperArm,
+		Thigh:       body.Thigh,
+		NarrowWaist: body.NarrowWaist,
+		NavelWaist:  body.NavelWaist,
+		Bmi:         body.Bmi,
+		Note:        body.Note,
 
 		Trainer:      trainer,
 		Member:       member,
