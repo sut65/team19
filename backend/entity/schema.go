@@ -214,18 +214,18 @@ type Trainer struct {
 type CourseService struct {
 	gorm.Model
 	CRegisterDate time.Time
-	Agreement     string `valid:"matches(Agree)~Please click agreement and check 'Agree'"`
+	Agreement     string `valid:"matches(Agree)~Please check 'Agree'"`
 	Status        string
-	RefundMessage string `valid:"minstringlength(1)~Message cannot be blank"`
+	RefundMessage string `valid:"required~Message cannot be blank"`
 
 	MemberID *uint
-	Member   Member
+	Member   Member `valid:"-"`
 
 	CourseDetailID *uint
-	CourseDetail   CourseDetail
+	CourseDetail   CourseDetail `valid:"-"`
 
-	TrainerID *uint `valid:"alphanum~Trainer not found"`
-	Trainer   Trainer
+	TrainerID *uint
+	Trainer   Trainer `valid:"-"`
 
 	Payment []Payment `gorm:"foreignKey:CourseServiceID"`
 }
@@ -424,18 +424,16 @@ type Advice struct {
 // -----------------------------<Bodyschema>--------------<< ระบบบันทึกการเปลี่ยนแปลงร่างกาย >>------------------------------------
 type Body struct {
 	gorm.Model
-	Height        float32
-	Weight        float32
-	Hip           float32
-	UpperArmLeft  float32
-	UpperArmRight float32
-	LeftThigh     float32
-	RightThigh    float32
-	NarrowWaist   float32
-	NavelWaist    float32
-	Bmi           float32
-	Note          string
-	Advice        []Advice `gorm:"foreignKey:BodyID"`
+	Height      float32
+	Weight      float32
+	Hip         float32
+	UpperArm    float32
+	Thigh       float32
+	NarrowWaist float32
+	NavelWaist  float32
+	Bmi         float32
+	Note        string
+	Advice      []Advice `gorm:"foreignKey:BodyID"`
 
 	TrainerID *uint
 	Trainer   Trainer
@@ -471,13 +469,13 @@ type Payment struct {
 	Balance     float32
 
 	CourseServiceID *uint
-	CourseService   CourseService
+	CourseService   CourseService `valid:"-"`
 
 	DurationID *uint
-	Duration   Duration
+	Duration   Duration `valid:"-"`
 
 	DiscountID *uint
-	Discount   Discount
+	Discount   Discount `valid:"-"`
 }
 
 // ======================================================
