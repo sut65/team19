@@ -9,6 +9,8 @@ import { Button, Grid, styled } from "@mui/material";
 import CardCourseDetail from "./CardCourseDetail";
 import "../../App.css";
 
+import homeBg from "../../images/CourseBG.jpg" 
+
 // api
 import { GetCourseDetail } from "../../services/HttpClientService";
 import { GetDescription } from "../../services/HttpClientService";
@@ -37,62 +39,77 @@ function ShowCardCourseDetail() {
 
     return (
         <Box
-            sx={{
-                maxWidth: "1024px",
-                margin: "5rem auto",
-            }}
-        >
-            {/* Button Write */}
+        sx={{
+            display: "flex",
+            flexDirection: "column",
+            flexFlow: "",
+            overflow: "auto",
+            alignItems: "center",
+            gap: 6,
+            height: "calc(100vh - 15px)",
+            width: "100%",
+            backgroundSize: "cover",
+            color: "#f5f5f5",
+            //backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)))`,
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url(${homeBg})`,
+          }}>
             <Box
                 sx={{
-                    // mt: "5rem",
-                    display: "flex",
-                    justifyContent: "flex-end",
+                    maxWidth: "1024px",
+                    margin: "2rem auto 10rem", 
                 }}
             >
-                <Link
-                    to="/admin/create"
-                    style={{
-                        textDecoration: "none",
+                {/* Button Write */}
+                <Box
+                    sx={{
+                        // mt: "5rem",
+                        display: "flex",
+                        justifyContent: "flex-end",
                     }}
                 >
-                    <ButtonWrite
-                        sx={{
-                            width: "120px",
-                            margin: "0 0 16px 14px",
-                            color: "#fff",
-                            borderRadius: 20,
-                            padding: "4px 8px",
-                            fontSize: "1.5rem",
+                    <Link
+                        to="/admin/create-course"
+                        style={{
+                            textDecoration: "none",
                         }}
-                        startIcon={<CreateIcon />}
-                        className="btn-user"
-                        variant="outlined"
                     >
-                        Write
-                    </ButtonWrite>
-                </Link>
-            </Box>
-
-            <Grid container rowSpacing={3} columnSpacing={{ xs: 1, sm: 2, md: 3 }} >
-                {courseDetail.map((item) => {
-                    return (
-                        <Grid item xs={6} sm={4} md={4} key={item.ID}>
-                            <CardCourseDetail
-                                id={item.ID!}
-                                coverPage={item.CoverPage!}
-                                courseName={item.CourseName!}
-                                courseType={item.Description?.CourseType!}
-                                goal={item?.Description?.Goal!}
-                                description={item?.Description?.Description!}
-                                price={item?.Price?.Price!}
-                                duration={item?.Price?.Duration!}
-                                name={item?.Admin?.Name!}
-                            />
-                        </Grid>
-                    );
-                })}
-            </Grid>
+                        <ButtonWrite
+                            sx={{
+                                width: "150px",
+                                margin: "0 0 16px 14px",
+                                color: "#fff",
+                                borderRadius: 20,
+                                padding: "4px 8px",
+                                fontSize: "1.5rem",
+                            }}
+                            startIcon={<CreateIcon />}
+                            className="btn-user"
+                            variant="outlined"
+                        >
+                            เพิ่มคอร์ส
+                        </ButtonWrite>
+                    </Link>
+                </Box>
+                <Grid container rowSpacing={3} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                    {courseDetail.map((item) => {
+                        return (
+                            <Grid item xs={6} sm={4} md={4} key={item.ID}>
+                                <CardCourseDetail
+                                    ID={item.ID}
+                                    CourseName={item.CourseName}
+                                    CoverPage={item.CoverPage}
+                                    DescriptionID={item.DescriptionID}
+                                    Description={item.Description}
+                                    AdminID={item.AdminID}
+                                    Admin={item.Admin}
+                                    PriceID={item.PriceID}
+                                    Price={item.Price}
+                                />
+                            </Grid>
+                        );
+                    })}
+                </Grid>
+            </Box >
         </Box>
     );
 }

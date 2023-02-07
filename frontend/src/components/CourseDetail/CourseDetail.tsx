@@ -1,8 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { BlogInterface } from "../../interfaces/IBlog";
-import { Button, Grid, Typography, styled } from "@mui/material";
+import {
+    Button,
+    Typography,
+    SpeedDial,
+    SpeedDialIcon,
+    SpeedDialAction,
+    DialogContent,
+    DialogContentText,
+    DialogActions,
+    Dialog,
+    DialogTitle,
+} from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
+
 import { Box } from "@mui/system";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "../../App.css";
 
 // api
@@ -11,42 +26,32 @@ import { GetCourseDetailByID, DeleteCourseDetail } from "../../services/HttpClie
 import { AdminInterface } from "../../interfaces/IAdmin";
 import { CourseDetailInterface } from "../../interfaces/ICourseDetail";
 
-// Style
-const ButtonEdit = styled(Button)({
-    backgroundColor: "#252525",
-    "&:hover": {
-        color: "#252525",
-        backgroundColor: "#fff",
-        border: "#252525 1px solid",
-    },
-});
-
-const ButtonDelete = styled(Button)({
-    backgroundColor: "#DC0000",
-    "&:hover": {
-        color: "#252525",
-        backgroundColor: "#fff",
-        border: "#252525 1px solid",
-    },
-});
+const actions = [
+    { icon: <EditIcon />, name: "Edit", color: "#3f50b5" },
+    { icon: <DeleteIcon />, name: "Delete", color: "#f44336" },
+];
 
 function CourseDetail() {
     const { id } = useParams();
     let navigate = useNavigate();
-    const [adminLogin, setAdminLogin] = useState<AdminInterface>({
-        ID: Number(localStorage.getItem("uid")),
-    });
+    const [adminLogin, setAdminLogin] = useState<AdminInterface>({ Name: "" });
     const [courseDetail, setCourseDetail] = useState<CourseDetailInterface>({});
     const [isOpen, setIsOpen] = useState(false);
+    const [open, setOpen] = useState(false);
+    const [isOpenPopup, setIsOpenPopup] = useState(false);
+
+    const handleClickOpenPopup = () => setIsOpenPopup(true);
+    const handleClickClosePopup = () => setIsOpenPopup(false);
+
+    const handleOpenAction = () => setOpen(true);
+    const handleCloseAction = () => setOpen(false);
 
     const deleteCourseDetail = async () => {
-        alert("Are you sure?")
         let res = await DeleteCourseDetail(id + "");
         if (res) {
-            window.location.href = "/course_detail"
+            window.location.href = "/admin/course";
         }
-
-    }
+    };
 
     const checkAdmin = () => {
         console.log("course detail admin", courseDetail.AdminID);
@@ -70,13 +75,11 @@ function CourseDetail() {
     useEffect(() => {
         fetchCourseDetail();
         checkAdmin();
-        console.log(id);
     }, [courseDetail.AdminID, adminLogin]);
-
 
     return (
         <div>
-            {/* Cover Image */}
+            {/* Cover Page */}
             <Box
                 sx={{
                     display: "flex",
@@ -114,9 +117,9 @@ function CourseDetail() {
                     </Box>
                 </Typography>
 
-                {/* Course Type */}
+                {/* Course type */}
                 <Typography color={"#252525"} mb={2} fontSize={"1.2rem"} variant="h3">
-                    Course Type :{" "}
+                    ประเภทคอร์ส :{" "}
                     <b style={{ marginLeft: "1rem" }}>{courseDetail.Description?.CourseType}</b>
                 </Typography>
 
@@ -130,66 +133,93 @@ function CourseDetail() {
                 >
                     {courseDetail.Description?.Description}
                 </Typography>
+                {/* price */}
+                <Typography
+                    variant="caption"
+                    fontSize={"1rem"}
+                    sx={{
+                        border: "solid 1px #252525",
+                        borderRadius: "1rem",
+                        p: "4px 16px",
+                        fontWeight: "bold",
+                        display: "inline"
+                    }}
+                >
+                    {courseDetail.Price?.Price} บาท
+                </Typography>
+
+                {/* duration */}
+                <Typography
+                        sx={{
+                            pl: "16px",
+                            fontSize: "1.2rem",
+                            display: "inline"
+                        }}>
+                        ระยะเวลาคอร์ส {courseDetail.Price?.Duration}
+                </Typography>
             </Box>
 
             {/* Button */}
             {isOpen && (
                 <>
                     {/* Btn Edit */}
-                    <Box
-                        sx={{
-                            // mt: "5rem",
-                            display: "flex",
-                            justifyContent: "flex-end",
-                            mr: 12,
-                        }}
-                    >
-                        <ButtonEdit
-                            onClick={() => navigate("update-article")}
-                            sx={{
-                                width: "120px",
-                                margin: "0 0 16px 14px",
-                                color: "#fff",
-                                borderRadius: 20,
-                                padding: "4px 8px",
-                                fontSize: "1.5rem",
-                            }}
-                            // startIcon={<CreateIcon />}
-                            className="btn-user"
-                            variant="outlined"
+                    <Box sx={{ transform: "translateZ(0px)", flexGrow: 1 }}>
+                        <SpeedDial
+                            ariaLabel="SpeedDial controlled open example"
+                            sx={{ position: "absolute", bottom: 20, right: 16 }}
+                            icon={<SpeedDialIcon />}
+                            onClose={handleCloseAction}
+                            onOpen={handleOpenAction}
+                            open={open}
                         >
-                            Edit
-                        </ButtonEdit>
-                    </Box>
-
-                    {/* Btn Delete */}
-                    <Box
-                        sx={{
-                            // mt: "5rem",
-                            display: "flex",
-                            justifyContent: "flex-end",
-                            mr: 12,
-                        }}
-                    >
-                        <ButtonDelete
-                            onClick={deleteCourseDetail}
-                            sx={{
-                                width: "120px",
-                                margin: "0 0 16px 14px",
-                                color: "#fff",
-                                borderRadius: 20,
-                                padding: "4px 8px",
-                                fontSize: "1.5rem",
-                            }}
-                            // startIcon={<CreateIcon />}
-                            className="btn-user"
-                            variant="outlined"
-                        >
-                            Delete
-                        </ButtonDelete>
+                            {actions.map((action) => (
+                                <SpeedDialAction
+                                    sx={{
+                                        color: `${action.color}`,
+                                    }}
+                                    key={action.name}
+                                    icon={action.icon}
+                                    tooltipTitle={action.name}
+                                    onClick={
+                                        action.name === "Edit"
+                                            ? () => navigate("update-course")
+                                            : handleClickOpenPopup
+                                    }
+                                />
+                            ))}
+                        </SpeedDial>
                     </Box>
                 </>
             )}
+            {/* Popup */}
+            <Dialog
+                open={isOpenPopup}
+                onClose={handleClickClosePopup}
+                aria-labelledby="alert-dialog-courseName"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-course">
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            color: "#e65100",
+                            fontSize: "2rem",
+                        }}
+                    >
+                        Delete Article {<PriorityHighIcon fontSize="large" />}
+                    </Box>
+                </DialogTitle>
+                <DialogContent>
+                    <DialogContentText id="alert-dialog-description">
+                        Are you sure to delete this course?
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClickClosePopup}>Cancel</Button>
+                    <Button onClick={deleteCourseDetail}>Sure</Button>
+                </DialogActions>
+            </Dialog>
         </div>
     );
 }

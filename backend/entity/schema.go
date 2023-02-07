@@ -98,9 +98,9 @@ type Price struct {
 
 type CourseDetail struct {
 	gorm.Model
-	CourseName string
-	CoverPage  string
-
+	CourseName string `valid:"required~CourseName cannot be blank"`
+	CoverPage  string `valid:"required~CoverPage cannot be blank"`
+	
 	DescriptionID *uint
 	Description   Description
 
