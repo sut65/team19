@@ -2,7 +2,7 @@ package controller
 
 import (
 	"net/http"
-
+	//"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team19/entity"
 )
@@ -18,6 +18,12 @@ func CreateCourseDetail(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	// แทรกการ validate ไว้ช่วงนี้ของ controller
+	// if _, err := govalidator.ValidateStruct(course_detail); err != nil {
+	// 	c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	// 	return
+	// }
 
 	// ค้นหา admin ด้วย id
 	if tx := entity.DB().Where("id = ?", course_detail.AdminID).First(&admin); tx.RowsAffected == 0 {

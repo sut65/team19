@@ -17,6 +17,12 @@ require (
 	github.com/kr/text v0.2.0 // indirect
 	github.com/mattn/go-sqlite3 v1.14.16 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
+	github.com/asaskevich/govalidator v0.0.0-20210307081110-f21760c49a8d // indirect
+	github.com/golang/protobuf v1.5.2 // indirect
+	github.com/google/go-cmp v0.5.9 // indirect
+	github.com/jinzhu/inflection v1.0.0 // indirect
+	github.com/mattn/go-sqlite3 v1.14.16 // indirect
+	github.com/onsi/gomega v1.26.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 

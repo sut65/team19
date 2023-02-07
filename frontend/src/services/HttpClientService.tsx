@@ -137,65 +137,6 @@ async function GetUser() {
   return res;
 }
 
-async function GetCourseDetail() {
-  const requestOptions = {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "application/json",
-    },
-  };
-
-  let res = await fetch(`${apiUrl}/course_details`, requestOptions)
-    .then((response) => response.json())
-    .then((res) => {
-      if (res.data) {
-        return res.data;
-      } else {
-        return false;
-      }
-    });
-
-  return res;
-}
-
-const DeleteCourseDetail = async (id: string) => {
-  const requestOptions = {
-    method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "application/json",
-    },
-  };
-
-  let res = await fetch(`${apiUrl}/course_detail/${id}`, requestOptions)
-    .then((response) => response.json())
-    .then((result) => {
-      return result.data ? result.data : false;
-    });
-
-  return res;
-};
-
-const createCourseDetail = async (data: CourseDetailInterface) => {
-  const requestOptions = {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  };
-
-  let res = await fetch(`${apiUrl}/course_detail`, requestOptions)
-    .then((response) => response.json())
-    .then((result) => {
-      return result.data ? result.data : false;
-    });
-
-  return res;
-};
-
 // Trainer
 async function GetTrainer() {
   const requestOptions = {
@@ -300,6 +241,7 @@ async function CreateCourseService(data: CourseServiceInterface) {
   return res;
 }
 
+// ------------------------ Admin ----------------------------
 async function GetAdmin() {
   const requestOptions = {
     method: "GET",
@@ -322,6 +264,87 @@ async function GetAdmin() {
 
   return res;
 }
+
+//------------------ CourseDetail-----------------------------
+
+async function GetCourseDetail() {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/course_details`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        console.log(res.data);
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
+const DeleteCourseDetail = async (id: string) => {
+  const requestOptions = {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/course_detail/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const createCourseDetail = async (data: CourseDetailInterface) => {
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/course_detail`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const UpdateCourseDetail = async (data: CourseDetailInterface) => {
+  const requestOptions = {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/course_details`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
 
 async function GetPrice() {
   const requestOptions = {
@@ -355,6 +378,28 @@ async function GetDescription() {
   };
 
   let res = await fetch(`${apiUrl}/descriptions`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
+async function GetCourseDetailByID(id: number | undefined) {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/course_detail/${id}`, requestOptions)
     .then((response) => response.json())
     .then((res) => {
       if (res.data) {
@@ -969,27 +1014,6 @@ const GetMemberByID = async () => {
   return res;
 };
 
-async function GetCourseDetailByID(id: number | undefined) {
-  const requestOptions = {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "application/json",
-    },
-  };
-
-  let res = await fetch(`${apiUrl}/course_detail/${id}`, requestOptions)
-    .then((response) => response.json())
-    .then((res) => {
-      if (res.data) {
-        return res.data;
-      } else {
-        return false;
-      }
-    });
-
-  return res;
-}
 
 async function SelectCourseDetail(id: number | undefined) {
   const requestOptions = {
@@ -1395,4 +1419,5 @@ export {
   //CourseDetail
   DeleteCourseDetail,
   createCourseDetail,
+  UpdateCourseDetail,
 };
