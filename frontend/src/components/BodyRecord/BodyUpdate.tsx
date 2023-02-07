@@ -155,14 +155,12 @@ const fetchMemberByID = async () => {
         Height:       convertType(body.Height+""),
         Weight:        convertType(body.Weight+""),
         Hip:          convertType(body.Hip+""),
-        UpperArmLeft:  convertType(body.UpperArmLeft+""),
-        UpperArmRight: convertType(body.UpperArmRight+""),
-        LeftThigh :    convertType(body.LeftThigh+""),
-        RightThigh:   convertType(body.RightThigh+""),
+        UpperArm: convertType(body.UpperArm+""),
+        LeftThigh :    convertType(body.Thigh+""),
         NarrowWaist:  convertType(body.NarrowWaist+""),
         NavelWaist:   convertType(body.NavelWaist+""),
         Bmi:          ((Number(body.Height)/100)**2)/Number(body.Weight),
-        Note :         note,
+        Note :          body.Note,
       
         TrainerID: convertType(body.TrainerID),
         MemberID: convertType(body.MemberID),
@@ -302,7 +300,7 @@ return (
 
               />
             </Grid>
-            {/*===============================================(Uper arm left)===================================================*/}
+            {/*===============================================(Uper arm )===================================================*/}
             <Grid
               xs={5}
               md={5}
@@ -321,40 +319,13 @@ return (
                 type="UpperArmLeft"
                 fullWidth
                 name="UpperArmLeft"
-                value={body.UpperArmLeft}
+                value={body.UpperArm}
                 required
                 onChange={handleInputChange}
 
               />
             </Grid>
-            {/*===============================================(Upper arm right)===================================================*/}
-            <Grid
-              xs={5}
-              md={5}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                paddingRight: 18,
-                marginTop: 2,
-              }}
-            >
-              <FormLabel
-                sx={{ marginRight: 2, fontSize: 15, tex: "flex-start" }}
-              >
-                <b>Upper arm right:</b>
-              </FormLabel>
-              <TextField
-                id="outlined-number"
-                type="UpperArmRight"
-                fullWidth
-                name="UpperArmRight"
-                value={body.UpperArmRight}
-                required
-                onChange={handleInputChange}
-
-              />
-            </Grid>
-            {/*===============================================(Left thigh)===================================================*/}
+            {/*===============================================( thigh)===================================================*/}
             <Grid
               xs={5}
               md={5}
@@ -373,32 +344,7 @@ return (
                 name="LeftThigh"
                 type="number"
                 fullWidth
-                value={body.LeftThigh}
-                required
-                onChange={handleInputChange}
-
-              />
-            </Grid>
-            {/*===============================================(Right thigh)===================================================*/}
-            <Grid
-              xs={6}
-              md={5}
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                paddingRight: 18,
-                marginTop: 2,
-              }}
-            >
-              <FormLabel sx={{ marginRight: 2, fontSize: 15 }}>
-                <b>Right thigh:</b>
-              </FormLabel>
-              <TextField
-                id="outlined-number"
-                type="number"
-                name="RightThigh"
-                fullWidth
-                value={body.RightThigh}
+                value={body.Thigh}
                 required
                 onChange={handleInputChange}
 
