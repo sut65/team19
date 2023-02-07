@@ -190,7 +190,7 @@ function Home() {
           overflow: "auto",
           alignItems: "center",
           gap: 6,
-          height: "92.7vh",
+          height: "100vh",
           width: "100%",
           backgroundSize: "cover",
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.15)), url(${BG})`,
