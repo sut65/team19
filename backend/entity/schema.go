@@ -255,10 +255,10 @@ type FoodInformation struct {
 	Admin   Admin
 
 	MainIngredientID *uint `valid:"required~ กรุณาเลือกวัตถุดิบหลัก "`
-	MainIngredient   MainIngredient
+	MainIngredient   MainIngredient 
 
 	FoodTypeID *uint `valid:"required~ กรุณาเลือกประเภทของอาหาร "`
-	FoodType   FoodType
+	FoodType   FoodType 
 
 	// MealPlan []MealPlan `gorm:"foreignKey:FoodInformationID"`
 }
