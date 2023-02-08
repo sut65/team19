@@ -84,7 +84,7 @@ type Admin struct {
 
 type CourseType struct {
 	gorm.Model
-	CourseType   string
+	TypeName   string
 	CourseDetail []CourseDetail `gorm:"foreignKey:CourseTypeID"`
 }
 
