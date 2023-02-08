@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   Button,
   TextField,
@@ -40,6 +40,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 function UpdateArticle() {
   const date = new Date();
   const { id } = useParams();
+  const navigate = useNavigate();
   const [article, setArticle] = useState<BlogInterface>({});
   // const [member, setMember] = useState<UserInterface>({ID: Number(localStorage.getItem("uid"))})
   const [categories, setCategories] = useState<CategoryInterface[]>([]);
@@ -58,6 +59,8 @@ function UpdateArticle() {
     }
     setSuccess(false);
     setError(false);
+
+    success && navigate("/user/articles");
   };
 
   const handleChangeImages = (event: any, id?: string) => {
@@ -124,9 +127,6 @@ function UpdateArticle() {
     if (res.status) {
       setAlertMessage("บันทึกข้อมูลสำเร็จ");
       setSuccess(true);
-      setTimeout(() => {
-        window.location.href = "/user/articles";
-      }, 1000);
     } else {
       setAlertMessage(res.message);
       setError(true);
@@ -136,7 +136,9 @@ function UpdateArticle() {
   useEffect(() => {
     fetchCategories();
     fetchTags();
-    fetchArticle();
+    return () => {
+      fetchArticle();
+    };
   }, []);
 
   return (
@@ -156,7 +158,7 @@ function UpdateArticle() {
       {/* Alert */}
       <Snackbar
         open={success}
-        autoHideDuration={1000}
+        autoHideDuration={7000}
         onClose={handleClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
@@ -167,7 +169,7 @@ function UpdateArticle() {
 
       <Snackbar
         open={error}
-        autoHideDuration={1000}
+        autoHideDuration={7000}
         onClose={handleClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
@@ -202,7 +204,11 @@ function UpdateArticle() {
       </Box>
 
       <ImgBox>
-        <img src={article.CoverImage} alt={image.name} style={{ width: "100%" }} />
+        <img
+          src={article.CoverImage}
+          alt={image.name}
+          style={{ width: "100%" }}
+        />
       </ImgBox>
 
       {/* Title */}

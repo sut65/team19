@@ -155,33 +155,36 @@ function Article() {
       {isOpen && (
         <>
           {/* Btn Edit */}
-          <Box sx={{ transform: "translateZ(0px)", flexGrow: 1 }}>
-            <SpeedDial
-              ariaLabel="SpeedDial controlled open example"
-              sx={{ position: "absolute", bottom: 20, right: 16 }}
-              icon={<SpeedDialIcon />}
-              onClose={handleCloseAction}
-              onOpen={handleOpenAction}
-              open={open}
-            >
-              {actions.map((action) => (
-                <SpeedDialAction
-                  sx={{
+          <Box
+            sx={{
+              transform: "translateZ(0px)",
+              display: "flex",
+              justifyContent: "flex-end",
+              gap: "1rem",
+              m: "2rem",
+            }}
+          >
+            {actions.map((action) => (
+              <Button
+                onClick={
+                  action.name === "Edit"
+                    ? () => navigate("update-article")
+                    : handleClickOpenPopup
+                }     
+                sx={{
+                  backgroundColor: `${action.color}`,
+                  borderRadius: 20,
+                  "&:hover": {
                     color: `${action.color}`,
-                    width: "55px",
-                    height: "55px"
-                  }}
-                  key={action.name}
-                  icon={action.icon}
-                  tooltipTitle={action.name}
-                  onClick={
-                    action.name === "Edit"
-                      ? () => navigate("update-article")
-                      : handleClickOpenPopup
-                  }
-                />
-              ))}
-            </SpeedDial>
+                    backgroundColor: "#fff",
+                  },
+                }}
+                variant="contained"
+                endIcon={action.icon}
+              >
+                {action.name}
+              </Button>
+            ))}
           </Box>
         </>
       )}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Button,
   TextField,
@@ -38,6 +38,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
 function CreateArticle() {
   const date = new Date();
+  const navigate = useNavigate();
   const [blog, setBlog] = useState<BlogInterface>({});
   // const [member, setMember] = useState<UserInterface>({})
   const [categories, setCategories] = useState<CategoryInterface[]>([]);
@@ -56,6 +57,8 @@ function CreateArticle() {
     }
     setSuccess(false);
     setError(false);
+
+    success && navigate("/user/articles");
   };
 
   const handleChangeImages = (event: any, id?: string) => {
@@ -117,9 +120,6 @@ function CreateArticle() {
     if (res.status) {
       setAlertMessage("บันทึกข้อมูลสำเร็จ");
       setSuccess(true);
-      setTimeout(() => {
-        window.location.href = "/user/articles";
-      }, 1000);
     } else {
       setAlertMessage(res.message);
       setError(true);
@@ -148,18 +148,18 @@ function CreateArticle() {
       {/* Alert */}
       <Snackbar
         open={success}
-        autoHideDuration={1000}
+        autoHideDuration={3000}
         onClose={handleClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="success">
           {message}
-        </Alert>
+        </Alert>  
       </Snackbar>
 
       <Snackbar
         open={error}
-        autoHideDuration={1000}
+        autoHideDuration={3000}
         onClose={handleClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
