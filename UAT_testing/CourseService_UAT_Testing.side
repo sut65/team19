@@ -825,6 +825,315 @@
       ],
       "value": ""
     }]
+  }, {
+    "id": "d1755926-5bb5-4ece-9f8d-30881924566c",
+    "name": "test CourseService update trainer successful",
+    "commands": [{
+      "id": "5bb19739-d3a8-4dfc-b74f-2f05c051e8a2",
+      "comment": "",
+      "command": "open",
+      "target": "/user",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "f9528fcf-c169-46e4-8c2a-25a90b8ece25",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1920x1080",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "4e6e7357-f83f-4161-88be-b0cfe624e444",
+      "comment": "",
+      "command": "click",
+      "target": "css=a:nth-child(3) > .MuiButtonBase-root",
+      "targets": [
+        ["css=a:nth-child(3) > .MuiButtonBase-root", "css:finder"],
+        ["xpath=(//button[@type='button'])[6]", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[2]/div/div/div[2]/div[2]/div[4]/a[2]/button", "xpath:idRelative"],
+        ["xpath=//a[2]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Update')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "49d93df5-52c9-407d-8655-145c91ddb663",
+      "comment": "",
+      "command": "click",
+      "target": "name=TrainerID",
+      "targets": [
+        ["name=TrainerID", "name"],
+        ["css=.MuiNativeSelect-select", "css:finder"],
+        ["xpath=//select[@name='TrainerID']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[2]/div/div[2]/div/div[6]/div/div/select", "xpath:idRelative"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "39c1f6c1-e678-4c40-9666-5080edb29c14",
+      "comment": "",
+      "command": "select",
+      "target": "name=TrainerID",
+      "targets": [],
+      "value": "label=opopopo"
+    }, {
+      "id": "4aca6d10-9b7e-410a-8ba2-642e91b4e880",
+      "comment": "",
+      "command": "click",
+      "target": "id=RefundMessage",
+      "targets": [
+        ["id=RefundMessage", "id"],
+        ["css=#RefundMessage", "css:finder"],
+        ["xpath=//textarea[@id='RefundMessage']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[2]/div/div[2]/div/div[10]/div/div/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b362f403-a254-426b-9941-ac703af3535c",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.MuiGrid-grid-xs-1 > .MuiButtonBase-root",
+      "targets": [
+        ["css=.MuiGrid-grid-xs-1 > .MuiButtonBase-root", "css:finder"],
+        ["xpath=(//button[@type='button'])[6]", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[2]/div/div[2]/div/div[12]/button", "xpath:idRelative"],
+        ["xpath=//div[12]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Update')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "5de6db92-ce7e-48db-8b01-375c171295f8",
+      "comment": "",
+      "command": "type",
+      "target": "id=RefundMessage",
+      "targets": [
+        ["id=RefundMessage", "id"],
+        ["css=#RefundMessage", "css:finder"],
+        ["xpath=//textarea[@id='RefundMessage']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[2]/div/div[2]/div/div[10]/div/div/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": "Boring"
+    }, {
+      "id": "0d6b2549-12d5-4f1c-a256-e2cb441a1492",
+      "comment": "",
+      "command": "click",
+      "target": "css=.MuiGrid-grid-xs-1 > .MuiButtonBase-root",
+      "targets": [
+        ["css=.MuiGrid-grid-xs-1 > .MuiButtonBase-root", "css:finder"],
+        ["xpath=(//button[@type='button'])[6]", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[2]/div/div[2]/div/div[12]/button", "xpath:idRelative"],
+        ["xpath=//div[12]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Update')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "aef09662-142d-4457-9c4b-697ffbb7f5a0",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "css=.MuiGrid-grid-xs-1 > .MuiButtonBase-root",
+      "targets": [
+        ["css=.MuiGrid-grid-xs-1 > .MuiButtonBase-root", "css:finder"],
+        ["xpath=(//button[@type='button'])[6]", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[2]/div/div[2]/div/div[12]/button", "xpath:idRelative"],
+        ["xpath=//div[12]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Update')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "053a6a36-f6dc-4e57-b038-bc964deeac05",
+    "name": "test CourseService update invalid trainer",
+    "commands": [{
+      "id": "75e94e66-c950-429f-8de3-621c2c1d1b1a",
+      "comment": "",
+      "command": "open",
+      "target": "/user",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "18399c2b-01fe-4a6d-8eaf-b828f6440b76",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1920x1080",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "da18064b-3563-47c2-a542-2d3fdb6fe62f",
+      "comment": "",
+      "command": "click",
+      "target": "css=a:nth-child(3) > .MuiButtonBase-root",
+      "targets": [
+        ["css=a:nth-child(3) > .MuiButtonBase-root", "css:finder"],
+        ["xpath=(//button[@type='button'])[6]", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[2]/div/div/div[2]/div[2]/div[4]/a[2]/button", "xpath:idRelative"],
+        ["xpath=//a[2]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Update')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "0a134681-5cf3-416d-af64-519788853276",
+      "comment": "",
+      "command": "click",
+      "target": "name=TrainerID",
+      "targets": [
+        ["name=TrainerID", "name"],
+        ["css=.MuiNativeSelect-select", "css:finder"],
+        ["xpath=//select[@name='TrainerID']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[2]/div/div[2]/div/div[6]/div/div/select", "xpath:idRelative"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "cb9a9fc0-0d3f-45b7-93ad-3bd765548073",
+      "comment": "",
+      "command": "select",
+      "target": "name=TrainerID",
+      "targets": [],
+      "value": "label=Please select trainer"
+    }, {
+      "id": "2b35f176-e30f-430f-9c2a-5fcc53b1c5bc",
+      "comment": "",
+      "command": "click",
+      "target": "id=RefundMessage",
+      "targets": [
+        ["id=RefundMessage", "id"],
+        ["css=#RefundMessage", "css:finder"],
+        ["xpath=//textarea[@id='RefundMessage']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[2]/div/div[2]/div/div[10]/div/div/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b7b7ce1a-2690-42d4-8d19-0e561e89c275",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.MuiGrid-grid-xs-1 > .MuiButtonBase-root",
+      "targets": [
+        ["css=.MuiGrid-grid-xs-1 > .MuiButtonBase-root", "css:finder"],
+        ["xpath=(//button[@type='button'])[6]", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[2]/div/div[2]/div/div[12]/button", "xpath:idRelative"],
+        ["xpath=//div[12]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Update')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "a6e61ee5-cec1-491e-9097-40e5c268f8ab",
+      "comment": "",
+      "command": "type",
+      "target": "id=RefundMessage",
+      "targets": [
+        ["id=RefundMessage", "id"],
+        ["css=#RefundMessage", "css:finder"],
+        ["xpath=//textarea[@id='RefundMessage']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[2]/div/div[2]/div/div[10]/div/div/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": "test"
+    }, {
+      "id": "d6ce4eda-072c-4779-84a0-0f6fca559f43",
+      "comment": "",
+      "command": "click",
+      "target": "css=.MuiGrid-grid-xs-1 > .MuiButtonBase-root",
+      "targets": [
+        ["css=.MuiGrid-grid-xs-1 > .MuiButtonBase-root", "css:finder"],
+        ["xpath=(//button[@type='button'])[6]", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[2]/div/div[2]/div/div[12]/button", "xpath:idRelative"],
+        ["xpath=//div[12]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Update')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "1965905a-9ad1-424e-aaf0-dba6de9ef007",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "css=.MuiGrid-grid-xs-1 > .MuiButtonBase-root",
+      "targets": [
+        ["css=.MuiGrid-grid-xs-1 > .MuiButtonBase-root", "css:finder"],
+        ["xpath=(//button[@type='button'])[7]", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[2]/div[2]/div[2]/div/div[12]/button", "xpath:idRelative"],
+        ["xpath=//div[12]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Update')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "26f1b022-1785-4fba-b78f-fe11b32e0d51",
+    "name": "test CourseService update trainer with blank message",
+    "commands": [{
+      "id": "77917057-dd9a-4277-849e-6142a63d9fbd",
+      "comment": "",
+      "command": "open",
+      "target": "/user",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "07715b0f-fc13-4d2e-a10b-577446d59da6",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1920x1080",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "b44d2f5a-ce00-41bf-b2d1-d4a384bd4b3c",
+      "comment": "",
+      "command": "click",
+      "target": "css=a:nth-child(3) > .MuiButtonBase-root",
+      "targets": [
+        ["css=a:nth-child(3) > .MuiButtonBase-root", "css:finder"],
+        ["xpath=(//button[@type='button'])[6]", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[2]/div/div/div[2]/div[2]/div[4]/a[2]/button", "xpath:idRelative"],
+        ["xpath=//a[2]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Update')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "8dfe75b8-28b7-4327-9483-fd5cea6ec46d",
+      "comment": "",
+      "command": "click",
+      "target": "name=TrainerID",
+      "targets": [
+        ["name=TrainerID", "name"],
+        ["css=.MuiNativeSelect-select", "css:finder"],
+        ["xpath=//select[@name='TrainerID']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[2]/div/div[2]/div/div[6]/div/div/select", "xpath:idRelative"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "fe7aa57d-61c1-45a7-9310-c243998fbccc",
+      "comment": "",
+      "command": "select",
+      "target": "name=TrainerID",
+      "targets": [],
+      "value": "label=Natthaphon"
+    }, {
+      "id": "fe562ef4-11c4-428f-b54c-24be4296719b",
+      "comment": "",
+      "command": "click",
+      "target": "id=RefundMessage",
+      "targets": [
+        ["id=RefundMessage", "id"],
+        ["css=#RefundMessage", "css:finder"],
+        ["xpath=//textarea[@id='RefundMessage']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[2]/div/div[2]/div/div[10]/div/div/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e0880c22-ef64-4e60-b49f-edbc8c0e9cd9",
+      "comment": "",
+      "command": "click",
+      "target": "css=.MuiGrid-grid-xs-1 > .MuiButtonBase-root",
+      "targets": [
+        ["css=.MuiGrid-grid-xs-1 > .MuiButtonBase-root", "css:finder"],
+        ["xpath=(//button[@type='button'])[6]", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[2]/div/div[2]/div/div[12]/button", "xpath:idRelative"],
+        ["xpath=//div[12]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Update')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
   }],
   "suites": [{
     "id": "53994de9-2153-42e0-92ed-faecea646854",

@@ -69,12 +69,8 @@ func TestPaymentValidate(t *testing.T) {
 		g.Expect(err).ToNot(BeNil())
 
 		// เช็ค err message เป็น Please upload slip (เพราะเกิด error ที่ Slip)
-		g.Expect(err.Error()).To(Equal("File size must less than 2MB"))
+		g.Expect(err.Error()).To(Equal("File size must less than 2 MB"))
 	})
-
-	// ================================================================================================
-	// ทำเทสขนาดไฟล์น้อยกว่า 2 MB ไม่ได้เพราะ VSCODE ค้าง
-	// ================================================================================================
 
 	t.Run("check slip must be images file", func(t *testing.T) {
 		p := Payment{
