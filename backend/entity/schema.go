@@ -255,10 +255,10 @@ type FoodInformation struct {
 	Admin   Admin
 
 	MainIngredientID *uint `valid:"required~ กรุณาเลือกวัตถุดิบหลัก "`
-	MainIngredient   MainIngredient
+	MainIngredient   MainIngredient 
 
 	FoodTypeID *uint `valid:"required~ กรุณาเลือกประเภทของอาหาร "`
-	FoodType   FoodType
+	FoodType   FoodType 
 
 	// MealPlan []MealPlan `gorm:"foreignKey:FoodInformationID"`
 }
@@ -456,7 +456,7 @@ type Discount struct {
 
 type Duration struct {
 	gorm.Model
-	NumberOfDays       float32 // แก้เป็น int
+	NumberOfDays       int
 	DurationPercentage int
 
 	Payment []Payment `gorm:"foreignKey:DurationID"`
@@ -465,7 +465,7 @@ type Duration struct {
 type Payment struct {
 	gorm.Model
 	PaymentDate time.Time
-	Slip        string `valid:"required~Please upload slip,length(0|2802088)~File size must less than 2MB,image~Slip must be image file"`
+	Slip        string `valid:"required~Please upload slip,length(0|2802088)~File size must less than 2 MB,image~Slip must be image file"`
 	Balance     float32
 
 	CourseServiceID *uint
@@ -500,7 +500,7 @@ type Nutrient struct {
 	MostNutrientID *uint `valid:"required~ กรุณาเลือกหมู่อาหารที่พบมาก "`
 	MostNutrient   MostNutrient
 
-	FoodInformationID int             `valid:"required~ กรุณาเลือกอาหาร "`
+	FoodInformationID int             `valid:"required~ กรุณาเลือกอาหาร " gorm:"uniqueIndex"`
 	FoodInformation   FoodInformation `gorm:"references:id" valid:"-"`
 }
 
