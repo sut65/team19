@@ -18,7 +18,7 @@ import { ReviewInterface } from "../../interfaces/IReview";
 
 // api
 import { GetRanks, CreateReviews } from "../../services/HttpClientService";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 
 // style
 const BoxRating = styled(Box)({
@@ -40,6 +40,8 @@ interface RatingLabelsInterface {
 
 function CreateReview() {
   const { id } = useParams();
+  const navigate = useNavigate();
+
   const [review, setReview] = useState<ReviewInterface>({ RankID: 0 });
   const [ranks, setRanks] = useState<RankInterface[]>([]);
   const [ratingValue, setRatingValue] = useState<number | null>(0);
@@ -59,6 +61,9 @@ function CreateReview() {
     }
     setSuccess(false);
     setError(false);
+
+    success && navigate(`/user/reviews/${id}`);
+
   };
 
   const handleChangeImages = (event: any, id?: string) => {
@@ -105,9 +110,6 @@ function CreateReview() {
     if (res.status) {
       setAlertMessage("บันทึกข้อมูลสำเร็จ");
       setSuccess(true);
-      setTimeout(() => {
-        window.location.href = `/user/reviews/${id}`;
-      }, 1000);
     } else {
       setAlertMessage(res.message);
       setError(true);
@@ -141,7 +143,7 @@ function CreateReview() {
       {/* Alert */}
       <Snackbar
         open={success}
-        autoHideDuration={1000}
+        autoHideDuration={7000}
         onClose={handleClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
@@ -152,7 +154,7 @@ function CreateReview() {
 
       <Snackbar
         open={error}
-        autoHideDuration={1000}
+        autoHideDuration={7000}
         onClose={handleClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >

@@ -22,7 +22,7 @@ import {
   UpdateReview as UdRv,
   GetReviewByID,
 } from "../../services/HttpClientService";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 
 // style
 const BoxRating = styled(Box)({
@@ -44,7 +44,8 @@ interface RatingLabelsInterface {
 
 function UpdateReview() {
   let { id, slug } = useParams();
-  console.log(useParams());
+  const navigate = useNavigate();
+
   const [review, setReview] = useState<ReviewInterface>({ RankID: 0 });
   const [ranks, setRanks] = useState<RankInterface[]>([]);
   const [hover, setHover] = useState(-1);
@@ -63,6 +64,8 @@ function UpdateReview() {
     }
     setSuccess(false);
     setError(false);
+
+    success && navigate(`/user/reviews/${slug}`);
   };
 
   const handleChangeImages = (event: any, id?: string) => {
@@ -117,9 +120,6 @@ function UpdateReview() {
     if (res.status) {
       setAlertMessage("บันทึกข้อมูลสำเร็จ");
       setSuccess(true);
-      setTimeout(() => {
-        window.location.href = `/user/reviews/${slug}`;
-      }, 1000);
     } else {
       setAlertMessage(res.message);
       setError(true);
@@ -127,7 +127,6 @@ function UpdateReview() {
   };
 
   useEffect(() => {
-    fetchReviewByID();
     fetchRanks();
     return () => {
       const objRating: any = ranks.reduce(
@@ -135,6 +134,7 @@ function UpdateReview() {
         {}
       );
       setLabels(objRating);
+      fetchReviewByID();
     };
   }, []);
 
@@ -153,7 +153,7 @@ function UpdateReview() {
       {/* Alert */}
       <Snackbar
         open={success}
-        autoHideDuration={1000}
+        autoHideDuration={7000}
         onClose={handleClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
@@ -164,7 +164,7 @@ function UpdateReview() {
 
       <Snackbar
         open={error}
-        autoHideDuration={1000}
+        autoHideDuration={7000}
         onClose={handleClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
