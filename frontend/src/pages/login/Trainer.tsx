@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import SignIn from '../../components/SignIn';
 
- import { TrainerLogin } from '../../services/HttpClientService';
+import { TrainerLogin } from '../../services/HttpClientService';
 import ProfileTrainer from "../../components/Trainer/ProfileTrainer";
+import NavTrainer from '../../components/NavbarTrainer';
 
 
 
@@ -21,7 +22,7 @@ function Trainer() {
   }
   
   return (
-    <ProfileTrainer/>
+    <NavTrainer/>
   )
 }
 

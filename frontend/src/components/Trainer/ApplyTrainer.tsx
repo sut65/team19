@@ -16,7 +16,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { Link, useLocation } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
 
 
 import { TrainerInterface } from "../../interfaces/ITrainer";
@@ -99,7 +99,7 @@ function Trainer() {
     if (reason === "clickaway") {
       return;
     }
-
+    success && (window.location.href = "/trainer");
     setSuccess(false);
     setError(false);
   };
@@ -199,10 +199,9 @@ function Trainer() {
         // console.log(res);
         if (res.data) {
           setTimeout(() => {
-            window.location.reload();
-          }, 2000);
+           window.location.href = "/trainer";
+          }, 10000);
           setSuccess(true);
-          window.location.href = "/trainer";
         } else {
           setError(true);
         }
