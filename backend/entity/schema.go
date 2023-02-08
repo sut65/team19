@@ -247,17 +247,17 @@ type FoodType struct {
 
 type FoodInformation struct {
 	gorm.Model
-	Name     string `valid:"required~ กรุณาใส่ชื่ออาหาร "`
+	Name     string `valid:"required~Name cannot be blank"`
 	Datetime string
-	Image    string `valid:"image~ รูปภาพต้องเป็นไฟล์รูปภาพเท่านั้น"`
+	Image    string `valid:"image~Image must be image file"`
 
 	AdminID *uint
 	Admin   Admin
 
-	MainIngredientID *uint `valid:"required~ กรุณาเลือกวัตถุดิบหลัก "`
+	MainIngredientID *uint
 	MainIngredient   MainIngredient 
 
-	FoodTypeID *uint `valid:"required~ กรุณาเลือกประเภทของอาหาร "`
+	FoodTypeID *uint
 	FoodType   FoodType 
 
 	// MealPlan []MealPlan `gorm:"foreignKey:FoodInformationID"`
@@ -490,17 +490,17 @@ type MostNutrient struct {
 
 type Nutrient struct {
 	gorm.Model
-	Comment      string `valid:"maxstringlength(50)~ Comment ห้ามเกิน 50 ตัวอักษร "`
-	TotalCalorie int    `valid:"range(0|10000)~ จำนวนแคลอรี่ผิดพลาด, required~ กรุณาใส่จำนวนแคลอรี่"`
+	Comment      string `valid:"maxstringlength(50)~Comment cannot more than 50 characters"`
+	TotalCalorie int    `valid:"range(0|10000)~Invalid calorie, required~Calorie cannot be blank"`
 	Date         string
 
 	AdminID *uint
 	Admin   Admin
 
-	MostNutrientID *uint `valid:"required~ กรุณาเลือกหมู่อาหารที่พบมาก "`
+	MostNutrientID *uint 
 	MostNutrient   MostNutrient
 
-	FoodInformationID int             `valid:"required~ กรุณาเลือกอาหาร " gorm:"uniqueIndex"`
+	FoodInformationID int             `gorm:"uniqueIndex"`
 	FoodInformation   FoodInformation `gorm:"references:id" valid:"-"`
 }
 
