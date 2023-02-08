@@ -13,7 +13,7 @@ import homeBg from "../../images/CourseBG.jpg"
 
 // api
 import { GetCourseDetail } from "../../services/HttpClientService";
-import { GetDescription } from "../../services/HttpClientService";
+import { GetCourseType } from "../../services/HttpClientService";
 
 // Style
 const ButtonWrite = styled(Button)({
@@ -98,8 +98,10 @@ function ShowCardCourseDetail() {
                                     ID={item.ID}
                                     CourseName={item.CourseName}
                                     CoverPage={item.CoverPage}
-                                    DescriptionID={item.DescriptionID}
                                     Description={item.Description}
+                                    Goal={item.Goal}
+                                    CourseTypeID={item.CourseTypeID}
+                                    CourseType={item.CourseType}
                                     AdminID={item.AdminID}
                                     Admin={item.Admin}
                                     PriceID={item.PriceID}

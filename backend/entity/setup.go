@@ -191,17 +191,17 @@ func SetupDatabase() {
 	//Description Part ----------------------------------------------------------------------------------------------
 
 	CourseType1 := CourseType{
-		CourseType:  "เพิ่มน้ำหนัก",
+		TypeName:  "เพิ่มน้ำหนัก",
 	}
 	db.Model(&CourseType{}).Create(&CourseType1)
 
 	CourseType2 := CourseType{
-		CourseType:  "ลดน้ำหนัก",
+		TypeName:  "ลดน้ำหนัก",
 	}
 	db.Model(&CourseType{}).Create(&CourseType2)
 
 	CourseType3 := CourseType{
-		CourseType:  "เพิ่มกล้ามเนื้อ",
+		TypeName:  "เพิ่มกล้ามเนื้อ",
 	}
 	db.Model(&CourseType{}).Create(&CourseType3)
 

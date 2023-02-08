@@ -120,7 +120,7 @@ function CourseDetail() {
                 {/* Course type */}
                 <Typography color={"#252525"} mb={2} fontSize={"1.2rem"} variant="h3">
                     ประเภทคอร์ส :{" "}
-                    <b style={{ marginLeft: "1rem" }}>{courseDetail.Description?.CourseType}</b>
+                    <b style={{ marginLeft: "1rem" }}>{courseDetail.CourseType?.TypeName}</b>
                 </Typography>
 
                 {/* Description */}
@@ -131,7 +131,7 @@ function CourseDetail() {
                     variant="h3"
                     style={{ color: "#252525", wordSpacing: "4px", letterSpacing: "1px" }}
                 >
-                    {courseDetail.Description?.Description}
+                    {courseDetail.Description}
                 </Typography>
                 {/* price */}
                 <Typography

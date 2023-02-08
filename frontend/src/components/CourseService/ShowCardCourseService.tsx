@@ -7,7 +7,7 @@ import CardCourseService from "./CardCourseService";
 import { Margin } from "@mui/icons-material";
 import "../../App.css";
 import { CourseDetailInterface } from "../../interfaces/ICourseDetail";
-import { DescriptionInterface } from "../../interfaces/IDescription";
+import { DescriptionInterface } from "../../interfaces/ICourseType";
 import { PriceInterface } from "../../interfaces/IPrice";
 import { GetCourseDetail, GetDescription, GetPrice } from "../../services/HttpClientService";
 

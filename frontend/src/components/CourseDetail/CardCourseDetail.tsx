@@ -15,10 +15,12 @@ function CardCourseDetail({
     CourseName,
     CoverPage,
     Description,
+    Goal,
+    CourseType,
     Price,
     Admin,
 }: CourseDetailInterface) {
-    const [CourseDetail, setCourseDetail] = useState<CourseDetailInterface[]>([])
+    const [courseDetail, setCourseDetail] = useState<CourseDetailInterface[]>([]);
     const navigate = useNavigate();
 
     const getCourseDetail = async () => {
@@ -49,7 +51,7 @@ function CardCourseDetail({
                 component="img"
                 height="300"
                 image={CoverPage}
-                alt="green iguana"
+                // alt="green iguana"
             />
             <CardContent>
                 <Box
@@ -83,11 +85,11 @@ function CardCourseDetail({
                     </Typography>
 
                     <Typography variant="body2" color="text.secondary" mb={2}>
-                        ประเภทคอร์ส: {Description?.CourseType}
+                        ประเภทคอร์ส: {CourseType?.TypeName}
                     </Typography>
 
                     <Typography variant="body2" color="text.secondary" mb={2}>
-                        เป้าหมาย: {Description?.Goal}
+                        เป้าหมาย: {Goal}
                     </Typography>
 
                     <Typography
@@ -107,7 +109,7 @@ function CardCourseDetail({
                     variant="h5"
                     style={{ marginBottom: "2rem" }}
                 >
-                    {Description?.Description.slice(0, 100)}
+                    {Description.slice(0, 100)}
                 </Typography>
 
             </CardContent>

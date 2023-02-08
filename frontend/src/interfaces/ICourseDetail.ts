@@ -1,4 +1,4 @@
-import { DescriptionInterface } from "./IDescription";
+import { CourseTypeInterface } from "./ICourseType";
 import { AdminInterface } from "./IAdmin";
 import { PriceInterface } from "./IPrice";
 
@@ -6,10 +6,15 @@ export interface CourseDetailInterface {
     ID?:            number,
     CourseName?:    string,
     CoverPage?:     string,
-    DescriptionID?: number,
-    Description?:   DescriptionInterface,
+    Description?:    string,
+    Goal?:          string,
+
+    CourseTypeID?:  number,
+    CourseType?:    CourseTypeInterface,
+
     AdminID?:       number,
     Admin?:         AdminInterface,
+
     PriceID?:       number,
     Price?:         PriceInterface,
 }

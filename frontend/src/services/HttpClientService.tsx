@@ -346,6 +346,28 @@ const UpdateCourseDetail = async (data: CourseDetailInterface) => {
   return res;
 };
 
+async function GetCourseDetailByID(id: number | undefined) {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/course_detail/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
 async function GetPrice() {
   const requestOptions = {
     method: "GET",
@@ -368,7 +390,7 @@ async function GetPrice() {
   return res;
 }
 
-async function GetDescription() {
+async function GetCourseType() {
   const requestOptions = {
     method: "GET",
     headers: {
@@ -377,7 +399,7 @@ async function GetDescription() {
     },
   };
 
-  let res = await fetch(`${apiUrl}/descriptions`, requestOptions)
+  let res = await fetch(`${apiUrl}/course_types`, requestOptions)
     .then((response) => response.json())
     .then((res) => {
       if (res.data) {
@@ -390,27 +412,6 @@ async function GetDescription() {
   return res;
 }
 
-// async function GetCourseDetailByID(id: number | undefined) {
-//   const requestOptions = {
-//     method: "GET",
-//     headers: {
-//       Authorization: `Bearer ${localStorage.getItem("token")}`,
-//       "Content-Type": "application/json",
-//     },
-//   };
-
-  // let res = await fetch(`${apiUrl}/course_detail/${id}`, requestOptions)
-  //   .then((response) => response.json())
-  //   .then((res) => {
-  //     if (res.data) {
-  //       return res.data;
-  //     } else {
-  //       return false;
-  //     }
-  //   });
-
-//   return res;
-// }
 
 // ------------- Review -----------------
 const GetReviews = async () => {
@@ -1061,28 +1062,6 @@ const GetMember = async () => {
   return res;
 };
 
-async function GetCourseDetailByID(id: number | undefined) {
-  const requestOptions = {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "application/json",
-    },
-  };
-
-  let res = await fetch(`${apiUrl}/course_detail/${id}`, requestOptions)
-    .then((response) => response.json())
-    .then((res) => {
-      if (res.data) {
-        return res.data;
-      } else {
-        return false;
-      }
-    });
-
-  return res;
-}
-
 async function SelectCourseDetail(id: number | undefined) {
   const requestOptions = {
     method: "GET",
@@ -1416,17 +1395,22 @@ export {
   GetTrainerByID,
   DeleteTrainer,
   UpdateTrainer,
-  //
+  
+  //CourseDetail
+  DeleteCourseDetail,
+  createCourseDetail,
+  UpdateCourseDetail,
+  GetCourseDetailByID,
   GetAdmin,
   GetPrice,
-  GetDescription,
-  CreateCourseService,
+  GetCourseType,
+
   // CourseService
   GetCourseService,
-  GetCourseDetailByID,
   SelectCourseDetail,
   UpdateCourseService,
   DeleteCourseService,
+  CreateCourseService,
   // Payment
   GetPayment,
   GetPaymentByID,
@@ -1487,8 +1471,4 @@ export {
   GetExercise,
   GetTatse,
   CreateBehavior,
-  //CourseDetail
-  DeleteCourseDetail,
-  createCourseDetail,
-  UpdateCourseDetail,
 };
