@@ -23,7 +23,7 @@ import { Box } from "@mui/system";
 
 import {styled} from "@mui/material";
 import { useParams } from "react-router-dom";
-import { UpdateMem } from "../../services/HttpClientService";
+import { GetMembersByID, UpdateMem } from "../../services/HttpClientService";
 
 
 import Visibility from "@mui/icons-material/Visibility";
@@ -164,10 +164,16 @@ function UpdateMember() {
       });
   };
 
+  const fetchMember = async () => {
+    let res = await GetMembersByID(id + "");
+    res && setRg(res);
+};
+
   useEffect(() => {
     fetchGender();
     fetchStatus();
     fetchReligion();
+    fetchMember();
   }, []);
 
   const convertType = (data: string | number | undefined) => {
@@ -176,7 +182,7 @@ function UpdateMember() {
   };
 
   const update = async () => {
-    let data = {
+    let newdata = {
         ID: convertType(id),
     Firstname: rg.Firstname,
     Lastname: rg.Lastname,
@@ -189,17 +195,17 @@ function UpdateMember() {
     };
     // window.location.href = "/members"
     
-     console.log(data);
-     console.log(JSON.stringify(data));
+     console.log(newdata);
+     console.log(JSON.stringify(newdata));
      
-     let res = await UpdateMem(data);
+     let res = await UpdateMem(newdata);
      if (res) {
        setSuccess(true);
        window.location.href = "/user/profile-member";
      } else {
        setError(true);
      }
-     console.log(JSON.stringify(data))
+     console.log(JSON.stringify(newdata))
   };
 
   return (
@@ -228,12 +234,10 @@ function UpdateMember() {
               <Grid xs={6} md={6}>
                 <p style={{ color: "grey", fontSize: 17 }}>Firstname</p>
                 <TextField
-                  id="Firstname"
-                  label="ชื่อ"
+                  id="firstname"
                   name="Firstname"
                   variant="outlined"
                   fullWidth
-                  required
                   value={rg.Firstname}
                   onChange={handleInputChange}
                 />

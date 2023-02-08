@@ -15,9 +15,19 @@ import Button from "@mui/material/Button";
 import { TrainerInterface } from "../../../interfaces/ITrainer";
 
 import {GetTrainerByID,UpdateTrainer} from "../../../services/HttpClientService"
-import Fingerprint from '@mui/icons-material/Fingerprint';
-import { AlignVerticalCenterTwoTone, Update } from "@mui/icons-material";
-import { display } from "@mui/system";
+
+
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert, { AlertProps } from "@mui/material/Alert";
+
+
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 
 
 
@@ -26,14 +36,23 @@ function EditSettings() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const { id } = useParams();
-
-  const [name, setName] = useState<string>("");
-  const [address, setAddress] = useState<String>("");
-  const [email, setEmail] = useState<String>("");
-
   
   const [trainer, setTrainer] = useState<TrainerInterface>({}); 
 
+
+// =========================(handleClose)====================================================
+
+const handleClose = (
+  event?: React.SyntheticEvent | Event,
+  reason?: string
+) => {
+  if (reason === "clickaway") {
+    return;
+  }
+  success && (window.location.reload());
+  setSuccess(false);
+  setError(false);
+};
 
 
   const [pass, setPass] = React.useState<State>({
@@ -128,7 +147,6 @@ const passwordchange = () =>{
   //======================< submit >===============
 
   const submit = async () => {
-
     let data = {
       ID: convertType(trainer.ID),
       Name: trainer.Name,
@@ -141,17 +159,19 @@ const passwordchange = () =>{
 
     let res = await UpdateTrainer(data);
     if (res) {
+      setTimeout(() => {
         setSuccess(true);
-        window.location.reload();
+        // window.location.href = "/trainer/profile";
+       }, 500);
+        
       } else {
         setError(true);
     }
-
   };
 
-
   return (
-    <Paper
+   <div>
+     <Paper
       elevation={0}
       sx={{
         margin: 0,
@@ -163,7 +183,7 @@ const passwordchange = () =>{
       <h1 style={{ color: "#6b7176" }}>Edit</h1>
       {/*==============================================(Name)====================================================*/}
       <Grid xs={12} md={9} sx={{ alignItems: "center" }}>
-        <p style={{ color: "#ec407a", fontSize: 15 }}>
+        <p style={{ color: "#8A94FF", fontSize: 15 }}>
           <b>
             <b>NAME</b>
           </b>
@@ -180,7 +200,7 @@ const passwordchange = () =>{
       </Grid>
       {/*==============================================(Email)====================================================*/}
       <Grid xs={6} md={6}>
-        <p style={{ color: "#f06292", fontSize: 15 }}>
+        <p style={{ color: "#8A94FF", fontSize: 15 }}>
           <b>EMAIL</b>
         </p>
         <TextField
@@ -196,7 +216,7 @@ const passwordchange = () =>{
       </Grid>
       {/*==============================================(location)====================================================*/}
       <Grid xs={12} md={9} sx={{ alignItems: "center" }}>
-        <p style={{ color: "#ec407a", fontSize: 15 }}>
+        <p style={{ color: "#8A94FF", fontSize: 15 }}>
           <b>
             <b>LOCATION</b>
           </b>
@@ -213,7 +233,7 @@ const passwordchange = () =>{
       </Grid>
       {/* =================================( New password)=============================================================== */}
       <Grid xs={6} md={5}>
-        <p style={{ color: "#ec407a", fontSize: 15 }}>
+        <p style={{ color: "#8A94FF", fontSize: 15 }}>
           <b>
             <b>NEW PASSWORD</b>
           </b>
@@ -240,7 +260,7 @@ const passwordchange = () =>{
       </Grid>
       {/* ==================================( Confirm password )====================================== */}
       <Grid xs={6} md={5}>
-        <p style={{ color: "#ec407a", fontSize: 15 }}>
+        <p style={{ color: "#8A94FF", fontSize: 15 }}>
           <b>
             <b>CONFIRM PASSWORD</b>
           </b>
@@ -268,18 +288,21 @@ const passwordchange = () =>{
       {/*==============================================(Button)====================================================*/}
       <Grid sx = {{display:"flex" ,justifyContent:"flex-end"}}>
  
-        <Link
-          to="/"
-          style={{
-            color: "#252525",
-            textDecoration: "none",
-            display: "flex",
-            justifyContent: "flex-end",
-          }}
-        >
-          <Button variant="text" size="large" sx={{ marginRight: 5,marginTop:5 }}>
-            back
-          </Button>
+       
+
+          <Link
+                to="/trainer"
+                style={{
+                  color: "#252525",
+                  textDecoration: "none",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Button variant="text" size="large" sx={{ marginRight: 5,marginTop:5 }}>
+                  back
+                </Button>
+              </Link>
           <Button
           variant="contained"
           size="large"
@@ -288,9 +311,32 @@ const passwordchange = () =>{
         >
           Update
         </Button>
-        </Link>
       </Grid>
     </Paper>
+    <Snackbar
+      open={success}
+      autoHideDuration={5000}
+      onClose={handleClose}
+      anchorOrigin={{ vertical: "top", horizontal: "center" }}
+    >
+      <Alert onClose={handleClose} severity="success">
+        บันทึกข้อมูลสำเร็จ
+      </Alert>
+    </Snackbar>
+
+    <Snackbar
+      open={error}
+      autoHideDuration={5000}
+      onClose={handleClose}
+      anchorOrigin={{ vertical: "top", horizontal: "center" }}
+    >
+      <Alert onClose={handleClose} severity="error">
+        บันทึกข้อมูลไม่สำเร็จ
+      </Alert>
+    </Snackbar>
+   </div>
+
+    
   );
  }
 

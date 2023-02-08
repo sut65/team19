@@ -87,7 +87,6 @@ function UpdateNutrient() {
     const fetchFoodInformation = async () => {
         let res = await GetFoodInformations();
         res && setFoodInformation(res[Number(id)-1]);
-        console.log(res[Number(id)-1])
     };
 
     const fetchAdminByID = async () => {
@@ -142,7 +141,7 @@ function UpdateNutrient() {
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                 >
                 <Alert onClose={handleClose} severity="success">
-                    บันทึกข้อมูลอาหารสำเร็จ
+                    อัปเดตสารอาหารสำเร็จ
                 </Alert>
             </Snackbar>
 
@@ -153,7 +152,7 @@ function UpdateNutrient() {
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                 >
                 <Alert onClose={handleClose} severity="error">
-                    บันทึกข้อมูลอาหารไม่สำเร็จ
+                    อัปเดตสารอาหารสำเร็จล้มเหลว
                 </Alert>
             </Snackbar>
 
@@ -207,9 +206,6 @@ function UpdateNutrient() {
                     name: "MostNutrientID",
                     }}
                 >
-                <option aria-label="None" value="">
-                    ใส่ข้อมูล
-                </option>
                 {mostnutrient.map((item: MostNutrientInterface) => (
                 <option key={item.ID} value={item.ID}>
                     {item.Name}
@@ -230,7 +226,7 @@ function UpdateNutrient() {
                 sx={{ m: 1, width: '17%' }}
                 InputProps={{
                     startAdornment: <InputAdornment position="start">Kcal</InputAdornment>,
-                    inputProps: {min: 0}
+                    inputProps: {min: 0, max: 10000}
                 }}
             />
             
@@ -289,6 +285,7 @@ function UpdateNutrient() {
                             fullWidth
                             {...props} />}
                         label="เลือกวันที่และเวลา"
+                        readOnly
                         value={date}
                         onChange={(newValue) => {
                             setDate(newValue);

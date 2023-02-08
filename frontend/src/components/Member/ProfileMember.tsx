@@ -6,6 +6,8 @@ import Box from '@mui/material/Box';
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import Chip from '@mui/material/Chip';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { 
   Link,
   useNavigate,
@@ -16,9 +18,31 @@ import { MemberInterface } from "../../interfaces/IMember";
 
 import { GetMemberByID } from "../../services/HttpClientService";
 
+import { DeleteMember } from "../../services/HttpClientService";
+
 function ProfileMember() {
 
     const [member, setMember] = useState<MemberInterface>({}); 
+    let navigate = useNavigate();
+
+    const handleClickDelete = async (id : string) => {
+      let res = await DeleteMember(id);
+      if (res) {
+        window.location.reload();
+        localStorage.clear();
+        window.location.href = "/";
+      }
+    }
+
+    const handleDelete = () => {
+      console.info('You clicked the delete icon.');
+    };
+    
+    interface TabPanelProps {
+      children?: React.ReactNode;
+      index: number;
+      value: number;
+    }
 
     const fetchMemberID = async () => {
         let res = await GetMemberByID();
@@ -53,8 +77,14 @@ function ProfileMember() {
               variant="outlined"
               sx={{ padding: 20, paddingTop: 1, marginBottom: 20 }}
             >
-            
-              <Grid container spacing={2} sx={{ marginBottom: 1}}>
+              <Grid container spacing={2} sx={{ marginTop: 1}}>
+  {/*============================================(รูป)======================================================*/}
+                 <Grid xs={12} xl = {12} md={12}>
+                  <Box sx={{ display: "flex", justifyContent: "center" }}>
+                      <Avatar src={member.Profileuser}
+                      sx={{ width: 110, height: 110 }} />
+                  </Box> 
+                  </Grid>
  {/*============================================(First name)======================================================*/}
                 <Grid xs={5} xl = {5} md={5}>
                   <p style={{ color: "grey", fontSize: 17 }}>Firstname</p>
@@ -115,7 +145,7 @@ function ProfileMember() {
                   disabled
                   fullWidth
                   required
-                  value={member.Gender}
+                  value={member.Gender?.Name}
                   onChange={(event) => {
                     // setAddress(event.target.value);
                   }}
@@ -133,7 +163,7 @@ function ProfileMember() {
                       disabled
                       fullWidth
                       required
-                      value={member.Status}
+                      value={member.Status?.Name}
                       onChange={(event) => {
                         // setAddress(event.target.value);
                        }}
@@ -150,30 +180,38 @@ function ProfileMember() {
                       disabled
                       fullWidth
                       required
-                      value={member.Religion}
+                      value={member.Religion?.Name}
                       onChange={(event) => {
                         // setAddress(event.target.value);
                        }}
                     />
-                  </Grid>
-                
-
-                  </Grid>
+                      </Grid>             
+                </Grid>
                           <h1> </h1>   
                           <Stack direction="row" spacing={2}>
                             {/* ปุ่มเพิ่มข้อมูล */}
-                            <Link
-                              to="update-member"
-                              style={{textDecoration: "none",}}
-                              >
-                              <Button variant="contained" color="info">
+ 
+                              <Button variant="contained" color="info"
+                              onClick={() => navigate(`update-member/${member.ID}`)}>
                                 แก้ไขข้อมูล
                               </Button>
+
+
+
+                            <Link
+                              to="http://localhost:3000/"
+                              style={{textDecoration: "none",}}
+                              >
+                              <Button 
+                              variant="contained" color="error" onClick={() => handleClickDelete(member.ID+"")}>
+                                DELETE ACCOUNT
+                              </Button>
                             </Link>
-                          
-                  </Stack>
-        
-                          <h1> </h1>            
+                          </Stack>
+
+                       <h1> </h1> 
+
+                      
                
               
             

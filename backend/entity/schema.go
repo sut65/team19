@@ -33,11 +33,11 @@ type Gender struct {
 
 type Member struct {
 	gorm.Model
-	Firstname   string `valid:"required~Name cannot be blank"`
-	Lastname    string
-	ProfileUser string
-	Email       string `gorm:"uniqueIndex" valid:"email"`
-	Password    string
+	Firstname   string `valid:"required~Firstname cannot be blank"`
+	Lastname    string `valid:"required~Lastname cannot be blank"`
+	ProfileUser string `valid:"image~ file must be only image"`
+	Email       string `valid:"email~Invalid email format,maxstringlength(30)~must be no more than 20 characters long,required~Email cannot be blank"`
+	Password    string `valid:"required~Password cannot be blank,minstringlength(8)~Password must be no less than 8 characters long"`
 
 	MealTimesID *uint
 	MealTimes   MealTimes
@@ -48,13 +48,13 @@ type Member struct {
 	BedTimesID *uint
 	BedTimes   BedTimes
 
-	StatusID *uint
+	StatusID *uint `valid:"required~Status cannot be blank"`
 	Status   Status
 
-	ReligionID *uint
+	ReligionID *uint `valid:"required~Religion cannot be blank"`
 	Religion   Religion
 
-	GenderID *uint
+	GenderID *uint `valid:"required~Gender cannot be blank"`
 	Gender   Gender
 
 	CourseService  []CourseService   `gorm:"foreignKey:MemberID"`
@@ -98,8 +98,8 @@ type Price struct {
 
 type CourseDetail struct {
 	gorm.Model
-	CourseName string
-	CoverPage  string
+	CourseName string `valid:"required~CourseName cannot be blank"`
+	CoverPage  string `valid:"required~CoverPage cannot be blank"`
 
 	DescriptionID *uint
 	Description   Description
@@ -247,18 +247,18 @@ type FoodType struct {
 
 type FoodInformation struct {
 	gorm.Model
-	Name     string `valid:"required~ กรุณาใส่ชื่ออาหาร "`
+	Name     string `valid:"required~Name cannot be blank"`
 	Datetime string
-	Image    string `valid:"image~ รูปภาพต้องเป็นไฟล์รูปภาพเท่านั้น"`
+	Image    string `valid:"image~Image must be image file"`
 
 	AdminID *uint
 	Admin   Admin
 
-	MainIngredientID *uint `valid:"required~ กรุณาเลือกวัตถุดิบหลัก "`
-	MainIngredient   MainIngredient
+	MainIngredientID *uint
+	MainIngredient   MainIngredient 
 
-	FoodTypeID *uint `valid:"required~ กรุณาเลือกประเภทของอาหาร "`
-	FoodType   FoodType
+	FoodTypeID *uint
+	FoodType   FoodType 
 
 	// MealPlan []MealPlan `gorm:"foreignKey:FoodInformationID"`
 }
@@ -456,7 +456,7 @@ type Discount struct {
 
 type Duration struct {
 	gorm.Model
-	NumberOfDays       float32 // แก้เป็น int
+	NumberOfDays       int
 	DurationPercentage int
 
 	Payment []Payment `gorm:"foreignKey:DurationID"`
@@ -465,7 +465,7 @@ type Duration struct {
 type Payment struct {
 	gorm.Model
 	PaymentDate time.Time
-	Slip        string `valid:"required~Please upload slip,length(0|2802088)~File size must less than 2MB,image~Slip must be image file"`
+	Slip        string `valid:"required~Please upload slip,length(0|2802088)~File size must less than 2 MB,image~Slip must be image file"`
 	Balance     float32
 
 	CourseServiceID *uint
@@ -490,17 +490,17 @@ type MostNutrient struct {
 
 type Nutrient struct {
 	gorm.Model
-	Comment      string `valid:"maxstringlength(50)~ Comment ห้ามเกิน 50 ตัวอักษร "`
-	TotalCalorie int    `valid:"range(0|10000)~ จำนวนแคลอรี่ผิดพลาด, required~ กรุณาใส่จำนวนแคลอรี่"`
+	Comment      string `valid:"maxstringlength(50)~Comment cannot more than 50 characters"`
+	TotalCalorie int    `valid:"range(0|10000)~Invalid calorie, required~Calorie cannot be blank"`
 	Date         string
 
 	AdminID *uint
 	Admin   Admin
 
-	MostNutrientID *uint `valid:"required~ กรุณาเลือกหมู่อาหารที่พบมาก "`
+	MostNutrientID *uint 
 	MostNutrient   MostNutrient
 
-	FoodInformationID int             `valid:"required~ กรุณาเลือกอาหาร "`
+	FoodInformationID int             `gorm:"uniqueIndex"`
 	FoodInformation   FoodInformation `gorm:"references:id" valid:"-"`
 }
 

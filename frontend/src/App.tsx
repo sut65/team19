@@ -38,6 +38,7 @@ import UpdateNutrient from "./components/Nutrient/UpdateNutrient";
 import CreateCourseDetail from "./components/CourseDetail/CreateCourseDetail";
 import CourseDetail from "./components/CourseDetail/CourseDetail";
 import ShowCardCourseDetail from "./components/CourseDetail/ShowCardCourseDetail";
+import UpdateCourseDetail from "./components/CourseDetail/UpdateCourseDetail";
 import RegisterMember from "./components/Member/Register";
 import ProfileMember from "./components/Member/ProfileMember";
 import UpdateCourseServicePage from "./components/CourseService/UpdateCourseServicePage";
@@ -95,22 +96,15 @@ function App() {
 
           {/* course_detail */}
           <Route path="course" element={<ShowCardCourseDetail />}></Route>
-          <Route
-            path="create"
-            element={<CreateCourseDetail />}
-          ></Route>
-          <Route
-            path="course_detail/:id"
-            element={<CourseDetail />}
-          ></Route>
-          
+          <Route path="create-course" element={<CreateCourseDetail />}></Route>
+          <Route path="course_detail/:id" element={<CourseDetail />}></Route>
+          <Route path="course_detail/:id/update-course" element={<UpdateCourseDetail />}></Route>
         </Route>
 
         {/* Routes Trainer */}
-        <Route path="trainer" element={<Trainer />}>
-          <Route path="profile" element={<ProfileTrainer />} ></Route>
-        </Route>
+        <Route path="trainer" element={<Trainer />}></Route>
         <Route path="apply" element={<ApplyTrainer />} ></Route>
+        <Route path="trainer/profile" element={<ProfileTrainer />} ></Route>
 
         {/* Routes User */}
         <Route path="user" element={<User />}>
@@ -141,7 +135,7 @@ function App() {
           <Route path="behavior" element={<CreateBehaviors />} />
           
           <Route path="profile-member" element={<ProfileMember />}></Route>
-          <Route path="profile-member/update-member" element={<UpdateMember />}></Route>
+          <Route path="profile-member/update-member/:id" element={<UpdateMember />}></Route>
         </Route>
         {/* <Route path="/" element={<Navbar />}> */}
         {/* </Route> */}

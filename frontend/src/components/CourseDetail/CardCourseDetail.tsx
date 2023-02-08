@@ -1,53 +1,56 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import "../../App.css";
-
-type Props = {
-    id: number;
-    coverPage: string;
-    courseName: string;
-    courseType: string;
-    goal: string;
-    description: string;
-    price: number;
-    duration: string;
-    name: string
-};
+import { CourseDetailInterface } from "../../interfaces/ICourseDetail";
+import { GetCourseDetail } from "../../services/HttpClientService";
 
 function CardCourseDetail({
-    id,
-    coverPage,
-    courseName,
-    courseType,
-    goal,
-    description,
-    price,
-    duration,
-    name,
-}: Props) {
+    ID,
+    CourseName,
+    CoverPage,
+    Description,
+    Price,
+    Admin,
+}: CourseDetailInterface) {
+    const [CourseDetail, setCourseDetail] = useState<CourseDetailInterface[]>([])
+    const navigate = useNavigate();
+
+    const getCourseDetail = async () => {
+        let res = await GetCourseDetail();
+        if (res) {
+            setCourseDetail(res);
+        }
+    };
+
+    useEffect(() => {
+        getCourseDetail();
+    }, []);
 
     return (
+
         <Card
             sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                flexDirection: "column",
                 maxWidth: 345,
+                height: "100%",
                 boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-
             }}
-            className={courseName}
+            className={CourseName}
         >
             <CardMedia
                 component="img"
-                height="200"
-                image={coverPage}
-                alt="green soda"
+                height="300"
+                image={CoverPage}
+                alt="green iguana"
             />
-
             <CardContent>
                 <Box
                     sx={
@@ -66,7 +69,7 @@ function CardCourseDetail({
                         component="div"
                         style={{ fontSize: "1rem" }}
                     >
-                        Admin :
+                        Admin:
                         <Box
                             sx={{
                                 ml: "0.5rem",
@@ -75,22 +78,16 @@ function CardCourseDetail({
                                 fontWeight: "900",
                             }}
                         >
-                            {name}
+                            {Admin?.Name}
                         </Box>
-
                     </Typography>
 
                     <Typography variant="body2" color="text.secondary" mb={2}>
-                        Course Type:{" "}
-                        <Box
-                            sx={{
-                                ml: "0.5rem",
-                                display: "inline-block",
-                                fontWeight: "900",
-                            }}
-                        >
-                            {courseType}
-                        </Box>
+                        ประเภทคอร์ส: {Description?.CourseType}
+                    </Typography>
+
+                    <Typography variant="body2" color="text.secondary" mb={2}>
+                        เป้าหมาย: {Description?.Goal}
                     </Typography>
 
                     <Typography
@@ -101,79 +98,65 @@ function CardCourseDetail({
                         // color={"#3b82f6"}
                         style={{ textTransform: "capitalize", fontSize: "1.6rem" }}
                     >
-                        <b>{courseName}</b>
+                        <b>{CourseName}</b>
                     </Typography>
                 </Box>
 
                 <Typography
                     sx={{ fontSize: "1.2rem" }}
                     variant="h5"
-                    style={{ marginBottom: "0.5rem" }}
+                    style={{ marginBottom: "2rem" }}
                 >
-                    {description.slice(0, 80)}
+                    {Description?.Description.slice(0, 100)}
                 </Typography>
 
-                <Typography variant="body2" color="text.secondary" mb={2}>
-                    Goal:{" "}
-                    <Box
-                        sx={{
-                            ml: "0.5rem",
-                            display: "inline-block",
-                            fontWeight: "900",
-                        }}
-                    >
-                        {goal}
-                    </Box>
-                </Typography>
-
-                <Typography variant="body2" color="text.secondary" mb={2}>
-                    Price:{" "}
-                    <Box
-                        sx={{
-                            ml: "0.5rem",
-                            display: "inline-block",
-                            fontWeight: "900",
-                        }}
-                    >
-                        {price}
-                    </Box>
-                </Typography>
-
-                <Typography variant="body2" color="text.secondary" mb={2}>
-                    Duration:{" "}
-                    <Box
-                        sx={{
-                            ml: "0.5rem",
-                            display: "inline-block",
-                            fontWeight: "900",
-                        }}
-                    >
-                        {duration}
-                    </Box>
-                </Typography>
             </CardContent>
 
-            <Link
-                to={`/admin/course_detail/${id}`}
-                style={{
-                    textDecoration: "none",
-                }}
-            >
-                <Button
-                    className="btn-user"
-                    variant="contained"
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px"}}>
+                <Box sx={{ display: 'flex', alignItems: 'center', paddingLeft: "16px" }}>
+                    <Typography
+                        variant="caption"
+                        fontSize={"1rem"}
+                        sx={{
+                            border: "solid 1px #252525",
+                            borderRadius: "1rem",
+                            p: "4px 16px",
+                            fontWeight: "bold",
+                        }}
+                    >
+                        {Price?.Price} บาท
+                    </Typography>
+                    <Typography
+                        sx={{
+                            pl: "16px",
+                            fontSize: "0.9rem"
+                        }}>
+                        ระยะเวลาคอร์ส {Price?.Duration}
+                    </Typography>
+                </Box>
+                <Link
+                    to={`/admin/course_detail/${ID}`}
                     style={{
-                        margin: "0 0 16px 14px",
-                        color: "#fff",
-                        borderRadius: 20,
-                        backgroundColor: "#3b82f6",
-                        padding: "8px 16px",
-                        fontSize: "12px",
+                        textDecoration: "none",
                     }}
                 >
-                    READ MORE
-                </Button>
-            </Link>
+                    <Button
+                        className="btn-user"
+                        variant="contained"
+                        style={{
+                            margin: "0 0 16px 14px",
+                            color: "#fff",
+                            borderRadius: 20,
+                            backgroundColor: "#3b82f6",
+                            padding: "8px 16px",
+                            fontSize: "12px",
+                        }}
+                    >
+                        Read More
+                    </Button>
+                </Link>
+            </div>
+
         </Card>
     );
 }

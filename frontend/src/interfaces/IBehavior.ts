@@ -15,4 +15,5 @@ export interface BehaviorInterface {
     
     Member?:  MemberInterface 
     MemberID?:   number;
+
 }

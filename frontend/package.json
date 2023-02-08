@@ -31,6 +31,7 @@
     "react-native": "^0.71.1",
     "react-router-dom": "^6.6.2",
     "react-scripts": "5.0.1",
+    "react-scroll": "^1.8.9",
     "sort-by": "^1.2.0",
     "sweetalert2": "^11.7.1",
     "sweetalert2-react-content": "^5.0.7",

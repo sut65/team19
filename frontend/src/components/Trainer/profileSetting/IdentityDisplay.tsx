@@ -18,11 +18,7 @@ import {GetTrainerByID} from "../../../services/HttpClientService"
 
 function IdentityDisplay() {
 
-  const [trainer, setTrainer] = useState<TrainerInterface>({}); 
-  const [status, setStatus] = useState<StatusInterface[]>([]); 
-  const [edu, setEdu] = useState<EducationInterface[]>([]); 
-  const [religion, setReligion] = useState<ReligionInterface[]>([]); 
-  const [form, setForm] = useState<FormOfWorkInterface[]>([]); 
+  const [trainer, setTrainer] = useState<TrainerInterface>({});  
 
 
   // const apiUrl = "http://localhost:8080";
@@ -59,7 +55,7 @@ function IdentityDisplay() {
       <h1 style={{ color: "#6b7176" }}>Profile</h1>
       {/*==============================================(Name)====================================================*/}
       <Grid xs={12} md={9} sx={{ alignItems: "center" }}>
-        <p style={{ color: "#ec407a", fontSize: 15 }}>
+        <p style={{ color: "#8A94FF", fontSize: 15 }}>
           <b>
             <b>NAME</b>
           </b>
@@ -79,7 +75,7 @@ function IdentityDisplay() {
       </Grid>
       {/*==============================================(Email)====================================================*/}
       <Grid xs={6} md={6}>
-        <p style={{ color: "#ec407a", fontSize: 15 }}>
+        <p style={{ color: "#8A94FF", fontSize: 15 }}>
           <b>EMAIL</b>
         </p>
         <TextField
@@ -97,7 +93,7 @@ function IdentityDisplay() {
       </Grid>
       {/*==============================================(location)====================================================*/}
       <Grid xs={12} md={9} sx={{ alignItems: "center" }}>
-        <p style={{ color: "#ec407a", fontSize: 15 }}>
+        <p style={{ color: "#8A94FF", fontSize: 15 }}>
           <b>
             <b>LOCATION</b>
           </b>
@@ -117,7 +113,7 @@ function IdentityDisplay() {
 
       {/* ====================( Education )==================== */}
       <Grid xs={12} md={9} sx={{ alignItems: "center" }}>
-        <p style={{ color: "#ec407a", fontSize: 15 }}>
+        <p style={{ color: "#8A94FF", fontSize: 15 }}>
           <b>
             <b>EDUCATION</b>
           </b>
@@ -137,7 +133,7 @@ function IdentityDisplay() {
 
        {/* ====================( Form of Work )==================== */}
        <Grid xs={12} md={9} sx={{ alignItems: "center" }}>
-        <p style={{ color: "#ec407a", fontSize: 15 }}>
+        <p style={{ color: "#8A94FF", fontSize: 15 }}>
           <b>
             <b>FORM OF WORK</b>
           </b>
