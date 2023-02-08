@@ -47,6 +47,7 @@ function CreateBehaviors() {
     const [tastes, settastes] = useState<TatseInterface[]>([]);
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
+    const [message, setAlertMessage] = useState("");
 
     console.log(datetime)
 
@@ -110,9 +111,16 @@ function CreateBehaviors() {
         Meals: behaviors.Meals,
         };
         let res = await CreateBehavior(data);
-        res ? setSuccess(true) : setError(true);
-        // window.location.href = "/behavior-display"
-        console.log()
+        if (res.status) {
+          setAlertMessage("บันทึกข้อมูลสำเร็จ");
+          setSuccess(true);
+          setTimeout(() => {
+            window.location.href = "/user/Behaviors";
+          }, 1000);
+        } else {
+          setAlertMessage(res.message);
+          setError(true);
+        }
         
       };
 

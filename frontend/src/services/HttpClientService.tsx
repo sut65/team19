@@ -938,6 +938,25 @@ const UpdateMem = async (data: MemberInterface) => {
   return res;
 };
 
+const DeleteMember = async (id: string) => {
+  const requestOptions = {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/member/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+
 
 const DeleteNutrient = async (id: string) => {
   const requestOptions = {
@@ -1014,6 +1033,50 @@ const GetMemberByID = async () => {
   return res;
 };
 
+<<<<<<< HEAD
+=======
+const GetMembersByID = async (id: string) => {
+  let res = await fetch(`${apiUrl}/members/${id}`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetMember = async () => {
+  let res = await fetch(`${apiUrl}/members`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+async function GetCourseDetailByID(id: number | undefined) {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/course_detail/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+>>>>>>> ac95db2 (update validation of field lastname - close #183)
 
 async function SelectCourseDetail(id: number | undefined) {
   const requestOptions = {
@@ -1404,8 +1467,11 @@ export {
   UpdateNut,
   // Member
   UpdateMem,
+  DeleteMember,
   GetMemberByID,
   CreateMember,
+  GetMember,
+  GetMembersByID,
   //Body
   CreateBody,
   DeleteInfoBody,

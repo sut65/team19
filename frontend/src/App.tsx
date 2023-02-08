@@ -136,7 +136,7 @@ function App() {
           <Route path="behavior" element={<CreateBehaviors />} />
           
           <Route path="profile-member" element={<ProfileMember />}></Route>
-          <Route path="profile-member/update-member" element={<UpdateMember />}></Route>
+          <Route path="profile-member/update-member/:id" element={<UpdateMember />}></Route>
         </Route>
         {/* <Route path="/" element={<Navbar />}> */}
         {/* </Route> */}
