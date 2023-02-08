@@ -111,6 +111,12 @@ func UpdateNutrient(c *gin.Context) {
 		return
 	}
 
+	// แทรกการ validate ไว้ช่วงนี้ของ controller
+	if _, err := govalidator.ValidateStruct(nutrient); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	// ค้นหา admin ด้วย id
 	if tx := entity.DB().Where("id = ?", nutrient.AdminID).First(&admin); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "admin not found"})
