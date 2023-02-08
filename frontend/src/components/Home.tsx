@@ -321,6 +321,28 @@ function Home() {
                     Refund
                   </Button>
                   <Link
+                    to={`/user/reviews/${CourseService?.CourseDetailID}`}
+                    style={{
+                      textDecoration: "none",
+                    }}
+                  >
+                    <Button
+                      className="btn-user"
+                      variant="contained"
+                      style={{
+                        color: "#fff",
+                        borderRadius: 20,
+                        backgroundColor: "#B99B6B ",
+                        padding: "6px 28px",
+                        fontSize: "16px",
+                        marginTop: "16px",
+                        display: "flex"
+                      }}
+                    >
+                      Review
+                    </Button>
+                  </Link>
+                  <Link
                     to={`update-course`}
                     style={{
                       textDecoration: "none",

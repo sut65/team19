@@ -78,7 +78,7 @@ function PaymentHistory() {
         flexDirection: "column",
         flexFlow: "",
         overflow: "auto",
-        height: "92.7vh",
+        height: "100vh",
         width: "100%",
         backgroundSize: "cover",
         backgroundImage: `linear-gradient(rgba(256, 256, 256, 0.2), rgba(256, 256, 256, 0.5)), url(${BG})`,
