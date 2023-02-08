@@ -81,8 +81,8 @@ func main() {
 			router.DELETE("/course_detail/:id", CourseDetail.DeleteCourseDetail)
 			router.PATCH("/course_details", CourseDetail.UpdateCourseDetail)
 
-			router.GET("/description/:id", CourseDetail.GetDescription)
-			router.GET("/descriptions", CourseDetail.ListDescriptions)
+			router.GET("/course_type/:id", CourseDetail.GetCourseType)
+			router.GET("/course_types", CourseDetail.ListCourseTypes)
 
 			router.GET("/price/:id", CourseDetail.GetPrice)
 			router.GET("/prices", CourseDetail.ListPrices)

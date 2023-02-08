@@ -85,7 +85,7 @@ type Admin struct {
 type CourseType struct {
 	gorm.Model
 	CourseType   string
-	CourseDetail []CourseDetail `gorm:"foreignKey:DescriptionID"`
+	CourseDetail []CourseDetail `gorm:"foreignKey:CourseTypeID"`
 }
 
 type Price struct {
@@ -97,16 +97,16 @@ type Price struct {
 
 type CourseDetail struct {
 	gorm.Model
-	CourseName  string `valid:"required~CourseName cannot be blank"`
-	CoverPage   string `valid:"required~CoverPage cannot be blank"`
+	CourseName  string 
+	CoverPage   string 
 	Description string
 	Goal        string
 
-	CourseTypeID *uint
-	CourseType   CourseType
-
 	AdminID *uint
 	Admin   Admin
+
+	CourseTypeID *uint
+	CourseType CourseType
 
 	PriceID *uint
 	Price   Price
