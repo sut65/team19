@@ -390,27 +390,27 @@ async function GetDescription() {
   return res;
 }
 
-async function GetCourseDetailByID(id: number | undefined) {
-  const requestOptions = {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "application/json",
-    },
-  };
+// async function GetCourseDetailByID(id: number | undefined) {
+//   const requestOptions = {
+//     method: "GET",
+//     headers: {
+//       Authorization: `Bearer ${localStorage.getItem("token")}`,
+//       "Content-Type": "application/json",
+//     },
+//   };
 
-  let res = await fetch(`${apiUrl}/course_detail/${id}`, requestOptions)
-    .then((response) => response.json())
-    .then((res) => {
-      if (res.data) {
-        return res.data;
-      } else {
-        return false;
-      }
-    });
+  // let res = await fetch(`${apiUrl}/course_detail/${id}`, requestOptions)
+  //   .then((response) => response.json())
+  //   .then((res) => {
+  //     if (res.data) {
+  //       return res.data;
+  //     } else {
+  //       return false;
+  //     }
+  //   });
 
-  return res;
-}
+//   return res;
+// }
 
 // ------------- Review -----------------
 const GetReviews = async () => {
@@ -1033,8 +1033,6 @@ const GetMemberByID = async () => {
   return res;
 };
 
-<<<<<<< HEAD
-=======
 const GetMembersByID = async (id: string) => {
   let res = await fetch(`${apiUrl}/members/${id}`, requestOptionsGet)
     .then((response) => response.json())
@@ -1076,7 +1074,6 @@ async function GetCourseDetailByID(id: number | undefined) {
 
   return res;
 }
->>>>>>> ac95db2 (update validation of field lastname - close #183)
 
 async function SelectCourseDetail(id: number | undefined) {
   const requestOptions = {
