@@ -47,7 +47,7 @@ func SetupDatabase() {
 		&Blog{},
 		// CourseDetail
 		&Price{},
-		&Description{},
+		&CourseType{},
 		&Admin{},
 		&CourseDetail{},
 		// Review
@@ -190,26 +190,20 @@ func SetupDatabase() {
 
 	//Description Part ----------------------------------------------------------------------------------------------
 
-	Description1 := Description{
-		Description: "หุ่นดีได้ง่าย ๆ ห่างไกลจากโรคแทรกซ้อน ทำได้ง่าย ๆ ที่บ้านด้วยตัวเอง",
+	CourseType1 := CourseType{
 		CourseType:  "เพิ่มน้ำหนัก",
-		Goal:        "เพิ่มน้ำหนักได้ 1-2 kg",
 	}
-	db.Model(&Description{}).Create(&Description1)
+	db.Model(&CourseType{}).Create(&CourseType1)
 
-	Description2 := Description{
-		Description: "สุขภาพดี หุ่นดี ได้ง่ายๆ ด้วยคอร์สลดน้ำหนักออนไลน์ เพื่อผลลัพธ์แบบยั่งยืน ทำได้ด้วยตัวเอง",
+	CourseType2 := CourseType{
 		CourseType:  "ลดน้ำหนัก",
-		Goal:        "ลดน้ำหนักได้ 3-5 kg",
 	}
-	db.Model(&Description{}).Create(&Description2)
+	db.Model(&CourseType{}).Create(&CourseType2)
 
-	Description3 := Description{
-		Description: "ฟิตหุ่นให้ดี กระชับกล้ามเนื้อให้เฟิร์ม ผลลัพธ์แบบยั่งยืน ทำได้ด้วยตัวเอง",
+	CourseType3 := CourseType{
 		CourseType:  "เพิ่มกล้ามเนื้อ",
-		Goal:        "เพิ่มกล้ามให้ชัดขึ้น",
 	}
-	db.Model(&Description{}).Create(&Description3)
+	db.Model(&CourseType{}).Create(&CourseType3)
 
 	// Price Part ----------------------------------------------------------------------------------------
 	Price1 := Price{
@@ -234,7 +228,9 @@ func SetupDatabase() {
 	CourseDetail1 := CourseDetail{
 		CourseName:  "บอกลาร่างผอม",
 		CoverPage:   "https://www.iglss.org/wp-content/uploads/2019/02/diet-plan.jpg",
-		Description: Description1,
+		Description: "หุ่นดีได้ง่าย ๆ ห่างไกลจากโรคแทรกซ้อน ทำได้ง่าย ๆ ที่บ้านด้วยตัวเอง",
+		Goal:        "เพิ่มน้ำหนักได้ 1-2 kg",
+		CourseType: CourseType1,
 		Admin:       AdminA,
 		Price:       Price3,
 	}
@@ -243,7 +239,9 @@ func SetupDatabase() {
 	CourseDetail2 := CourseDetail{
 		CourseName:  "ลดพุงกู้ร่างกลับคืน",
 		CoverPage:   "https://bgh.sgp1.digitaloceanspaces.com/old-site/inline-images/before-weight-loss-01.jpg",
-		Description: Description2,
+		Description: "สุขภาพดี หุ่นดี ได้ง่ายๆ ด้วยคอร์สลดน้ำหนักออนไลน์ เพื่อผลลัพธ์แบบยั่งยืน ทำได้ด้วยตัวเอง",
+		Goal:        "ลดน้ำหนักได้ 3-5 kg",
+		CourseType: CourseType2,
 		Admin:       AdminB,
 		Price:       Price1,
 	}
@@ -252,7 +250,9 @@ func SetupDatabase() {
 	CourseDetail3 := CourseDetail{
 		CourseName:  "ปั้นกล้ามสร้างพลัง",
 		CoverPage:   "https://s.isanook.com/he/0/rp/rc/w670h402/yatxacm1w0/aHR0cHM6Ly9zLmlzYW5vb2suY29tL2hlLzAvdWQvNS8yODg2MS93ZWlnaHRsaWZ0aW5nLmpwZw==.jpg",
-		Description: Description3,
+		Description: "ฟิตหุ่นให้ดี กระชับกล้ามเนื้อให้เฟิร์ม ผลลัพธ์แบบยั่งยืน ทำได้ด้วยตัวเอง",
+		Goal:        "เพิ่มกล้ามให้ชัดขึ้น",
+		CourseType: CourseType3,
 		Admin:       AdminC,
 		Price:       Price2,
 	}
