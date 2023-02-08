@@ -150,9 +150,12 @@ function CreateFood() {
       };
 
     useEffect(() => {
-        fetchFoodTypes();
-        fetchMainIngredients();
         fetchAdminByID();
+        return (() => {
+        fetchFoodTypes()
+        fetchMainIngredients()
+    })
+
     }, []);
 
     return(
@@ -221,9 +224,9 @@ function CreateFood() {
                     name: "MainIngredientID",
                     }}
                 >
-                <option aria-label="None" value="">
+                  <option aria-label="None" value="0">
                     เลือกวัตถุดิบหลัก
-                </option>
+                  </option>
                 {mainingredients.map((item: MainIngredientInterface) => (
                 <option key={item.ID} value={item.ID}>
                     {item.Name}
@@ -251,8 +254,8 @@ function CreateFood() {
                     name: "FoodTypeID",
                     }}
                 >
-                  <option aria-label="None" value="">
-                      เลือกประเภทของอาหาร
+                  <option aria-label="None" value="0">
+                    เลือกประเภทของอาหาร
                   </option>
                   {foodtypes.map((item: FoodTypeInterface) => (
                   <option key={item.ID} value={item.ID}>
@@ -285,7 +288,6 @@ function CreateFood() {
                   <LocalizationProvider dateAdapter={AdapterDateFns}>
                     <DateTimePicker
                       renderInput={(props) => <TextField
-                        required
                         fullWidth
                         {...props} />}
                       label="วันเวลาในการเพิ่มอาหาร"
