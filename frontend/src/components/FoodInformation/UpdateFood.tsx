@@ -140,8 +140,6 @@ function UpdateFood() {
       Datetime: datetime?.toLocaleString(),
     };
 
-    console.log(newdata.Image)
-
     let res = await UpdateFoodInformation(newdata);
     if (res.status) {
       setSuccess(true);
