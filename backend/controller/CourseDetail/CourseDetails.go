@@ -12,7 +12,7 @@ func CreateCourseDetail(c *gin.Context) {
 	var course_detail entity.CourseDetail
 	var price entity.Price
 	var admin entity.Admin
-	var description entity.Description
+	var course_type entity.CourseType
 
 	if err := c.ShouldBindJSON(&course_detail); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -37,9 +37,9 @@ func CreateCourseDetail(c *gin.Context) {
 		return
 	}
 
-	// ค้นหา description ด้วย id
-	if tx := entity.DB().Where("id = ?", course_detail.DescriptionID).First(&description); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "description not found"})
+	// ค้นหา course_type ด้วย id
+	if tx := entity.DB().Where("id = ?", course_detail.CourseTypeID).First(&course_type); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "course_type not found"})
 		return
 	}
 
@@ -47,7 +47,9 @@ func CreateCourseDetail(c *gin.Context) {
 	cd := entity.CourseDetail{
 		CourseName:  course_detail.CourseName,
 		CoverPage:   course_detail.CoverPage,
-		Description: description,
+		Description: course_detail.Description,
+		Goal:   	 course_detail.Goal,
+		CourseType:  course_type,
 		Admin:       admin,
 		Price:       price,
 	}
@@ -64,7 +66,7 @@ func CreateCourseDetail(c *gin.Context) {
 func GetCourseDetail(c *gin.Context) {
 	var course_detail entity.CourseDetail
 	id := c.Param("id")
-	if tx := entity.DB().Preload("Price").Preload("Description").Preload("Admin").Where("id = ?", id).First(&course_detail); tx.RowsAffected == 0 {
+	if tx := entity.DB().Preload("Price").Preload("CourseType").Preload("Admin").Where("id = ?", id).First(&course_detail); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "course_detail not found"})
 		return
 	}
@@ -76,7 +78,7 @@ func GetCourseDetail(c *gin.Context) {
 func ListCourseDetails(c *gin.Context) {
 	var course_details []entity.CourseDetail
 
-	if err := entity.DB().Preload("Price").Preload("Description").Preload("Admin").Raw("SELECT * FROM course_details").Find(&course_details).Error; err != nil {
+	if err := entity.DB().Preload("Price").Preload("CourseType").Preload("Admin").Raw("SELECT * FROM course_details").Find(&course_details).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -99,7 +101,7 @@ func DeleteCourseDetail(c *gin.Context) {
 // PATCH /course_detail
 func UpdateCourseDetail(c *gin.Context) {
 	var course_detail entity.CourseDetail
-	var description entity.Description
+	var course_type entity.CourseType
 	var price entity.Price
 	var admin entity.Admin
 
@@ -110,26 +112,28 @@ func UpdateCourseDetail(c *gin.Context) {
 
 	// ค้นหา admin ด้วย id
 	if tx := entity.DB().Where("id = ?", course_detail.AdminID).First(&admin); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "user not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "admin not found"})
 		return
 	}
 
-	// ค้นหา description ด้วย id
-	if tx := entity.DB().Where("id = ?", course_detail.DescriptionID).First(&description); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "category not found"})
+	// ค้นหา course_type ด้วย id
+	if tx := entity.DB().Where("id = ?", course_detail.CourseTypeID).First(&course_type); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "course_type not found"})
 		return
 	}
 
 	// ค้นหา price ด้วย id
 	if tx := entity.DB().Where("id = ?", course_detail.PriceID).First(&price); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "tag not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "price not found"})
 		return
 	}
 
 	update := entity.CourseDetail{
 		CourseName:  course_detail.CourseName,
 		CoverPage:   course_detail.CoverPage,
-		Description: description,
+		Description: course_detail.Description,
+		Goal:        course_detail.Goal,
+		CourseType:  course_type,
 		Admin:       admin,
 		Price:       price,
 	}
