@@ -500,7 +500,7 @@ type Nutrient struct {
 	MostNutrientID *uint `valid:"required~ กรุณาเลือกหมู่อาหารที่พบมาก "`
 	MostNutrient   MostNutrient
 
-	FoodInformationID int             `valid:"required~ กรุณาเลือกอาหาร "`
+	FoodInformationID int             `valid:"required~ กรุณาเลือกอาหาร " gorm:"uniqueIndex"`
 	FoodInformation   FoodInformation `gorm:"references:id" valid:"-"`
 }
 
