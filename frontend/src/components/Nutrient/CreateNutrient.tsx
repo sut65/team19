@@ -252,7 +252,7 @@ useEffect(() => {
 
             <Stack direction="row" spacing={3}>
             <Typography variant="h2" component="h1">
-                ความคิดเห็นเกี่ยวกับอาหาร
+                ความคิดเห็นเกี่ยวกับอาหาร (*ห้ามเกิน 50 ตัวอักษร) :
             </Typography>
             </Stack>
 
@@ -297,7 +297,6 @@ useEffect(() => {
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DateTimePicker
                         renderInput={(props) => <TextField
-                            required
                             fullWidth
                             {...props} />}
                         label="เลือกวันที่และเวลา"

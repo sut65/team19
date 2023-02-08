@@ -47,6 +47,7 @@ function UpdateNutrient() {
     const [admin, setAdmin] = useState<AdminInterface>({ Name: ""});
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
+    const [message, setAlertMessage] = React.useState("");
 
     const handleClose = (
         event?: React.SyntheticEvent | Event,
@@ -115,11 +116,13 @@ function UpdateNutrient() {
             };
 
             let res = await UpdateNut(newdata);
-            if (res) {
+            if (res.status) {
                 setSuccess(true);
+                setAlertMessage("อัปเตดข้อมูลอาหารสำเร็จ");
                 window.location.href = "/admin/nutrient-display"
               } else {
                 setError(true);
+                setAlertMessage(res.message);
             }
             console.log(JSON.stringify(newdata))
     };
@@ -128,7 +131,10 @@ function UpdateNutrient() {
         fetchMostNutrients();
         fetchFoodInformation();
         fetchAdminByID();
-        fetchNutrient();
+        return (() => {
+            fetchNutrient()
+        })
+
     }, []);
 
     return(
@@ -141,7 +147,7 @@ function UpdateNutrient() {
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                 >
                 <Alert onClose={handleClose} severity="success">
-                    อัปเดตสารอาหารสำเร็จ
+                    {message}
                 </Alert>
             </Snackbar>
 
@@ -152,7 +158,7 @@ function UpdateNutrient() {
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                 >
                 <Alert onClose={handleClose} severity="error">
-                    อัปเดตสารอาหารสำเร็จล้มเหลว
+                    {message}
                 </Alert>
             </Snackbar>
 
@@ -236,7 +242,7 @@ function UpdateNutrient() {
 
             <Stack direction="row" spacing={3}>
             <Typography variant="h2" component="h1">
-                ความคิดเห็นเกี่ยวกับอาหาร:
+                ความคิดเห็นเกี่ยวกับอาหาร (*ห้ามเกิน 50 ตัวอักษร) :
             </Typography>
             </Stack>
 
@@ -281,7 +287,6 @@ function UpdateNutrient() {
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DateTimePicker
                         renderInput={(props) => <TextField
-                            required
                             fullWidth
                             {...props} />}
                         label="เลือกวันที่และเวลา"

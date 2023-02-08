@@ -56,8 +56,6 @@ function UpdateFood() {
   const [image, setImage] = useState({ name: "", src: "" });
   const [message, setAlertMessage] = React.useState("");
 
-  console.log(datetime)
-
   const handleClose = (
     event?: React.SyntheticEvent | Event,
     reason?: string
@@ -288,7 +286,6 @@ function UpdateFood() {
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DateTimePicker
                 renderInput={(props) => <TextField
-                  required
                   fullWidth
                   {...props} />}
                 label="เลือกวันเวลาในการแก้ไขข้อมูลอาหาร"
