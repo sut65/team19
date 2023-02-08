@@ -1072,6 +1072,92 @@
       ],
       "value": ""
     }]
+  }, {
+    "id": "dd9c54d2-aedc-47f3-8276-28b748c9d66a",
+    "name": "test Payment history",
+    "commands": [{
+      "id": "b3f52a18-186a-4a15-968b-1b5551fcddbd",
+      "comment": "",
+      "command": "open",
+      "target": "/user",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "c8cf5f29-1f6c-4a29-a479-c52219760672",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1936x1056",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "79ca0a8f-99c8-4d35-8116-f43cabf5acc3",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.MuiButtonBase-root > img",
+      "targets": [
+        ["css=.MuiButtonBase-root > img", "css:finder"],
+        ["xpath=(//img[@alt='logo'])[2]", "xpath:img"],
+        ["xpath=//div[@id='root']/div/div/div/header/div/div[5]/div/button/img", "xpath:idRelative"],
+        ["xpath=//button/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "4483252d-acb8-4189-9e03-82b98bb6439e",
+      "comment": "",
+      "command": "click",
+      "target": "css=.MuiButtonBase-root > img",
+      "targets": [
+        ["css=.MuiButtonBase-root > img", "css:finder"],
+        ["xpath=(//img[@alt='logo'])[2]", "xpath:img"],
+        ["xpath=//div[@id='root']/div/div/div/header/div/div[5]/div/button/img", "xpath:idRelative"],
+        ["xpath=//button/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ea91e6ee-c746-418c-9f2d-f1bc4484b969",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "css=.MuiIconButton-root > img",
+      "targets": [
+        ["css=.MuiIconButton-root > img", "css:finder"],
+        ["xpath=(//img[@alt='logo'])[2]", "xpath:img"],
+        ["xpath=//div[@id='root']/div/div/div/header/div/div[5]/div/button/img", "xpath:idRelative"],
+        ["xpath=//button/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a52d80e3-5a8e-4784-a217-fc842b7a63f7",
+      "comment": "",
+      "command": "click",
+      "target": "css=a > .MuiMenuItem-root",
+      "targets": [
+        ["css=a > .MuiMenuItem-root", "css:finder"],
+        ["xpath=//div[@id='account-menu']/div[3]/ul/a/li", "xpath:idRelative"],
+        ["xpath=//a/li", "xpath:position"],
+        ["xpath=//li[contains(.,'Payment History')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "1a45bed1-5f23-42f2-b079-653aead0ef2e",
+      "comment": "",
+      "command": "click",
+      "target": "name=ID",
+      "targets": [
+        ["name=ID", "name"],
+        ["css=.MuiNativeSelect-select", "css:finder"],
+        ["xpath=//select[@name='ID']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[2]/div/div[2]/div/div[2]/div[2]/div/select", "xpath:idRelative"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f41efa27-395f-40ab-a474-7cd136c81245",
+      "comment": "",
+      "command": "select",
+      "target": "name=ID",
+      "targets": [],
+      "value": "label=1"
+    }]
   }],
   "suites": [{
     "id": "53994de9-2153-42e0-92ed-faecea646854",

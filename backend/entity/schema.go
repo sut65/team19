@@ -456,7 +456,7 @@ type Discount struct {
 
 type Duration struct {
 	gorm.Model
-	NumberOfDays       float32 // แก้เป็น int
+	NumberOfDays       int
 	DurationPercentage int
 
 	Payment []Payment `gorm:"foreignKey:DurationID"`
@@ -465,7 +465,7 @@ type Duration struct {
 type Payment struct {
 	gorm.Model
 	PaymentDate time.Time
-	Slip        string `valid:"required~Please upload slip,length(0|2802088)~File size must less than 2MB,image~Slip must be image file"`
+	Slip        string `valid:"required~Please upload slip,length(0|2802088)~File size must less than 2 MB,image~Slip must be image file"`
 	Balance     float32
 
 	CourseServiceID *uint
