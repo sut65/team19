@@ -182,7 +182,8 @@ function PaymentHistory() {
                 <Grid item xs={12}>
                   member: {UserName} <br></br>
                   course name: {CourseDetail?.CourseName} <br></br>
-                  - category: {CourseDetail?.Description?.CourseType} <br></br>
+                  - category: {CourseDetail?.CourseType?.TypeName} <br></br>
+                  - goal: {CourseDetail.Goal} <br></br>
                 </Grid>
                 <br></br>
                 <Divider />

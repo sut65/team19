@@ -109,7 +109,7 @@ function CardCourseDetail({
                     variant="h5"
                     style={{ marginBottom: "2rem" }}
                 >
-                    {Description.slice(0, 100)}
+                    {Description?.slice(0, 100)}
                 </Typography>
 
             </CardContent>

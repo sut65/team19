@@ -202,7 +202,7 @@ function RegisterCourse() {
                   <b>{CourseDetail?.CourseName}</b>
               </Typography>
               <Typography variant="body2" color="text.secondary" mb={2}>
-                  Category: {CourseDetail?.Description?.CourseType}
+                  Category: {CourseDetail?.CourseType?.TypeName}
               </Typography>
             </Box>
             <Typography
@@ -210,10 +210,10 @@ function RegisterCourse() {
               variant="h5"
               style={{ marginBottom: "1rem", marginTop: "0.5rem" }}
             >
-              {CourseDetail?.Description?.Description}
+              {CourseDetail?.Description}
             </Typography>
             <Typography variant="body2" color="text.secondary" mb={2} style={{marginBottom: "2rem"}}>
-              Goal: {CourseDetail?.Description?.Goal}
+              Goal: {CourseDetail?.Goal}
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <Typography
