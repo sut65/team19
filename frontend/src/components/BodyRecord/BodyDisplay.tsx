@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Container } from '@mui/system';
-import {Box,Table,TableBody,TableCell,TableContainer,TableHead,TableRow,Paper,Avatar,Button,Stack,} from "@mui/material";
+import {Box,Table,TableBody,TableCell,TableContainer,TableHead,TableRow,Paper,Avatar,Button,Stack,IconButton} from "@mui/material";
 import { Link,useParams,useNavigate} from "react-router-dom";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+
 
 import EnvironmentIcon from "../../images/environmentIcon.png"
 import Body from "../../images/Body.png"
@@ -66,7 +69,7 @@ function BodyDisplay() {
       width: "100vw",
       backgroundSize: "cover",
       color: "#f5f5f5",
-      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url(${exercise})`,
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(${exercise}) `,
     }}
   >
     <Container sx={{ margin: "3rem" }}>
@@ -101,7 +104,7 @@ function BodyDisplay() {
         <h1> </h1>
   
         {/* ตาราง */}
-        <TableContainer component={Paper} sx ={{width:"100%",marginRight:0}}>
+        <TableContainer component={Paper} sx ={{width:"100%",marginRight:0,borderRadius:"25px",boxShadow:"5px 5px 5px 5px #363435"}}>
           <Table aria-label="simple table">
             <TableHead >
               <TableRow >
@@ -113,8 +116,8 @@ function BodyDisplay() {
                 <TableCell align="right"  sx ={{color:"#3f51b5"}}>ต้นขา</TableCell>
                 <TableCell align="center" sx ={{color:"#3f51b5"}}>เอวคอด</TableCell>
                 <TableCell align="right"  sx ={{color:"#3f51b5"}}>เอวสะดือ</TableCell>
-                <TableCell align="right" sx ={{color:"#4db6ac"}}>BMI</TableCell>
-                <TableCell align="right" sx ={{color:"#78909c"}}>Date</TableCell>
+                <TableCell align="center" sx ={{color:"#4db6ac"}}>BMI</TableCell>
+                <TableCell align="center" sx ={{color:"#78909c"}}>Date</TableCell>
                 <TableCell align="center" sx ={{color:"#78909c"}}>Note</TableCell>
                 <TableCell align="center" sx ={{color:"#ff8a65"}}><pre>แก้ไข       ลบ</pre></TableCell>
               </TableRow>
@@ -135,8 +138,12 @@ function BodyDisplay() {
                     <TableCell align="center">{infoBody.Note}</TableCell>
                     {/* ปุ่มลบข้อมูล */}
                     <TableCell align="right" sx={{display:"flex"}} >
-                      <Button onClick={() => DeleteBody(infoBody.ID+"")}>ลบข้อมูล</Button>
-                      <Button onClick={() => navigate(`body-update/${infoBody.ID}`)}>แก้ไขข้อมูล</Button>
+                      <IconButton aria-label="delete" size="large" onClick={() => DeleteBody(infoBody.ID + "")} color="error">
+                        <DeleteForeverIcon fontSize="inherit" />
+                      </IconButton>
+                      <IconButton aria-label="delete" size="large" onClick={() => navigate(`body-update/${infoBody.ID}`)} color="info">
+                      <EditIcon fontSize="inherit" />
+                      </IconButton>
                     </TableCell>
                   </TableRow>
                 ))}
