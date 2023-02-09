@@ -30,6 +30,7 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 import { Grain, WidthFull } from "@mui/icons-material";
 import { width } from "@mui/system";
+import bodyBG2 from "../../images/bodyBG2.jpg"
 
 
 
@@ -159,23 +160,23 @@ const fetchMemberByID = async () => {
   };
 
 return (
-    <Box
+  <Box
     sx={{
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      overflow :"auto",
+      overflow: "auto",
       gap: 6,
       height: "100vh",
       width: "100vw",
       backgroundSize: "cover",
       color: "#f5f5f5",
-      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url(${ toneLight })`,
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.0)), url(${bodyBG2})`,
     }}
   >
-    <Container maxWidth="md" sx={{ marginTop: 6 }}>
+    <Container maxWidth="xl" sx={{ marginTop: 6 }}>
       <Paper
-        elevation={4}
+        elevation={8}
         sx={{
           marginBottom: 2,
           marginTop: 2,
@@ -183,36 +184,49 @@ return (
           paddingX: 4,
           display: "flex",
           justifyContent: "flex-start",
+          borderRadius: "40px",
+          bgcolor: "#fefffe",
         }}
       >
-        <h3 style={{ color: "#6b7176", fontSize: 20 }}>
-          บันทึกการเปลี่ยนแปลงร่างกาย
-        </h3>
+        <h2 style={{ color: "#3f6656" }}>บันทึกการเปลี่ยนแปลงร่างกาย</h2>
         <Avatar src={EnvironmentIcon} sx={{ marginTop: 1, marginLeft: 1 }} />
       </Paper>
       <form>
         <Paper
-          variant="outlined"
-          sx={{display: "flex",justifyContent: "center",flexDirection: "column",alignItems: "center", borderRadius: "25px",}}
+          elevation={8}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            justifyItems: "stretch",
+            flexDirection: "column",
+            alignItems: "satrt",
+            borderRadius: "40px",
+            bgcolor: "#fefffe",
+            paddingLeft:10,
+          }}
         >
-          <FormLabel sx={{ marginRight: 0, fontSize: 17 }}>
-            <b>บันทึกการเปลี่ยนแปลงร่างกาย หน่วยเป็น cm</b>
+          <FormLabel sx={{ marginY: 2, fontSize: 17, color: "#3f6656" }}>
+            <h4>บันทึกการเปลี่ยนแปลงร่างกาย หน่วยเป็น (cm)</h4>
           </FormLabel>
-          <Grid container spacing={2} sx={{ display:"flex",justifyContent:"center" }}>
+          <Grid
+            container
+            spacing={1}
+            sx={{ display: "flex",justifyItems:"stretch" }}
+          >
             {/*===============================================(Height)===================================================*/}
             <Grid
-              xs={5}
-              md={5}
+              xs={2}
+              md={2}
               sx={{
                 display: "flex",
                 alignItems: "center",
-                paddingRight: 18,
-                marginTop: 2,
-                justifyContent: "center"
+                paddingRight: 0,
+                marginRight:3,
+                justifyContent: "center",
               }}
             >
-              <FormLabel sx={{ marginRight: 2, fontSize: 15 }}>
-                <b>Height</b>
+              <FormLabel sx={{ marginRight: 2, fontSize: 18 }}>
+                <b>Height:</b>
               </FormLabel>
               <TextField
                 id="outlined-number"
@@ -231,16 +245,15 @@ return (
             </Grid>
             {/*===============================================(Weight)===================================================*/}
             <Grid
-              xs={5}
-              md={5}
+              xs={2}
+              md={2}
               sx={{
                 display: "flex",
                 alignItems: "center",
-                paddingRight: 18,
-                marginTop: 2,
+                marginRight:3,
               }}
             >
-              <FormLabel sx={{ marginRight: 2, fontSize: 15 }}>
+              <FormLabel sx={{ marginRight: 2, fontSize: 18 }}>
                 <b>Weight:</b>
               </FormLabel>
               <TextField
@@ -260,16 +273,15 @@ return (
             </Grid>
             {/*===============================================(HIP)===================================================*/}
             <Grid
-              xs={5}
-              md={5}
+              xs={2}
+              md={2}
               sx={{
                 display: "flex",
                 alignItems: "center",
-                paddingRight: 18,
-                marginTop: 2,
+                marginRight: 2,
               }}
             >
-              <FormLabel sx={{ marginRight: 2, fontSize: 15 }}>
+              <FormLabel sx={{ fontSize: 18 }}>
                 <b>HIP:</b>
               </FormLabel>
               <TextField
@@ -277,6 +289,7 @@ return (
                 type="number"
                 fullWidth
                 required
+                sx ={{padding:2}}
                 onChange={(event) => {
                   if (Number(event.target.value) < 0) {
                     return (event.target.value = "0");
@@ -287,19 +300,19 @@ return (
                 }}
               />
             </Grid>
-            {/*===============================================(Uper arm)===================================================*/}
+            {/*===============================================(Uper Arm)===================================================*/}
             <Grid
-              xs={5}
-              md={5}
+              xs={2}
+              md={3}
               sx={{
                 display: "flex",
                 alignItems: "center",
-                paddingRight: 18,
-                marginTop: 2,
+                marginRight:4,
+                paddingRight:5 ,
               }}
             >
-              <FormLabel sx={{ marginRight: 2, fontSize: 15 }}>
-                <b>Upper arm :</b>
+              <FormLabel sx={{ marginRight: 3, fontSize: 18 }}>
+                <pre><b>Upper Arm :</b></pre>
               </FormLabel>
               <TextField
                 id="outlined-number"
@@ -318,16 +331,16 @@ return (
             </Grid>
             {/*===============================================(thigh)===================================================*/}
             <Grid
-              xs={6}
-              md={5}
+              xs={2}
+              md={2}
               sx={{
                 display: "flex",
                 alignItems: "center",
-                paddingRight: 18,
                 marginTop: 2,
+                marginRight: 3,
               }}
             >
-              <FormLabel sx={{ marginRight: 2, fontSize: 15 }}>
+              <FormLabel sx={{ marginRight: 3, fontSize: 18 }}>
                 <b>Thigh:</b>
               </FormLabel>
               <TextField
@@ -347,17 +360,17 @@ return (
             </Grid>
             {/*===============================================(Narrow waist)===================================================*/}
             <Grid
-              xs={6}
-              md={5}
+              xs={2}
+              md={3}
               sx={{
                 display: "flex",
                 alignItems: "center",
-                paddingRight: 18,
                 marginTop: 2,
+                marginRight: 5,
               }}
             >
-              <FormLabel sx={{ marginRight: 2, fontSize: 15 }}>
-                <b>Narrow waist:</b>
+              <FormLabel sx={{ marginRight: 2, fontSize: 18 }}>
+                <pre><b>Narrow waist:</b></pre>
               </FormLabel>
               <TextField
                 id="outlined-number"
@@ -376,18 +389,16 @@ return (
             </Grid>
             {/*===============================================(Navel waist)===================================================*/}
             <Grid
-              xs={6}
-              md={5}
+              xs={2}
+              md={3}
               sx={{
                 display: "flex",
                 alignItems: "center",
-                paddingRight: 13,
-                paddingLeft: 6,
                 marginTop: 2,
               }}
             >
-              <FormLabel sx={{ marginRight: 2, fontSize: 15 }}>
-                <b>Navel waist:</b>
+              <FormLabel sx={{ marginRight: 2, fontSize: 18 }}>
+                <pre><b>Navel waist:</b></pre>
               </FormLabel>
               <TextField
                 id="outlined-number"
@@ -408,7 +419,7 @@ return (
             {/*============================================( Note )======================================================*/}
             <Grid xs={6} md={6} sx={{ display: "flex", alignItems: "center" }}>
               <FormLabel
-                sx={{ textAlign: "center", marginRight: 2, fontSize: 15 }}
+                sx={{ textAlign: "center", marginRight: 2, fontSize: 18 }}
               >
                 <b>Note:</b>
               </FormLabel>
@@ -431,11 +442,11 @@ return (
               xs={12}
               md={12}
               spacing={0}
-              sx={{ display: "flex",justifyContent: "center"  }}
+              sx={{ display: "flex", justifyContent: "stretch" }}
             >
               {/*=======================================(select Course)===========================================================*/}
               <Grid xs={6} md={4} sx={{ margin: 3 }}>
-                <FormLabel sx={{ marginRight: 2, fontSize: 15 }}>
+                <FormLabel sx={{ marginRight: 2, fontSize: 18 }}>
                   <b>Course Details:</b>
                 </FormLabel>
                 <Select
@@ -460,7 +471,7 @@ return (
               </Grid>
               {/*=======================================(Select Trainer)===========================================================*/}
               <Grid xs={6} md={4} sx={{ margin: 3 }}>
-                <FormLabel sx={{ marginRight: 2, fontSize: 15 }}>
+                <FormLabel sx={{ marginRight: 2, fontSize: 18 }}>
                   <b>Trainer:</b>
                 </FormLabel>
                 <Select
@@ -500,11 +511,20 @@ return (
                   justifyContent: "center",
                 }}
               >
-                <Button variant="text" size="large" sx={{ marginRight: 5 ,marginBottom:2 }}>
+                <Button
+                  variant="text"
+                  size="large"
+                  sx={{ marginRight: 5, marginBottom: 2 }}
+                >
                   back
                 </Button>
               </Link>
-              <Button variant="contained" size="large" onClick={submit} sx= {{marginBottom:2}}>
+              <Button
+                variant="contained"
+                size="large"
+                onClick={submit}
+                sx={{ marginBottom: 2, marginRight: 5 }}
+              >
                 บันทึกข้อมูลร่างกาย
               </Button>
             </Grid>

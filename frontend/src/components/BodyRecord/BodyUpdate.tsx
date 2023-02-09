@@ -27,6 +27,7 @@ import { BodyInterface } from "../../interfaces/IBody";
 import { TrainerInterface } from "../../interfaces/ITrainer";
 import { CourseDetailInterface } from "../../interfaces/ICourseDetail";
 import { MemberInterface } from "../../interfaces/IMember";
+import bodyBG1 from "../../images/bodyBG1.jpg"
 
 
 // import { GetAdminByID } from "../services/HttpClientService";
@@ -54,16 +55,7 @@ function BodyUpdate() {
   const [member, setMember] = useState<MemberInterface[]>([]); 
   const [courseD, setCourseDetail] = useState<CourseDetailInterface[]>([]); 
 
-  const [hight, setHight] = useState<number>(0);
-  const [weight, setWeight] = useState<number>(0);
-  const [hip, setHip] = useState<number>(0);
-  const [armLeft, setarmL] = useState<number>(0);
-  const [armRight, setarmR] = useState<number>(0);
-  const [leftThigh, setLthigh] = useState<number>(0);
-  const [rightThigh, setRthigh] = useState<number>(0);
-  const [narrowWaist, setnarrow] = useState<number>(0);
-  const [navelWaist, setnavel] = useState<number>(0);
-  const [note, setnote] = useState<string>("");
+
 
 
 //   ====================( handleInput )=================
@@ -184,46 +176,58 @@ const fetchMemberByID = async () => {
   };
 
 return (
-    <Box
+  <Box
     sx={{
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      overflow :"auto",
+      overflow: "auto",
       gap: 6,
       height: "100vh",
       width: "100vw",
       backgroundSize: "cover",
       color: "#f5f5f5",
-      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url(${ toneLight })`,
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(${bodyBG1})`,
     }}
   >
-    <Container maxWidth="md" sx={{ marginTop: 6 }}>
+    <Container maxWidth="xl" sx={{ marginTop: 6 }}>
       <Paper
         elevation={4}
         sx={{
-          marginBottom: 2,
+          marginBottom: 1,
           marginTop: 2,
           padding: 1,
           paddingX: 4,
           display: "flex",
           justifyContent: "flex-start",
+          borderRadius: "40px",
         }}
       >
-        <h3 style={{ color: "#6b7176", fontSize: 20 }}>
+        <h2 style={{ color: "#6b7176" }}>
           บันทึกการเปลี่ยนแปลงร่างกาย
-        </h3>
+        </h2>
         <Avatar src={EnvironmentIcon} sx={{ marginTop: 1, marginLeft: 1 }} />
       </Paper>
       <form>
         <Paper
-          variant="outlined"
-          sx={{display: "flex",justifyContent: "center",flexDirection: "column",alignItems: "center", borderRadius: "25px",}}
+          elevation={6}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+            alignItems: "center",
+            paddingX: 4,
+            borderRadius: "50px",
+          }}
         >
-          <FormLabel sx={{ marginRight: 0, fontSize: 17 }}>
-            <b>บันทึกการเปลี่ยนแปลงร่างกาย หน่วยเป็น cm</b>
+          <FormLabel sx={{ marginY:2, fontSize: 17 }}>
+            <h3>บันทึกการเปลี่ยนแปลงร่างกาย หน่วยเป็น cm</h3>
           </FormLabel>
-          <Grid container spacing={2} sx={{ display:"flex",justifyContent:"center" }}>
+          <Grid
+            container
+            spacing={2}
+            sx={{ display: "flex", justifyContent: "center" }}
+          >
             {/*===============================================(Height)===================================================*/}
             <Grid
               xs={5}
@@ -231,15 +235,13 @@ return (
               sx={{
                 display: "flex",
                 alignItems: "center",
-                paddingRight: 18,
+                paddingRight: 40,
                 marginTop: 2,
-                justifyContent: "center"
+                justifyContent: "center",
               }}
             >
-          
-              <FormLabel  
-              sx={{ marginRight: 2, fontSize: 15 }}>
-                <b>Height</b>
+              <FormLabel sx={{ marginRight: 2, fontSize: 18 }}>
+                <b>Height:</b>
               </FormLabel>
               <TextField
                 id="outlined-number"
@@ -258,11 +260,11 @@ return (
               sx={{
                 display: "flex",
                 alignItems: "center",
-                paddingRight: 18,
+                paddingRight: 40,
                 marginTop: 2,
               }}
             >
-              <FormLabel sx={{ marginRight: 2, fontSize: 15 }}>
+              <FormLabel sx={{ marginRight: 7, fontSize: 18 }}>
                 <b>Weight:</b>
               </FormLabel>
               <TextField
@@ -282,11 +284,11 @@ return (
               sx={{
                 display: "flex",
                 alignItems: "center",
-                paddingRight: 18,
+                paddingRight: 40,
                 marginTop: 2,
               }}
             >
-              <FormLabel sx={{ marginRight: 2, fontSize: 15 }}>
+              <FormLabel sx={{ marginRight:5, fontSize: 18 }}>
                 <b>HIP:</b>
               </FormLabel>
               <TextField
@@ -297,7 +299,6 @@ return (
                 value={body.Hip}
                 required
                 onChange={handleInputChange}
-
               />
             </Grid>
             {/*===============================================(Uper arm )===================================================*/}
@@ -307,12 +308,12 @@ return (
               sx={{
                 display: "flex",
                 alignItems: "center",
-                paddingRight: 18,
+                paddingRight: 40,
                 marginTop: 2,
               }}
             >
-              <FormLabel sx={{ marginRight: 2, fontSize: 15 }}>
-                <b>Upper arm left:</b>
+              <FormLabel sx={{ marginRight: 3, fontSize: 18 }}>
+                <pre><b>Upper Arm:</b></pre>
               </FormLabel>
               <TextField
                 id="outlined-number"
@@ -322,7 +323,6 @@ return (
                 value={body.UpperArm}
                 required
                 onChange={handleInputChange}
-
               />
             </Grid>
             {/*===============================================( thigh)===================================================*/}
@@ -332,12 +332,12 @@ return (
               sx={{
                 display: "flex",
                 alignItems: "center",
-                paddingRight: 18,
+                paddingRight: 40,
                 marginTop: 2,
               }}
             >
-              <FormLabel sx={{ marginRight: 2, fontSize: 15 }}>
-                <b>Left thigh:</b>
+              <FormLabel sx={{ marginRight: 3, fontSize: 18 }}>
+                <b>Thigh:</b>
               </FormLabel>
               <TextField
                 id="outlined-number"
@@ -347,7 +347,6 @@ return (
                 value={body.Thigh}
                 required
                 onChange={handleInputChange}
-
               />
             </Grid>
             {/*===============================================(Narrow waist)===================================================*/}
@@ -357,12 +356,12 @@ return (
               sx={{
                 display: "flex",
                 alignItems: "center",
-                paddingRight: 18,
+                paddingRight: 40,
                 marginTop: 2,
               }}
             >
-              <FormLabel sx={{ marginRight: 2, fontSize: 15 }}>
-                <b>Narrow waist:</b>
+              <FormLabel sx={{ marginRight: 1, fontSize: 18 }}>
+                <pre><b>Narrow waist:</b></pre>
               </FormLabel>
               <TextField
                 id="outlined-number"
@@ -372,7 +371,6 @@ return (
                 required
                 value={body.NarrowWaist}
                 onChange={handleInputChange}
-
               />
             </Grid>
             {/*===============================================(Navel waist)===================================================*/}
@@ -382,13 +380,13 @@ return (
               sx={{
                 display: "flex",
                 alignItems: "center",
-                paddingRight: 13,
-                paddingLeft: 6,
+                paddingRight: 32,
+                paddingLeft: 5,
                 marginTop: 2,
               }}
             >
-              <FormLabel sx={{ marginRight: 2, fontSize: 15 }}>
-                <b>Navel waist:</b>
+              <FormLabel sx={{ marginRight: 1, fontSize: 18 }}>
+                <pre><b>Navel waist:</b></pre>
               </FormLabel>
               <TextField
                 id="outlined-number"
@@ -398,14 +396,13 @@ return (
                 required
                 value={body.NavelWaist}
                 onChange={handleInputChange}
-
               />
             </Grid>
 
             {/*============================================( Note )======================================================*/}
-            <Grid xs={6} md={6} sx={{ display: "flex", alignItems: "center" }}>
+            <Grid xs={6} md={6} sx={{ display: "flex", alignItems: "center" ,paddingRight:20,paddingLeft:14}}>
               <FormLabel
-                sx={{ textAlign: "center", marginRight: 2, fontSize: 15 }}
+                sx={{ textAlign: "center", marginRight: 4, fontSize: 18 }}
               >
                 <b>Note:</b>
               </FormLabel>
@@ -428,11 +425,11 @@ return (
               xs={12}
               md={12}
               spacing={0}
-              sx={{ display: "flex",justifyContent: "center"  }}
+              sx={{ display: "flex", justifyContent: "center" }}
             >
               {/*=======================================(select Course)===========================================================*/}
               <Grid xs={6} md={4} sx={{ margin: 3 }}>
-                <FormLabel sx={{ marginRight: 2, fontSize: 15 }}>
+                <FormLabel sx={{ marginRight: 2, fontSize: 18 }}>
                   <b>Course Details:</b>
                 </FormLabel>
                 <Select
@@ -457,7 +454,7 @@ return (
               </Grid>
               {/*=======================================(Select Trainer)===========================================================*/}
               <Grid xs={6} md={4} sx={{ margin: 3 }}>
-                <FormLabel sx={{ marginRight: 2, fontSize: 15 }}>
+                <FormLabel sx={{ marginRight: 2, fontSize: 18 }}>
                   <b>Trainer:</b>
                 </FormLabel>
                 <Select
@@ -481,7 +478,7 @@ return (
               </Grid>
             </Grid>
 
-            {/* ================================<back and apply>==================================== */}
+            {/* ================================<back and update>==================================== */}
             <Grid
               container
               xs={12}
@@ -497,11 +494,20 @@ return (
                   justifyContent: "center",
                 }}
               >
-                <Button variant="text" size="large" sx={{ marginRight: 5 ,marginBottom:2 }}>
+                <Button
+                  variant="text"
+                  size="large"
+                  sx={{ marginRight: 5, marginBottom: 2 }}
+                >
                   back
                 </Button>
               </Link>
-              <Button variant="contained" size="large" onClick={update} sx= {{marginBottom:2}}>
+              <Button
+                variant="contained"
+                size="large"
+                onClick={update}
+                sx={{ marginBottom: 2 }}
+              >
                 Update
               </Button>
             </Grid>
