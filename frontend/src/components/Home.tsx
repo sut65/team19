@@ -250,10 +250,10 @@ function Home() {
                   >
                     <Grid container spacing={4} style={{textAlign: "left", margin: "0 1rem 1.5rem 0.6rem"}}>
                       <Grid item xs={12} >
-                        Category: {CourseDetail?.Description?.CourseType}
+                        Category: {CourseDetail?.CourseType?.TypeName}
                       </Grid>
                       <Grid item xs={12} >
-                        Goal: {CourseDetail?.Description?.Goal}
+                        Goal: {CourseDetail?.Goal}
                       </Grid>
                     </Grid>
                   </Box>
