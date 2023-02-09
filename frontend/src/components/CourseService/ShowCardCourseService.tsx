@@ -7,14 +7,14 @@ import CardCourseService from "./CardCourseService";
 import { Margin } from "@mui/icons-material";
 import "../../App.css";
 import { CourseDetailInterface } from "../../interfaces/ICourseDetail";
-import { DescriptionInterface } from "../../interfaces/IDescription";
+import { CourseTypeInterface } from "../../interfaces/ICourseType";
 import { PriceInterface } from "../../interfaces/IPrice";
-import { GetCourseDetail, GetDescription, GetPrice } from "../../services/HttpClientService";
+import { GetCourseDetail, GetCourseType, GetPrice } from "../../services/HttpClientService";
 
 function ShowCardCourseService() {
   const [CourseDetail, setCourseDetail] = useState<CourseDetailInterface[]>([])
   const [Price, setPrice] = useState<PriceInterface[]>([])
-  const [Description, setDescription] = useState<DescriptionInterface[]>([])
+  const [CourseType, setCourseType] = useState<CourseTypeInterface[]>([])
 
   const getCourseDetail = async () => {
     let res = await GetCourseDetail();
@@ -30,17 +30,17 @@ function ShowCardCourseService() {
     }
   };
 
-  const getDescription = async () => {
-    let res = await GetDescription();
+  const getCourseType = async () => {
+    let res = await GetCourseType();
     if (res) {
-      setDescription(res);
+      setCourseType(res);
     }
   };
 
   useEffect(() => {
     getCourseDetail();
     getPrice();
-    getDescription();
+    getCourseType();
   }, []);
 
   return (
@@ -65,8 +65,10 @@ function ShowCardCourseService() {
                 ID={item.ID}
                 CourseName={item.CourseName}
                 CoverPage={item.CoverPage}
-                DescriptionID={item.DescriptionID}
                 Description={item.Description}
+                Goal={item.Goal}
+                CourseTypeID={item.CourseTypeID}
+                CourseType={item.CourseType}
                 AdminID={item.AdminID}
                 Admin={item.Admin}
                 PriceID={item.PriceID}

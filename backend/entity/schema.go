@@ -67,16 +67,7 @@ type Member struct {
 	Behavior       []Behavior        `gorm:"foreignKey:MemberID"`
 }
 
-// -------------------------------------------<< ระบบจัดการคอร์ส >>------------------------------------
-
-type Description struct {
-	gorm.Model
-	Description  string
-	CourseType   string
-	Goal         string
-	CourseDetail []CourseDetail `gorm:"foreignKey:DescriptionID"`
-}
-
+// -------------------------------------------<< Admin >>------------------------------------
 type Admin struct {
 	gorm.Model
 	Email           string `gorm:"uniqueIndex"`
@@ -89,6 +80,14 @@ type Admin struct {
 	Nutrient        []Nutrient        `gorm:"foreignKey:AdminID"`
 }
 
+// -------------------------------------------<< ระบบจัดการคอร์ส >>------------------------------------
+
+type CourseType struct {
+	gorm.Model
+	TypeName   string
+	CourseDetail []CourseDetail `gorm:"foreignKey:CourseTypeID"`
+}
+
 type Price struct {
 	gorm.Model
 	Price        float32
@@ -98,14 +97,16 @@ type Price struct {
 
 type CourseDetail struct {
 	gorm.Model
-	CourseName string `valid:"required~CourseName cannot be blank"`
-	CoverPage  string `valid:"required~CoverPage cannot be blank"`
-
-	DescriptionID *uint
-	Description   Description
+	CourseName  string 
+	CoverPage   string 
+	Description string
+	Goal        string
 
 	AdminID *uint
 	Admin   Admin
+
+	CourseTypeID *uint
+	CourseType CourseType
 
 	PriceID *uint
 	Price   Price
@@ -114,6 +115,8 @@ type CourseDetail struct {
 	Body          []Body          `gorm:"foreignKey:CourseDetailID"`
 	Reviews       []Review        `gorm:"foreignKey:CourseDetailID"`
 }
+
+//-----------------------------------------------------------------------------
 
 // Review
 type Rank struct {
@@ -255,10 +258,10 @@ type FoodInformation struct {
 	Admin   Admin
 
 	MainIngredientID *uint
-	MainIngredient   MainIngredient 
+	MainIngredient   MainIngredient
 
 	FoodTypeID *uint
-	FoodType   FoodType 
+	FoodType   FoodType
 
 	// MealPlan []MealPlan `gorm:"foreignKey:FoodInformationID"`
 }
@@ -497,7 +500,7 @@ type Nutrient struct {
 	AdminID *uint
 	Admin   Admin
 
-	MostNutrientID *uint 
+	MostNutrientID *uint
 	MostNutrient   MostNutrient
 
 	FoodInformationID int             `gorm:"uniqueIndex"`

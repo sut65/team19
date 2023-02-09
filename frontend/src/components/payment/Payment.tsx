@@ -278,7 +278,7 @@ function Payment() {
                 <b>{CourseService?.CourseDetail?.CourseName}</b>
               </Typography>
               <Typography variant="body2" color="text.secondary" mb={2}>
-                Category: {CourseDetail?.Description?.CourseType}
+                Category: {CourseDetail?.CourseType?.TypeName}
               </Typography>
             </Box>
             <Typography
@@ -286,7 +286,7 @@ function Payment() {
               variant="h5"
               style={{ marginBottom: "3rem", marginTop: "0.5rem" }}
             >
-              {CourseDetail.Description?.Description}
+              {CourseDetail.Description}
             </Typography>
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <Typography

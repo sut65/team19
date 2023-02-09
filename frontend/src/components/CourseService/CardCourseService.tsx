@@ -14,8 +14,10 @@ function CardCourseService({
   ID,
   CourseName,
   CoverPage,
-  DescriptionID,
   Description,
+  Goal,
+  CourseTypeID,
+  CourseType,
   AdminID,
   Admin,
   PriceID,
@@ -58,7 +60,7 @@ function CardCourseService({
           }
         >
           <Typography variant="body2" color="text.secondary" mb={2}>
-            Category: {Description?.CourseType}
+            Category: {CourseType?.TypeName}
           </Typography>
           <Typography
             mb={2}
@@ -76,10 +78,10 @@ function CardCourseService({
           variant="h5"
           style={{ marginBottom: "1rem" }}
         >
-          {Description?.Description.slice(0, 100)}
+          {Description?.slice(0, 100)}
         </Typography>
         <Typography variant="body2" color="text.secondary" mb={2} style={{marginBottom: "2rem"}}>
-          Goal: {Description?.Goal}
+          Goal: {Goal}
         </Typography>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <Typography

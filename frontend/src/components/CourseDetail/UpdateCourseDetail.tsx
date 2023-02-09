@@ -13,13 +13,13 @@ import {
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
 import { CourseDetailInterface } from "../../interfaces/ICourseDetail";
-import { DescriptionInterface } from "../../interfaces/IDescription";
+import { CourseTypeInterface } from "../../interfaces/ICourseType";
 import { PriceInterface } from "../../interfaces/IPrice";
 import { AdminInterface } from "../../interfaces/IAdmin";
 
 // api
 import {
-  GetDescription,
+  GetCourseType,
   GetPrice,
   GetAdminByID,
   GetCourseDetailByID,
@@ -41,7 +41,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 function UpdateCourseDetails() {
   const { id } = useParams();
   const [courseDetail, setCourseDetail] = useState<CourseDetailInterface>({});
-  const [description, setDescription] = useState<DescriptionInterface[]>([]);
+  const [courseType, setCourseType] = useState<CourseTypeInterface[]>([]);
   const [price, setPrice] = useState<PriceInterface[]>([]);
   const [admin, setAdmin] = useState<AdminInterface>({ Name: ""});
 
@@ -93,9 +93,9 @@ function UpdateCourseDetails() {
     return val;
   };
 
-  const fetchDescription = async () => {
-    let res = await GetDescription();
-    res && setDescription(res);
+  const fetchCourseType = async () => {
+    let res = await GetCourseType();
+    res && setCourseType(res);
   };
 
   const fetchPrice = async () => {
@@ -120,11 +120,13 @@ function UpdateCourseDetails() {
   const submit = async () => {
     let newData = {
       ID: convertType(courseDetail.ID),
-      DescriptionID: convertType(courseDetail.DescriptionID),
+      CourseTypeID: convertType(courseDetail.CourseTypeID),
       PriceID: convertType(courseDetail.PriceID),
       AdminID: Number(localStorage.getItem("uid")),
       CoverPage: courseDetail.CoverPage,
       CourseName: courseDetail.CourseName,
+      Description: courseDetail.Description,
+      Goal: courseDetail.Goal,
     };
 
     let res = await UpdateCourseDetail(newData);
@@ -133,7 +135,7 @@ function UpdateCourseDetails() {
   };
 
   useEffect(() => {
-    fetchDescription();
+    fetchCourseType();
     fetchPrice();
     fetchAdminByID();
     fetchCourseDetail();
@@ -161,7 +163,7 @@ function UpdateCourseDetails() {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        // mt: "6rem",
+        mt: "2rem",
         gap: "1rem",
         m: "2rem auto 10rem",
       }}
@@ -253,19 +255,19 @@ function UpdateCourseDetails() {
           <Select
             native
             fullWidth
-            id="course_type"
-            value={courseDetail.DescriptionID + ""}
+            id="type_name"
+            value={courseDetail.CourseTypeID + ""}
             onChange={handleSelectChange}
             inputProps={{
-              name: "DescriptionID",
+              name: "CourseTypeID",
             }}
           >
             <option aria-label="None" value="">
               ประเภทคอร์ส
             </option>
-            {description.map((item: DescriptionInterface) => (
+            {courseType.map((item: CourseTypeInterface) => (
               <option key={item.ID} value={item.ID}>
-                {item.CourseType}
+                {item.TypeName}
               </option>
             ))}
           </Select>
@@ -364,7 +366,7 @@ function UpdateCourseDetails() {
       <TextField
         id="goal"
         name="Goal"
-        value={courseDetail.Description?.Goal}
+        value={courseDetail.Goal}
         onChange={handleInputChange}
         multiline
         placeholder="เป้าหมายคอร์ส"
@@ -380,7 +382,7 @@ function UpdateCourseDetails() {
       <TextField
         id="description"
         name="Description"
-        value={courseDetail.Description?.Description}
+        value={courseDetail.Description}
         onChange={handleInputChange}
         multiline
         placeholder="คำอธิบายคอร์ส"

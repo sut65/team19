@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Button, TextField, Select, styled, SelectChangeEvent, Box, Snackbar,
 } from "@mui/material";
@@ -7,14 +7,14 @@ import {
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
 import { AdminInterface } from "../../interfaces/IAdmin";
-import { DescriptionInterface } from "../../interfaces/IDescription";
+import { CourseTypeInterface } from "../../interfaces/ICourseType";
 import { CourseDetailInterface } from "../../interfaces/ICourseDetail";
 import { PriceInterface } from "../../interfaces/IPrice";
 
 // api
 import {
   GetAdminByID,
-  GetDescription,
+  GetCourseType,
   GetPrice,
   createCourseDetail,
 } from "../../services/HttpClientService";
@@ -33,15 +33,16 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 
 function CreateCourseDetail() {
-  //const date = new Date();
+  const navigate = useNavigate();
   const [courseDetail, setCourseDetail] = useState<CourseDetailInterface>({});
-  const [description, setDescription] = useState<DescriptionInterface[]>([]);
+  const [courseType, setCourseType] = useState<CourseTypeInterface[]>([]);
   const [price, setPrice] = useState<PriceInterface[]>([]);
   const [admin, setAdmin] = useState<AdminInterface>({ Name: "" });
 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [image, setImage] = useState({ name: "", src: "" });
+  const [message, setAlertMessage] = useState("");
 
   const handleClose = (
     event?: React.SyntheticEvent | Event,
@@ -83,9 +84,9 @@ function CreateCourseDetail() {
     setCourseDetail({ ...courseDetail, [name]: e.target.value });
   };
 
-  const fetchDescription = async () => {
-    let res = await GetDescription();
-    res && setDescription(res);
+  const fetchCourseType = async () => {
+    let res = await GetCourseType();
+    res && setCourseType(res);
   };
 
   const fetchPrice = async () => {
@@ -109,21 +110,23 @@ function CreateCourseDetail() {
 
   // insert data to db
   const submit = async () => {
-    let data = {
-      DescriptionID: convertType(courseDetail.DescriptionID),
+    let newData = {
+      CourseTypeID: convertType(courseDetail.CourseTypeID),
       PriceID: convertType(courseDetail.PriceID),
       AdminID: convertType(courseDetail.AdminID),
       CoverPage: courseDetail.CoverPage,
       CourseName: courseDetail.CourseName,
+      Description: courseDetail.Description,
+      Goal: courseDetail.Goal,
     };
 
-    let res = await createCourseDetail(data);
+    let res = await createCourseDetail(newData);
     res ? setSuccess(true) : setError(true);
     window.location.href = "/admin/course"
   };
 
   useEffect(() => {
-    fetchDescription();
+    fetchCourseType();
     fetchPrice();
     fetchAdminByID();
   }, []);
@@ -150,9 +153,9 @@ function CreateCourseDetail() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          // mt: "6rem",
+          mt: "2rem",
           gap: "1rem",
-          mb: "10rem",
+          m: "2rem auto 10rem",
         }}
       >
         {/* Alert */}
@@ -191,8 +194,8 @@ function CreateCourseDetail() {
           >
             Upload Cover Page
             <input
-              id="coverImage"
-              name="CoverImage"
+              id="coverPage"
+              name="CoverPage"
               hidden
               accept="image/*"
               multiple
@@ -242,19 +245,19 @@ function CreateCourseDetail() {
             <Select
               native
               fullWidth
-              id="course_type"
-              value={courseDetail.DescriptionID + ""}
+              id="type_name"
+              value={courseDetail.CourseTypeID + ""}
               onChange={handleSelectChange}
               inputProps={{
-                name: "DescriptionID",
+                name: "CourseTypeID",
               }}
             >
               <option aria-label="None" value="">
                 ประเภทคอร์ส
               </option>
-              {description.map((item: DescriptionInterface) => (
+              {courseType.map((item: CourseTypeInterface) => (
                 <option key={item.ID} value={item.ID}>
-                  {item.CourseType}
+                  {item.TypeName}
                 </option>
               ))}
             </Select>
@@ -353,7 +356,7 @@ function CreateCourseDetail() {
         <TextField
           id="goal"
           name="Goal"
-          value={courseDetail.Description?.Goal}
+          value={courseDetail.Goal}
           onChange={handleInputChange}
           multiline
           placeholder="เป้าหมายคอร์ส"
@@ -369,7 +372,7 @@ function CreateCourseDetail() {
         <TextField
           id="description"
           name="Description"
-          value={courseDetail.Description?.Description}
+          value={courseDetail.Description}
           onChange={handleInputChange}
           multiline
           placeholder="คำอธิบายคอร์ส"
