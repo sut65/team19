@@ -68,8 +68,8 @@ function NavTrainer() {
 
   return (
     <AppBar position="static" sx={{ bgcolor: "#B9BFFF", color: "#000000" }}>
-      <Container maxWidth="xl">
-        <Toolbar disableGutters>
+      <Container maxWidth="xl" >
+        <Toolbar disableGutters >
           <Avatar alt="Remy Sharp" src={trainerBG1} sx={{ width: 50 }} />
           <Typography
             variant="h6"

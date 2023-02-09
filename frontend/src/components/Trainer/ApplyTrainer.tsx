@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Unstable_Grid2";
 import TextField from "@mui/material/TextField";
 import Radio from "@mui/material/Radio";
@@ -9,14 +8,18 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
 import MenuItem from "@mui/material/MenuItem";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
+import {Box,Table,TableBody,TableCell,TableContainer,TableHead,TableRow,Paper,Avatar,Button,Stack,} from "@mui/material";
+
 
 import OutlinedInput from "@mui/material/OutlinedInput";
-import Button from "@mui/material/Button";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Link, Navigate, useLocation } from "react-router-dom";
+import EnvironmentIcon from "../../images/environmentIcon.png"
+import Body from "../../images/Body.png"
+import bg2 from "../../images/trainerBG2.jpg"
 
 
 import { TrainerInterface } from "../../interfaces/ITrainer";
@@ -26,6 +29,8 @@ import { FormOfWorkInterface } from "../../interfaces/IFormOfWork";
 import { ReligionInterface } from "../../interfaces/IReligion";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
+import { GetFormOfWork,GetStatus,GetEducation,GetReligion,CreateTrainer } from "../../services/HttpClientService";
+import { width } from "@mui/system";
 
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -46,14 +51,14 @@ function Trainer() {
  const [form, setForm] = useState<FormOfWorkInterface[]>([]); 
 
 
-  const [first, setFirst] = useState<String>("");
-  const [last, setLast] = useState<String>("");
-  const [university, setUniversity] = useState<String>("");
+  const [first, setFirst] = useState<string>("");
+  const [last, setLast] = useState<string>("");
+  const [university, setUniversity] = useState<string>("");
   const [gpax, setGpax] = useState<number>(0.0);
-  const [gender, setGender] = useState<String>("");
+  const [gender, setGender] = useState<string>("");
   const [age, setAge] = useState<number>(0);
-  const [address, setAddress] = useState<String>("");
-  const [email, setEmail] = useState<String>("");
+  const [address, setAddress] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
   
 
   const [success, setSuccess] = useState(false);
@@ -108,12 +113,8 @@ function Trainer() {
 
   const handleChange = (event: SelectChangeEvent) => {
     const name = event.target.name as keyof typeof trainer;  //เรารู้ type แล้วแต่เราต้องการใช้ keyของ trainer
-    // console.log(event.target.name);
-    // console.log(event.target.value);
     setTrainer({
-      ...trainer,                                             //เอาที่มีอยู่เดิมแล้วมาด้วย Spread Operator
-      [name]: event.target.value,
-    });
+      ...trainer,  [name]: event.target.value,     });  //เอาที่มีอยู่เดิมแล้วมาด้วย Spread Operator
   };
 
   // =========================(Fetch API)====================================================
@@ -125,34 +126,22 @@ function Trainer() {
   };
 
   const fetchFormOfWork = async () => {
-    fetch(`${apiUrl}/forms`, requestOptionsGet)
-      .then((response) => response.json())
-      .then((result) => {
-        setForm(result.data);
-      });
+    let res = await GetFormOfWork();
+    res && setForm(res);
   };
   const fetchStatus = async () => {
-    fetch(`${apiUrl}/statuses`, requestOptionsGet)
-      .then((response) => response.json())
-      .then((result) => {
-        setStatus(result.data);
-      });
+    let res = await GetStatus();
+    res && setStatus(res);
   };
 
   const fetchEducation = async () => {
-    fetch(`${apiUrl}/educations`, requestOptionsGet)
-      .then((response) => response.json())
-      .then((result) => {
-        setEdu(result.data);
-      });
+    let res = await GetEducation();
+    res && setEdu(res);
   };
 
   const fetchReligion = async () => {
-    fetch(`${apiUrl}/religions`, requestOptionsGet)
-     .then((response) => response.json())
-     .then((result) => {
-        setReligion(result.data);
-      });
+    let res = await GetReligion();
+    res && setReligion(res);
   };
 
   useEffect(() => {
@@ -167,7 +156,7 @@ function Trainer() {
     return val;
   };
 
-  const submit = () => {
+  const submit = async() => {
     let data = {
       Name: `${first} ${last}`,
       University:university,
@@ -183,36 +172,40 @@ function Trainer() {
       EducationID: convertType(trainer.EducationID),
       ReligionID: convertType(trainer.ReligionID),
     };
-    console.log(data);
-    console.log(JSON.stringify(data));
-    
+    // console.log(data);
+    // console.log(JSON.stringify(data));
 
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data), // แปลงเป็น JSON -> String แบบ Json
-    };
-
-    fetch(`${apiUrl}/trainer`, requestOptions)
-      .then((response) => response.json())
-      .then((res) => {
-        // console.log(res);
-        if (res.data) {
+    let res = await CreateTrainer(data);
+        if (res) {
           setTimeout(() => {
-           window.location.href = "/trainer";
-          }, 10000);
+          //  window.location.href = "/trainer";
+          }, 1000);
           setSuccess(true);
         } else {
           setError(true);
         }
-      });
+    
   };
 
 return (
   <div>
+       <Box
+    sx={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      overflow :"auto",
+      gap: 6,
+      height: "100vh",
+      width: "100vw",
+      backgroundSize: "cover",
+      color: "#f5f5f5",
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url(${bg2})`,
+    }}
+  >
     <Container maxWidth="lg" sx={{ marginTop: 6 }}>
       <Paper
-        elevation={4}
+        elevation={6}
         sx={{
           marginBottom: 2,
           marginTop: 2,
@@ -222,11 +215,13 @@ return (
           justifyContent: "flex-start",
         }}
       >
-        <h3 style={{ color: "#6b7176" }}>Apply for work</h3>
+          <Avatar src={Body}  sx={{margin:1,marginRight:5 ,width:70,height:70}}/>
+        <h1 style={{ color: "#6b7176" }}>Apply for Trainer </h1>
+         <Avatar src={EnvironmentIcon} sx={{marginLeft:1,marginTop:3}}/>
       </Paper>
-      <form>
+   
         <Paper
-          variant="outlined"
+         elevation={8}
           sx={{ padding: 2, paddingTop: 1, marginBottom: 2 }}
         >
           <Grid container spacing={2}>
@@ -561,7 +556,7 @@ return (
             </Grid>
           </Grid>
         </Paper>
-      </form>
+ 
     </Container>
     <Snackbar
       open={success}
@@ -584,6 +579,8 @@ return (
         บันทึกข้อมูลไม่สำเร็จ
       </Alert>
     </Snackbar>
+  </Box>
+    
   </div>
 );
 }

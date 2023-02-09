@@ -19,6 +19,7 @@ import {GetTrainerByID,UpdateTrainer} from "../../../services/HttpClientService"
 
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
+import { Password } from "@mui/icons-material";
 
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -35,6 +36,7 @@ function EditSettings() {
 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
+
   const { id } = useParams();
   
   const [trainer, setTrainer] = useState<TrainerInterface>({}); 
@@ -65,10 +67,7 @@ const handleClose = (
     showPassword: false,
   });
 
-  const [passOK, setPassOK] = React.useState<State>({
-    password: "",
-    showPassword: false,
-  });// condition ตอน submit
+
   
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name;
@@ -139,14 +138,26 @@ const handleClose = (
 };
 
 // Equalation password
-const passwordchange = () =>{
-  if(pass.password == passNew.password){
-   return passNew.password
-  }}
 
   //======================< submit >===============
 
   const submit = async () => {
+    let con_pass = false;
+    const passwordchange = () =>{
+      if(pass.password && passNew.password ){
+        console.log("มีการกรอก passworsd")
+        if (pass.password == passNew.password) {
+          con_pass =true;
+          return passNew.password;
+        } else {
+          // setError(true);
+          con_pass=false;
+        }
+      }else{
+        con_pass =true;
+      }
+    }
+
     let data = {
       ID: convertType(trainer.ID),
       Name: trainer.Name,
@@ -154,16 +165,14 @@ const passwordchange = () =>{
       Address: trainer.Address,
       Password: passwordchange(),
     };
-    console.log(data);
-    console.log(JSON.stringify(data));
+    console.log(data.Password);
+    // console.log(JSON.stringify(data));
 
-    let res = await UpdateTrainer(data);
-    if (res) {
+    let res = con_pass ? await UpdateTrainer(data) : setError(true);
+    if (res ) {
       setTimeout(() => {
-        setSuccess(true);
-        // window.location.href = "/trainer/profile";
-       }, 500);
-        
+          setSuccess(true);
+        }, 500);  
       } else {
         setError(true);
     }
@@ -287,9 +296,6 @@ const passwordchange = () =>{
       </Grid>
       {/*==============================================(Button)====================================================*/}
       <Grid sx = {{display:"flex" ,justifyContent:"flex-end"}}>
- 
-       
-
           <Link
                 to="/trainer"
                 style={{
@@ -299,7 +305,7 @@ const passwordchange = () =>{
                   justifyContent: "center",
                 }}
               >
-                <Button variant="text" size="large" sx={{ marginRight: 5,marginTop:5 }}>
+                <Button variant="text" size="large" sx={{ marginRight: 5,marginTop: 3 }}>
                   back
                 </Button>
               </Link>
@@ -307,7 +313,7 @@ const passwordchange = () =>{
           variant="contained"
           size="large"
           onClick={submit}
-          sx={{ marginTop: 5, marginRight: 0 }}
+          sx={{  marginTop: 3 }}
         >
           Update
         </Button>

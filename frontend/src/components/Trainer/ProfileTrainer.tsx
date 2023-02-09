@@ -22,6 +22,13 @@ import { deepOrange, deepPurple } from "@mui/material/colors";
 import FormLabel from "@mui/material/FormLabel";
 import Button from "@mui/material/Button";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 import environmentIcon from "../../images/environmentIcon.png"
 import profile2 from "../../images/profile2.jpg"
@@ -51,9 +58,6 @@ const handleClickDelete = async (id : string) => {
   }
 }
 
-const handleDelete = () => {
-  console.info('You clicked the delete icon.');
-};
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -88,19 +92,37 @@ function a11yProps(index: number) {
   };
 }
 
+
 function ProfileTrainer() {
 
   
   const [tab, setTab] = React.useState("profile");
   const [value, setValue] = React.useState(0);
   const [trainer, setTrainer] = useState<TrainerInterface>({}); 
-  const [date_in, setDateIn] = useState<String>(""); 
+  const [date_in, setDateIn] = useState<string>(""); 
+
+  // For Alert confirmation Delete Account
+
+  const [open, setOpen] = React.useState(false);
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+// ----------------
   
   
   const fetchTrainerID = async () => {
     let res = await GetTrainerByID();
     if (res) {
       setTrainer(res);
+      setDateIn(res.CreatedAt.slice(0,19));
       console.log(res.data)
     }
   };
@@ -205,7 +227,7 @@ function ProfileTrainer() {
                 </h2>
 
                 {/*==============================================(Primary)====================================================*/}
-                <Paper elevation={0} sx={{ padding: 1 }}>
+                <Paper elevation={0} sx={{ padding: 0 }}>
                   <List
                     sx={{
                       width: "100%",
@@ -216,13 +238,13 @@ function ProfileTrainer() {
                     <ListItem>
                       <ListItemText
                         primary="Date of Attnedance"
-                        // secondary= {trainer}
+                        secondary={date_in}
                       />
                     </ListItem>
                     <Divider component="li" />
 
                     <ListItem>
-                      <ListItemText primary="Sport" secondary="Jan 7, 2023" />
+                      <ListItemText primary="Sport" secondary={"เกรดเฉลี่ยสะสม "+trainer.Gpax} />
                     </ListItem>
                     <Divider component="li" variant="inset" />
                   </List>
@@ -265,15 +287,45 @@ function ProfileTrainer() {
                   </List>
                 </Paper>
                 {/* ================================================( delete )============================================================= */}
-                <Chip
+                {/* <Chip
                   label="DELETE ACCOUNT"
                   size="medium"
                   onClick={() => handleClickDelete(trainer.ID + "")}
-                  onDelete={handleDelete}
                   deleteIcon={<DeleteIcon />}
                   variant="outlined"
                   sx={{ marginTop: 2, marginLeft: 35 }}
-                />
+                /> */}
+
+                {/* ================================================<< Alert confirmation delete >>=============================== */}
+                <div  style = {{marginTop: 2, display:"flex",justifyContent:"end"}}> 
+                  <Button variant="outlined"  onClick={handleClickOpen} sx ={{display:"flex",justifyContent:"space-between"}}>
+                    Delete Account 
+                    {<DeleteIcon />}
+                  </Button>
+                  <Dialog
+                    fullScreen={fullScreen}
+                    open={open}
+                    onClose={handleClose}
+                    aria-labelledby="responsive-dialog-title"
+                  >
+                    <DialogTitle id="responsive-dialog-title">
+                      {"Are you sure?"}
+                    </DialogTitle>
+                    <DialogContent>
+                      <DialogContentText>
+                      If you delete the account, the data cannot be restored and the account will be permanently deleted.
+                      </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button autoFocus onClick={() => handleClickDelete(trainer.ID + "")}>
+                        accept
+                      </Button>
+                      <Button onClick={handleClose} autoFocus>
+                        cancle
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
+                </div>
               </Paper>
             </Grid>
             {/* ====================================( page2 )=========================== */}
@@ -291,7 +343,9 @@ function ProfileTrainer() {
                   {/* <Tab  label="" {...a11yProps(2)}/> */}
                   <Button sx={{ position: "absolute", marginLeft: 73 }}>
                     <ArrowBackIcon
-                      onClick={() => {window.location.href="/trainer"}}
+                      onClick={() => {
+                        window.location.href = "/trainer";
+                      }}
                       fontSize="large"
                     ></ArrowBackIcon>
                   </Button>

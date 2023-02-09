@@ -71,7 +71,7 @@ const AdminLogin = async (data: AdminInterface) => {
 };
 
 // Trainer Login
-const TrainerLogin = async (data: AdminInterface) => {
+const TrainerLogin = async (data: TrainerInterface) => {
   const requestOptions = {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -139,15 +139,7 @@ async function GetUser() {
 
 // Trainer
 async function GetTrainer() {
-  const requestOptions = {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "application/json",
-    },
-  };
-
-  let res = await fetch(`${apiUrl}/trainer`, requestOptions)
+  let res = await fetch(`${apiUrl}/trainer`, requestOptionsGet)
     .then((response) => response.json())
     .then((res) => {
       if (res.data) {
@@ -160,17 +152,29 @@ async function GetTrainer() {
   return res;
 }
 
-const GetTrainerByID = async () => {
-  const id = localStorage.getItem("uid");
-
+const CreateTrainer = async (data: TrainerInterface) => {
   const requestOptions = {
-    method: "GET",
+    method: "POST",
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
       "Content-Type": "application/json",
     },
+    body: JSON.stringify(data),
   };
-  let res = await fetch(`${apiUrl}/trainer/${id}`, requestOptions)
+
+  let res = await fetch(`${apiUrl}/trainer`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetTrainerByID = async () => {
+  const id = localStorage.getItem("uid");
+
+  let res = await fetch(`${apiUrl}/trainer/${id}`, requestOptionsGet)
     .then((response) => response.json())
     .then((result) => {
       return result.data ? result.data : false;
@@ -215,6 +219,62 @@ const UpdateTrainer = async (data: TrainerInterface) => {
 
   return res;
 };
+
+async function GetFormOfWork() {
+  let res = await fetch(`${apiUrl}/forms`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
+async function GetStatus() {
+  let res = await fetch(`${apiUrl}/statuses`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
+async function GetEducation() {
+  let res = await fetch(`${apiUrl}/educations`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
+async function GetReligion() {
+  let res = await fetch(`${apiUrl}/religions`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
 
 //
 
@@ -1392,9 +1452,14 @@ export {
   GetCourseDetail,
   //Trainer
   GetTrainer,
+  CreateTrainer,
   GetTrainerByID,
   DeleteTrainer,
   UpdateTrainer,
+  GetFormOfWork,
+  GetStatus,
+  GetEducation,
+  GetReligion,
   
   //CourseDetail
   DeleteCourseDetail,
