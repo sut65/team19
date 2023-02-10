@@ -84,7 +84,7 @@ type Admin struct {
 
 type CourseType struct {
 	gorm.Model
-	TypeName   string
+	TypeName     string
 	CourseDetail []CourseDetail `gorm:"foreignKey:CourseTypeID"`
 }
 
@@ -97,8 +97,8 @@ type Price struct {
 
 type CourseDetail struct {
 	gorm.Model
-	CourseName  string 
-	CoverPage   string 
+	CourseName  string
+	CoverPage   string
 	Description string
 	Goal        string
 
@@ -106,7 +106,7 @@ type CourseDetail struct {
 	Admin   Admin
 
 	CourseTypeID *uint
-	CourseType CourseType
+	CourseType   CourseType
 
 	PriceID *uint
 	Price   Price
@@ -427,25 +427,25 @@ type Advice struct {
 // -----------------------------<Bodyschema>--------------<< ระบบบันทึกการเปลี่ยนแปลงร่างกาย >>------------------------------------
 type Body struct {
 	gorm.Model
-	Height      float32
-	Weight      float32
-	Hip         float32
-	UpperArm    float32
-	Thigh       float32
-	NarrowWaist float32
-	NavelWaist  float32
-	Bmi         float32
-	Note        string
+	Height      float32  `valid:"matches(^(?:[1-9]\\d*|0)?(?:\\.\\d+)?$)~input must be greater than 0,required~Height cannot be blank"`
+	Weight      float32  `valid:"matches(^(?:[1-9]\\d*|0)?(?:\\.\\d+)?$)~input must be greater than 0,required~Weight cannot be blank"`
+	Hip         float32  `valid:"matches(^(?:[1-9]\\d*|0)?(?:\\.\\d+)?$)~input must be greater than 0,required~Hip cannot be blank"`
+	UpperArm    float32  `valid:"matches(^(?:[1-9]\\d*|0)?(?:\\.\\d+)?$)~input must be greater than 0,required~Upper Arm cannot be blank"`
+	Thigh       float32  `valid:"matches(^(?:[1-9]\\d*|0)?(?:\\.\\d+)?$)~input must be greater than 0,required~Thigh cannot be blank"`
+	NarrowWaist float32  `valid:"matches(^(?:[1-9]\\d*|0)?(?:\\.\\d+)?$)~input must be greater than 0,required~Narrow Waist cannot be blank"`
+	NavelWaist  float32  `valid:"matches(^(?:[1-9]\\d*|0)?(?:\\.\\d+)?$)~input must be greater than 0,required~Navel Waist cannot be blank"`
+	Bmi         float32  `valid:"matches(^(?:[1-9]\\d*|0)?(?:\\.\\d+)?$)~input must be greater than 0,required~Bmi cannot be blank"`
+	Note        string   `valid:"maxstringlength(20)~Note must be no more than 20 characters long,required~Note cannot be blank"`
 	Advice      []Advice `gorm:"foreignKey:BodyID"`
 
 	TrainerID *uint
-	Trainer   Trainer
+	Trainer   Trainer `valid:"-"`
 
 	MemberID *uint
-	Member   Member
+	Member   Member `valid:"-"`
 
 	CourseDetailID *uint
-	CourseDetail   CourseDetail
+	CourseDetail   CourseDetail `valid:"-"`
 }
 
 // ============================== ระบบชำระเงิน ==============================
