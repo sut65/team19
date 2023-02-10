@@ -196,7 +196,7 @@ return (
       backgroundImage: `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(${bodyBG1})`,
     }}
   >
-    <Container maxWidth="xl" sx={{ marginTop: 6 }}>
+    <Container maxWidth="lg" sx={{ marginTop: 6 }}>
       <Paper
         elevation={4}
         sx={{
@@ -239,7 +239,7 @@ return (
               sx={{
                 display: "flex",
                 alignItems: "center",
-                paddingRight: 40,
+                paddingRight: 20,
                 marginTop: 2,
                 justifyContent: "center",
               }}
@@ -264,7 +264,7 @@ return (
               sx={{
                 display: "flex",
                 alignItems: "center",
-                paddingRight: 40,
+                paddingRight: 20,
                 marginTop: 2,
               }}
             >
@@ -288,7 +288,7 @@ return (
               sx={{
                 display: "flex",
                 alignItems: "center",
-                paddingRight: 40,
+                paddingRight: 20,
                 marginTop: 2,
               }}
             >
@@ -312,7 +312,7 @@ return (
               sx={{
                 display: "flex",
                 alignItems: "center",
-                paddingRight: 40,
+                paddingRight: 20,
                 marginTop: 2,
               }}
             >
@@ -338,7 +338,7 @@ return (
               sx={{
                 display: "flex",
                 alignItems: "center",
-                paddingRight: 40,
+                paddingRight: 20,
                 marginTop: 2,
               }}
             >
@@ -362,7 +362,7 @@ return (
               sx={{
                 display: "flex",
                 alignItems: "center",
-                paddingRight: 40,
+                paddingRight: 20,
                 marginTop: 2,
               }}
             >
@@ -388,8 +388,8 @@ return (
               sx={{
                 display: "flex",
                 alignItems: "center",
-                paddingRight: 32,
-                paddingLeft: 5,
+                paddingRight: 14,
+                paddingLeft: 3,
                 marginTop: 2,
               }}
             >
@@ -416,8 +416,8 @@ return (
               sx={{
                 display: "flex",
                 alignItems: "center",
-                paddingRight: 20,
-                paddingLeft: 14,
+                paddingRight: 5,
+                paddingLeft: 12,
               }}
             >
               <FormLabel
@@ -536,7 +536,7 @@ return (
     </Container>
     <Snackbar
       open={success}
-      autoHideDuration={5000}
+      autoHideDuration={3000}
       onClose={handleClose}
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
     >
@@ -547,7 +547,7 @@ return (
 
     <Snackbar
       open={error}
-      autoHideDuration={5000}
+      autoHideDuration={4000}
       onClose={handleClose}
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
     >

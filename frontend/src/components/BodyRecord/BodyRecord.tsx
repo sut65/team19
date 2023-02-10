@@ -144,9 +144,6 @@ const fetchMemberByID = async () => {
     let res = await CreateBody(data);
     let msError:string[] =[]; 
     if (res.status) {
-      setTimeout(() => {
-        // window.location.reload();
-      }, 1000);
       setSuccess(true);
     } else {
       setError(true);
@@ -174,7 +171,7 @@ return (
       backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.0)), url(${bodyBG2})`,
     }}
   >
-    <Container maxWidth="xl" sx={{ marginTop: 6 }}>
+    <Container maxWidth="lg" sx={{ marginTop: 6 }}>
       <Paper
         elevation={8}
         sx={{
@@ -499,7 +496,7 @@ return (
     </Container>
     <Snackbar
       open={success}
-      autoHideDuration={5000}
+      autoHideDuration={3000}
       onClose={handleClose}
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
     >
@@ -510,7 +507,7 @@ return (
 
     <Snackbar
       open={error}
-      autoHideDuration={5000}
+      autoHideDuration={4000}
       onClose={handleClose}
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
     >
