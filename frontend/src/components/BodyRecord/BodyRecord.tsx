@@ -28,9 +28,10 @@ import { MemberInterface } from "../../interfaces/IMember";
 // import { GetAdminByID } from "../services/HttpClientService";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-import { Grain, WidthFull } from "@mui/icons-material";
+import { Grain, Height, WidthFull } from "@mui/icons-material";
 import { width } from "@mui/system";
 import bodyBG2 from "../../images/bodyBG2.jpg"
+import { length } from "localforage";
 
 
 
@@ -48,15 +49,8 @@ function BodyRecord() {
   const [body, setBody] = useState<BodyInterface>({}); 
   const [trainer, setTrainer] = useState<TrainerInterface[]>([]); 
   const [courseD, setCourseDetail] = useState<CourseDetailInterface[]>([]); 
+  const [message, setAlertMessage] = React.useState("");
 
-  const [hight, setHight] = useState<number>(0);
-  const [weight, setWeight] = useState<number>(0);
-  const [hip, setHip] = useState<number>(0);
-  const [arm, setArm] = useState<number>(0);
-  const [Thigh, setThigh] = useState<number>(0);
-  const [narrowWaist, setnarrow] = useState<number>(0);
-  const [navelWaist, setnavel] = useState<number>(0);
-  const [note, setnote] = useState<string>("");
 
 
   const [success, setSuccess] = useState(false);
@@ -79,13 +73,15 @@ function BodyRecord() {
 
   const handleChange = (event: SelectChangeEvent) => {
     const name = event.target.name as keyof typeof body;  //เรารู้ type แล้วแต่เราต้องการใช้ keyของ trainer
-    // console.log(event.target.name);
-    // console.log(event.target.value);
     setBody({
-      ...body,                                             //เอาที่มีอยู่เดิมแล้วมาด้วย Spread Operator
-      [name]: event.target.value,
-    });
+      ...body,[name]: event.target.value });                             //เอาที่มีอยู่เดิมแล้วมาด้วย Spread Operator
   };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const name = e.target.name;
+    console.log(name);
+    setBody({ ...body, [name]: e.target.value });
+};
 
   // =========================(Fetch API)====================================================
 
@@ -128,15 +124,15 @@ const fetchMemberByID = async () => {
 
   const submit = async () => {
     let data = {
-        Height:       hight,
-        Weight:        weight,
-        Hip:           hip,
-        UpperArm:      arm,
-        Thigh :        Thigh,
-        NarrowWaist:  narrowWaist,
-        NavelWaist:   navelWaist,
-        Bmi:          ((hight/100)**2)/weight,
-        Note :         note,
+        Height:      convertType(body.Height),
+        Weight:        convertType(body.Weight),
+        Hip:           convertType(body.Hip),
+        UpperArm:      convertType(body.UpperArm),
+        Thigh :        convertType(body.Thigh),
+        NarrowWaist:  convertType(body.NarrowWaist),
+        NavelWaist:   convertType(body.NavelWaist),
+        Bmi:         ((Number(body.Height)/100)**2/(Number(body.Weight))),
+        Note :        body.Note,
       
         TrainerID: convertType(body.TrainerID),
         MemberID: convertType(body.MemberID),
@@ -146,15 +142,20 @@ const fetchMemberByID = async () => {
     console.log(JSON.stringify(data));
     
     let res = await CreateBody(data);
-    if (res) {
+    let msError:string[] =[]; 
+    if (res.status) {
       setTimeout(() => {
         // window.location.reload();
       }, 1000);
       setSuccess(true);
     } else {
       setError(true);
+      msError=((res.message).split(";"));
+      setAlertMessage(msError[0]);
     }
-    console.log(JSON.stringify(data))
+    console.log((msError))
+    // console.log((msError[0]))
+    // console.log(JSON.stringify(res.message))
 
   };
 
@@ -230,16 +231,10 @@ return (
               <TextField
                 id="outlined-number"
                 type="number"
+                name="Height"
                 fullWidth
                 required
-                onChange={(event) => {
-                  if (Number(event.target.value) < 0) {
-                    return (event.target.value = "0");
-                  } else {
-                    setHight(Number(event.target.value));
-                    return event.target.value;
-                  }
-                }}
+                onChange={handleInputChange}
               />
             </Grid>
             {/*===============================================(Weight)===================================================*/}
@@ -260,14 +255,16 @@ return (
                 type="number"
                 fullWidth
                 required
-                onChange={(event) => {
-                  if (Number(event.target.value) < 0) {
-                    return (event.target.value = "0");
-                  } else {
-                    setWeight(Number(event.target.value));
-                    return event.target.value;
-                  }
-                }}
+                name="Weight"
+                // onChange={(event) => {
+                //   if (Number(event.target.value) < 0) {
+                //     return (event.target.value = "0");
+                //   } else {
+                //     setWeight(Number(event.target.value));
+                //     return event.target.value;
+                //   }
+                // }}
+                onChange={handleInputChange}
               />
             </Grid>
             {/*===============================================(HIP)===================================================*/}
@@ -286,20 +283,14 @@ return (
               <TextField
                 id="outlined-number"
                 type="number"
+                name="Hip"
                 fullWidth
                 required
                 sx ={{padding:2}}
-                onChange={(event) => {
-                  if (Number(event.target.value) < 0) {
-                    return (event.target.value = "0");
-                  } else {
-                    setHip(Number(event.target.value));
-                    return event.target.value;
-                  }
-                }}
+                onChange={handleInputChange}
               />
             </Grid>
-            {/*===============================================(Uper Arm)===================================================*/}
+            {/*===============================================(Upper Arm)===================================================*/}
             <Grid
               xs={2}
               md={3}
@@ -318,17 +309,11 @@ return (
                 type="number"
                 fullWidth
                 required
-                onChange={(event) => {
-                  if (Number(event.target.value) < 0) {
-                    return (event.target.value = "0");
-                  } else {
-                    setArm(Number(event.target.value));
-                    return event.target.value;
-                  }
-                }}
+                name="UpperArm"
+                onChange={handleInputChange}
               />
             </Grid>
-            {/*===============================================(thigh)===================================================*/}
+            {/*===============================================(Thigh)===================================================*/}
             <Grid
               xs={2}
               md={2}
@@ -345,19 +330,13 @@ return (
               <TextField
                 id="outlined-number"
                 type="number"
+                name="Thigh"
                 fullWidth
                 required
-                onChange={(event) => {
-                  if (Number(event.target.value) < 0) {
-                    return (event.target.value = "0");
-                  } else {
-                    setThigh(Number(event.target.value));
-                    return event.target.value;
-                  }
-                }}
+                onChange={handleInputChange}
               />
             </Grid>
-            {/*===============================================(Narrow waist)===================================================*/}
+            {/*===============================================(NarrowWaist)===================================================*/}
             <Grid
               xs={2}
               md={3}
@@ -375,18 +354,12 @@ return (
                 id="outlined-number"
                 type="number"
                 fullWidth
+                name="NarrowWaist"
                 required
-                onChange={(event) => {
-                  if (Number(event.target.value) < 0) {
-                    return (event.target.value = "0");
-                  } else {
-                    setnarrow(Number(event.target.value));
-                    return event.target.value;
-                  }
-                }}
+                onChange={handleInputChange}
               />
             </Grid>
-            {/*===============================================(Navel waist)===================================================*/}
+            {/*===============================================(NavelWaist)===================================================*/}
             <Grid
               xs={2}
               md={3}
@@ -402,16 +375,10 @@ return (
               <TextField
                 id="outlined-number"
                 type="number"
+                name="NavelWaist"
                 fullWidth
                 required
-                onChange={(event) => {
-                  if (Number(event.target.value) < 0) {
-                    return (event.target.value = "0");
-                  } else {
-                    setnavel(Number(event.target.value));
-                    return event.target.value;
-                  }
-                }}
+                onChange={handleInputChange}
               />
             </Grid>
 
@@ -427,12 +394,11 @@ return (
                 id="Name"
                 type="string"
                 variant="outlined"
+                name="Note"
                 fullWidth
                 sx={{ marginTop: 2 }}
                 required
-                onChange={(event) => {
-                  setnote(event.target.value);
-                }}
+                onChange={handleInputChange}
               />
             </Grid>
 
@@ -549,7 +515,7 @@ return (
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
     >
       <Alert onClose={handleClose} severity="error">
-        บันทึกข้อมูลไม่สำเร็จ
+        {message}
       </Alert>
     </Snackbar>
   </Box>

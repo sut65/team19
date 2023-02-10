@@ -68,6 +68,8 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 // ===========================================================
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
+  const [message, setAlertMessage] = React.useState("");
+
   // =========================(handleClose)====================================================
 
   const handleClose = (
@@ -158,11 +160,12 @@ const fetchMemberByID = async () => {
         MemberID: convertType(body.MemberID),
         CourseDetailID: convertType(body.CourseDetailID),
     };
-    console.log(data);
+    // console.log(data);
     console.log(JSON.stringify(data));
     
+    let msError:string[] =[]; 
     let res = await UpdateBody(data);
-    if (res) {
+    if (res.status) {
       setTimeout(() => {
         window.location.href = "/user/body-display";
       }, 2500);
@@ -170,8 +173,11 @@ const fetchMemberByID = async () => {
       
     } else {
       setError(true);
+      msError=((res.message).split(";"));
+      setAlertMessage(msError[0]);
     }
-    console.log(JSON.stringify(data))
+     // console.log((msError[0]))
+    // console.log(JSON.stringify(res.message))
 
   };
 
@@ -203,9 +209,7 @@ return (
           borderRadius: "40px",
         }}
       >
-        <h2 style={{ color: "#6b7176" }}>
-          บันทึกการเปลี่ยนแปลงร่างกาย
-        </h2>
+        <h2 style={{ color: "#6b7176" }}>บันทึกการเปลี่ยนแปลงร่างกาย</h2>
         <Avatar src={EnvironmentIcon} sx={{ marginTop: 1, marginLeft: 1 }} />
       </Paper>
       <form>
@@ -220,7 +224,7 @@ return (
             borderRadius: "50px",
           }}
         >
-          <FormLabel sx={{ marginY:2, fontSize: 17 }}>
+          <FormLabel sx={{ marginY: 2, fontSize: 17 }}>
             <h3>บันทึกการเปลี่ยนแปลงร่างกาย หน่วยเป็น cm</h3>
           </FormLabel>
           <Grid
@@ -288,7 +292,7 @@ return (
                 marginTop: 2,
               }}
             >
-              <FormLabel sx={{ marginRight:5, fontSize: 18 }}>
+              <FormLabel sx={{ marginRight: 5, fontSize: 18 }}>
                 <b>HIP:</b>
               </FormLabel>
               <TextField
@@ -313,7 +317,9 @@ return (
               }}
             >
               <FormLabel sx={{ marginRight: 3, fontSize: 18 }}>
-                <pre><b>Upper Arm:</b></pre>
+                <pre>
+                  <b>Upper Arm:</b>
+                </pre>
               </FormLabel>
               <TextField
                 id="outlined-number"
@@ -361,7 +367,9 @@ return (
               }}
             >
               <FormLabel sx={{ marginRight: 1, fontSize: 18 }}>
-                <pre><b>Narrow waist:</b></pre>
+                <pre>
+                  <b>Narrow waist:</b>
+                </pre>
               </FormLabel>
               <TextField
                 id="outlined-number"
@@ -386,7 +394,9 @@ return (
               }}
             >
               <FormLabel sx={{ marginRight: 1, fontSize: 18 }}>
-                <pre><b>Navel waist:</b></pre>
+                <pre>
+                  <b>Navel waist:</b>
+                </pre>
               </FormLabel>
               <TextField
                 id="outlined-number"
@@ -400,7 +410,16 @@ return (
             </Grid>
 
             {/*============================================( Note )======================================================*/}
-            <Grid xs={6} md={6} sx={{ display: "flex", alignItems: "center" ,paddingRight:20,paddingLeft:14}}>
+            <Grid
+              xs={6}
+              md={6}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                paddingRight: 20,
+                paddingLeft: 14,
+              }}
+            >
               <FormLabel
                 sx={{ textAlign: "center", marginRight: 4, fontSize: 18 }}
               >
@@ -522,7 +541,7 @@ return (
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
     >
       <Alert onClose={handleClose} severity="success">
-        บันทึกข้อมูลสำเร็จ
+        บันทึกข้อมูล
       </Alert>
     </Snackbar>
 
@@ -533,7 +552,7 @@ return (
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
     >
       <Alert onClose={handleClose} severity="error">
-        บันทึกข้อมูลไม่สำเร็จ
+        {message}
       </Alert>
     </Snackbar>
   </Box>

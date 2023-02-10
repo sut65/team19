@@ -434,8 +434,8 @@ type Body struct {
 	Thigh       float32  `valid:"matches(^(?:[1-9]\\d*|0)?(?:\\.\\d+)?$)~input must be greater than 0,required~Thigh cannot be blank"`
 	NarrowWaist float32  `valid:"matches(^(?:[1-9]\\d*|0)?(?:\\.\\d+)?$)~input must be greater than 0,required~Narrow Waist cannot be blank"`
 	NavelWaist  float32  `valid:"matches(^(?:[1-9]\\d*|0)?(?:\\.\\d+)?$)~input must be greater than 0,required~Navel Waist cannot be blank"`
-	Bmi         float32  `valid:"matches(^(?:[1-9]\\d*|0)?(?:\\.\\d+)?$)~input must be greater than 0,required~Bmi cannot be blank"`
-	Note        string   `valid:"maxstringlength(20)~Note must be no more than 20 characters long,required~Note cannot be blank"`
+	Bmi         float32  `valid:"matches(^(?:[1-9]\\d*|0)?(?:\\.\\d+)?$)~input must be greater than 0"`
+	Note        string   `valid:"maxstringlength(30)~Note must be no more than 30 characters long,required~Note cannot be blank"`
 	Advice      []Advice `gorm:"foreignKey:BodyID"`
 
 	TrainerID *uint
