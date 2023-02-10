@@ -30,6 +30,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Link } from "react-router-dom";
 import { dark } from "@mui/material/styles/createPalette";
+import { Password } from "@mui/icons-material";
 
 
 const ImgBox = styled(Box)({
@@ -186,12 +187,12 @@ function UpdateMember() {
         ID: convertType(id),
     Firstname: rg.Firstname,
     Lastname: rg.Lastname,
-    Password: rg.Password,
+    Password: pass.password,
     Email: rg.Email,
     GenderID: convertType(rg.GenderID),
     StatusID: convertType(rg.StatusID),
     ReligionID: convertType(rg.ReligionID),
-    Profileuser: rg.Profileuser,
+    ProfileUser: rg.ProfileUser,
     };
     // window.location.href = "/members"
     
@@ -199,11 +200,13 @@ function UpdateMember() {
      console.log(JSON.stringify(newdata));
      
      let res = await UpdateMem(newdata);
-     if (res) {
+     if (res.status) {
        setSuccess(true);
+       setAlertMessage("บันทึกข้อมูลสำเร็จ");
        window.location.href = "/user/profile-member";
      } else {
        setError(true);
+       setAlertMessage(res.message);
      }
      console.log(JSON.stringify(newdata))
   };

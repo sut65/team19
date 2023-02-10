@@ -28,8 +28,10 @@ import { MemberInterface } from "../../interfaces/IMember";
 // import { GetAdminByID } from "../services/HttpClientService";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-import { Grain, WidthFull } from "@mui/icons-material";
+import { Grain, Height, WidthFull } from "@mui/icons-material";
 import { width } from "@mui/system";
+import bodyBG2 from "../../images/bodyBG2.jpg"
+import { length } from "localforage";
 
 
 
@@ -47,15 +49,8 @@ function BodyRecord() {
   const [body, setBody] = useState<BodyInterface>({}); 
   const [trainer, setTrainer] = useState<TrainerInterface[]>([]); 
   const [courseD, setCourseDetail] = useState<CourseDetailInterface[]>([]); 
+  const [message, setAlertMessage] = React.useState("");
 
-  const [hight, setHight] = useState<number>(0);
-  const [weight, setWeight] = useState<number>(0);
-  const [hip, setHip] = useState<number>(0);
-  const [arm, setArm] = useState<number>(0);
-  const [Thigh, setThigh] = useState<number>(0);
-  const [narrowWaist, setnarrow] = useState<number>(0);
-  const [navelWaist, setnavel] = useState<number>(0);
-  const [note, setnote] = useState<string>("");
 
 
   const [success, setSuccess] = useState(false);
@@ -69,7 +64,7 @@ function BodyRecord() {
     if (reason === "clickaway") {
       return;
     }
-
+    success &&( window.location.href = "/user/body-display");
     setSuccess(false);
     setError(false);
   };
@@ -78,13 +73,15 @@ function BodyRecord() {
 
   const handleChange = (event: SelectChangeEvent) => {
     const name = event.target.name as keyof typeof body;  //เรารู้ type แล้วแต่เราต้องการใช้ keyของ trainer
-    // console.log(event.target.name);
-    // console.log(event.target.value);
     setBody({
-      ...body,                                             //เอาที่มีอยู่เดิมแล้วมาด้วย Spread Operator
-      [name]: event.target.value,
-    });
+      ...body,[name]: event.target.value });                             //เอาที่มีอยู่เดิมแล้วมาด้วย Spread Operator
   };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const name = e.target.name;
+    console.log(name);
+    setBody({ ...body, [name]: e.target.value });
+};
 
   // =========================(Fetch API)====================================================
 
@@ -127,15 +124,15 @@ const fetchMemberByID = async () => {
 
   const submit = async () => {
     let data = {
-        Height:       hight,
-        Weight:        weight,
-        Hip:           hip,
-        UpperArm:      arm,
-        Thigh :        Thigh,
-        NarrowWaist:  narrowWaist,
-        NavelWaist:   navelWaist,
-        Bmi:          ((hight/100)**2)/weight,
-        Note :         note,
+        Height:      convertType(body.Height),
+        Weight:        convertType(body.Weight),
+        Hip:           convertType(body.Hip),
+        UpperArm:      convertType(body.UpperArm),
+        Thigh :        convertType(body.Thigh),
+        NarrowWaist:  convertType(body.NarrowWaist),
+        NavelWaist:   convertType(body.NavelWaist),
+        Bmi:         ((Number(body.Height)/100)**2/(Number(body.Weight))),
+        Note :        body.Note,
       
         TrainerID: convertType(body.TrainerID),
         MemberID: convertType(body.MemberID),
@@ -145,37 +142,41 @@ const fetchMemberByID = async () => {
     console.log(JSON.stringify(data));
     
     let res = await CreateBody(data);
-    if (res) {
+    let msError:string[] =[]; 
+    if (res.status) {
       setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+        // window.location.reload();
+      }, 1000);
       setSuccess(true);
-      window.location.href = "/user/body-display";
     } else {
       setError(true);
+      msError=((res.message).split(";"));
+      setAlertMessage(msError[0]);
     }
-    console.log(JSON.stringify(data))
+    console.log((msError))
+    // console.log((msError[0]))
+    // console.log(JSON.stringify(res.message))
 
   };
 
 return (
-    <Box
+  <Box
     sx={{
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      overflow :"auto",
+      overflow: "auto",
       gap: 6,
       height: "100vh",
       width: "100vw",
       backgroundSize: "cover",
       color: "#f5f5f5",
-      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url(${ toneLight })`,
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.0)), url(${bodyBG2})`,
     }}
   >
-    <Container maxWidth="md" sx={{ marginTop: 6 }}>
+    <Container maxWidth="xl" sx={{ marginTop: 6 }}>
       <Paper
-        elevation={4}
+        elevation={8}
         sx={{
           marginBottom: 2,
           marginTop: 2,
@@ -183,64 +184,70 @@ return (
           paddingX: 4,
           display: "flex",
           justifyContent: "flex-start",
+          borderRadius: "40px",
+          bgcolor: "#fefffe",
         }}
       >
-        <h3 style={{ color: "#6b7176", fontSize: 20 }}>
-          บันทึกการเปลี่ยนแปลงร่างกาย
-        </h3>
+        <h2 style={{ color: "#3f6656" }}>บันทึกการเปลี่ยนแปลงร่างกาย</h2>
         <Avatar src={EnvironmentIcon} sx={{ marginTop: 1, marginLeft: 1 }} />
       </Paper>
       <form>
         <Paper
-          variant="outlined"
-          sx={{display: "flex",justifyContent: "center",flexDirection: "column",alignItems: "center", borderRadius: "25px",}}
+          elevation={8}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            justifyItems: "stretch",
+            flexDirection: "column",
+            alignItems: "satrt",
+            borderRadius: "40px",
+            bgcolor: "#fefffe",
+            paddingLeft:10,
+          }}
         >
-          <FormLabel sx={{ marginRight: 0, fontSize: 17 }}>
-            <b>บันทึกการเปลี่ยนแปลงร่างกาย หน่วยเป็น cm</b>
+          <FormLabel sx={{ marginY: 2, fontSize: 17, color: "#3f6656" }}>
+            <h4>บันทึกการเปลี่ยนแปลงร่างกาย หน่วยเป็น (cm)</h4>
           </FormLabel>
-          <Grid container spacing={2} sx={{ display:"flex",justifyContent:"center" }}>
+          <Grid
+            container
+            spacing={1}
+            sx={{ display: "flex",justifyItems:"stretch" }}
+          >
             {/*===============================================(Height)===================================================*/}
             <Grid
-              xs={5}
-              md={5}
+              xs={2}
+              md={2}
               sx={{
                 display: "flex",
                 alignItems: "center",
-                paddingRight: 18,
-                marginTop: 2,
-                justifyContent: "center"
+                paddingRight: 0,
+                marginRight:3,
+                justifyContent: "center",
               }}
             >
-              <FormLabel sx={{ marginRight: 2, fontSize: 15 }}>
-                <b>Height</b>
+              <FormLabel sx={{ marginRight: 2, fontSize: 18 }}>
+                <b>Height:</b>
               </FormLabel>
               <TextField
                 id="outlined-number"
                 type="number"
+                name="Height"
                 fullWidth
                 required
-                onChange={(event) => {
-                  if (Number(event.target.value) < 0) {
-                    return (event.target.value = "0");
-                  } else {
-                    setHight(Number(event.target.value));
-                    return event.target.value;
-                  }
-                }}
+                onChange={handleInputChange}
               />
             </Grid>
             {/*===============================================(Weight)===================================================*/}
             <Grid
-              xs={5}
-              md={5}
+              xs={2}
+              md={2}
               sx={{
                 display: "flex",
                 alignItems: "center",
-                paddingRight: 18,
-                marginTop: 2,
+                marginRight:3,
               }}
             >
-              <FormLabel sx={{ marginRight: 2, fontSize: 15 }}>
+              <FormLabel sx={{ marginRight: 2, fontSize: 18 }}>
                 <b>Weight:</b>
               </FormLabel>
               <TextField
@@ -248,167 +255,137 @@ return (
                 type="number"
                 fullWidth
                 required
-                onChange={(event) => {
-                  if (Number(event.target.value) < 0) {
-                    return (event.target.value = "0");
-                  } else {
-                    setWeight(Number(event.target.value));
-                    return event.target.value;
-                  }
-                }}
+                name="Weight"
+                // onChange={(event) => {
+                //   if (Number(event.target.value) < 0) {
+                //     return (event.target.value = "0");
+                //   } else {
+                //     setWeight(Number(event.target.value));
+                //     return event.target.value;
+                //   }
+                // }}
+                onChange={handleInputChange}
               />
             </Grid>
             {/*===============================================(HIP)===================================================*/}
             <Grid
-              xs={5}
-              md={5}
+              xs={2}
+              md={2}
               sx={{
                 display: "flex",
                 alignItems: "center",
-                paddingRight: 18,
-                marginTop: 2,
+                marginRight: 2,
               }}
             >
-              <FormLabel sx={{ marginRight: 2, fontSize: 15 }}>
+              <FormLabel sx={{ fontSize: 18 }}>
                 <b>HIP:</b>
               </FormLabel>
               <TextField
                 id="outlined-number"
                 type="number"
+                name="Hip"
                 fullWidth
                 required
-                onChange={(event) => {
-                  if (Number(event.target.value) < 0) {
-                    return (event.target.value = "0");
-                  } else {
-                    setHip(Number(event.target.value));
-                    return event.target.value;
-                  }
-                }}
+                sx ={{padding:2}}
+                onChange={handleInputChange}
               />
             </Grid>
-            {/*===============================================(Uper arm)===================================================*/}
+            {/*===============================================(Upper Arm)===================================================*/}
             <Grid
-              xs={5}
-              md={5}
+              xs={2}
+              md={3}
               sx={{
                 display: "flex",
                 alignItems: "center",
-                paddingRight: 18,
-                marginTop: 2,
+                marginRight:4,
+                paddingRight:5 ,
               }}
             >
-              <FormLabel sx={{ marginRight: 2, fontSize: 15 }}>
-                <b>Upper arm :</b>
+              <FormLabel sx={{ marginRight: 3, fontSize: 18 }}>
+                <pre><b>Upper Arm :</b></pre>
               </FormLabel>
               <TextField
                 id="outlined-number"
                 type="number"
                 fullWidth
                 required
-                onChange={(event) => {
-                  if (Number(event.target.value) < 0) {
-                    return (event.target.value = "0");
-                  } else {
-                    setArm(Number(event.target.value));
-                    return event.target.value;
-                  }
-                }}
+                name="UpperArm"
+                onChange={handleInputChange}
               />
             </Grid>
-            {/*===============================================(thigh)===================================================*/}
+            {/*===============================================(Thigh)===================================================*/}
             <Grid
-              xs={6}
-              md={5}
+              xs={2}
+              md={2}
               sx={{
                 display: "flex",
                 alignItems: "center",
-                paddingRight: 18,
                 marginTop: 2,
+                marginRight: 3,
               }}
             >
-              <FormLabel sx={{ marginRight: 2, fontSize: 15 }}>
+              <FormLabel sx={{ marginRight: 3, fontSize: 18 }}>
                 <b>Thigh:</b>
               </FormLabel>
               <TextField
                 id="outlined-number"
                 type="number"
+                name="Thigh"
                 fullWidth
                 required
-                onChange={(event) => {
-                  if (Number(event.target.value) < 0) {
-                    return (event.target.value = "0");
-                  } else {
-                    setThigh(Number(event.target.value));
-                    return event.target.value;
-                  }
-                }}
+                onChange={handleInputChange}
               />
             </Grid>
-            {/*===============================================(Narrow waist)===================================================*/}
+            {/*===============================================(NarrowWaist)===================================================*/}
             <Grid
-              xs={6}
-              md={5}
+              xs={2}
+              md={3}
               sx={{
                 display: "flex",
                 alignItems: "center",
-                paddingRight: 18,
                 marginTop: 2,
+                marginRight: 5,
               }}
             >
-              <FormLabel sx={{ marginRight: 2, fontSize: 15 }}>
-                <b>Narrow waist:</b>
+              <FormLabel sx={{ marginRight: 2, fontSize: 18 }}>
+                <pre><b>Narrow waist:</b></pre>
               </FormLabel>
               <TextField
                 id="outlined-number"
                 type="number"
                 fullWidth
+                name="NarrowWaist"
                 required
-                onChange={(event) => {
-                  if (Number(event.target.value) < 0) {
-                    return (event.target.value = "0");
-                  } else {
-                    setnarrow(Number(event.target.value));
-                    return event.target.value;
-                  }
-                }}
+                onChange={handleInputChange}
               />
             </Grid>
-            {/*===============================================(Navel waist)===================================================*/}
+            {/*===============================================(NavelWaist)===================================================*/}
             <Grid
-              xs={6}
-              md={5}
+              xs={2}
+              md={3}
               sx={{
                 display: "flex",
                 alignItems: "center",
-                paddingRight: 13,
-                paddingLeft: 6,
                 marginTop: 2,
               }}
             >
-              <FormLabel sx={{ marginRight: 2, fontSize: 15 }}>
-                <b>Navel waist:</b>
+              <FormLabel sx={{ marginRight: 2, fontSize: 18 }}>
+                <pre><b>Navel waist:</b></pre>
               </FormLabel>
               <TextField
                 id="outlined-number"
                 type="number"
+                name="NavelWaist"
                 fullWidth
                 required
-                onChange={(event) => {
-                  if (Number(event.target.value) < 0) {
-                    return (event.target.value = "0");
-                  } else {
-                    setnavel(Number(event.target.value));
-                    return event.target.value;
-                  }
-                }}
+                onChange={handleInputChange}
               />
             </Grid>
 
             {/*============================================( Note )======================================================*/}
             <Grid xs={6} md={6} sx={{ display: "flex", alignItems: "center" }}>
               <FormLabel
-                sx={{ textAlign: "center", marginRight: 2, fontSize: 15 }}
+                sx={{ textAlign: "center", marginRight: 2, fontSize: 18 }}
               >
                 <b>Note:</b>
               </FormLabel>
@@ -417,12 +394,11 @@ return (
                 id="Name"
                 type="string"
                 variant="outlined"
+                name="Note"
                 fullWidth
                 sx={{ marginTop: 2 }}
                 required
-                onChange={(event) => {
-                  setnote(event.target.value);
-                }}
+                onChange={handleInputChange}
               />
             </Grid>
 
@@ -431,11 +407,11 @@ return (
               xs={12}
               md={12}
               spacing={0}
-              sx={{ display: "flex",justifyContent: "center"  }}
+              sx={{ display: "flex", justifyContent: "stretch" }}
             >
               {/*=======================================(select Course)===========================================================*/}
               <Grid xs={6} md={4} sx={{ margin: 3 }}>
-                <FormLabel sx={{ marginRight: 2, fontSize: 15 }}>
+                <FormLabel sx={{ marginRight: 2, fontSize: 18 }}>
                   <b>Course Details:</b>
                 </FormLabel>
                 <Select
@@ -460,7 +436,7 @@ return (
               </Grid>
               {/*=======================================(Select Trainer)===========================================================*/}
               <Grid xs={6} md={4} sx={{ margin: 3 }}>
-                <FormLabel sx={{ marginRight: 2, fontSize: 15 }}>
+                <FormLabel sx={{ marginRight: 2, fontSize: 18 }}>
                   <b>Trainer:</b>
                 </FormLabel>
                 <Select
@@ -500,11 +476,20 @@ return (
                   justifyContent: "center",
                 }}
               >
-                <Button variant="text" size="large" sx={{ marginRight: 5 ,marginBottom:2 }}>
+                <Button
+                  variant="text"
+                  size="large"
+                  sx={{ marginRight: 5, marginBottom: 2 }}
+                >
                   back
                 </Button>
               </Link>
-              <Button variant="contained" size="large" onClick={submit} sx= {{marginBottom:2}}>
+              <Button
+                variant="contained"
+                size="large"
+                onClick={submit}
+                sx={{ marginBottom: 2, marginRight: 5 }}
+              >
                 บันทึกข้อมูลร่างกาย
               </Button>
             </Grid>
@@ -530,7 +515,7 @@ return (
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
     >
       <Alert onClose={handleClose} severity="error">
-        บันทึกข้อมูลไม่สำเร็จ
+        {message}
       </Alert>
     </Snackbar>
   </Box>

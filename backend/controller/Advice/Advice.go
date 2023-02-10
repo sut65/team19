@@ -5,13 +5,13 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team19/entity"
+	"gorm.io/gorm/clause"
 )
 
 // POSH /Advice
 func CreateAdvice(c *gin.Context) {
 	var advice entity.Advice
-	var trainer entity.Trainer
-	var member entity.Member
+	var courseService entity.CourseService
 	var body entity.Body
 	var dailyActivities entity.DailyActivities
 
@@ -20,15 +20,9 @@ func CreateAdvice(c *gin.Context) {
 		return
 	}
 
-	// ค้นหา trainer ด้วย id
-	if tx := entity.DB().Where("id = ?", advice.TrainerID).First(&trainer); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "trainer not found"})
-		return
-	}
-
-	// ค้นหา member ด้วย id
-	if tx := entity.DB().Where("id = ?", advice.MemberID).First(&member); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "member not found"})
+	// ค้นหา courseService ด้วย id
+	if tx := entity.DB().Where("id = ?", advice.CourseServiceID).First(&courseService); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "courseService not found"})
 		return
 	}
 
@@ -48,8 +42,7 @@ func CreateAdvice(c *gin.Context) {
 	adv := entity.Advice{
 		Advice:         advice.Advice,
 		RecordingDate:  advice.RecordingDate,
-		Trainer:        trainer,
-		Member:         member,
+		CourseService: courseService,
 		Body:           body,
 		DailyActivities: dailyActivities,
 	}
@@ -66,7 +59,7 @@ func CreateAdvice(c *gin.Context) {
 func GetAdvice(c *gin.Context) {
 	var advice entity.Advice
 	id := c.Param("id")
-	if tx := entity.DB().Preload("Trainer").Preload("Member").Preload("Body").Preload("DailyActivities").Where("id = ?", id).First(&advice); tx.RowsAffected == 0 {
+	if tx := entity.DB().Preload(clause.Associations).Preload("Member."+clause.Associations).Where("id = ?", id).First(&advice); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "advice not found"})
 		return
 	}
@@ -77,7 +70,7 @@ func GetAdvice(c *gin.Context) {
 // GET /Advices
 func ListAdvice(c *gin.Context) {
 	var advices []entity.Advice
-	if err := entity.DB().Preload("Trainer").Preload("Member").Preload("Body").Preload("DailyActivities").Raw("SELECT * FROM advices").Find(&advices).Error; err != nil {
+	if err := entity.DB().Preload(clause.Associations).Preload("CourseService." + clause.Associations).Raw("SELECT * FROM advices").Find(&advices).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -100,8 +93,7 @@ func DeleteAdvice(c *gin.Context) {
 // PATCH /Advice
 func UpdateAdvice(c *gin.Context) {
 	var advice entity.Advice
-	var trainer entity.Trainer
-	var member entity.Member
+	var courseService entity.CourseService
 	var body entity.Body
 	var dailyActivities entity.DailyActivities
 
@@ -110,15 +102,9 @@ func UpdateAdvice(c *gin.Context) {
 		return
 	}
 
-	// ค้นหา trainer ด้วย id
-	if tx := entity.DB().Where("id = ?", advice.TrainerID).First(&trainer); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "trainer not found"})
-		return
-	}
-
-	// ค้นหา member ด้วย id
-	if tx := entity.DB().Where("id = ?", advice.MemberID).First(&member); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "member not found"})
+	// ค้นหา courseService ด้วย id
+	if tx := entity.DB().Where("id = ?", advice.CourseServiceID).First(&courseService); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "courseService not found"})
 		return
 	}
 
@@ -137,8 +123,7 @@ func UpdateAdvice(c *gin.Context) {
 	update := entity.Advice{
 		Advice:         advice.Advice,
 		RecordingDate:  advice.RecordingDate,
-		Trainer:        trainer,
-		Member:         member,
+		CourseService: courseService,
 		Body:           body,
 		DailyActivities: dailyActivities,
 	}

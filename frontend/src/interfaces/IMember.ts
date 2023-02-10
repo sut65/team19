@@ -7,7 +7,7 @@ export interface MemberInterface {
     Firstname?:             string;
     Lastname?:              string;
     Email?:                 string;
-    Profileuser?:           string;
+    ProfileUser?:           string;
     Password?:              string;
     Gender?: GenderInterface;
     GenderID?: number;

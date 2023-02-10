@@ -64,7 +64,6 @@ type Member struct {
 	Body           []Body            `gorm:"foreignKey:MemberID"`
 	Advice         []Advice          `gorm:"foreignKey:MemberID"`
 	Reviews        []Review          `gorm:"foreignKey:MemberID"`
-	Behavior       []Behavior        `gorm:"foreignKey:MemberID"`
 }
 
 // -------------------------------------------<< Admin >>------------------------------------
@@ -84,7 +83,7 @@ type Admin struct {
 
 type CourseType struct {
 	gorm.Model
-	TypeName   string
+	TypeName     string
 	CourseDetail []CourseDetail `gorm:"foreignKey:CourseTypeID"`
 }
 
@@ -97,8 +96,8 @@ type Price struct {
 
 type CourseDetail struct {
 	gorm.Model
-	CourseName  string 
-	CoverPage   string 
+	CourseName  string
+	CoverPage   string
 	Description string
 	Goal        string
 
@@ -106,7 +105,7 @@ type CourseDetail struct {
 	Admin   Admin
 
 	CourseTypeID *uint
-	CourseType CourseType
+	CourseType   CourseType
 
 	PriceID *uint
 	Price   Price
@@ -231,6 +230,7 @@ type CourseService struct {
 	Trainer   Trainer `valid:"-"`
 
 	Payment []Payment `gorm:"foreignKey:CourseServiceID"`
+	Advice []Advice `gorm:"foreignKey:CourseServiceID"`
 }
 
 // ================== ระบบจัดการข้อมูลอาหาร ==================
@@ -411,11 +411,8 @@ type Advice struct {
 	Advice        string
 	RecordingDate time.Time `valid:"past"`
 
-	MemberID *uint
-	Member   Member
-
-	TrainerID *uint
-	Trainer   Trainer
+	CourseServiceID *uint
+	CourseService CourseService
 
 	BodyID *uint
 	Body   Body
@@ -427,25 +424,25 @@ type Advice struct {
 // -----------------------------<Bodyschema>--------------<< ระบบบันทึกการเปลี่ยนแปลงร่างกาย >>------------------------------------
 type Body struct {
 	gorm.Model
-	Height      float32
-	Weight      float32
-	Hip         float32
-	UpperArm    float32
-	Thigh       float32
-	NarrowWaist float32
-	NavelWaist  float32
-	Bmi         float32
-	Note        string
+	Height      float32  `valid:"matches(^(?:[1-9]\\d*|0)?(?:\\.\\d+)?$)~input must be greater than 0,required~Height cannot be blank"`
+	Weight      float32  `valid:"matches(^(?:[1-9]\\d*|0)?(?:\\.\\d+)?$)~input must be greater than 0,required~Weight cannot be blank"`
+	Hip         float32  `valid:"matches(^(?:[1-9]\\d*|0)?(?:\\.\\d+)?$)~input must be greater than 0,required~Hip cannot be blank"`
+	UpperArm    float32  `valid:"matches(^(?:[1-9]\\d*|0)?(?:\\.\\d+)?$)~input must be greater than 0,required~Upper Arm cannot be blank"`
+	Thigh       float32  `valid:"matches(^(?:[1-9]\\d*|0)?(?:\\.\\d+)?$)~input must be greater than 0,required~Thigh cannot be blank"`
+	NarrowWaist float32  `valid:"matches(^(?:[1-9]\\d*|0)?(?:\\.\\d+)?$)~input must be greater than 0,required~Narrow Waist cannot be blank"`
+	NavelWaist  float32  `valid:"matches(^(?:[1-9]\\d*|0)?(?:\\.\\d+)?$)~input must be greater than 0,required~Navel Waist cannot be blank"`
+	Bmi         float32  `valid:"matches(^(?:[1-9]\\d*|0)?(?:\\.\\d+)?$)~input must be greater than 0"`
+	Note        string   `valid:"maxstringlength(30)~Note must be no more than 30 characters long,required~Note cannot be blank"`
 	Advice      []Advice `gorm:"foreignKey:BodyID"`
 
 	TrainerID *uint
-	Trainer   Trainer
+	Trainer   Trainer `valid:"-"`
 
 	MemberID *uint
-	Member   Member
+	Member   Member `valid:"-"`
 
 	CourseDetailID *uint
-	CourseDetail   CourseDetail
+	CourseDetail   CourseDetail `valid:"-"`
 }
 
 // ============================== ระบบชำระเงิน ==============================
@@ -522,11 +519,11 @@ type Taste struct {
 
 type Behavior struct {
 	gorm.Model
-	Meals string
+	Meals string `valid:"minstringlength(10)~meals not less than 10 characters,maxstringlength(30)~meals not more than 30 characters"`
 	Time  string
 
-	MemberID *uint
-	Member   Member
+	MemberID int    `gorm:"uniqueIndex"`
+	Member   Member `valid:"-"`
 
 	ExerciseID *uint
 	Exercise   Exercise

@@ -12,6 +12,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import React, { useState, useEffect } from "react";
+import { Link as RouterLink } from 'react-router-dom';
 
 import {GetTrainerByID} from "../services/HttpClientService"
 import { TrainerInterface } from "../interfaces/ITrainer";
@@ -19,7 +20,7 @@ import { TrainerInterface } from "../interfaces/ITrainer";
 import trainerBG1 from "../images/trainerBG1.png";
 import user from "../images/user.png";
 
-// const pages = ['Products', 'Pricing', 'Blog'];
+//const pages = ['Advice'];
 const settings = ['Profile', 'Logout'];
 
 function NavTrainer() {
@@ -144,15 +145,19 @@ function NavTrainer() {
             TRAINER
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {/* {pages.map((page) => (
+          
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
+                // </Box>key={page}
+                //onClick={handleCloseNavMenu}
+                component={
+                  RouterLink
+                }
+                to={"/trainer/advice-display"}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
-                {page}
+                ADVICE
               </Button>
-            ))} */}
+            
           </Box>
 
           <Box sx={{ flexGrow: 0 ,display:"flex"}}>

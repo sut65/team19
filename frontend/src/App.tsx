@@ -31,6 +31,7 @@ import Payment from "./components/payment/Payment";
 import UpdateFood from "./components/FoodInformation/UpdateFood";
 import PaymentHistory from "./components/payment/PaymentHistory";
 import CreateBehaviors from "./components/Behavior/CreateBehavior";
+import DisplayBehavior from "./components/Behavior/DisplayBehavior";
 import UpdateReview from "./components/review/UpdateReview";
 import ApplyTrainer from "./components/Trainer/ApplyTrainer";
 import ProfileTrainer from "./components/Trainer/ProfileTrainer";
@@ -44,6 +45,10 @@ import ProfileMember from "./components/Member/ProfileMember";
 import UpdateCourseServicePage from "./components/CourseService/UpdateCourseServicePage";
 import  UpdateMember from "./components/Member/UpdateMember";
 import { UpdateMem } from "./services/HttpClientService";
+import UpdateBehavior from "./components/Behavior/UpdateBehavior";
+import AdviceDisplay from "./components/Advice/AdviceDisplay";
+import CreateAdvice from "./components/Advice/CreateAdvice";
+import UpdateAdvice from "./components/Advice/UpdateAdvice";
 
 function App() {
   const [token, setToken] = useState<String>("");
@@ -105,6 +110,9 @@ function App() {
         <Route path="trainer" element={<Trainer />}></Route>
         <Route path="apply" element={<ApplyTrainer />} ></Route>
         <Route path="trainer/profile" element={<ProfileTrainer />} ></Route>
+        <Route path="update-advice/:id" element={<UpdateAdvice />} ></Route>
+        <Route path="create-advice/:id" element={<CreateAdvice />} ></Route>
+        <Route path="trainer/advice-display" element={<AdviceDisplay />} ></Route>
 
         {/* Routes User */}
         <Route path="user" element={<User />}>
@@ -132,8 +140,9 @@ function App() {
           <Route path="reviews/:id" element={<ShowReview />} />
           <Route path="reviews/:id/create" element={<CreateReview />} />
           <Route path="reviews/:slug/update-review/:id" element={<UpdateReview />} />
-          <Route path="behavior" element={<CreateBehaviors />} />
-          
+          <Route path="behavior-display" element={<DisplayBehavior />} />
+          <Route path="behavior-display/create-behavior" element={<CreateBehaviors />} />
+          <Route path="behavior-display/update-behavior/:id" element={<UpdateBehavior />} />
           <Route path="profile-member" element={<ProfileMember />}></Route>
           <Route path="profile-member/update-member/:id" element={<UpdateMember />}></Route>
         </Route>

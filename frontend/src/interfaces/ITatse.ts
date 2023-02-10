@@ -1,4 +1,4 @@
-export interface TatseInterface {
+export interface TasteInterface {
     ID?: number;
     Name?: string;
   }

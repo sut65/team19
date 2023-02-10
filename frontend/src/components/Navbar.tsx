@@ -191,17 +191,33 @@ function Navbar() {
                     transformOrigin={{ horizontal: 'right', vertical: 'top' }}
                     anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
                   >
-                    <MenuItem>
+                    <Link
+                      to={`profile-member`} // รอแก้เป็นรีวิว
+                      style={{
+                        textDecoration: "none",
+                        color: "black"
+                      }}
+                    >
+                       <MenuItem>
                       <img style={{height: 40, justifyItems: 'center', marginLeft: -10, marginRight: 6}} src={ProfileLogo} alt="logo" />
                       {UserName}
                     </MenuItem>
                     <Divider />
-                    <MenuItem>
+                    <Link
+                      to={`behavior-display`} // รอแก้เป็นรีวิว
+                      style={{
+                        textDecoration: "none",
+                        color: "black"
+                      }}
+                    >
+                      <MenuItem>
                       <ListItemIcon>
                         <FastfoodRoundedIcon fontSize="small" />
                       </ListItemIcon>
-                      Eating behavior (before training)
+                      Behavior before training
                     </MenuItem>
+                    </Link>  
+                    </Link> 
                     <Link
                       to={`payment-history`} // รอแก้เป็นรีวิว
                       style={{

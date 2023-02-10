@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Container } from "@mui/system";
 import { Avatar, Grid } from "@mui/material";
-import Typography from "@mui/material";
 import Box from '@mui/material/Box';
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import Chip from '@mui/material/Chip';
-import DeleteIcon from '@mui/icons-material/Delete';
+
 import { 
   Link,
   useNavigate,
@@ -23,6 +21,7 @@ import { DeleteMember } from "../../services/HttpClientService";
 function ProfileMember() {
 
     const [member, setMember] = useState<MemberInterface>({}); 
+   
     let navigate = useNavigate();
 
     const handleClickDelete = async (id : string) => {
@@ -34,10 +33,6 @@ function ProfileMember() {
       }
     }
 
-    const handleDelete = () => {
-      console.info('You clicked the delete icon.');
-    };
-    
     interface TabPanelProps {
       children?: React.ReactNode;
       index: number;
@@ -55,8 +50,7 @@ function ProfileMember() {
         fetchMemberID()
        
       }, [])
-
-    
+      console.log(member.ProfileUser)
     return(
         <Container maxWidth="md" sx={{ marginTop: 6 }}>
           <Paper
@@ -81,7 +75,7 @@ function ProfileMember() {
   {/*============================================(รูป)======================================================*/}
                  <Grid xs={12} xl = {12} md={12}>
                   <Box sx={{ display: "flex", justifyContent: "center" }}>
-                      <Avatar src={member.Profileuser}
+                      <Avatar src={member.ProfileUser}
                       sx={{ width: 110, height: 110 }} />
                   </Box> 
                   </Grid>
@@ -108,7 +102,7 @@ function ProfileMember() {
                   <p style={{ color: "grey", fontSize: 17 }}>Lastname</p>
                     <TextField
                       id="outlined-basic"
-                      name="Firstname"
+                      name="Lastname"
                       variant="outlined"
                       disabled
                       fullWidth
@@ -190,14 +184,10 @@ function ProfileMember() {
                           <h1> </h1>   
                           <Stack direction="row" spacing={2}>
                             {/* ปุ่มเพิ่มข้อมูล */}
- 
                               <Button variant="contained" color="info"
                               onClick={() => navigate(`update-member/${member.ID}`)}>
                                 แก้ไขข้อมูล
                               </Button>
-
-
-
                             <Link
                               to="http://localhost:3000/"
                               style={{textDecoration: "none",}}
@@ -211,10 +201,6 @@ function ProfileMember() {
 
                        <h1> </h1> 
 
-                      
-               
-              
-            
                 </Paper>
           
                 </form>
@@ -223,5 +209,4 @@ function ProfileMember() {
         
     );
 }
-
 export default ProfileMember;
