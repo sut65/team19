@@ -4,14 +4,14 @@ import {CourseDetailInterface} from "./ICourseDetail"
 
 export interface BodyInterface {
     ID?:        number,
-    Height?:        Number,
-	Weight?:        Number,
-	Hip?:           Number,
-	UpperArm?:  Number,
-	Thigh ?:    Number,
-	NarrowWaist ?:  Number,
-	NavelWaist ?:   Number,
-	Bmi ?:          Number,
+    Height?:        number,
+	Weight?:        number,
+	Hip?:           number,
+	UpperArm?:  number,
+	Thigh ?:    number,
+	NarrowWaist ?:  number,
+	NavelWaist ?:   number,
+	Bmi ?:          number,
 	Note ?:         string,
 	CreatedAt ?:	string,
 

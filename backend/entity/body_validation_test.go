@@ -198,4 +198,24 @@ func TestBodyValid(t *testing.T) {
 
 	})
 
+	t.Run("check Note must be no more than 30 characters long", func(t *testing.T) {
+		body := Body{
+			Height:      11.00,
+			Weight:      23.83,
+			Hip:         3.46,
+			UpperArm:    23.73,
+			Thigh:       23.67,
+			NarrowWaist: 23.12,
+			NavelWaist:  23.231,
+			Bmi:         23.32,
+			Note:        "12312312323123123123123123123123123123123123123123123",
+		}
+
+		ok, err := govalidator.ValidateStruct(body)
+		g.Expect(ok).ToNot(BeTrue())
+		g.Expect(err).ToNot(BeNil())
+		g.Expect(err.Error()).To(Equal("Note must be no more than 30 characters long"))
+
+	})
+
 }

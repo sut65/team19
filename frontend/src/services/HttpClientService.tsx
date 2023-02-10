@@ -822,7 +822,7 @@ const GetInfoBody = async () => {
   return res;
 };
 
-const CreateBody = async (data: BlogInterface) => {
+const CreateBody = async (data: BodyInterface) => {
   const requestOptions = {
     method: "POST",
     headers: {
@@ -834,8 +834,12 @@ const CreateBody = async (data: BlogInterface) => {
 
   let res = await fetch(`${apiUrl}/body`, requestOptions)
     .then((response) => response.json())
-    .then((result) => {
-      return result.data ? result.data : false;
+    .then((res) => {
+      if (res.data) {
+        return { status: true, message: res.data };
+      } else {
+        return { status: false, message: res.error };
+      }
     });
 
   return res;
@@ -888,8 +892,12 @@ const UpdateBody = async (data: BodyInterface) => {
 
   let res = await fetch(`${apiUrl}/body`, requestOptions)
     .then((response) => response.json())
-    .then((result) => {
-      return result.data ? result.data : false;
+    .then((res) => {
+      if (res.data) {
+        return { status: true, message: res.data };
+      } else {
+        return { status: false, message: res.error };
+      };
     });
 
   return res;
