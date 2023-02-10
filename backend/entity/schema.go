@@ -64,7 +64,6 @@ type Member struct {
 	Body           []Body            `gorm:"foreignKey:MemberID"`
 	Advice         []Advice          `gorm:"foreignKey:MemberID"`
 	Reviews        []Review          `gorm:"foreignKey:MemberID"`
-	Behavior       []Behavior        `gorm:"foreignKey:MemberID"`
 }
 
 // -------------------------------------------<< Admin >>------------------------------------
@@ -522,11 +521,11 @@ type Taste struct {
 
 type Behavior struct {
 	gorm.Model
-	Meals string
+	Meals string `valid:"minstringlength(10)~meals not less than 10 characters,maxstringlength(30)~meals not more than 30 characters"`
 	Time  string
 
-	MemberID *uint
-	Member   Member
+	MemberID int    `gorm:"uniqueIndex"`
+	Member   Member `valid:"-"`
 
 	ExerciseID *uint
 	Exercise   Exercise

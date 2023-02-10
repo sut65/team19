@@ -1008,8 +1008,13 @@ const UpdateMem = async (data: MemberInterface) => {
 
   let res = await fetch(`${apiUrl}/update-member`, requestOptions)
     .then((response) => response.json())
-    .then((result) => {
-      return result.data ? result.data : false;
+    .then((res) => {
+      console.log(res)
+      if (res.data) {
+        return { status: true, message: res.data };
+      } else {
+        return { status: false, message: res.error };
+      }
     });
 
   return res;
@@ -1064,6 +1069,30 @@ const CreateBehavior = async (data: BehaviorInterface) => {
   };
   let res = await fetch(`${apiUrl}/behavior`, requestOptions)
     .then((response) => response.json())
+    .then((res) => {
+      console.log(res)
+      if (res.data) {
+        return { status: true, message: res.data };
+      } else {
+        return { status: false, message: res.error };
+      }
+    });
+
+  return res;
+};
+
+const GetBehaviorByID = async () => {
+  const id = localStorage.getItem("uid");
+
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+  let res = await fetch(`${apiUrl}/behavior/${id}`, requestOptions)
+    .then((response) => response.json())
     .then((result) => {
       return result.data ? result.data : false;
     });
@@ -1071,7 +1100,49 @@ const CreateBehavior = async (data: BehaviorInterface) => {
   return res;
 };
 
-const GetTatse = async () => {
+const DeleteBehavior = async (id: string) => {
+  const requestOptions = {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/behavior/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const UpdateBehaviors = async (data: BehaviorInterface) => {
+  const requestOptions = {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/behaviors`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      console.log(res)
+      if (res.data) {
+        return { status: true, message: res.data };
+      } else {
+        return { status: false, message: res.error };
+      }
+    });
+
+  return res;
+};
+
+const GetTaste = async () => {
   let res = await fetch(`${apiUrl}/tastes`, requestOptionsGet)
     .then((response) => response.json())
     .then((result) => {
@@ -1542,6 +1613,10 @@ export {
   UpdateBody,
   //behavior
   GetExercise,
-  GetTatse,
+  GetTaste,
   CreateBehavior,
+  DeleteBehavior,
+  GetBehaviorByID,
+  UpdateBehaviors,
+
 };

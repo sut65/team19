@@ -891,10 +891,19 @@ func SetupDatabase() {
 	BehaviorB := Behavior{
 		Meals:    "กินวันละ 4 มื้อ",
 		Time:     "21/12/2022 15:00",
-		Member:   Member1,
+		Member:   Member2,
 		Exercise: Exercise1,
 		Taste:    Taste1,
 	}
 	db.Model(&Behavior{}).Create(&BehaviorB)
+
+	BehaviorC := Behavior{
+		Meals:    "กินวันละ 4 มื้อ",
+		Time:     "21/12/2022 15:00",
+		Member:   Member3,
+		Exercise: Exercise1,
+		Taste:    Taste1,
+	}
+	db.Model(&Behavior{}).Create(&BehaviorC)
 
 }

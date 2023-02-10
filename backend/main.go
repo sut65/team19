@@ -62,8 +62,8 @@ func main() {
 			r.GET("/exercise/:id", controller.GetExercise)
 			r.GET("/exercises", controller.ListExercise)
 
-			r.GET("/tatse/:id", controller.GetTatse)
-			r.GET("/tastes", controller.ListTatse)
+			r.GET("/taste/:id", controller.GetTaste)
+			r.GET("/tastes", controller.ListTaste)
 
 			// course_service Routes
 			router.POST("/course_service", CourseService.CreateCourseService)

@@ -18,13 +18,15 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 // Interface
 import { ExerciseInterface } from '../../interfaces/IExercise';
 import { TasteInterface } from '../../interfaces/ITatse';
 import { MemberInterface } from '../../interfaces/IMember';
 import { BehaviorInterface } from '../../interfaces/IBehavior';
-
+import { UpdateBehaviors } from '../../services/HttpClientService';
+import { DeleteBehavior } from '../../services/HttpClientService';
 
 //API
 import { 
@@ -33,12 +35,6 @@ import {
     GetMemberByID,
     CreateBehavior,
  } from '../../services/HttpClientService';
-import { time } from 'console';
-
-
-const ImgBox = styled(Box)({
-    width: "280px",
-});
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -47,18 +43,17 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-
-function CreateBehaviors() {
+function UpdateBehavior() {
 
     const [behaviors, setBehaviors] = useState<BehaviorInterface>({});
     const [exercises, setExercises] = useState<ExerciseInterface[]>([]);
     const [member, setMember] = useState<MemberInterface[]>([]);
     const [time, setTime] = useState<Date | string | null>(new Date());
-    const [taste, settatse] = useState<TasteInterface[]>([]);
+    const [tastes, settastes] = useState<TasteInterface[]>([]);
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
     const [message, setAlertMessage] = useState("");
-
+    const { id } = useParams();
 
     const handleClose = (
         event?: React.SyntheticEvent | Event,
@@ -70,6 +65,13 @@ function CreateBehaviors() {
         setSuccess(false);
         setError(false);
     };
+
+    const handleClickDelete = async (id : string) => {
+      let res = await DeleteBehavior(id);
+      if (res) {
+        window.location.href = "http://localhost:3000/user/behavior-display";
+      }
+    }
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const meals = e.target.name;
@@ -99,7 +101,7 @@ function CreateBehaviors() {
 
     const fetchTaste = async () => {
         let res = await GetTaste();
-        res && settatse(res);
+        res && settastes(res);
     };
 
     const fetchMember = async () => {
@@ -113,24 +115,29 @@ function CreateBehaviors() {
     // เพิ่มข้อมูลเข้า Database
     const submit = async () => {
       let data = {
+        ID: convertType(id),
         ExerciseID: convertType(behaviors.ExerciseID),
         TasteID: convertType(behaviors.TasteID),
         MemberID: convertType(behaviors.MemberID),
         Time: time?.toLocaleString(),
         Meals: behaviors.Meals,
         };
-        let res = await CreateBehavior(data);
-        if (res.status) {      
+        let res = await UpdateBehaviors(data);
+        if (res.status) {
           setAlertMessage("บันทึกข้อมูลสำเร็จ");
           setSuccess(true);
-          window.location.href = "/user/behavior-display";
+          setTimeout(() => {
+            window.location.href = "/user/behavior-display";
+          }, 1000);
         } else {
-          setError(true);
           setAlertMessage(res.message);
+          setError(true);
         }
         
       };
       console.log(behaviors);
+
+
 
     useEffect(() => {
         fetchExercise();
@@ -175,7 +182,7 @@ function CreateBehaviors() {
                 <Select
                     native
                     fullWidth
-                    id="taste"
+                    id="tatse"
                     value={behaviors.TasteID + ""}
                     onChange={handleSelectChange}
                     inputProps={{
@@ -185,7 +192,7 @@ function CreateBehaviors() {
                   <option aria-label="None" value="">
                       เลือกรสชาติ
                   </option>
-                  {taste.map((item: TasteInterface) => (
+                  {tastes.map((item: TasteInterface) => (
                   <option key={item.ID} value={item.ID}>
                       {item.Name}
                   </option>
@@ -283,6 +290,11 @@ function CreateBehaviors() {
                     เพิ่มการสำรวจ
                 </Button>
 
+                <Button variant="outlined" color="error" onClick={() => handleClickDelete(id + "")}
+                      sx = {{ borderRadius: 20 }}>
+                      Delete
+                    </Button>
+
                 <Link
                     to="/user/behavior-display"
                     style={{
@@ -294,12 +306,11 @@ function CreateBehaviors() {
                       ย้อนกลับ
                     </Button>
                  </Link>
-
                       </Stack>
                   <Snackbar
                   open={success}
                   id = "success"
-                  autoHideDuration={1000}
+                  autoHideDuration={5000}
                   onClose={handleClose}
                   anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                 >
@@ -311,7 +322,7 @@ function CreateBehaviors() {
                 <Snackbar
                   open={error}
                   id = "error"
-                  autoHideDuration={1000}
+                  autoHideDuration={5000}
                   onClose={handleClose}
                   anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                 >
@@ -325,4 +336,4 @@ function CreateBehaviors() {
     );
 }
 
-export default CreateBehaviors;
+export default UpdateBehavior;

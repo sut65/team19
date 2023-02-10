@@ -8,7 +8,7 @@ import (
 )
 
 // GET /taste/:id
-func GetTatse(c *gin.Context) {
+func GetTaste(c *gin.Context) {
 	var taste entity.Taste
 	id := c.Param("id")
 
@@ -20,7 +20,7 @@ func GetTatse(c *gin.Context) {
 }
 
 // GET /taste
-func ListTatse(c *gin.Context) {
+func ListTaste(c *gin.Context) {
 	var taste []entity.Taste
 
 	if err := entity.DB().Raw("SELECT * FROM tastes").Scan(&taste).Error; err != nil {

@@ -31,6 +31,7 @@ import Payment from "./components/payment/Payment";
 import UpdateFood from "./components/FoodInformation/UpdateFood";
 import PaymentHistory from "./components/payment/PaymentHistory";
 import CreateBehaviors from "./components/Behavior/CreateBehavior";
+import DisplayBehavior from "./components/Behavior/DisplayBehavior";
 import UpdateReview from "./components/review/UpdateReview";
 import ApplyTrainer from "./components/Trainer/ApplyTrainer";
 import ProfileTrainer from "./components/Trainer/ProfileTrainer";
@@ -44,6 +45,7 @@ import ProfileMember from "./components/Member/ProfileMember";
 import UpdateCourseServicePage from "./components/CourseService/UpdateCourseServicePage";
 import  UpdateMember from "./components/Member/UpdateMember";
 import { UpdateMem } from "./services/HttpClientService";
+import UpdateBehavior from "./components/Behavior/UpdateBehavior";
 
 function App() {
   const [token, setToken] = useState<String>("");
@@ -132,8 +134,9 @@ function App() {
           <Route path="reviews/:id" element={<ShowReview />} />
           <Route path="reviews/:id/create" element={<CreateReview />} />
           <Route path="reviews/:slug/update-review/:id" element={<UpdateReview />} />
-          <Route path="behavior" element={<CreateBehaviors />} />
-          
+          <Route path="behavior-display" element={<DisplayBehavior />} />
+          <Route path="behavior-display/create-behavior" element={<CreateBehaviors />} />
+          <Route path="behavior-display/update-behavior/:id" element={<UpdateBehavior />} />
           <Route path="profile-member" element={<ProfileMember />}></Route>
           <Route path="profile-member/update-member/:id" element={<UpdateMember />}></Route>
         </Route>

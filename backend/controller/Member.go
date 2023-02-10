@@ -113,6 +113,11 @@ func UpdateMember(c *gin.Context) {
 		return
 	}
 
+	if _, err := govalidator.ValidateStruct(member); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
 	// ค้นหา status ด้วย id
 	if tx := entity.DB().Where("id = ?", member.StatusID).First(&status); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "status not found"})
