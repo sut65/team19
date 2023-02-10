@@ -192,7 +192,7 @@ function UpdateMember() {
     GenderID: convertType(rg.GenderID),
     StatusID: convertType(rg.StatusID),
     ReligionID: convertType(rg.ReligionID),
-    Profileuser: rg.Profileuser,
+    ProfileUser: rg.ProfileUser,
     };
     // window.location.href = "/members"
     
