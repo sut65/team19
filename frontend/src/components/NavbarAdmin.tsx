@@ -64,17 +64,18 @@ function NavbarAdmin() {
       <Fragment>
         <Box sx={{ marginBottom: "7rem" }}>
           <AppBar
-            // position="static"
+            position="static"
             sx={{
               bgcolor: "#f5f5f5",
               color: "#000000",
               paddingTop: 2,
               paddingBottom: 0.5,
+              padding: "0.5rem"
             }}
           >
             <Grid
               container
-              spacing={2}
+              spacing={0}
               sx={{
                 marginLeft: "2%",
                 marginRight: "2%",
@@ -82,7 +83,6 @@ function NavbarAdmin() {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                flexDirection: "column"
               }}
             >
             <div style={{ display: "flex", width: "100vw", justifyContent: "space-between"}}>

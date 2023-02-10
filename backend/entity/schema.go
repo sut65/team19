@@ -62,7 +62,7 @@ type Member struct {
 	DailyActivitie []DailyActivities `gorm:"foreignKey:MemberID"`
 	MealPlan       []MealPlans       `gorm:"foreignKey:MemberID"`
 	Body           []Body            `gorm:"foreignKey:MemberID"`
-	Advice         []Advice          `gorm:"foreignKey:MemberID"`
+	//Advice         []Advice          `gorm:"foreignKey:MemberID"`
 	Reviews        []Review          `gorm:"foreignKey:MemberID"`
 }
 
@@ -207,7 +207,7 @@ type Trainer struct {
 
 	CourseService []CourseService `gorm:"foreignKey:TrainerID"`
 	Body          []Body          `gorm:"foreignKey:TrainerID"`
-	Advice        []Advice        `gorm:"foreignKey:TrainerID"`
+	//Advice        []Advice        `gorm:"foreignKey:TrainerID"`
 }
 
 // -------------------------------------------<<  >>------------------------------------

@@ -59,7 +59,7 @@ func CreateAdvice(c *gin.Context) {
 func GetAdvice(c *gin.Context) {
 	var advice entity.Advice
 	id := c.Param("id")
-	if tx := entity.DB().Preload(clause.Associations).Preload("Member."+clause.Associations).Where("id = ?", id).First(&advice); tx.RowsAffected == 0 {
+	if tx := entity.DB().Preload(clause.Associations).Preload("CourseService."+clause.Associations).Where("id = ?", id).First(&advice); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "advice not found"})
 		return
 	}
