@@ -287,15 +287,15 @@ func SetupDatabase() {
 	db.Model(&Education{}).Create(&educations)
 
 	// -------------------(Create value Trainer)------------------------------
-	pass1, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
+	pass1, _ := bcrypt.GenerateFromPassword([]byte("123456789"), 14)
 	Trainer1 := Trainer{
-		Name:       "Natthaphon",
+		Name:       "Trainer1",
 		University: "SUT",
 		Gpax:       3.83,
 		Gender:     "ชาย",
 		Age:        21,
 		Address:    "90/8 บ.โคกก่อง",
-		Email:      "Aonaon_123@gmail.com",
+		Email:      "T1@mail.com",
 		Password:   string(pass1),
 		FormOfWork: form1,
 		Status:     Status1,
@@ -304,15 +304,15 @@ func SetupDatabase() {
 	}
 	db.Model(&Trainer{}).Create(&Trainer1)
 
-	pass2, _ := bcrypt.GenerateFromPassword([]byte("123456"), 14)
+	pass2, _ := bcrypt.GenerateFromPassword([]byte("123456789"), 14)
 	Trainer2 := Trainer{
-		Name:       "opopopo",
+		Name:       "พระบิดา",
 		University: "SUT",
 		Gpax:       3.73,
 		Gender:     "ชาย",
 		Age:        21,
 		Address:    "90/8 บ.โคกก่อง",
-		Email:      "Aonaon_1234@gmail.com",
+		Email:      "T2@mail.com",
 		Password:   string(pass2),
 		FormOfWork: form1,
 		Status:     Status1,

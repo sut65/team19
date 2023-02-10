@@ -35,7 +35,7 @@ func CreateBody(c *gin.Context) {
 	}
 
 	if tx := entity.DB().Where("id = ?", body.TrainerID).First(&trainer); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "trainer not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Please select trainer"})
 		return
 	}
 
@@ -45,7 +45,7 @@ func CreateBody(c *gin.Context) {
 	}
 
 	if tx := entity.DB().Where("id = ?", body.CourseDetailID).First(&courseDetail); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "courseDetail not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Please select courseDetail"})
 		return
 	}
 
