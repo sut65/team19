@@ -3,6 +3,7 @@ package controller
 import (
 	"net/http"
 
+	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team19/entity"
 )
@@ -25,6 +26,13 @@ func CreateBody(c *gin.Context) {
 	}
 	// First => คือการ select :> "SELECT * FROM users ORDER BY id LIMIT 1;"
 	// RowsAffected => มีการรีเทิร์นค่าที่มีการเปลี่ยนแปลงในเป็นจำนสน row  :  "returns found records count, equals `len(trainer)`"
+
+	// validation
+
+	if _, err := govalidator.ValidateStruct(body); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
 	if tx := entity.DB().Where("id = ?", body.TrainerID).First(&trainer); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "trainer not found"})
@@ -108,6 +116,13 @@ func UpdateBody(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&body); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error not access": err.Error()})
+		return
+	}
+
+	// validation
+
+	if _, err := govalidator.ValidateStruct(body); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 

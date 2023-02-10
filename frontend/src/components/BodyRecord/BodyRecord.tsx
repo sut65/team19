@@ -70,7 +70,7 @@ function BodyRecord() {
     if (reason === "clickaway") {
       return;
     }
-
+    success &&( window.location.href = "/user/body-display");
     setSuccess(false);
     setError(false);
   };
@@ -148,10 +148,9 @@ const fetchMemberByID = async () => {
     let res = await CreateBody(data);
     if (res) {
       setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+        // window.location.reload();
+      }, 1000);
       setSuccess(true);
-      window.location.href = "/user/body-display";
     } else {
       setError(true);
     }

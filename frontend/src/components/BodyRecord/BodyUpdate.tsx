@@ -77,7 +77,7 @@ const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (reason === "clickaway") {
       return;
     }
-
+    success &&( window.location.href = "/user/body-display");
     setSuccess(false);
     setError(false);
   };
@@ -148,7 +148,7 @@ const fetchMemberByID = async () => {
         Weight:        convertType(body.Weight+""),
         Hip:          convertType(body.Hip+""),
         UpperArm: convertType(body.UpperArm+""),
-        LeftThigh :    convertType(body.Thigh+""),
+        Thigh :    convertType(body.Thigh+""),
         NarrowWaist:  convertType(body.NarrowWaist+""),
         NavelWaist:   convertType(body.NavelWaist+""),
         Bmi:          ((Number(body.Height)/100)**2)/Number(body.Weight),
@@ -164,10 +164,10 @@ const fetchMemberByID = async () => {
     let res = await UpdateBody(data);
     if (res) {
       setTimeout(() => {
-        window.location.reload();
-      }, 2000);
+        window.location.href = "/user/body-display";
+      }, 2500);
       setSuccess(true);
-      window.location.href = "/user/body-display";
+      
     } else {
       setError(true);
     }
@@ -317,15 +317,15 @@ return (
               </FormLabel>
               <TextField
                 id="outlined-number"
-                type="UpperArmLeft"
+                type="UpperArm"
                 fullWidth
-                name="UpperArmLeft"
+                name="UpperArm"
                 value={body.UpperArm}
                 required
                 onChange={handleInputChange}
               />
             </Grid>
-            {/*===============================================( thigh)===================================================*/}
+            {/*===============================================( Thigh)===================================================*/}
             <Grid
               xs={5}
               md={5}
@@ -341,7 +341,7 @@ return (
               </FormLabel>
               <TextField
                 id="outlined-number"
-                name="LeftThigh"
+                name="Thigh"
                 type="number"
                 fullWidth
                 value={body.Thigh}
