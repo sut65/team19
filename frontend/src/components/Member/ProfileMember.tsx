@@ -50,7 +50,7 @@ function ProfileMember() {
         fetchMemberID()
        
       }, [])
-
+      console.log(member.ProfileUser)
     return(
         <Container maxWidth="md" sx={{ marginTop: 6 }}>
           <Paper
@@ -75,7 +75,7 @@ function ProfileMember() {
   {/*============================================(รูป)======================================================*/}
                  <Grid xs={12} xl = {12} md={12}>
                   <Box sx={{ display: "flex", justifyContent: "center" }}>
-                      <Avatar src={member.Profileuser}
+                      <Avatar src={member.ProfileUser}
                       sx={{ width: 110, height: 110 }} />
                   </Box> 
                   </Grid>
