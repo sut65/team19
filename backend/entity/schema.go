@@ -230,6 +230,7 @@ type CourseService struct {
 	Trainer   Trainer `valid:"-"`
 
 	Payment []Payment `gorm:"foreignKey:CourseServiceID"`
+	Advice []Advice `gorm:"foreignKey:CourseServiceID"`
 }
 
 // ================== ระบบจัดการข้อมูลอาหาร ==================
@@ -410,11 +411,8 @@ type Advice struct {
 	Advice        string
 	RecordingDate time.Time `valid:"past"`
 
-	MemberID *uint
-	Member   Member
-
-	TrainerID *uint
-	Trainer   Trainer
+	CourseServiceID *uint
+	CourseService CourseService
 
 	BodyID *uint
 	Body   Body

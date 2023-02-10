@@ -46,6 +46,9 @@ import UpdateCourseServicePage from "./components/CourseService/UpdateCourseServ
 import  UpdateMember from "./components/Member/UpdateMember";
 import { UpdateMem } from "./services/HttpClientService";
 import UpdateBehavior from "./components/Behavior/UpdateBehavior";
+import AdviceDisplay from "./components/Advice/AdviceDisplay";
+import CreateAdvice from "./components/Advice/CreateAdvice";
+import UpdateAdvice from "./components/Advice/UpdateAdvice";
 
 function App() {
   const [token, setToken] = useState<String>("");
@@ -107,6 +110,9 @@ function App() {
         <Route path="trainer" element={<Trainer />}></Route>
         <Route path="apply" element={<ApplyTrainer />} ></Route>
         <Route path="trainer/profile" element={<ProfileTrainer />} ></Route>
+        <Route path="update-advice/:id" element={<UpdateAdvice />} ></Route>
+        <Route path="create-advice/:id" element={<CreateAdvice />} ></Route>
+        <Route path="trainer/advice-display" element={<AdviceDisplay />} ></Route>
 
         {/* Routes User */}
         <Route path="user" element={<User />}>
