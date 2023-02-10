@@ -12,6 +12,7 @@ import { PaymentInterface } from "../interfaces/IPayment";
 import { BehaviorInterface } from "../interfaces/IBehavior";
 import { TrainerInterface } from "../interfaces/ITrainer";
 import { BodyInterface } from "../interfaces/IBody";
+import { AdviceInterface } from "../interfaces/IAdvice";
 
 const apiUrl = `http://localhost:8080`;
 
@@ -460,6 +461,108 @@ async function GetCourseType() {
   };
 
   let res = await fetch(`${apiUrl}/course_types`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
+//----------------------- Advice ---------------------------
+async function GetAdvice() {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/advices`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        console.log(res.data);
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
+const DeleteAdvice = async (id: string) => {
+  const requestOptions = {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/advice/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const createAdvice = async (data: CourseDetailInterface) => {
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/advice`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const updateAdvice = async (data: AdviceInterface) => {
+  const requestOptions = {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/advices`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+async function GetAdviceByID(id: number | undefined) {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/advice/${id}`, requestOptions)
     .then((response) => response.json())
     .then((res) => {
       if (res.data) {
@@ -1528,7 +1631,6 @@ export {
   TrainerLogin,
   //
   GetUser,
-  GetCourseDetail,
   //Trainer
   GetTrainer,
   CreateTrainer,
@@ -1541,6 +1643,7 @@ export {
   GetReligion,
   
   //CourseDetail
+  GetCourseDetail,
   DeleteCourseDetail,
   createCourseDetail,
   UpdateCourseDetail,
@@ -1615,8 +1718,10 @@ export {
   GetExercise,
   GetTaste,
   CreateBehavior,
-  DeleteBehavior,
-  GetBehaviorByID,
-  UpdateBehaviors,
-
+  //Advice
+  GetAdvice,
+  DeleteAdvice,
+  createAdvice,
+  updateAdvice,
+  GetAdviceByID,
 };

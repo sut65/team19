@@ -191,17 +191,17 @@ func SetupDatabase() {
 	//Description Part ----------------------------------------------------------------------------------------------
 
 	CourseType1 := CourseType{
-		TypeName:  "เพิ่มน้ำหนัก",
+		TypeName: "เพิ่มน้ำหนัก",
 	}
 	db.Model(&CourseType{}).Create(&CourseType1)
 
 	CourseType2 := CourseType{
-		TypeName:  "ลดน้ำหนัก",
+		TypeName: "ลดน้ำหนัก",
 	}
 	db.Model(&CourseType{}).Create(&CourseType2)
 
 	CourseType3 := CourseType{
-		TypeName:  "เพิ่มกล้ามเนื้อ",
+		TypeName: "เพิ่มกล้ามเนื้อ",
 	}
 	db.Model(&CourseType{}).Create(&CourseType3)
 
@@ -230,7 +230,7 @@ func SetupDatabase() {
 		CoverPage:   "https://www.iglss.org/wp-content/uploads/2019/02/diet-plan.jpg",
 		Description: "หุ่นดีได้ง่าย ๆ ห่างไกลจากโรคแทรกซ้อน ทำได้ง่าย ๆ ที่บ้านด้วยตัวเอง",
 		Goal:        "เพิ่มน้ำหนักได้ 1-2 kg",
-		CourseType: CourseType1,
+		CourseType:  CourseType1,
 		Admin:       AdminA,
 		Price:       Price3,
 	}
@@ -241,7 +241,7 @@ func SetupDatabase() {
 		CoverPage:   "https://bgh.sgp1.digitaloceanspaces.com/old-site/inline-images/before-weight-loss-01.jpg",
 		Description: "สุขภาพดี หุ่นดี ได้ง่ายๆ ด้วยคอร์สลดน้ำหนักออนไลน์ เพื่อผลลัพธ์แบบยั่งยืน ทำได้ด้วยตัวเอง",
 		Goal:        "ลดน้ำหนักได้ 3-5 kg",
-		CourseType: CourseType2,
+		CourseType:  CourseType2,
 		Admin:       AdminB,
 		Price:       Price1,
 	}
@@ -252,7 +252,7 @@ func SetupDatabase() {
 		CoverPage:   "https://s.isanook.com/he/0/rp/rc/w670h402/yatxacm1w0/aHR0cHM6Ly9zLmlzYW5vb2suY29tL2hlLzAvdWQvNS8yODg2MS93ZWlnaHRsaWZ0aW5nLmpwZw==.jpg",
 		Description: "ฟิตหุ่นให้ดี กระชับกล้ามเนื้อให้เฟิร์ม ผลลัพธ์แบบยั่งยืน ทำได้ด้วยตัวเอง",
 		Goal:        "เพิ่มกล้ามให้ชัดขึ้น",
-		CourseType: CourseType3,
+		CourseType:  CourseType3,
 		Admin:       AdminC,
 		Price:       Price2,
 	}
@@ -762,44 +762,13 @@ func SetupDatabase() {
 
 	DailyActivitiesC := DailyActivities{
 		Name:           "ปืนเขา",
-		Duration:       "2 ชั่ว",
+		Duration:       "2 ชั่วโมง",
 		Date:           time.Date(2023, time.January, 3, 15, 03, 00, 0, time.UTC),
 		ActivitiesType: ActivitiesTypeC,
 		Admin:          AdminC,
 		Member:         Member3,
 	}
 	db.Model(&DailyActivities{}).Create(&DailyActivitiesC)
-
-	// Advice part ------------------------------------------------------
-	Advice1 := Advice{
-		Advice:          "กินโปรตีนเพิ่มให้ได้ 2 g ต่อน้ำหนักตัว 1 kg",
-		RecordingDate:   time.Date(2023, time.January, 4, 14, 14, 00, 0, time.UTC),
-		Member:          Member1,
-		Trainer:         Trainer1,
-		Body:            BodyChangeA,
-		DailyActivities: DailyActivitiesA,
-	}
-	db.Model(&Advice{}).Create(&Advice1)
-
-	Advice2 := Advice{
-		Advice:          "ออกกำลังกายแบบคาร์ดิโอเพิ่มเป็นสัปดาห์ละ 4 วัน วันละ 1 ชม.",
-		RecordingDate:   time.Date(2023, time.January, 25, 12, 30, 00, 0, time.UTC),
-		Member:          Member2,
-		Trainer:         Trainer2,
-		Body:            BodyChangeB,
-		DailyActivities: DailyActivitiesB,
-	}
-	db.Model(&Advice{}).Create(&Advice2)
-
-	Advice3 := Advice{
-		Advice:          "เล่นเวทเทรนนิ่ง เพิ่มเป็นสัปดาห์ละ 3 วัน วันละ 1.5 ชม.",
-		RecordingDate:   time.Date(2023, time.January, 27, 11, 47, 00, 0, time.UTC),
-		Member:          Member3,
-		Trainer:         Trainer2,
-		Body:            BodyChangeA,
-		DailyActivities: DailyActivitiesC,
-	}
-	db.Model(&Advice{}).Create(&Advice3)
 
 	//==========================ระบบจัดการสารอาหาร==========================
 
