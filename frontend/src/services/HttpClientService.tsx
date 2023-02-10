@@ -165,8 +165,12 @@ const CreateTrainer = async (data: TrainerInterface) => {
 
   let res = await fetch(`${apiUrl}/trainer`, requestOptions)
     .then((response) => response.json())
-    .then((result) => {
-      return result.data ? result.data : false;
+    .then((res) => {
+      if (res.data) {
+        return { status: true, message: res.data };
+      } else {
+        return { status: false, message: res.error };
+      }
     });
 
   return res;
@@ -214,8 +218,12 @@ const UpdateTrainer = async (data: TrainerInterface) => {
 
   let res = await fetch(`${apiUrl}/trainers`, requestOptions)
     .then((response) => response.json())
-    .then((result) => {
-      return result.data ? result.data : false;
+    .then((res) => {
+      if (res.data) {
+        return { status: true, message: res.data };
+      } else {
+        return { status: false, message: res.error };
+      }
     });
 
   return res;

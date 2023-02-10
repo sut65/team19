@@ -41,7 +41,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 
 function Trainer() {
-  // =========================(Use State)====================================================
+  // =========================(Use State)==========================
 
  //Partial -> ทำให้ filed เป็น Optional ได้ คือ สามารถเลือก filed มาบางส่วนได้
  const [trainer, setTrainer] = useState<TrainerInterface>({}); 
@@ -49,17 +49,12 @@ function Trainer() {
  const [edu, setEdu] = useState<EducationInterface[]>([]); 
  const [religion, setReligion] = useState<ReligionInterface[]>([]); 
  const [form, setForm] = useState<FormOfWorkInterface[]>([]); 
+ const [message, setAlertMessage] = React.useState("");
 
 
   const [first, setFirst] = useState<string>("");
   const [last, setLast] = useState<string>("");
-  const [university, setUniversity] = useState<string>("");
-  const [gpax, setGpax] = useState<number>(0.0);
-  const [gender, setGender] = useState<string>("");
-  const [age, setAge] = useState<number>(0);
-  const [address, setAddress] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  
+  const [age, setAge] = useState<number>(-1);
 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
@@ -69,7 +64,7 @@ function Trainer() {
   });
 
 
-  // ==============================(handle password)=====================================
+  // ==============================(handle password)=====================
 
   interface State {
     password: string;
@@ -95,7 +90,7 @@ function Trainer() {
   };
 
 
-  // =========================(handleClose)====================================================
+  // =========================(handleClose)=====================
 
   const handleClose = (
     event?: React.SyntheticEvent | Event,
@@ -109,7 +104,7 @@ function Trainer() {
     setError(false);
   };
 
-  // =========================(HandleChange)====================================================
+  // =========================(HandleChange)======================
 
   const handleChange = (event: SelectChangeEvent) => {
     const name = event.target.name as keyof typeof trainer;  //เรารู้ type แล้วแต่เราต้องการใช้ keyของ trainer
@@ -117,13 +112,13 @@ function Trainer() {
       ...trainer,  [name]: event.target.value,     });  //เอาที่มีอยู่เดิมแล้วมาด้วย Spread Operator
   };
 
-  // =========================(Fetch API)====================================================
-
-  const apiUrl = "http://localhost:8080";
-  const requestOptionsGet = {
-    method: "GET",
-    headers: { "Content-Type": "application/json" }, //เพื่อบอกว่าเป็นการส่ง ปบบ JASON นะ 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const name = e.target.name;
+    console.log(name);
+    setTrainer({ ...trainer, [name]: e.target.value });
   };
+
+  // =========================(Fetch API)=========================
 
   const fetchFormOfWork = async () => {
     let res = await GetFormOfWork();
@@ -156,34 +151,50 @@ function Trainer() {
     return val;
   };
 
-  const submit = async() => {
-    let data = {
-      Name: `${first} ${last}`,
-      University:university,
-      Gpax: gpax,
-      Gender: gender,
-      Age: age,
-      Address: address,
-      Email: email,
-      Password: pass.password,
-      
-      FormOfWorkID: convertType(trainer.FormOfWorkID),
-      StatusID: convertType(trainer.StatusID),
-      EducationID: convertType(trainer.EducationID),
-      ReligionID: convertType(trainer.ReligionID),
-    };
-    // console.log(data);
-    // console.log(JSON.stringify(data));
+  const convertTypeFloat = (data: string | number | undefined) => {
+    let val = typeof data === "string" ? parseFloat(data) : data;
+    return val;
+  };
 
-    let res = await CreateTrainer(data);
-        if (res) {
-          setTimeout(() => {
-          //  window.location.href = "/trainer";
-          }, 1000);
-          setSuccess(true);
-        } else {
-          setError(true);
-        }
+  const submit = async() => {
+    let data 
+    if (pass.password){
+      data = {
+        Name: first && last? `${first} ${last}`:"",
+        University:(trainer.University),
+        Gpax: convertTypeFloat(trainer.Gpax),
+        Gender: (trainer.Gender),
+        Age: age,
+        Address: (trainer.Address),
+        Email: (trainer.Email),
+        Password: pass.password,
+        
+        FormOfWorkID: convertType(trainer.FormOfWorkID),
+        StatusID: convertType(trainer.StatusID),
+        EducationID: convertType(trainer.EducationID),
+        ReligionID: convertType(trainer.ReligionID),
+      };
+    }else{
+      setAlertMessage("Password cannot be blank")
+      setError(true);
+    }
+    console.log(data);
+    console.log(JSON.stringify(data));
+
+    let res = data && await CreateTrainer(data);
+    let msError:string[] =[]; 
+    if(res){
+      if (res.status) {
+        setSuccess(true);
+      } else {
+        setError(true);
+        msError = res.message.split(";");
+        setAlertMessage(msError[0]);
+      }
+    }
+    console.log((msError))
+      // console.log((msError[0]))
+    // console.log(JSON.stringify(res.message))
     
   };
 
@@ -213,6 +224,7 @@ return (
           paddingX: 2,
           display: "flex",
           justifyContent: "flex-start",
+          borderRadius:"25px",
         }}
       >
           <Avatar src={Body}  sx={{margin:1,marginRight:5 ,width:70,height:70}}/>
@@ -222,10 +234,10 @@ return (
    
         <Paper
          elevation={8}
-          sx={{ padding: 2, paddingTop: 1, marginBottom: 2 }}
+          sx={{ paddingX: 6, paddingTop: 1, marginBottom: 2 ,borderRadius:"25px"}}
         >
           <Grid container spacing={2}>
-            {/*============================================(First name)======================================================*/}
+            {/*==================================(First name)=====================*/}
             <Grid xs={6} md={6}>
               <p style={{ color: "grey", fontSize: 15 }}>
                 <b>First name</b>
@@ -242,7 +254,7 @@ return (
                 }}
               />
             </Grid>
-            {/*=============================================(Last name)=====================================================*/}
+            {/*=============================================(Last name)===================*/}
             <Grid xs={6} md={6}>
               <p style={{ color: "grey", fontSize: 15 }}>
                 <b>Last name</b>
@@ -259,7 +271,7 @@ return (
                 }}
               />
             </Grid>
-            {/*========================================(Gender)=========================================================*/}
+            {/*========================================(Gender)==========================*/}
             <Grid
               xs={6}
               md={6}
@@ -276,10 +288,8 @@ return (
               <RadioGroup
                 row
                 aria-labelledby="demo-row-radio-buttons-group-label"
-                name="row-radio-buttons-group"
-                onChange={(event) => {
-                  setGender(event.target.value);
-                }}
+                name ="Gender"
+                onChange={handleInputChange}
               >
                 <FormControlLabel
                   value="female"
@@ -308,17 +318,16 @@ return (
                 <b>Age:</b>
               </FormLabel>
               <TextField
-                id="outlined-number"
                 type="number"
+                name="Age"
                 fullWidth
                 required
-                onChange={(event) => {
-                  if (Number(event.target.value) < 0) {
-                    return (event.target.value = "0");
-                  } else {
-                    setAge(Number(event.target.value));
-                    return event.target.value;
-                  }
+                onChange={(event)=>{
+                  if (Number(event.target.value) == 0) {
+                        setAge(-1);
+                      }else{
+                        setAge(Number(event.target.value));
+                      }
                 }}
               />
             </Grid>
@@ -334,10 +343,9 @@ return (
                 label="มหาลัยที่จบการศึกษา"
                 variant="outlined"
                 fullWidth
+                name="University"
                 required
-                onChange={(event) => {
-                  setUniversity(event.target.value);
-                }}
+                onChange={handleInputChange}
                 // inputProps={{ maxLength: 10 }}
               />
             </Grid>
@@ -351,20 +359,22 @@ return (
                 id="outlined-number"
                 type="number"
                 fullWidth
+                name="Gpax"
                 required
                 sx={{ marginLeft: 6 }}
-                onChange={(event) => {
-                  if (Number(event.target.value) < 0) {
-                    setGpax(0);
-                    return (event.target.value = "0");
-                  } else if (Number(event.target.value) > 4) {
-                    setGpax(4);
-                    return (event.target.value = "4");
-                  } else {
-                    setGpax(+Number(event.target.value).toFixed(4));
-                    return event.target.value;
-                  }
-                }}
+                // onChange={(event) => {
+                //   if (Number(event.target.value) < 0) {
+                //     setGpax(0);
+                //     return (event.target.value = "0");
+                //   } else if (Number(event.target.value) > 4) {
+                //     setGpax(4);
+                //     return (event.target.value = "4");
+                //   } else {
+                //     setGpax(+Number(event.target.value).toFixed(4));
+                //     return event.target.value;
+                //   }
+                // }}
+                onChange ={handleInputChange}
               />
             </Grid>
             {/*==============================================(Address)====================================================*/}
@@ -379,10 +389,9 @@ return (
                 label="ที่อยู่"
                 variant="outlined"
                 fullWidth
+                name="Address"
                 required
-                onChange={(event) => {
-                  setAddress(event.target.value);
-                }}
+                onChange={handleInputChange}
               />
             </Grid>
             {/*==============================================(Email)====================================================*/}
@@ -396,12 +405,11 @@ return (
                 id="email"
                 type="email"
                 label="้ป้อนอีเมล"
+                name="Email"
                 variant="outlined"
                 fullWidth
                 required
-                onChange={(event) => {
-                  setEmail(event.target.value);
-                }}
+                onChange={handleInputChange}
               />
             </Grid>
 
@@ -429,7 +437,7 @@ return (
                     </IconButton>
                   </InputAdornment>
                 }
-                inputProps={{ maxLength: 10 }}
+                inputProps={{minLength:8 }}
               />
             </Grid>
             {/*=======================================(select Form of work)===========================================================*/}
@@ -560,7 +568,7 @@ return (
     </Container>
     <Snackbar
       open={success}
-      autoHideDuration={5000}
+      autoHideDuration={2000}
       onClose={handleClose}
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
     >
@@ -571,12 +579,12 @@ return (
 
     <Snackbar
       open={error}
-      autoHideDuration={5000}
+      autoHideDuration={2000}
       onClose={handleClose}
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
     >
       <Alert onClose={handleClose} severity="error">
-        บันทึกข้อมูลไม่สำเร็จ
+        {message}
       </Alert>
     </Snackbar>
   </Box>

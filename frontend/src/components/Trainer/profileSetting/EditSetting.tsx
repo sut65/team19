@@ -36,10 +36,9 @@ function EditSettings() {
 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
-
   const { id } = useParams();
-  
   const [trainer, setTrainer] = useState<TrainerInterface>({}); 
+  const [msErroe, setmsError] = useState<string>(); 
 
 
 // =========================(handleClose)====================================================
@@ -85,7 +84,6 @@ const handleClose = (
 
   useEffect(() => {
     fetchTrainerID()
-   
   }, []);
 
      // ==============================(handle password)=====================================
@@ -145,13 +143,14 @@ const handleClose = (
     let con_pass = false;
     const passwordchange = () =>{
       if(pass.password && passNew.password ){
-        console.log("มีการกรอก passworsd")
+        // console.log("มีการกรอก passworsd")
         if (pass.password == passNew.password) {
           con_pass =true;
           return passNew.password;
         } else {
           // setError(true);
           con_pass=false;
+          setmsError("Password does not match")
         }
       }else{
         con_pass =true;
@@ -161,20 +160,33 @@ const handleClose = (
     let data = {
       ID: convertType(trainer.ID),
       Name: trainer.Name,
-      Email: trainer.Email,
+      University: trainer.University,
+      Gpax: trainer.Gpax,
+      Gender: trainer.Gender,
+      Age: trainer.Age,
       Address: trainer.Address,
+      Email: trainer.Email,
       Password: passwordchange(),
+
+      FormOfWorkID: convertType(trainer.FormOfWorkID),
+      StatusID: convertType(trainer.StatusID),
+      EducationID: convertType(trainer.EducationID),
+      ReligionID: convertType(trainer.ReligionID),
+
     };
     console.log(data.Password);
     // console.log(JSON.stringify(data));
 
+    let msError:string[] =[]; 
     let res = con_pass ? await UpdateTrainer(data) : setError(true);
-    if (res ) {
-      setTimeout(() => {
+    if (res) {
+      if (res.status) {
           setSuccess(true);
-        }, 500);  
       } else {
         setError(true);
+        msError=((res.message).split(";"));
+        setmsError(msError[0]);
+      }
     }
   };
 
@@ -264,7 +276,7 @@ const handleClose = (
               </IconButton>
             </InputAdornment>
           }
-          inputProps={{ maxLength: 10 }}
+          inputProps={{minLength:8}}
         />
       </Grid>
       {/* ==================================( Confirm password )====================================== */}
@@ -291,7 +303,7 @@ const handleClose = (
               </IconButton>
             </InputAdornment>
           }
-          inputProps={{ maxLength: 10 }}
+          inputProps={{ minLength:8}}
         />
       </Grid>
       {/*==============================================(Button)====================================================*/}
@@ -305,7 +317,7 @@ const handleClose = (
                   justifyContent: "center",
                 }}
               >
-                <Button variant="text" size="large" sx={{ marginRight: 5,marginTop: 3 }}>
+                <Button variant="text" size="large" sx={{ marginRight: 5,marginTop: 1 }}>
                   back
                 </Button>
               </Link>
@@ -313,7 +325,7 @@ const handleClose = (
           variant="contained"
           size="large"
           onClick={submit}
-          sx={{  marginTop: 3 }}
+          sx={{ marginTop: 1 }}
         >
           Update
         </Button>
@@ -321,7 +333,7 @@ const handleClose = (
     </Paper>
     <Snackbar
       open={success}
-      autoHideDuration={5000}
+      autoHideDuration={3000}
       onClose={handleClose}
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
     >
@@ -332,12 +344,12 @@ const handleClose = (
 
     <Snackbar
       open={error}
-      autoHideDuration={5000}
+      autoHideDuration={3000}
       onClose={handleClose}
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
     >
       <Alert onClose={handleClose} severity="error">
-        บันทึกข้อมูลไม่สำเร็จ
+        {msErroe}
       </Alert>
     </Snackbar>
    </div>

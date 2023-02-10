@@ -20,7 +20,7 @@ func TestTrainerNameNotBlank(t *testing.T) {
 		Age:        21,
 		Address:    "90/8 บ.โคกก่อง",
 		Email:      "Aonaon_123@gmail.com",
-		Password:   "123456",
+		Password:   "123456789",
 	}
 
 	// ตรวจสอบด้วย govalidator
@@ -47,7 +47,7 @@ func TestEmailMustBeValid(t *testing.T) {
 		Age:        21,
 		Address:    "90/8 บ.โคกก่อง",
 		Email:      "",
-		Password:   "123456",
+		Password:   "123456789",
 	}
 
 	ok, err := govalidator.ValidateStruct(trainer)
@@ -68,7 +68,7 @@ func TestEmailFormCorrect(t *testing.T) {
 		Age:        21,
 		Address:    "90/8 บ.โคกก่อง",
 		Email:      "s9ei7r8945",
-		Password:   "123456",
+		Password:   "12345689",
 	}
 
 	ok, err := govalidator.ValidateStruct(trainer)
@@ -89,14 +89,14 @@ func TestEmailMaxLength(t *testing.T) {
 		Age:        21,
 		Address:    "90/8 บ.โคกก่อง",
 		Email:      "aonaonaonaon1234567890@gmail.com", //32
-		Password:   "1234567",
+		Password:   "123456789",
 	}
 
 	ok, err := govalidator.ValidateStruct(trainer)
 
 	g.Expect(ok).ToNot(BeTrue())
 	g.Expect(err).ToNot(BeNil())
-	g.Expect(err.Error()).To(Equal("must be no more than 20 characters long"))
+	g.Expect(err.Error()).To(Equal("must be no more than 30 characters long"))
 }
 
 func TestUniversityNotBlank(t *testing.T) {
@@ -110,7 +110,7 @@ func TestUniversityNotBlank(t *testing.T) {
 		Age:        21,
 		Address:    "90/8 บ.โคกก่อง",
 		Email:      "Aon@mail.com",
-		Password:   "123456",
+		Password:   "123456789",
 	}
 
 	ok, err := govalidator.ValidateStruct(trainer)
@@ -133,7 +133,7 @@ func TestGpaxMustbeGpax(t *testing.T) {
 		Age:        21,
 		Address:    "90/8 บ.โคกก่อง",
 		Email:      "Aon@mail.com",
-		Password:   "123456",
+		Password:   "123456789",
 	}
 
 	ok, err := govalidator.ValidateStruct(trainer)
@@ -155,7 +155,7 @@ func TestGenderNotBlank(t *testing.T) {
 		Age:        21,
 		Address:    "90/8 บ.โคกก่อง",
 		Email:      "Aonaon_123@gmail.com",
-		Password:   "123456",
+		Password:   "123456798",
 	}
 
 	ok, err := govalidator.ValidateStruct(trainer)
@@ -175,7 +175,7 @@ func TestAgeMustbeNumber(t *testing.T) {
 		Age:        -1,
 		Address:    "90/8 บ.โคกก่อง",
 		Email:      "Aon@mail.com",
-		Password:   "123456",
+		Password:   "123456789",
 	}
 
 	ok, err := govalidator.ValidateStruct(trainer)
@@ -183,6 +183,7 @@ func TestAgeMustbeNumber(t *testing.T) {
 	g.Expect(ok).ToNot(BeTrue())
 	g.Expect(err).ToNot(BeNil())
 	g.Expect(err.Error()).To(Equal("Age must be positive integer"))
+	//Age cannot 0
 
 }
 
@@ -197,7 +198,7 @@ func TestAddressNotBlank(t *testing.T) {
 		Age:        21,
 		Address:    "",
 		Email:      "Aonaon_123@gmail.com",
-		Password:   "123456",
+		Password:   "123456789",
 	}
 
 	ok, err := govalidator.ValidateStruct(trainer)
@@ -226,7 +227,7 @@ func TestPasswordNotBlank(t *testing.T) {
 	g.Expect(err.Error()).To(Equal("Password cannot be blank"))
 }
 
-func TestPasswordMaxLength(t *testing.T) {
+func TestMaxLenghtPassword(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	trainer := Trainer{
@@ -243,5 +244,25 @@ func TestPasswordMaxLength(t *testing.T) {
 
 	g.Expect(ok).ToNot(BeTrue())
 	g.Expect(err).ToNot(BeNil())
-	g.Expect(err.Error()).To(Equal("Password must be no more than 20 characters long"))
+	g.Expect(err.Error()).To(Equal("Password Must contain no more than 20 characters"))
+}
+
+func TestMinLenghtPasswor(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	trainer := Trainer{
+		Name:       "aonaon",
+		University: "SUT",
+		Gpax:       3.83,
+		Gender:     "ชาย",
+		Age:        21,
+		Address:    "Ubon",
+		Email:      "Aonaon_123@gmail.com",
+		Password:   "123",
+	}
+	ok, err := govalidator.ValidateStruct(trainer)
+
+	g.Expect(ok).ToNot(BeTrue())
+	g.Expect(err).ToNot(BeNil())
+	g.Expect(err.Error()).To(Equal("Password Must contain at least 8 characters"))
 }

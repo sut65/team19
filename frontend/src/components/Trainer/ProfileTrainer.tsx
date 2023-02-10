@@ -297,7 +297,7 @@ function ProfileTrainer() {
                 /> */}
 
                 {/* ================================================<< Alert confirmation delete >>=============================== */}
-                <div  style = {{marginTop: 2, display:"flex",justifyContent:"end"}}> 
+                <div  style = {{marginTop: 3, display:"flex",justifyContent:"end"}}> 
                   <Button variant="outlined"  onClick={handleClickOpen} sx ={{display:"flex",justifyContent:"space-between"}}>
                     Delete Account 
                     {<DeleteIcon />}

@@ -63,7 +63,7 @@ type Member struct {
 	MealPlan       []MealPlans       `gorm:"foreignKey:MemberID"`
 	Body           []Body            `gorm:"foreignKey:MemberID"`
 	//Advice         []Advice          `gorm:"foreignKey:MemberID"`
-	Reviews        []Review          `gorm:"foreignKey:MemberID"`
+	Reviews []Review `gorm:"foreignKey:MemberID"`
 }
 
 // -------------------------------------------<< Admin >>------------------------------------
@@ -186,12 +186,12 @@ type Trainer struct {
 	gorm.Model
 	Name       string  `valid:"required~Name cannot be blank"`
 	University string  `valid:"required~University cannot be blank"`
-	Gpax       float32 `valid:"matches(^[+]?([1-3]+([.][0-9]*)?|[.][0]+)$)~Gpax must be between 0-4"`
+	Gpax       float32 `valid:"matches(^[+]?([0-3]+([.][0-9]*)?|[4]?|[.][0]+)$)~Gpax must be between 0-4,required~Please enter your Gpax"`
 	Gender     string  `valid:"required~Gender cannot be blank"`
-	Age        int     `valid:"matches(^[1-9]\\d*$)~Age must be positive integer"` //matches(^(?<![-.])\b[1-9]+\b(?!\.[0-9])$)
+	Age        int     `valid:"matches(^(0|[1-9][0-9]*)$)~Age must be positive integer"` //matches(^(?<![-.])\b[1-9]+\b(?!\.[0-9])$)
 	Address    string  `valid:"required~Adrress cannot be blank"`
-	Email      string  `valid:"email~Invalid email format,maxstringlength(30)~must be no more than 20 characters long,required~Email cannot be blank"` // ใช้ Email ในการ login
-	Password   string  `valid:"required~Password cannot be blank,maxstringlength(20)~Password must be no more than 20 characters long"`
+	Email      string  `valid:"email~Invalid email format,maxstringlength(30)~must be no more than 30 characters long,required~Email cannot be blank"` // ใช้ Email ในการ login
+	Password   string  `valid:"maxstringlength(20)~Password Must contain no more than 20 characters,minstringlength(8)~Password Must contain at least 8 characters"`
 
 	FormOfWorkID *uint
 	FormOfWork   FormOfWork `valid:"-"`
@@ -230,7 +230,7 @@ type CourseService struct {
 	Trainer   Trainer `valid:"-"`
 
 	Payment []Payment `gorm:"foreignKey:CourseServiceID"`
-	Advice []Advice `gorm:"foreignKey:CourseServiceID"`
+	Advice  []Advice  `gorm:"foreignKey:CourseServiceID"`
 }
 
 // ================== ระบบจัดการข้อมูลอาหาร ==================
@@ -412,7 +412,7 @@ type Advice struct {
 	RecordingDate time.Time `valid:"past"`
 
 	CourseServiceID *uint
-	CourseService CourseService
+	CourseService   CourseService
 
 	BodyID *uint
 	Body   Body
@@ -538,4 +538,15 @@ func init() {
 		pattern := "^data:image/(jpeg|jpg|png|svg|gif|tiff|tif|bmp|apng|eps|jfif|pjp|xbm|dib|jxl|svgz|webp|ico|pjpeg|avif);base64,[A-Za-z0-9+/]+={0,2}$"
 		return govalidator.Matches(str, pattern)
 	})
+
+	// govalidator.TagMap["age"] = govalidator.IsPositive(Trainer);
+	// govalidator.CustomTypeTagMap.Set("age", govalidator.CustomTypeValidator(func(i interface{}, o interface{}) bool {
+	// 	s, ok := i.(float64)
+	// 	if !ok {
+	// 		fmt.Print(s, "Aonon")
+	// 		return false
+	// 	}
+	// 	return s < 1
+	// }))
+
 }
