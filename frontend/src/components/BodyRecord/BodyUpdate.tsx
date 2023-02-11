@@ -166,10 +166,11 @@ const fetchMemberByID = async () => {
     let msError:string[] =[]; 
     let res = await UpdateBody(data);
     if (res.status) {
+      setSuccess(true);
       setTimeout(() => {
         window.location.href = "/user/body-display";
-      }, 2500);
-      setSuccess(true);
+      }, 5000);
+      
       
     } else {
       setError(true);
@@ -536,7 +537,7 @@ return (
     </Container>
     <Snackbar
       open={success}
-      autoHideDuration={3000}
+      autoHideDuration={4000}
       onClose={handleClose}
       anchorOrigin={{ vertical: "top", horizontal: "center" }}
     >

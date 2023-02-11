@@ -32,9 +32,9 @@ func CreateAdvice(c *gin.Context) {
 		return
 	}
 
-	// ค้นหา dailyActivitie ด้วย id
+	// ค้นหา dailyRoutine ด้วย id
 	if tx := entity.DB().Where("id = ?", advice.DailyRoutineID).First(&dailyRoutine); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "daily activities not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "daily routine not found"})
 		return
 	}
 
@@ -59,7 +59,7 @@ func CreateAdvice(c *gin.Context) {
 func GetAdvice(c *gin.Context) {
 	var advice entity.Advice
 	id := c.Param("id")
-	if tx := entity.DB().Preload("CourseService").Preload("Body").Preload("DailyActivities").Where("id = ?", id).First(&advice); tx.RowsAffected == 0 {
+	if tx := entity.DB().Preload("CourseService").Preload("CourseService.Member.Gender").Preload("CourseService.CourseDetail.CourseType").Preload("Body").Preload("DailyRoutine").Where("id = ?", id).First(&advice); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "blog not found"})
 		return
 	}
@@ -70,7 +70,7 @@ func GetAdvice(c *gin.Context) {
 // GET /Advices
 func ListAdvice(c *gin.Context) {
 	var advices []entity.Advice
-	if err := entity.DB().Preload("CourseService").Preload("Body").Preload("DailyActivities").Raw("SELECT * FROM advices").Find(&advices).Error; err != nil {
+	if err := entity.DB().Preload("CourseService").Preload("CourseService.Member.Gender").Preload("CourseService.CourseDetail.CourseType").Preload("Body").Preload("DailyRoutine").Raw("SELECT * FROM advices").Find(&advices).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

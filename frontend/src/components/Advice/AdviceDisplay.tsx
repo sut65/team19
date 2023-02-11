@@ -115,6 +115,7 @@ function AdviceDisplay() {
                                 <TableCell align="center" sx={{ color: "#d01716" }}>ลบ</TableCell>
                             </TableRow>
                         </TableHead>
+
                         <TableBody >
                             {courseService.map((courseService) => (
                                 <TableRow key={courseService.ID}>
