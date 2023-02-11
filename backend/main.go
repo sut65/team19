@@ -8,7 +8,7 @@ import (
 	Advice "github.com/sut65/team19/controller/Advice"
 	CourseDetail "github.com/sut65/team19/controller/CourseDetail"
 	CourseService "github.com/sut65/team19/controller/CourseService"
-	DailyActivities "github.com/sut65/team19/controller/DailyActivities"
+	DailyRoutine "github.com/sut65/team19/controller/DailyRoutine"
 	foodInformation "github.com/sut65/team19/controller/FoodInformation"
 	MealPlan "github.com/sut65/team19/controller/MealPlan"
 	nutrient "github.com/sut65/team19/controller/Nutrient"
@@ -93,15 +93,12 @@ func main() {
 			router.DELETE("/member/:id", controller.DeleteMember)
 			router.PATCH("/update-member", controller.UpdateMember)
 
-			// DailyActivities Routes
-			r.POST("/dailyactivities", DailyActivities.CreateActivity)
-			r.GET("/dailyactivities/:id", DailyActivities.GetActivity)
-			r.GET("/dailyactivities", DailyActivities.ListActivities)
-			r.PATCH("/dailyactivity", DailyActivities.UpdateActivity)
-			r.DELETE("/dailyactivities/:id", DailyActivities.DeleteActivity)
-
-			r.GET("/activitiestypes", DailyActivities.GetActivitiesTypes)
-			r.GET("/activitiestypes/:id", DailyActivities.ListActivitiesTypes)
+			// DailyRoutine Routes
+			r.POST("/daily_routines", DailyRoutine.CreateDailyRoutine)
+			r.GET("/daily_routine/:id", DailyRoutine.GetDailyRoutineByID)
+			r.GET("/daily_routines", DailyRoutine.GetDailyRoutines)
+			r.PATCH("/daily_routines", DailyRoutine.UpdateDailyRoutine)
+			r.DELETE("/daily_routines/:id", DailyRoutine.DeleteDailyRoutine)
 
 			// MealPlan Routes
 			r.POST("/mealplans", MealPlan.CreateMealPlans)
