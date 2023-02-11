@@ -40,20 +40,11 @@ func CreateAdvice(c *gin.Context) {
 
 	// สร้าง Advice
 	adv := entity.Advice{
-<<<<<<< HEAD
-		Advice:         advice.Advice,
-		RecordingDate:  advice.RecordingDate,
-		CourseService: courseService,
-		Body:           body,
-		DailyActivities: dailyActivities,
-=======
 		Advice:        advice.Advice,
 		RecordingDate: advice.RecordingDate,
-		Trainer:       trainer,
-		Member:        member,
+		CourseService: courseService,
 		Body:          body,
 		DailyRoutine:  dailyRoutine,
->>>>>>> 95491a5 ( - close #186)
 	}
 
 	// บันทึก
@@ -68,11 +59,7 @@ func CreateAdvice(c *gin.Context) {
 func GetAdvice(c *gin.Context) {
 	var advice entity.Advice
 	id := c.Param("id")
-<<<<<<< HEAD
 	if tx := entity.DB().Preload(clause.Associations).Preload("CourseService."+clause.Associations).Where("id = ?", id).First(&advice); tx.RowsAffected == 0 {
-=======
-	if tx := entity.DB().Preload("Trainer").Preload("Member").Preload("Body").Preload("DailyRoutine").Where("id = ?", id).First(&advice); tx.RowsAffected == 0 {
->>>>>>> 95491a5 ( - close #186)
 		c.JSON(http.StatusBadRequest, gin.H{"error": "advice not found"})
 		return
 	}
@@ -83,11 +70,7 @@ func GetAdvice(c *gin.Context) {
 // GET /Advices
 func ListAdvice(c *gin.Context) {
 	var advices []entity.Advice
-<<<<<<< HEAD
 	if err := entity.DB().Preload(clause.Associations).Preload("CourseService." + clause.Associations).Raw("SELECT * FROM advices").Find(&advices).Error; err != nil {
-=======
-	if err := entity.DB().Preload("Trainer").Preload("Member").Preload("Body").Preload("DailyRoutine").Raw("SELECT * FROM advices").Find(&advices).Error; err != nil {
->>>>>>> 95491a5 ( - close #186)
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -138,20 +121,11 @@ func UpdateAdvice(c *gin.Context) {
 	}
 
 	update := entity.Advice{
-<<<<<<< HEAD
-		Advice:         advice.Advice,
-		RecordingDate:  advice.RecordingDate,
-		CourseService: courseService,
-		Body:           body,
-		DailyActivities: dailyActivities,
-=======
 		Advice:        advice.Advice,
 		RecordingDate: advice.RecordingDate,
-		Trainer:       trainer,
-		Member:        member,
+		CourseService: courseService,
 		Body:          body,
 		DailyRoutine:  DailyRoutine,
->>>>>>> 95491a5 ( - close #186)
 	}
 
 	if err := entity.DB().Where("id = ?", advice.ID).Updates(&update).Error; err != nil {
