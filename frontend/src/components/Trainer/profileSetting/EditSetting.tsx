@@ -152,8 +152,14 @@ const handleClose = (
           con_pass=false;
           setmsError("Password does not match")
         }
-      }else{
+      }else if(pass.password != passNew.password){
+        con_pass=false;
+        setmsError("Password does not match")
+      }
+      
+      else{
         con_pass =true;
+        return"123456789" // จะกลับมาแก้ปัญหาในภายหลัง
       }
     }
 

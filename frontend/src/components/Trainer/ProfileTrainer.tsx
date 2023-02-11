@@ -29,6 +29,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert, { AlertProps } from "@mui/material/Alert"
 
 import environmentIcon from "../../images/environmentIcon.png"
 import profile2 from "../../images/profile2.jpg"
@@ -48,15 +50,12 @@ import { colors } from "@mui/joy";
 import {DeleteTrainer} from "../../services/HttpClientService"
 import { Console } from "console";
 
-
-const handleClickDelete = async (id : string) => {
-  let res = await DeleteTrainer(id);
-  if (res) {
-    window.location.reload();
-    localStorage.clear();
-    window.location.href = "/trainer";
-  }
-}
+const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
+  props,
+  ref
+) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 
 interface TabPanelProps {
@@ -101,11 +100,43 @@ function ProfileTrainer() {
   const [trainer, setTrainer] = useState<TrainerInterface>({}); 
   const [date_in, setDateIn] = useState<string>(""); 
 
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(false);
+
   // For Alert confirmation Delete Account
 
   const [open, setOpen] = React.useState(false);
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+
+
+  const handleClickDelete = async (id : string) => {
+    let res = await DeleteTrainer(id);
+    if (res) {
+      setSuccess(true)
+      setTimeout(() =>{
+        window.location.reload();
+      localStorage.clear();
+      window.location.href = "/trainer";
+      },5000)
+      
+    }else{
+      setError(true)
+    }
+  }
+
+
+
+  const handleCloseAlert = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSuccess(false);
+    setError(false);
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -244,7 +275,10 @@ function ProfileTrainer() {
                     <Divider component="li" />
 
                     <ListItem>
-                      <ListItemText primary="Sport" secondary={"เกรดเฉลี่ยสะสม "+trainer.Gpax} />
+                      <ListItemText
+                        primary="Sport"
+                        secondary={"เกรดเฉลี่ยสะสม " + trainer.Gpax}
+                      />
                     </ListItem>
                     <Divider component="li" variant="inset" />
                   </List>
@@ -297,9 +331,19 @@ function ProfileTrainer() {
                 /> */}
 
                 {/* ================================================<< Alert confirmation delete >>=============================== */}
-                <div  style = {{marginTop: 3, display:"flex",justifyContent:"end"}}> 
-                  <Button variant="outlined"  onClick={handleClickOpen} sx ={{display:"flex",justifyContent:"space-between"}}>
-                    Delete Account 
+                <div
+                  style={{
+                    marginTop: 3,
+                    display: "flex",
+                    justifyContent: "end",
+                  }}
+                >
+                  <Button
+                    variant="outlined"
+                    onClick={handleClickOpen}
+                    sx={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    Delete Account
                     {<DeleteIcon />}
                   </Button>
                   <Dialog
@@ -313,11 +357,15 @@ function ProfileTrainer() {
                     </DialogTitle>
                     <DialogContent>
                       <DialogContentText>
-                      If you delete the account, the data cannot be restored and the account will be permanently deleted.
+                        If you delete the account, the data cannot be restored
+                        and the account will be permanently deleted.
                       </DialogContentText>
                     </DialogContent>
                     <DialogActions>
-                      <Button autoFocus onClick={() => handleClickDelete(trainer.ID + "")}>
+                      <Button
+                        autoFocus
+                        onClick={() => handleClickDelete(trainer.ID + "")}
+                      >
                         accept
                       </Button>
                       <Button onClick={handleClose} autoFocus>
@@ -362,6 +410,27 @@ function ProfileTrainer() {
           </Grid>
         </Paper>
       </Container>
+      <Snackbar
+        open={success}
+        autoHideDuration={4000}
+        onClose={handleCloseAlert}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert onClose={handleCloseAlert} severity="success">
+        ลบข้อมูลสำเร็จ
+        </Alert>
+      </Snackbar>
+
+      <Snackbar
+        open={error}
+        autoHideDuration={3000}
+        onClose={handleCloseAlert}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert onClose={handleCloseAlert} severity="error">
+          ลบข้อมูลไม่สำเร็จ
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }
