@@ -1,6 +1,6 @@
 import { CourseServiceInterface } from "./ICourseService";
 import { BodyInterface } from "./IBody";
-import { DailyActivitiesInterface } from "./IDailyActivities";
+import { DailyRoutinesInterface } from "./IDailyRoutines";
 
 export interface AdviceInterface {
     ID?: number,
@@ -13,7 +13,7 @@ export interface AdviceInterface {
     BodyID?: number,
     Body?: BodyInterface,
 
-    DailyActivitiesID?: number,
-    DailyActivities?: DailyActivitiesInterface,
+    DailyRoutinesID?: number,
+    DailyRoutines?: DailyRoutinesInterface,
 
 }

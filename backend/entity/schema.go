@@ -53,9 +53,9 @@ type Member struct {
 	DailyRoutine  []DailyRoutine  `gorm:"foreignKey:MemberID"`
 	MealPlan      []MealPlans     `gorm:"foreignKey:MemberID"`
 	Body          []Body          `gorm:"foreignKey:MemberID"`
-	Advice        []Advice        `gorm:"foreignKey:MemberID"`
-	Reviews       []Review        `gorm:"foreignKey:MemberID"`
-	Behavior      []Behavior      `gorm:"foreignKey:MemberID"`
+	// Advice        []Advice        `gorm:"foreignKey:MemberID"`
+	Reviews  []Review   `gorm:"foreignKey:MemberID"`
+	Behavior []Behavior `gorm:"foreignKey:MemberID"`
 }
 
 // -------------------------------------------<< Admin >>------------------------------------

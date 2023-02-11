@@ -9,8 +9,8 @@ export interface FoodInformationInterface {
     Datetime?:      string
 
     FoodTypeID?:    number
-    FoodType?:      FoodInformationInterface
-
+    FoodType?: FoodTypeInterface
+    
     MainIngredientID?:      number
     MainIngredient?:        MainIngredientInterface
     
