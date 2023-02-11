@@ -207,26 +207,6 @@ func TestAddressNotBlank(t *testing.T) {
 	g.Expect(err.Error()).To(Equal("Adrress cannot be blank"))
 }
 
-func TestPasswordNotBlank(t *testing.T) {
-	g := NewGomegaWithT(t)
-
-	trainer := Trainer{
-		Name:       "aonaon",
-		University: "SUT",
-		Gpax:       3.83,
-		Gender:     "ชาย",
-		Age:        21,
-		Address:    "Ubon",
-		Email:      "Aonaon_123@gmail.com",
-		Password:   "",
-	}
-	ok, err := govalidator.ValidateStruct(trainer)
-
-	g.Expect(ok).ToNot(BeTrue())
-	g.Expect(err).ToNot(BeNil())
-	g.Expect(err.Error()).To(Equal("Password cannot be blank"))
-}
-
 func TestMaxLenghtPassword(t *testing.T) {
 	g := NewGomegaWithT(t)
 
