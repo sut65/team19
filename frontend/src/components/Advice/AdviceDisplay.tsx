@@ -121,7 +121,7 @@ function AdviceDisplay() {
                                     <TableCell align="right" >{advice.ID}</TableCell>
                                     <TableCell align="center">
                                         <Box sx={{ display: "flex", justifyContent: "center" }}>
-                                            <Avatar src={advice.CourseService?.Member?.Profileuser}
+                                            <Avatar src={advice.CourseService?.Member?.ProfileUser}
                                                 sx={{ width: 110, height: 110 }} />
                                         </Box>
                                     </TableCell>
