@@ -35,17 +35,17 @@ type Member struct {
 	gorm.Model
 	Firstname   string `valid:"required~Firstname cannot be blank"`
 	Lastname    string `valid:"required~Lastname cannot be blank"`
-	ProfileUser string `valid:"image~ file must be only image"`
-	Email       string `valid:"email~Invalid email format,maxstringlength(30)~must be no more than 20 characters long,required~Email cannot be blank"`
+	ProfileUser string `valid:"image~Profile must be only image"`
+	Email       string `valid:"email~Invalid email format,required~Email cannot be blank"`
 	Password    string `valid:"required~Password cannot be blank,minstringlength(8)~Password must be no less than 8 characters long"`
 
-	StatusID *uint `valid:"required~Status cannot be blank"`
+	StatusID *uint
 	Status   Status
 
-	ReligionID *uint `valid:"required~Religion cannot be blank"`
+	ReligionID *uint
 	Religion   Religion
 
-	GenderID *uint `valid:"required~Gender cannot be blank"`
+	GenderID *uint
 	Gender   Gender
 
 	CourseService []CourseService `gorm:"foreignKey:MemberID"`
@@ -53,9 +53,9 @@ type Member struct {
 	DailyRoutine  []DailyRoutine  `gorm:"foreignKey:MemberID"`
 	MealPlan      []MealPlans     `gorm:"foreignKey:MemberID"`
 	Body          []Body          `gorm:"foreignKey:MemberID"`
-	Advice        []Advice        `gorm:"foreignKey:MemberID"`
-	Reviews       []Review        `gorm:"foreignKey:MemberID"`
-	Behavior      []Behavior      `gorm:"foreignKey:MemberID"`
+	// Advice        []Advice        `gorm:"foreignKey:MemberID"`
+	Reviews  []Review   `gorm:"foreignKey:MemberID"`
+	Behavior []Behavior `gorm:"foreignKey:MemberID"`
 }
 
 // -------------------------------------------<< Admin >>------------------------------------
@@ -503,8 +503,9 @@ type Taste struct {
 
 type Behavior struct {
 	gorm.Model
-	Meals string `valid:"minstringlength(10)~meals not less than 10 characters,maxstringlength(30)~meals not more than 30 characters"`
-	Time  string
+	Meals       string `valid:"minstringlength(4)~Meals not less than 4 characters,maxstringlength(30)~Meals not more than 30 characters"`
+	Time        string
+	ProfileBody string `valid:"image~Profile must be only image"`
 
 	MemberID int    `gorm:"uniqueIndex"`
 	Member   Member `valid:"-"`

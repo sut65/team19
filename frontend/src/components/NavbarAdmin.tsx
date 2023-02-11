@@ -45,19 +45,23 @@ function NavbarAdmin() {
     window.location.href = "/";
   };
 
-  const menus = [{
-    to: "food-display",
-    label: "Food",
-    icons: FoodIcon,
-  }, {
-    to: "course",
-    label: "Course",
-    icons: CourseIcon,
-  }, {
-    to: "nutrient-display",
-    label: "Nutrient",
-    icons: NutIcon,
-  }];
+  const menus = [
+    {
+      to: "food-display",
+      label: "Food",
+      icons: FoodIcon,
+    },
+    {
+      to: "course",
+      label: "Course",
+      icons: CourseIcon,
+    },
+    {
+      to: "nutrient-display",
+      label: "Nutrient",
+      icons: NutIcon,
+    },
+  ];
 
   return (
     <ThemeProvider theme={theme}>
@@ -70,7 +74,7 @@ function NavbarAdmin() {
               color: "#000000",
               paddingTop: 2,
               paddingBottom: 0.5,
-              padding: "0.5rem"
+              padding: "0.5rem",
             }}
           >
             <Grid
@@ -85,72 +89,85 @@ function NavbarAdmin() {
                 alignItems: "center",
               }}
             >
-            <div style={{ display: "flex", width: "100vw", justifyContent: "space-between"}}>
-              <Grid item xs={1.2}>
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <img
-                    style={{ height: 40, justifyItems: "center" ,paddingLeft: "20px"}}
-                    src={AppLogo}
-                    alt="logo"
-                  />
-                  <Link
-                    to="/admin"
-                    style={{
-                      color: "#000",
-                      textDecoration: "none",
-                      textAlign: "center",
+              <div
+                style={{
+                  display: "flex",
+                  width: "100vw",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Grid item xs={1.2}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
                     }}
                   >
-                    <Typography
-                      component="div"
-                      sx={{ flexGrow: 1, fontWeight: "bold", fontSize: 30 }}
+                    <img
+                      style={{
+                        height: 40,
+                        justifyItems: "center",
+                        paddingLeft: "20px",
+                      }}
+                      src={AppLogo}
+                      alt="logo"
+                    />
+                    <Link
+                      to="/admin"
+                      style={{
+                        color: "#000",
+                        textDecoration: "none",
+                        textAlign: "center",
+                      }}
                     >
-                      Nutrition
-                    </Typography>
-                  </Link>
-                </Box>
-              </Grid>
+                      <Typography
+                        component="div"
+                        sx={{ flexGrow: 1, fontWeight: "bold", fontSize: 30 }}
+                      >
+                        Nutrition
+                      </Typography>
+                    </Link>
+                  </Box>
+                </Grid>
 
-              <Grid item xs={3}></Grid>
+                <Grid item xs={3}></Grid>
 
-              {/* ถ้าจะเพิ่ม menu ก็ลดอัตราส่วนลง เช่น
+                {/* ถ้าจะเพิ่ม menu ก็ลดอัตราส่วนลง เช่น
                 จาก
                 <Grid item xs={6}></Grid>
                 เป็น
                 <Grid item xs={5}></Grid>
                 <Grid item xs={1}>menu1</Grid> 
                 */}
-              {/* <Grid item xs={1} sx={{ ml: 4 }}> */}
-              <div style={{ marginRight: 10 }}>
-                {menus.map((item) => {
-                  return (
-                    <>
-                      <Link
-                        to={item.to}
-                        style={{
-                          color: "#000",
-                          textDecoration: "none",
-                          textAlign: "center",
-                        }}
-                      >
-                        <Button color="inherit" style={{ fontSize: "1.2rem" }}>
-                          {item.label}
-                          {item.icons && <Avatar src={item.icons} />}
-                        </Button>
-                      </Link>
-                    </>
-                  );
-                })}
-                <IconButton onClick={Logout} style={{paddingRight: "20px"}}>
-                  <LogoutIcon fontSize="large" />
-                </IconButton>
-              </div>
+                {/* <Grid item xs={1} sx={{ ml: 4 }}> */}
+                <div style={{ marginRight: 10 }}>
+                  {menus.map((item) => {
+                    return (
+                      <>
+                        <Link
+                          to={item.to}
+                          style={{
+                            color: "#000",
+                            textDecoration: "none",
+                            textAlign: "center",
+                          }}
+                        >
+                          <Button
+                            color="inherit"
+                            style={{ fontSize: "1.2rem" }}
+                          >
+                            {item.label}
+                            {item.icons && <Avatar src={item.icons} />}
+                          </Button>
+                        </Link>
+                      </>
+                    );
+                  })}
+                  <IconButton onClick={Logout} style={{ paddingRight: "20px" }}>
+                    <LogoutIcon fontSize="large" />
+                  </IconButton>
+                </div>
                 {/* </Grid> */}
                 {/* <Grid item xs={1}>
                     <Link
@@ -203,12 +220,12 @@ function NavbarAdmin() {
                     </IconButton>
                   </Grid> */}
               </div>
-            <Outlet />
-          </Grid>
-        </AppBar>
-      </Box>
-    </Fragment>
-    </ThemeProvider >
+              <Outlet />
+            </Grid>
+          </AppBar>
+        </Box>
+      </Fragment>
+    </ThemeProvider>
   );
 }
 

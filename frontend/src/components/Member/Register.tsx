@@ -43,16 +43,12 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 function RegisterMember() {
   // =========================(Use State)====================================================
 
-  const [rg, setRg] = useState<MemberInterface>({});
+  const [member, setMember] = useState<MemberInterface>({});
   const [gen, setGen] = useState<GenderInterface[]>([]);
   const [sta, setSta] = useState<StatusInterface[]>([]);
   const [prv, setPrv] = useState<ReligionInterface[]>([]);
   const [profileuser, setProfileUser] = useState({ name: "", src: "" });
 
-  const [first, setFirst] = useState<String>("");
-  const [last, setLast] = useState<String>("");
-  const [email, setEm] = useState<String>("");
-  
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [message,setAlertMessage] = React.useState("")
@@ -70,15 +66,15 @@ function RegisterMember() {
   }
   const handleChangeImages = (event: any, id?: string) => {
     const input = event.target.files[0];
-    const name = event.target.name as keyof typeof rg;
+    const name = event.target.name as keyof typeof member;
 
     var reader = new FileReader();
     reader.readAsDataURL(input);
     reader.onload = function () {
       const dataURL = reader.result;
       setProfileUser({ name: input.name, src: dataURL?.toString() as string });
-      if (event.target.name === "Profileuser") {
-        setRg({ ...rg, [name]: dataURL?.toString() });
+      if (event.target.name === "ProfileUser") {
+        setMember({ ...member, [name]: dataURL?.toString() });
       }
     };
   };
@@ -117,20 +113,20 @@ function RegisterMember() {
   // =========================(HandleChange)====================================================
 
   const handleChange = (event: SelectChangeEvent) => {
-    const name = event.target.name as keyof typeof rg;
+    const name = event.target.name as keyof typeof member;
     console.log(event.target.name);
     console.log(event.target.value);
-    setRg({
-      ...rg,
+    setMember({
+      ...member,
       [name]: event.target.value,
     });
-    console.log(rg);
+    console.log(member);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name;
     console.log(name);
-    setRg({ ...rg, [name]: e.target.value });
+    setMember({ ...member, [name]: e.target.value });
   };
 
 
@@ -177,18 +173,16 @@ function RegisterMember() {
 
   const submit = async () => {
     let data = {
-    Firstname: rg.Firstname,
-    Lastname: rg.Lastname,
+    Firstname: member.Firstname,
+    Lastname: member.Lastname,
     Password: pass.password,
-    Email: rg.Email,
-    GenderID: convertType(rg.GenderID),
-    StatusID: convertType(rg.StatusID),
-    ReligionID: convertType(rg.ReligionID),
-    ProfileUser: rg.ProfileUser,
+    Email: member.Email,
+    GenderID: convertType(member.GenderID),
+    StatusID: convertType(member.StatusID),
+    ReligionID: convertType(member.ReligionID),
+    ProfileUser: member.ProfileUser,
     };
     // window.location.href = "/members"
-    console.log(data)
-    console.log(rg.Firstname)
     let res = await CreateMember(data);
     if (res.status) {
       window.location.href = "/user/profile-member";
@@ -232,7 +226,7 @@ function RegisterMember() {
                   variant="outlined"
                   fullWidth
                   required
-                  value={rg.Firstname}
+                  value={member.Firstname}
                   onChange={handleInputChange}
                 />
                 
@@ -247,7 +241,7 @@ function RegisterMember() {
                   variant="outlined"
                   fullWidth
                   required
-                  value={rg.Lastname}
+                  value={member.Lastname}
                   onChange={handleInputChange}
                 />
               </Grid>
@@ -268,7 +262,7 @@ function RegisterMember() {
                   variant="outlined"
                   name="Email"
                   required
-                  value={rg.Email}
+                  value={member.Email}
                   onChange={handleInputChange}
                   fullWidth
                 />
@@ -325,7 +319,7 @@ function RegisterMember() {
                     native
                     fullWidth
                     id="gender"
-                    value={rg.GenderID + ""}
+                    value={member.GenderID + ""}
                     onChange={handleChange}
                     inputProps={{
                     name: "GenderID",
@@ -360,7 +354,7 @@ function RegisterMember() {
                     native
                     fullWidth
                     id="status"
-                    value={rg.StatusID + ""}
+                    value={member.StatusID + ""}
                     onChange={handleChange}
                     inputProps={{
                     name: "StatusID",
@@ -395,7 +389,7 @@ function RegisterMember() {
                     native
                     fullWidth
                     id="religion"
-                    value={rg.ReligionID + ""}
+                    value={member.ReligionID + ""}
                     onChange={handleChange}
                     inputProps={{
                     name: "ReligionID",
@@ -428,7 +422,7 @@ function RegisterMember() {
           Upload
           <input
             id="profileUser"
-            name="Profileuser"
+            name="ProfileUser"
             hidden
             accept="image/*"
             multiple

@@ -11,6 +11,7 @@ import { NutrientInterface } from "../interfaces/INutrient";
 import { PaymentInterface } from "../interfaces/IPayment";
 import { BehaviorInterface } from "../interfaces/IBehavior";
 import { TrainerInterface } from "../interfaces/ITrainer";
+import { DailyRoutinesInterface } from "../interfaces/IDailyRoutines";
 import { BodyInterface } from "../interfaces/IBody";
 import { AdviceInterface } from "../interfaces/IAdvice";
 
@@ -583,7 +584,6 @@ async function GetAdviceByID(id: number | undefined) {
   return res;
 }
 
-
 // ------------- Review -----------------
 const GetReviews = async () => {
   let res = await fetch(`${apiUrl}/reviews`, requestOptionsGet)
@@ -922,6 +922,127 @@ const DeleteFoodInformation = async (id: string) => {
   return res;
 };
 
+//--------------------------------DailyRoutines--------------------------------
+
+const GetDailyRoutines = async () => {
+  let res = await fetch(`${apiUrl}/daily_routines`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetDailyRoutinesByID = async (id: string) => {
+  let res = await fetch(`${apiUrl}/daily_routine/:id/${id}`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const CreateDailyRoutines = async (data: DailyRoutinesInterface) => {
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(
+    `${apiUrl}/daily-routines/create-dailyroutines`,
+    requestOptions
+  )
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return { status: true, message: res.data };
+      } else {
+        return { status: false, message: res.error };
+      }
+    });
+
+  return res;
+};
+const UpdateDailyRoutines = async (data: DailyRoutinesInterface) => {
+  const requestOptions = {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(
+    `${apiUrl}/daily-routines/update-dailyroutines/:id`,
+    requestOptions
+  )
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return { status: true, message: res.data };
+      } else {
+        return { status: false, message: res.error };
+      }
+    });
+
+  return res;
+};
+
+const DeleteDailyRoutines = async (id: string) => {
+  const requestOptions = {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/delete-daily_routines/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetActivity = async () => {
+  let res = await fetch(`${apiUrl}/activity`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetMealTime = async () => {
+  let res = await fetch(`${apiUrl}/meal_times`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetSleepSchedule = async () => {
+  let res = await fetch(`${apiUrl}/sleep_schedule`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
 // ====================< Body >===============================
 const GetInfoBody = async () => {
   let res = await fetch(`${apiUrl}/bodies`, requestOptionsGet)
@@ -1008,7 +1129,7 @@ const UpdateBody = async (data: BodyInterface) => {
         return { status: true, message: res.data };
       } else {
         return { status: false, message: res.error };
-      };
+      }
     });
 
   return res;
@@ -1096,7 +1217,7 @@ const CreateMember = async (data: MemberInterface) => {
   let res = await fetch(`${apiUrl}/member`, requestOptions)
     .then((response) => response.json())
     .then((res) => {
-      console.log(res)
+      console.log(res);
       if (res.data) {
         return { status: true, message: res.data };
       } else {
@@ -1120,7 +1241,7 @@ const UpdateMem = async (data: MemberInterface) => {
   let res = await fetch(`${apiUrl}/update-member`, requestOptions)
     .then((response) => response.json())
     .then((res) => {
-      console.log(res)
+      console.log(res);
       if (res.data) {
         return { status: true, message: res.data };
       } else {
@@ -1148,8 +1269,6 @@ const DeleteMember = async (id: string) => {
 
   return res;
 };
-
-
 
 const DeleteNutrient = async (id: string) => {
   const requestOptions = {
@@ -1181,7 +1300,7 @@ const CreateBehavior = async (data: BehaviorInterface) => {
   let res = await fetch(`${apiUrl}/behavior`, requestOptions)
     .then((response) => response.json())
     .then((res) => {
-      console.log(res)
+      console.log(res);
       if (res.data) {
         return { status: true, message: res.data };
       } else {
@@ -1242,7 +1361,7 @@ const UpdateBehaviors = async (data: BehaviorInterface) => {
   let res = await fetch(`${apiUrl}/behaviors`, requestOptions)
     .then((response) => response.json())
     .then((res) => {
-      console.log(res)
+      console.log(res);
       if (res.data) {
         return { status: true, message: res.data };
       } else {
@@ -1302,15 +1421,6 @@ const GetMembersByID = async (id: string) => {
   return res;
 };
 
-const GetMember = async () => {
-  let res = await fetch(`${apiUrl}/members`, requestOptionsGet)
-    .then((response) => response.json())
-    .then((result) => {
-      return result.data ? result.data : false;
-    });
-
-  return res;
-};
 
 async function SelectCourseDetail(id: number | undefined) {
   const requestOptions = {
@@ -1649,7 +1759,6 @@ export {
   GetStatus,
   GetEducation,
   GetReligion,
-  
   //CourseDetail
   GetCourseDetail,
   DeleteCourseDetail,
@@ -1659,7 +1768,6 @@ export {
   GetAdmin,
   GetPrice,
   GetCourseType,
-
   // CourseService
   GetCourseService,
   SelectCourseDetail,
@@ -1695,6 +1803,15 @@ export {
   GetFoodInformationByID,
   UpdateFoodInformation,
   DeleteFoodInformation,
+  //DailyRoutines
+  GetDailyRoutines,
+  GetDailyRoutinesByID,
+  CreateDailyRoutines,
+  UpdateDailyRoutines,
+  DeleteDailyRoutines,
+  GetActivity,
+  GetMealTime,
+  GetSleepSchedule,
   // Review
   CreateReviews,
   UpdateReview,
@@ -1714,7 +1831,6 @@ export {
   DeleteMember,
   GetMemberByID,
   CreateMember,
-  GetMember,
   GetMembersByID,
   //Body
   CreateBody,

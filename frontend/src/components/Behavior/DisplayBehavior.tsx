@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Container } from "@mui/system";
 import { Avatar, Grid } from "@mui/material";
-import Box from '@mui/material/Box';
+import Box  from '@mui/material/Box';
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import Typography  from '@mui/material/Typography';
 
 import { 
   Link,
@@ -20,7 +21,7 @@ import { GetBehaviorByID } from "../../services/HttpClientService";
 
 function DisplayBehavior() {
 
-    const [behavior, setbehavior] = useState<BehaviorInterface>({}); 
+    const [behavior, setBehavior] = useState<BehaviorInterface>({}); 
    
     let navigate = useNavigate();
 
@@ -34,7 +35,7 @@ function DisplayBehavior() {
     const fetchBehaviorID = async () => {
         let res = await GetBehaviorByID();
         if (res) {
-          setbehavior(res);
+          setBehavior(res);
         }
       };
     
@@ -64,7 +65,14 @@ function DisplayBehavior() {
               sx={{ padding: 20, paddingTop: 2, marginBottom: 20 }}
             >
               <Grid container spacing={2} sx={{ marginTop: 1}}>
- {/*============================================(Meals)======================================================*/}
+ {/*============================================(รูป)======================================================*/}
+                  <Grid xs={12} xl = {12} md={12}>
+                  <Box sx={{ display: "flex", justifyContent: "center" }}>
+                      <Avatar src={behavior.ProfileBody}
+                      sx={{ width: 110, height: 110 }} />
+                  </Box> 
+                  </Grid>
+               </Grid> 
                 <Grid xs={5} xl = {5} md={5}>
                   <p style={{ fontSize: 17 }}>มื้ออาหารที่คุณกิน :</p>
                 <TextField
@@ -132,7 +140,6 @@ function DisplayBehavior() {
                   }}
                 />
                </Grid> 
-            </Grid> 
                <Grid xs={2} md={1} sx={{ marginTop: 6 }}>
                           <Stack direction="row" spacing={5} >
                             {/* ปุ่มเพิ่มข้อมูล */}
