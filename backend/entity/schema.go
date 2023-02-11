@@ -48,15 +48,6 @@ type Member struct {
 	GenderID *uint `valid:"required~Gender cannot be blank"`
 	Gender   Gender
 
-<<<<<<< HEAD
-	CourseService  []CourseService   `gorm:"foreignKey:MemberID"`
-	Blogs          []Blog            `gorm:"foreignKey:MemberID"`
-	DailyRoutine []DailyRoutine `gorm:"foreignKey:MemberID"`
-	MealPlan       []MealPlans       `gorm:"foreignKey:MemberID"`
-	Body           []Body            `gorm:"foreignKey:MemberID"`
-	//Advice         []Advice          `gorm:"foreignKey:MemberID"`
-	Reviews []Review `gorm:"foreignKey:MemberID"`
-=======
 	CourseService []CourseService `gorm:"foreignKey:MemberID"`
 	Blogs         []Blog          `gorm:"foreignKey:MemberID"`
 	DailyRoutine  []DailyRoutine  `gorm:"foreignKey:MemberID"`
@@ -65,7 +56,6 @@ type Member struct {
 	Advice        []Advice        `gorm:"foreignKey:MemberID"`
 	Reviews       []Review        `gorm:"foreignKey:MemberID"`
 	Behavior      []Behavior      `gorm:"foreignKey:MemberID"`
->>>>>>> 95491a5 ( - close #186)
 }
 
 // -------------------------------------------<< Admin >>------------------------------------

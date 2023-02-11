@@ -748,19 +748,9 @@ func SetupDatabase() {
 	}
 	db.Model(&Activity{}).Create(&ActivityB)
 
-<<<<<<< HEAD
-	DailyActivitiesC := DailyActivities{
-		Name:           "ปืนเขา",
-		Duration:       "2 ชั่วโมง",
-		Date:           time.Date(2023, time.January, 3, 15, 03, 00, 0, time.UTC),
-		ActivitiesType: ActivitiesTypeC,
-		Admin:          AdminC,
-		Member:         Member3,
-=======
 	ActivityC := Activity{
 		Name:         "Yoga",
 		ActivityType: "Flexibility",
->>>>>>> 95491a5 ( - close #186)
 	}
 	db.Model(&Activity{}).Create(&ActivityC)
 
@@ -794,14 +784,12 @@ func SetupDatabase() {
 	}
 	db.Model(&DailyRoutine{}).Create(&DailyRoutineC)
 
-<<<<<<< HEAD
-=======
 	// Advice part ------------------------------------------------------
 	Advice1 := Advice{
 		Advice:        "กินโปรตีนเพิ่มให้ได้ 2 g ต่อน้ำหนักตัว 1 kg",
 		RecordingDate: time.Date(2023, time.January, 4, 14, 14, 00, 0, time.UTC),
-		Member:        Member1,
-		Trainer:       Trainer1,
+		// Member:        Member1,
+		// Trainer:       Trainer1,
 		Body:          BodyChangeA,
 		DailyRoutine:  DailyRoutineA,
 	}
@@ -810,8 +798,8 @@ func SetupDatabase() {
 	Advice2 := Advice{
 		Advice:        "ออกกำลังกายแบบคาร์ดิโอเพิ่มเป็นสัปดาห์ละ 4 วัน วันละ 1 ชม.",
 		RecordingDate: time.Date(2023, time.January, 25, 12, 30, 00, 0, time.UTC),
-		Member:        Member2,
-		Trainer:       Trainer2,
+		// Member:        Member2,
+		// Trainer:       Trainer2,
 		Body:          BodyChangeB,
 		DailyRoutine:  DailyRoutineB,
 	}
@@ -820,14 +808,13 @@ func SetupDatabase() {
 	Advice3 := Advice{
 		Advice:        "เล่นเวทเทรนนิ่ง เพิ่มเป็นสัปดาห์ละ 3 วัน วันละ 1.5 ชม.",
 		RecordingDate: time.Date(2023, time.January, 27, 11, 47, 00, 0, time.UTC),
-		Member:        Member3,
-		Trainer:       Trainer2,
+		// Member:        Member3,
+		// Trainer:       Trainer2,
 		Body:          BodyChangeA,
 		DailyRoutine:  DailyRoutineC,
 	}
 	db.Model(&Advice{}).Create(&Advice3)
 
->>>>>>> 95491a5 ( - close #186)
 	//==========================ระบบจัดการสารอาหาร==========================
 
 	MostNutrientA := MostNutrient{
