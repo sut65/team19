@@ -1726,6 +1726,9 @@ export {
   GetExercise,
   GetTaste,
   CreateBehavior,
+  UpdateBehaviors,
+  GetBehaviorByID,
+  DeleteBehavior,
   //Advice
   GetAdvice,
   DeleteAdvice,

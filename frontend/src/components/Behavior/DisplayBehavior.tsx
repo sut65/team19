@@ -16,7 +16,6 @@ import { BehaviorInterface } from "../../interfaces/IBehavior";
 
 import { GetBehaviorByID } from "../../services/HttpClientService";
 
-import { DeleteBehavior } from "../../services/HttpClientService";
 
 
 function DisplayBehavior() {
