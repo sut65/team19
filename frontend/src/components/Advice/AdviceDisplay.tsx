@@ -15,17 +15,15 @@ import { AdviceInterface } from '../../interfaces/IAdvice';
 
 //api
 import { GetAdvice, updateAdvice, DeleteAdvice } from '../../services/HttpClientService';
+import { CourseServiceInterface } from '../../interfaces/ICourseService';
 
 function AdviceDisplay() {
     let navigate = useNavigate();
     const { id } = useParams();
     const [advice, setAdvice] = useState<AdviceInterface[]>([]);
+    const [courseService, setCourseService] = useState<CourseServiceInterface[]>([]);
     const [loading, setLoading] = useState(false);
-    useEffect (() => {
-        console.log(advice);
-    }, [advice]);
 
-    
     const deleteAdvice = async (id: any) => {
         
         try{
@@ -41,8 +39,12 @@ function AdviceDisplay() {
         }
     }
 
-
     const fetchAdvice = async () => {
+        let res = await GetAdvice();
+        res && setAdvice(res);
+    }
+
+    const fetchCourseService = async () => {
         const requestOptions = {
             method: "GET",
             headers: {
@@ -50,17 +52,14 @@ function AdviceDisplay() {
                 "Content-Type": "application/json",
             },
         };
-        const res = await (await fetch(`http://localhost:8080/advices`, requestOptions)).json();
-        console.log(filterID(res.data));
-        setAdvice(res.data);
+        const res = await (await fetch(`http://localhost:8080/course_services`, requestOptions)).json();
+        console.log(res.data);
+        setCourseService(res.data);
 
     };
 
-    const filterID = (res: any) => {
-        return res.filter((v: any) => v.ID === parseInt(id || "")).map((i: any) => i);
-    }
-
     useEffect(() => {
+        fetchCourseService();
         fetchAdvice();
     }, [loading]);
 
@@ -86,7 +85,7 @@ function AdviceDisplay() {
 
                     <Avatar src={AdviceIcon} />
 
-                    <h1>คำแนะนำ</h1>
+                    <h1>ระบบให้คำแนะนำ</h1>
 
                     <Avatar src={AdviceIcon} />
 
@@ -107,6 +106,7 @@ function AdviceDisplay() {
                                 <TableCell align="center" sx={{ color: "#3f51b5" }}>ชื่อ</TableCell>
                                 <TableCell align="center" sx={{ color: "#3f51b5" }}>นามสกุล</TableCell>
                                 <TableCell align="center" sx={{ color: "#3f51b5" }}>เพศ</TableCell>
+                                <TableCell align="center" sx={{ color: "#3f51b5" }}>ประเภทคอร์ส</TableCell>
                                 <TableCell align="center" sx={{ color: "#3f51b5" }}>เทรนเนอร์</TableCell>
                                 <TableCell align="center" sx={{ color: "#4527a0" }}>คำแนะนำ</TableCell>
                                 <TableCell align="center" sx={{ color: "#4527a0" }}>Recording Date</TableCell>
@@ -116,38 +116,38 @@ function AdviceDisplay() {
                             </TableRow>
                         </TableHead>
                         <TableBody >
-                            {advice.map((advice) => (
-                                <TableRow key={advice.ID}>
-                                    <TableCell align="right" >{advice.ID}</TableCell>
+                            {courseService.map((courseService) => (
+                                <TableRow key={courseService.ID}>
+                                    <TableCell align="right" >{courseService.ID}</TableCell>
                                     <TableCell align="center">
                                         <Box sx={{ display: "flex", justifyContent: "center" }}>
-                                            <Avatar src={advice.CourseService?.Member?.ProfileUser}
+                                            <Avatar src={courseService?.Member?.ProfileUser}
                                                 sx={{ width: 110, height: 110 }} />
                                         </Box>
                                     </TableCell>
-                                    <TableCell align="center">{String(advice.CourseService?.Member?.Firstname)}</TableCell>
-                                    <TableCell align="center">{String(advice.CourseService?.Member?.Lastname)}</TableCell>
-                                    <TableCell align="center">{String(advice.CourseService?.Member?.Gender?.Name)}</TableCell>
-                                    <TableCell align="center">{String(advice.CourseService?.Trainer?.Name)}</TableCell>
-                                    <TableCell align="left">{String(advice.Advice)}</TableCell>
-                                    <TableCell align="center">{String(advice.RecordingDate).slice(0,10).replaceAll("-",".")}</TableCell>
+                                    <TableCell align="center">{String(courseService?.Member?.Firstname)}</TableCell>
+                                    <TableCell align="center">{String(courseService?.Member?.Lastname)}</TableCell>
+                                    <TableCell align="center">{String(courseService?.Member?.Gender?.Name)}</TableCell>
+                                    <TableCell align="center">{String(courseService?.CourseDetail?.CourseType?.TypeName)}</TableCell>
+                                    <TableCell align="center">{String(courseService?.Trainer?.Name)}</TableCell>
+                                    
+                                    <TableCell align="left">{String(advice)}</TableCell>
+                                    <TableCell align="center">{String(advice).slice(0,10).replaceAll("-",".")}</TableCell>
                                     <TableCell align="center">
                                         {/* ปุ่มเพิ่มข้อมูล */}
-                                        <IconButton aria-label="delete" size="large" onClick={() => navigate(`/create-advice/${advice.ID}`)} color="info">
+                                        <IconButton aria-label="delete" size="large" onClick={() => navigate(`/create-advice/${courseService.MemberID}`)} color="info">
                                         <Avatar src={AddIcon} />
                                         </IconButton>
                                     </TableCell>
                                     <TableCell align="center">
                                         {/* ปุ่มแก้ไขข้อมูล */}
-                                        <IconButton aria-label="delete" size="large" onClick={() => navigate(`/update-advice/${advice.ID}`)} color="info">
+                                        <IconButton aria-label="delete" size="large" onClick={() => navigate(`/update-advice/${courseService.ID}`)} color="info">
                                             <EditIcon fontSize="inherit" />
                                         </IconButton>
-                                    
                                     </TableCell>
                                     <TableCell align="center">
-                                        
                                         {/* ปุ่มลบข้อมูล */}
-                                        <IconButton aria-label="delete" size="large" onClick={() => deleteAdvice(advice.ID)} color="error">
+                                        <IconButton aria-label="delete" size="large" onClick={() => deleteAdvice} color="error">
                                             <DeleteIcon fontSize="inherit" />
                                         </IconButton>
                                     </TableCell>

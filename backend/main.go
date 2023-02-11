@@ -183,6 +183,8 @@ func main() {
 			router.DELETE("/advice/:id", Advice.DeleteAdvice)
 			router.PATCH("/advices", Advice.UpdateAdvice)
 
+			
+
 			// Nutrient Routes
 			router.GET("/nutrients", nutrient.ListNutrients)
 			router.GET("/nutrient/:id", nutrient.GetNutrient)

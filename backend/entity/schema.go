@@ -198,7 +198,6 @@ type Trainer struct {
 
 	CourseService []CourseService `gorm:"foreignKey:TrainerID"`
 	Body          []Body          `gorm:"foreignKey:TrainerID"`
-	//Advice        []Advice        `gorm:"foreignKey:TrainerID"`
 }
 
 // -------------------------------------------<<  >>------------------------------------
