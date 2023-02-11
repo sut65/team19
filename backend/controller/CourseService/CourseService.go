@@ -69,7 +69,7 @@ func CreateCourseService(c *gin.Context) {
 func GetCourseService(c *gin.Context) {
 	var course_service entity.CourseService
 	id := c.Param("id")
-	if tx := entity.DB().Preload(clause.Associations).Preload("Payment."+clause.Associations).Preload("Member").Preload("CourseDetail").Preload("Trainer").Where("id = ?", id).First(&course_service); tx.RowsAffected == 0 {
+	if tx := entity.DB().Preload(clause.Associations).Preload("Payment."+clause.Associations).Preload("Member").Preload("Member.Gender").Preload("CourseDetail").Preload("CourseDetail.CourseType").Preload("Trainer").Where("id = ?", id).First(&course_service); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "course_service not found"})
 		return
 	}
@@ -80,7 +80,7 @@ func GetCourseService(c *gin.Context) {
 func GetCourseServiceByUID(c *gin.Context) {
 	var course_service entity.CourseService
 	uid := c.Param("uid")
-	if tx := entity.DB().Preload(clause.Associations).Preload("Payment."+clause.Associations).Preload("Member").Preload("CourseDetail").Preload("Trainer").Where("member_id = ?", uid).Last(&course_service); tx.RowsAffected == 0 {
+	if tx := entity.DB().Preload(clause.Associations).Preload("Payment."+clause.Associations).Preload("Member").Preload("Member.Gender").Preload("CourseDetail").Preload("CourseDetail.CourseType").Preload("Trainer").Where("member_id = ?", uid).Last(&course_service); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "course_service not found"})
 		return
 	}
@@ -91,7 +91,7 @@ func GetCourseServiceByUID(c *gin.Context) {
 func GetCourseServiceByUidAndStatus(c *gin.Context) {
 	var course_service entity.CourseService
 	uid := c.Param("uid")
-	if tx := entity.DB().Preload(clause.Associations).Preload("Payment."+clause.Associations).Preload("Member").Preload("CourseDetail").Preload("Trainer").Where("status = 'Active' AND member_id = ?", uid).Last(&course_service); tx.RowsAffected == 0 {
+	if tx := entity.DB().Preload(clause.Associations).Preload("Payment."+clause.Associations).Preload("Member").Preload("Member.Gender").Preload("CourseDetail").Preload("CourseDetail.CourseType").Preload("Trainer").Where("status = 'Active' AND member_id = ?", uid).Last(&course_service); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "course_service not found"})
 		return
 	}
@@ -102,7 +102,7 @@ func GetCourseServiceByUidAndStatus(c *gin.Context) {
 // GET /course_services
 func ListCourseServices(c *gin.Context) {
 	var course_services []entity.CourseService
-	if err := entity.DB().Preload(clause.Associations).Preload("Payment." + clause.Associations).Preload("Member").Preload("CourseDetail").Preload("Trainer").Raw("SELECT * FROM course_services").Find(&course_services).Error; err != nil {
+	if err := entity.DB().Preload(clause.Associations).Preload("Payment." + clause.Associations).Preload("Member").Preload("Member.Gender").Preload("CourseDetail").Preload("CourseDetail.CourseType").Preload("Trainer").Raw("SELECT * FROM course_services").Find(&course_services).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
