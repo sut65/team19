@@ -11,7 +11,7 @@ import (
 func TestPaymentValidate(t *testing.T) {
 	g := NewGomegaWithT(t) // start testing
 
-	t.Run("check payment conpletely", func(t *testing.T) {
+	t.Run("check payment completely", func(t *testing.T) {
 		p := Payment{
 			PaymentDate: time.Date(2023, 02, 05, 04, 25, 49, 651387237, time.UTC),
 			Slip:        "data:image/jpg;base64,iVBORw0KGgoAAAANSUhEUgAACBUAAAVmC",
@@ -29,7 +29,7 @@ func TestPaymentValidate(t *testing.T) {
 		g.Expect(err).To(BeNil())
 	})
 
-	t.Run("check slip cannot blank", func(t *testing.T) {
+	t.Run("check slip cannot be blank", func(t *testing.T) {
 		p := Payment{
 			PaymentDate: time.Date(2023, 02, 05, 04, 25, 49, 651387237, time.UTC),
 			Slip:        "", // incorrect
