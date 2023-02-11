@@ -5,7 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team19/entity"
-	"gorm.io/gorm/clause"
+	//"gorm.io/gorm/clause"
 )
 
 // POSH /Advice
@@ -59,8 +59,8 @@ func CreateAdvice(c *gin.Context) {
 func GetAdvice(c *gin.Context) {
 	var advice entity.Advice
 	id := c.Param("id")
-	if tx := entity.DB().Preload(clause.Associations).Preload("CourseService."+clause.Associations).Where("id = ?", id).First(&advice); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "advice not found"})
+	if tx := entity.DB().Preload("CourseService").Preload("Body").Preload("DailyActivities").Where("id = ?", id).First(&advice); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "blog not found"})
 		return
 	}
 
@@ -70,7 +70,7 @@ func GetAdvice(c *gin.Context) {
 // GET /Advices
 func ListAdvice(c *gin.Context) {
 	var advices []entity.Advice
-	if err := entity.DB().Preload(clause.Associations).Preload("CourseService." + clause.Associations).Raw("SELECT * FROM advices").Find(&advices).Error; err != nil {
+	if err := entity.DB().Preload("CourseService").Preload("Body").Preload("DailyActivities").Raw("SELECT * FROM advices").Find(&advices).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

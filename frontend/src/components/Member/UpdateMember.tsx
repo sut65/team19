@@ -225,7 +225,7 @@ function UpdateMember() {
             justifyContent: "flex-start",
           }}
         >
-          <h4 style={{ color: "#6b7176" }}>Register</h4>
+          <h4 style={{ color: "#6b7176" }}>แก้ไขข้อมูลสมาชิก</h4>
         </Paper>
         <form>
           <Paper
@@ -459,6 +459,19 @@ function UpdateMember() {
                 <Button variant="contained" size="large" onClick={update}>
                   แก้ไขข้อมูลสมาชิก
                 </Button>
+               <Grid xs={1} md={1}>
+               </Grid>
+                <Link
+                    to="/user/profile-member"
+                    style={{
+                    textDecoration: "none",
+                    }}
+                >
+                    <Button variant="contained" color="secondary"
+                      sx = {{ borderRadius: 20 }}>
+                      ย้อนกลับ
+                    </Button>
+                 </Link>
               </Grid>
             </Grid>
           </Paper>

@@ -524,7 +524,7 @@ const DeleteAdvice = async (id: string) => {
   return res;
 };
 
-const createAdvice = async (data: CourseDetailInterface) => {
+const createAdvice = async (data: AdviceInterface) => {
   const requestOptions = {
     method: "POST",
     headers: {
@@ -562,27 +562,16 @@ const updateAdvice = async (data: AdviceInterface) => {
   return res;
 };
 
-async function GetAdviceByID(id: number | undefined) {
-  const requestOptions = {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "application/json",
-    },
-  };
-
-  let res = await fetch(`${apiUrl}/advice/${id}`, requestOptions)
+const GetAdviceByID = async (id: string) => {
+  // let { id } = useParams();
+  let res = await fetch(`${apiUrl}/advice/${id}`, requestOptionsGet)
     .then((response) => response.json())
-    .then((res) => {
-      if (res.data) {
-        return res.data;
-      } else {
-        return false;
-      }
+    .then((result) => {
+      return result.data ? result.data : false;
     });
 
   return res;
-}
+};
 
 // ------------- Review -----------------
 const GetReviews = async () => {

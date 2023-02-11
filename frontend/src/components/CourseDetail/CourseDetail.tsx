@@ -163,31 +163,36 @@ function CourseDetail() {
             {isOpen && (
                 <>
                     {/* Btn Edit */}
-                    <Box sx={{ transform: "translateZ(0px)", flexGrow: 1 }}>
-                        <SpeedDial
-                            ariaLabel="SpeedDial controlled open example"
-                            sx={{ position: "absolute", bottom: 20, right: 16 }}
-                            icon={<SpeedDialIcon />}
-                            onClose={handleCloseAction}
-                            onOpen={handleOpenAction}
-                            open={open}
-                        >
-                            {actions.map((action) => (
-                                <SpeedDialAction
-                                    sx={{
+                    <Box
+                        sx={{
+                            transform: "translateZ(0px)",
+                            display: "flex",
+                            justifyContent: "flex-end",
+                            gap: "1rem",
+                            m: "2rem",
+                        }}
+                    >
+                        {actions.map((action) => (
+                            <Button
+                                onClick={
+                                    action.name === "Edit"
+                                        ? () => navigate("update-course")
+                                        : handleClickOpenPopup
+                                }
+                                sx={{
+                                    backgroundColor: `${action.color}`,
+                                    borderRadius: 20,
+                                    "&:hover": {
                                         color: `${action.color}`,
-                                    }}
-                                    key={action.name}
-                                    icon={action.icon}
-                                    tooltipTitle={action.name}
-                                    onClick={
-                                        action.name === "Edit"
-                                            ? () => navigate("update-course")
-                                            : handleClickOpenPopup
-                                    }
-                                />
-                            ))}
-                        </SpeedDial>
+                                        backgroundColor: "#fff",
+                                    },
+                                }}
+                                variant="contained"
+                                endIcon={action.icon}
+                            >
+                                {action.name}
+                            </Button>
+                        ))}
                     </Box>
                 </>
             )}
@@ -195,10 +200,10 @@ function CourseDetail() {
             <Dialog
                 open={isOpenPopup}
                 onClose={handleClickClosePopup}
-                aria-labelledby="alert-dialog-courseName"
+                aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
-                <DialogTitle id="alert-dialog-course">
+                <DialogTitle id="alert-dialog-title">
                     <Box
                         sx={{
                             display: "flex",
@@ -207,7 +212,7 @@ function CourseDetail() {
                             fontSize: "2rem",
                         }}
                     >
-                        Delete Article {<PriorityHighIcon fontSize="large" />}
+                        Delete Course {<PriorityHighIcon fontSize="large" />}
                     </Box>
                 </DialogTitle>
                 <DialogContent>
