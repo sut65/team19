@@ -177,3 +177,63 @@ func UpdateTrainer(c *gin.Context) {
 	}
 	c.JSON(http.StatusCreated, gin.H{"data": update})
 }
+
+// PATCH /trainers
+func UpdateTrainerNotPassword(c *gin.Context) {
+	var trainer entity.Trainer
+	var form entity.FormOfWork
+	var status entity.Status
+	var religion entity.Religion
+	var education entity.Education
+
+	if err := c.ShouldBindJSON(&trainer); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error not access": err.Error()})
+		return
+	}
+
+	if _, err := govalidator.ValidateStruct(trainer); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if tx := entity.DB().Where("id = ?", trainer.FormOfWorkID).First(&form); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Please select a Form Of Work"})
+		return
+	}
+
+	if tx := entity.DB().Where("id = ?", trainer.StatusID).First(&status); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Pleace select Status"})
+		return
+	}
+
+	if tx := entity.DB().Where("id = ?", trainer.ReligionID).First(&religion); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Religion not found"})
+		return
+	}
+
+	if tx := entity.DB().Where("id = ?", trainer.EducationID).First(&education); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Please select a Education"})
+		return
+	}
+
+	update := entity.Trainer{
+		Name:       trainer.Name,
+		University: trainer.University,
+		Gpax:       trainer.Gpax,
+		Gender:     trainer.Gender,
+		Age:        trainer.Age,
+		Address:    trainer.Address,
+		Email:      trainer.Email,
+
+		FormOfWork: form,
+		Status:     status,
+		Religion:   religion,
+		Education:  education,
+	}
+
+	if err := entity.DB().Where("id = ?", trainer.ID).Updates(&update).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusCreated, gin.H{"data": update})
+}
