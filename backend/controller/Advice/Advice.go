@@ -13,7 +13,7 @@ func CreateAdvice(c *gin.Context) {
 	var advice entity.Advice
 	var courseService entity.CourseService
 	var body entity.Body
-	var dailyActivities entity.DailyActivities
+	var dailyRoutine entity.DailyRoutine
 
 	if err := c.ShouldBindJSON(&advice); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -33,18 +33,18 @@ func CreateAdvice(c *gin.Context) {
 	}
 
 	// ค้นหา dailyActivitie ด้วย id
-	if tx := entity.DB().Where("id = ?", advice.DailyActivitiesID).First(&dailyActivities); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", advice.DailyRoutineID).First(&dailyRoutine); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "daily activities not found"})
 		return
 	}
 
 	// สร้าง Advice
 	adv := entity.Advice{
-		Advice:         advice.Advice,
-		RecordingDate:  advice.RecordingDate,
+		Advice:        advice.Advice,
+		RecordingDate: advice.RecordingDate,
 		CourseService: courseService,
-		Body:           body,
-		DailyActivities: dailyActivities,
+		Body:          body,
+		DailyRoutine:  dailyRoutine,
 	}
 
 	// บันทึก
@@ -95,7 +95,7 @@ func UpdateAdvice(c *gin.Context) {
 	var advice entity.Advice
 	var courseService entity.CourseService
 	var body entity.Body
-	var dailyActivities entity.DailyActivities
+	var DailyRoutine entity.DailyRoutine
 
 	if err := c.ShouldBindJSON(&advice); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -114,18 +114,18 @@ func UpdateAdvice(c *gin.Context) {
 		return
 	}
 
-	// ค้นหา DailyActivities ด้วย id
-	if tx := entity.DB().Where("id = ?", advice.DailyActivitiesID).First(&dailyActivities); tx.RowsAffected == 0 {
+	// ค้นหา DailyRoutine ด้วย id
+	if tx := entity.DB().Where("id = ?", advice.DailyRoutineID).First(&DailyRoutine); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "tag not found"})
 		return
 	}
 
 	update := entity.Advice{
-		Advice:         advice.Advice,
-		RecordingDate:  advice.RecordingDate,
+		Advice:        advice.Advice,
+		RecordingDate: advice.RecordingDate,
 		CourseService: courseService,
-		Body:           body,
-		DailyActivities: dailyActivities,
+		Body:          body,
+		DailyRoutine:  DailyRoutine,
 	}
 
 	if err := entity.DB().Where("id = ?", advice.ID).Updates(&update).Error; err != nil {

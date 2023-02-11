@@ -48,9 +48,10 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 });
 
 
+
 function CreateBehaviors() {
 
-    const [behaviors, setBehaviors] = useState<BehaviorInterface>({});
+    const [behavior, setBehavior] = useState<BehaviorInterface>({});
     const [exercises, setExercises] = useState<ExerciseInterface[]>([]);
     const [member, setMember] = useState<MemberInterface[]>([]);
     const [time, setTime] = useState<Date | string | null>(new Date());
@@ -58,6 +59,7 @@ function CreateBehaviors() {
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
     const [message, setAlertMessage] = useState("");
+    const [profilebody, setProfileBody] = useState({ name: "", src: "" });
 
 
     const handleClose = (
@@ -72,15 +74,30 @@ function CreateBehaviors() {
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const meals = e.target.name;
-      console.log(meals);
-      setBehaviors({ ...behaviors, [meals]: e.target.value });
+      const name = e.target.name;
+      console.log(name);
+      setBehavior({ ...behavior, [name]: e.target.value });
+    };
+
+    const handleChangeImages = (event: any, id?: string) => {
+      const input = event.target.files[0];
+      const name = event.target.name as keyof typeof behavior;
+  
+      var reader = new FileReader();
+      reader.readAsDataURL(input);
+      reader.onload = function () {
+        const dataURL = reader.result;
+        setProfileBody({ name: input.name, src: dataURL?.toString() as string });
+        if (event.target.name === "ProfileBody") {
+          setBehavior({ ...behavior, [name]: dataURL?.toString() });
+        }
+      };
     };
 
     const handleSelectChange = (event: SelectChangeEvent) => {
-        const name = event.target.name as keyof typeof behaviors;
-        setBehaviors({
-          ...behaviors,
+        const name = event.target.name as keyof typeof behavior;
+        setBehavior({
+          ...behavior,
           [name]: event.target.value,
         });
       };
@@ -104,7 +121,7 @@ function CreateBehaviors() {
 
     const fetchMember = async () => {
       let res = await GetMemberByID();
-      behaviors.MemberID = res.ID;
+      behavior.MemberID = res.ID;
       if (res) {
         setMember(res);
       }
@@ -113,11 +130,12 @@ function CreateBehaviors() {
     // เพิ่มข้อมูลเข้า Database
     const submit = async () => {
       let data = {
-        ExerciseID: convertType(behaviors.ExerciseID),
-        TasteID: convertType(behaviors.TasteID),
-        MemberID: convertType(behaviors.MemberID),
+        ExerciseID: convertType(behavior.ExerciseID),
+        TasteID: convertType(behavior.TasteID),
+        MemberID: convertType(behavior.MemberID),
         Time: time?.toLocaleString(),
-        Meals: behaviors.Meals,
+        Meals: behavior.Meals,
+        ProfileBody:  behavior.ProfileBody,
         };
         let res = await CreateBehavior(data);
         if (res.status) {      
@@ -130,7 +148,6 @@ function CreateBehaviors() {
         }
         
       };
-      console.log(behaviors);
 
     useEffect(() => {
         fetchExercise();
@@ -146,7 +163,9 @@ function CreateBehaviors() {
 
         <h1> </h1>
     
-        <Stack direction="column" spacing={1}>
+        <Stack direction="row" spacing={1}>
+
+        
             
             {/* มื้ออาหาร*/}
             <Typography variant="h2" component="h1">
@@ -155,7 +174,7 @@ function CreateBehaviors() {
             <TextField
                 id="meals"
                 name="Meals"
-                value={behaviors.Meals}
+                value={behavior.Meals}
                 onChange={handleInputChange}
                 placeholder="กรอกจำนวนมื้ออาหาร"
                 label="มื้อ"
@@ -176,7 +195,7 @@ function CreateBehaviors() {
                     native
                     fullWidth
                     id="taste"
-                    value={behaviors.TasteID + ""}
+                    value={behavior.TasteID + ""}
                     onChange={handleSelectChange}
                     inputProps={{
                     name: "TasteID",
@@ -206,7 +225,7 @@ function CreateBehaviors() {
                     native
                     fullWidth
                     id="exercise"
-                    value={behaviors.ExerciseID + ""}
+                    value={behavior.ExerciseID + ""}
                     onChange={handleSelectChange}
                     inputProps={{
                     name: "ExerciseID",
@@ -258,7 +277,33 @@ function CreateBehaviors() {
                   </LocalizationProvider>
                 </Box>
               </Box>
-
+              <Typography variant="h2" component="h1">
+              ร่างกายของคุณ :
+            </Typography>
+            <Box>
+                <Button
+                  variant="contained"
+                  component="label"
+                  sx={{
+                    backgroundColor: "#f2f2f2",
+                    color: "#252525",
+                  }}
+                  >
+                    Upload
+                    <input
+                      id="profileBody"
+                      name="ProfileBody"
+                      hidden
+                      accept="image/*"
+                      multiple
+                      type="file"
+                      onChange={handleChangeImages}
+                    />
+                  </Button>
+      </Box>
+      <ImgBox>
+        <img src={profilebody.src} alt={profilebody.name} style={{ width: "100%" }} />
+      </ImgBox>
             </Stack>
             <h1> </h1>
             <Stack direction="row" spacing={2}>
@@ -270,6 +315,7 @@ function CreateBehaviors() {
 
             <Stack direction="row" spacing={2}>
 
+
             </Stack>
 
             <Box>
@@ -277,6 +323,7 @@ function CreateBehaviors() {
             </Box>
             
             <Stack direction="row" spacing={2}>
+
 
                 <Button variant="outlined" color="success" onClick={submit}
                 sx = {{ borderRadius: 20 }}>

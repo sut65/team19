@@ -45,11 +45,12 @@ func CreateBehavior(c *gin.Context) {
 
 	// สร้าง behavior
 	fif := entity.Behavior{
-		Taste:    taste,
-		Exercise: exercise,
-		Member:   member,
-		Meals:    behavior.Meals,
-		Time:     behavior.Time,
+		Taste:       taste,
+		Exercise:    exercise,
+		Member:      member,
+		Meals:       behavior.Meals,
+		Time:        behavior.Time,
+		ProfileBody: behavior.ProfileBody,
 	}
 
 	// บันทึก
@@ -126,11 +127,12 @@ func UpdateBehavior(c *gin.Context) {
 
 	// สร้าง behavior
 	update := entity.Behavior{
-		Taste:    taste,
-		Exercise: exercise,
-		Member:   member,
-		Meals:    behavior.Meals,
-		Time:     behavior.Time,
+		Taste:       taste,
+		Exercise:    exercise,
+		Member:      member,
+		Meals:       behavior.Meals,
+		Time:        behavior.Time,
+		ProfileBody: behavior.ProfileBody,
 	}
 
 	// บันทึก

@@ -6,11 +6,13 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team19/controller"
 	Advice "github.com/sut65/team19/controller/Advice"
+	behavior "github.com/sut65/team19/controller/Behavior"
 	CourseDetail "github.com/sut65/team19/controller/CourseDetail"
 	CourseService "github.com/sut65/team19/controller/CourseService"
-	DailyActivities "github.com/sut65/team19/controller/DailyActivities"
+	DailyRoutine "github.com/sut65/team19/controller/DailyRoutine"
 	foodInformation "github.com/sut65/team19/controller/FoodInformation"
 	MealPlan "github.com/sut65/team19/controller/MealPlan"
+	member "github.com/sut65/team19/controller/Member"
 	nutrient "github.com/sut65/team19/controller/Nutrient"
 	Payment "github.com/sut65/team19/controller/Payment"
 	trainer "github.com/sut65/team19/controller/Trainer"
@@ -59,11 +61,11 @@ func main() {
 			r.GET("/gender/:id", controller.GetGender)
 			r.GET("/genders", controller.Listgenders)
 
-			r.GET("/exercise/:id", controller.GetExercise)
-			r.GET("/exercises", controller.ListExercise)
+			r.GET("/exercise/:id", behavior.GetExercise)
+			r.GET("/exercises", behavior.ListExercise)
 
-			r.GET("/taste/:id", controller.GetTaste)
-			r.GET("/tastes", controller.ListTaste)
+			r.GET("/taste/:id", behavior.GetTaste)
+			r.GET("/tastes", behavior.ListTaste)
 
 			// course_service Routes
 			router.POST("/course_service", CourseService.CreateCourseService)
@@ -88,20 +90,17 @@ func main() {
 			router.GET("/prices", CourseDetail.ListPrices)
 
 			// member Routes
-			router.GET("/member/:id", controller.GetMember)
-			router.GET("/members", controller.ListMembers)
-			router.DELETE("/member/:id", controller.DeleteMember)
-			router.PATCH("/update-member", controller.UpdateMember)
+			router.GET("/member/:id", member.GetMember)
+			router.GET("/members", member.ListMembers)
+			router.DELETE("/member/:id", member.DeleteMember)
+			router.PATCH("/update-member", member.UpdateMember)
 
-			// DailyActivities Routes
-			r.POST("/dailyactivities", DailyActivities.CreateActivity)
-			r.GET("/dailyactivities/:id", DailyActivities.GetActivity)
-			r.GET("/dailyactivities", DailyActivities.ListActivities)
-			r.PATCH("/dailyactivity", DailyActivities.UpdateActivity)
-			r.DELETE("/dailyactivities/:id", DailyActivities.DeleteActivity)
-
-			r.GET("/activitiestypes", DailyActivities.GetActivitiesTypes)
-			r.GET("/activitiestypes/:id", DailyActivities.ListActivitiesTypes)
+			// DailyRoutine Routes
+			r.POST("/daily_routines", DailyRoutine.CreateDailyRoutine)
+			r.GET("/daily_routine/:id", DailyRoutine.GetDailyRoutineByID)
+			r.GET("/daily_routines", DailyRoutine.GetDailyRoutines)
+			r.PATCH("/daily_routines", DailyRoutine.UpdateDailyRoutine)
+			r.DELETE("/daily_routines/:id", DailyRoutine.DeleteDailyRoutine)
 
 			// MealPlan Routes
 			r.POST("/mealplans", MealPlan.CreateMealPlans)
@@ -195,11 +194,11 @@ func main() {
 			router.GET("/most_nutrient/:id", nutrient.GetMostNutrient)
 
 			// Behavior Routes
-			router.POST("/behavior", controller.CreateBehavior)
-			router.GET("/behavior/:id", controller.GetBehavior)
-			router.GET("/behaviors", controller.ListBehaviors)
-			router.DELETE("/behavior/:id", controller.DeleteBehavior)
-			router.PATCH("/behaviors", controller.UpdateBehavior)
+			router.POST("/behavior", behavior.CreateBehavior)
+			router.GET("/behavior/:id", behavior.GetBehavior)
+			router.GET("/behaviors", behavior.ListBehaviors)
+			router.DELETE("/behavior/:id", behavior.DeleteBehavior)
+			router.PATCH("/behaviors", behavior.UpdateBehavior)
 
 			// discount Routes
 			router.POST("/discount", Payment.CreateDiscount)
@@ -229,7 +228,7 @@ func main() {
 	r.POST("/trainerLogin", controller.LoginTrainer)
 	r.POST("/adminLogin", controller.LoginAdmin)
 
-	r.POST("/member", controller.CreateMember)
+	r.POST("/member", member.CreateMember)
 
 	// Run the server go run main.go
 	r.Run("localhost: " + PORT)

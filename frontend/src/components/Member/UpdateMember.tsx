@@ -48,7 +48,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 function UpdateMember() {
   // =========================(Use State)====================================================
   const { id } = useParams();
-  const [rg, setRg] = useState<MemberInterface>({});
+  const [member, setMember] = useState<MemberInterface>({});
   const [gen, setGen] = useState<GenderInterface[]>([]);
   const [sta, setSta] = useState<StatusInterface[]>([]);
   const [prv, setPrv] = useState<ReligionInterface[]>([]);
@@ -71,15 +71,15 @@ function UpdateMember() {
   }
   const handleChangeImages = (event: any, id?: string) => {
     const input = event.target.files[0];
-    const name = event.target.name as keyof typeof rg;
+    const name = event.target.name as keyof typeof member;
 
     var reader = new FileReader();
     reader.readAsDataURL(input);
     reader.onload = function () {
       const dataURL = reader.result;
       setProfileUser({ name: input.name, src: dataURL?.toString() as string });
-      if (event.target.name === "Profileuser") {
-        setRg({ ...rg, [name]: dataURL?.toString() });
+      if (event.target.name === "ProfileUser") {
+        setMember({ ...member, [name]: dataURL?.toString() });
       }
     };
   };
@@ -118,20 +118,20 @@ function UpdateMember() {
   // =========================(HandleChange)====================================================
 
   const handleChange = (event: SelectChangeEvent) => {
-    const name = event.target.name as keyof typeof rg;
+    const name = event.target.name as keyof typeof member;
     console.log(event.target.name);
     console.log(event.target.value);
-    setRg({
-      ...rg,
+    setMember({
+      ...member,
       [name]: event.target.value,
     });
-    console.log(rg);
+    console.log(member);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name;
     console.log(name);
-    setRg({ ...rg, [name]: e.target.value });
+    setMember({ ...member, [name]: e.target.value });
   };
 
 
@@ -167,7 +167,7 @@ function UpdateMember() {
 
   const fetchMember = async () => {
     let res = await GetMembersByID(id + "");
-    res && setRg(res);
+    res && setMember(res);
 };
 
   useEffect(() => {
@@ -185,14 +185,14 @@ function UpdateMember() {
   const update = async () => {
     let newdata = {
         ID: convertType(id),
-    Firstname: rg.Firstname,
-    Lastname: rg.Lastname,
+    Firstname: member.Firstname,
+    Lastname: member.Lastname,
     Password: pass.password,
-    Email: rg.Email,
-    GenderID: convertType(rg.GenderID),
-    StatusID: convertType(rg.StatusID),
-    ReligionID: convertType(rg.ReligionID),
-    ProfileUser: rg.ProfileUser,
+    Email: member.Email,
+    GenderID: convertType(member.GenderID),
+    StatusID: convertType(member.StatusID),
+    ReligionID: convertType(member.ReligionID),
+    ProfileUser: member.ProfileUser,
     };
     // window.location.href = "/members"
     
@@ -241,7 +241,7 @@ function UpdateMember() {
                   name="Firstname"
                   variant="outlined"
                   fullWidth
-                  value={rg.Firstname}
+                  value={member.Firstname}
                   onChange={handleInputChange}
                 />
                 
@@ -256,7 +256,7 @@ function UpdateMember() {
                   variant="outlined"
                   fullWidth
                   required
-                  value={rg.Lastname}
+                  value={member.Lastname}
                   onChange={handleInputChange}
                 />
               </Grid>
@@ -277,7 +277,7 @@ function UpdateMember() {
                   variant="outlined"
                   name="Email"
                   required
-                  value={rg.Email}
+                  value={member.Email}
                   onChange={handleInputChange}
                   fullWidth
                 />
@@ -334,7 +334,7 @@ function UpdateMember() {
                     native
                     fullWidth
                     id="gender"
-                    value={rg.GenderID + ""}
+                    value={member.GenderID + ""}
                     onChange={handleChange}
                     inputProps={{
                     name: "GenderID",
@@ -369,7 +369,7 @@ function UpdateMember() {
                     native
                     fullWidth
                     id="status"
-                    value={rg.StatusID + ""}
+                    value={member.StatusID + ""}
                     onChange={handleChange}
                     inputProps={{
                     name: "StatusID",
@@ -404,7 +404,7 @@ function UpdateMember() {
                     native
                     fullWidth
                     id="religion"
-                    value={rg.ReligionID + ""}
+                    value={member.ReligionID + ""}
                     onChange={handleChange}
                     inputProps={{
                     name: "ReligionID",
@@ -437,7 +437,7 @@ function UpdateMember() {
           Upload
           <input
             id="profileUser"
-            name="Profileuser"
+            name="ProfileUser"
             hidden
             accept="image/*"
             multiple

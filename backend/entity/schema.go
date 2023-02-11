@@ -35,35 +35,27 @@ type Member struct {
 	gorm.Model
 	Firstname   string `valid:"required~Firstname cannot be blank"`
 	Lastname    string `valid:"required~Lastname cannot be blank"`
-	ProfileUser string `valid:"image~ file must be only image"`
-	Email       string `valid:"email~Invalid email format,maxstringlength(30)~must be no more than 20 characters long,required~Email cannot be blank"`
+	ProfileUser string `valid:"image~Profile must be only image"`
+	Email       string `valid:"email~Invalid email format,required~Email cannot be blank"`
 	Password    string `valid:"required~Password cannot be blank,minstringlength(8)~Password must be no less than 8 characters long"`
 
-	MealTimesID *uint
-	MealTimes   MealTimes
-
-	FoodAllergiesID *uint
-	FoodAllergies   FoodAllergies
-
-	BedTimesID *uint
-	BedTimes   BedTimes
-
-	StatusID *uint `valid:"required~Status cannot be blank"`
+	StatusID *uint
 	Status   Status
 
-	ReligionID *uint `valid:"required~Religion cannot be blank"`
+	ReligionID *uint
 	Religion   Religion
 
-	GenderID *uint `valid:"required~Gender cannot be blank"`
+	GenderID *uint
 	Gender   Gender
 
-	CourseService  []CourseService   `gorm:"foreignKey:MemberID"`
-	Blogs          []Blog            `gorm:"foreignKey:MemberID"`
-	DailyActivitie []DailyActivities `gorm:"foreignKey:MemberID"`
-	MealPlan       []MealPlans       `gorm:"foreignKey:MemberID"`
-	Body           []Body            `gorm:"foreignKey:MemberID"`
-	//Advice         []Advice          `gorm:"foreignKey:MemberID"`
-	Reviews []Review `gorm:"foreignKey:MemberID"`
+	CourseService []CourseService `gorm:"foreignKey:MemberID"`
+	Blogs         []Blog          `gorm:"foreignKey:MemberID"`
+	DailyRoutine  []DailyRoutine  `gorm:"foreignKey:MemberID"`
+	MealPlan      []MealPlans     `gorm:"foreignKey:MemberID"`
+	Body          []Body          `gorm:"foreignKey:MemberID"`
+	Advice        []Advice        `gorm:"foreignKey:MemberID"`
+	Reviews       []Review        `gorm:"foreignKey:MemberID"`
+	Behavior      []Behavior      `gorm:"foreignKey:MemberID"`
 }
 
 // -------------------------------------------<< Admin >>------------------------------------
@@ -73,7 +65,6 @@ type Admin struct {
 	Name            string
 	Password        string
 	MealPlan        []MealPlans       `gorm:"foreignKey:AdminID"`
-	DailyActivitie  []DailyActivities `gorm:"foreignKey:AdminID"`
 	CourseDetail    []CourseDetail    `gorm:"foreignKey:AdminID"`
 	FoodInformation []FoodInformation `gorm:"foreignKey:AdminID"`
 	Nutrient        []Nutrient        `gorm:"foreignKey:AdminID"`
@@ -267,54 +258,47 @@ type FoodInformation struct {
 }
 
 //--------------------------------------------------------------------------------------------------
-//----------------------------------------  DailyActivities  ---------------------------------------
+//----------------------------------------  DailyRoutine  ---------------------------------------
 //--------------------------------------------------------------------------------------------------
 
-type ActivitiesType struct {
+type MealTime struct {
 	gorm.Model
-	Name           string
-	DailyActivitie []DailyActivities `gorm:"foreignKey:ActivitiesTypeID"`
+	MealType     string         `db:"meal_type"`
+	MealTime     time.Time      `db:"meal_time"`
+	DailyRoutine []DailyRoutine `gorm:"foreignKey:MealTimeID"`
+}
+type Activity struct {
+	gorm.Model
+	Name         string         `db:"activity_name"`
+	ActivityType string         `db:"activity_type"`
+	DailyRoutine []DailyRoutine `gorm:"foreignKey:ActivityID"`
 }
 
-type MealTimes struct {
+type SleepSchedule struct {
 	gorm.Model
-	Type     string
-	MealTime time.Time
-	Member   []Member `gorm:"foreignKey:MealTimesID"`
-}
-type FoodAllergies struct {
-	gorm.Model
-	Allergen      string
-	AllergyType   string
-	Reaction      string
-	LastReactDate time.Time
-	Member        []Member `gorm:"foreignKey:FoodAllergiesID"`
-}
-
-type BedTimes struct {
-	gorm.Model
-	BedTime  time.Time
-	WakeUp   time.Time
-	Duration float32
-	Member   []Member `gorm:"foreignKey:BedTimesID"`
+	WakeUpTime   time.Time      `db:"wake_up_time"`
+	BedTime      time.Time      `db:"bed_time"`
+	DailyRoutine []DailyRoutine `gorm:"foreignKey:SleepScheduleID"`
 }
 
 // Main Entity
-type DailyActivities struct {
-	gorm.Model
+type DailyRoutine struct {
+	gorm.Model `json:"id"`
 
-	Name     string
-	Duration string
-	Date     time.Time
-
-	AdminID *uint
-	Admin   Admin
-
-	ActivitiesTypeID *uint
-	ActivitiesType   ActivitiesType
+	Description string    `json:"description"`
+	TimeStamp   time.Time `json:"time_stamp"`
 
 	MemberID *uint
 	Member   Member
+
+	ActivityID *uint
+	Activity   Activity
+
+	MealTimeID *uint
+	MealTime   MealTime
+
+	SleepScheduleID *uint
+	SleepSchedule   SleepSchedule
 }
 
 // --------------------------------------------------------------------------------------------------
@@ -417,8 +401,8 @@ type Advice struct {
 	BodyID *uint
 	Body   Body
 
-	DailyActivitiesID *uint
-	DailyActivities   DailyActivities
+	DailyRoutineID *uint
+	DailyRoutine   DailyRoutine
 }
 
 // -----------------------------<Bodyschema>--------------<< ระบบบันทึกการเปลี่ยนแปลงร่างกาย >>------------------------------------
@@ -519,8 +503,9 @@ type Taste struct {
 
 type Behavior struct {
 	gorm.Model
-	Meals string `valid:"minstringlength(10)~meals not less than 10 characters,maxstringlength(30)~meals not more than 30 characters"`
-	Time  string
+	Meals       string `valid:"minstringlength(4)~Meals not less than 4 characters,maxstringlength(30)~Meals not more than 30 characters"`
+	Time        string
+	ProfileBody string `valid:"image~Profile must be only image"`
 
 	MemberID int    `gorm:"uniqueIndex"`
 	Member   Member `valid:"-"`

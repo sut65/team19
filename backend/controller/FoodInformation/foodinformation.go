@@ -3,9 +3,9 @@ package controller
 import (
 	"net/http"
 
+	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team19/entity"
-	"github.com/asaskevich/govalidator"
 )
 
 // POST /foodinformations
@@ -47,12 +47,12 @@ func CreateFoodInformation(c *gin.Context) {
 
 	// สร้าง food_information
 	fif := entity.FoodInformation{
-		Admin:   			admin,
-		MainIngredient:     mainingredient,
-		FoodType:       	foodtype,
-		Image: 				foodinformation.Image,
-		Name:     			foodinformation.Name,
-		Datetime:    		foodinformation.Datetime,
+		Admin:          admin,
+		MainIngredient: mainingredient,
+		FoodType:       foodtype,
+		Image:          foodinformation.Image,
+		Name:           foodinformation.Name,
+		Datetime:       foodinformation.Datetime,
 	}
 
 	// บันทึก
@@ -137,12 +137,12 @@ func UpdateFoodInformation(c *gin.Context) {
 
 	// อัปเดต food_information
 	update := entity.FoodInformation{
-		Admin:   			admin,
-		MainIngredient:     mainingredient,
-		FoodType:       	foodtype,
-		Image: 				foodinformation.Image,
-		Name:     			foodinformation.Name,
-		Datetime:    		foodinformation.Datetime,
+		Admin:          admin,
+		MainIngredient: mainingredient,
+		FoodType:       foodtype,
+		Image:          foodinformation.Image,
+		Name:           foodinformation.Name,
+		Datetime:       foodinformation.Datetime,
 	}
 
 	// บันทึก

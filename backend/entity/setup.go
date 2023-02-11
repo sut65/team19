@@ -25,10 +25,9 @@ func SetupDatabase() {
 
 	database.AutoMigrate(
 		// Activity ย่อย
-		&ActivitiesType{},
-		&MealTimes{},
-		&FoodAllergies{},
-		&BedTimes{},
+		&Activity{},
+		&MealTime{},
+		&SleepSchedule{},
 		// Meal Plan ย่อย
 		&AvoidFood{},
 		&MealsOfDay{},
@@ -66,7 +65,7 @@ func SetupDatabase() {
 		&FoodType{},
 		&MainIngredient{},
 		// Activity หลัก
-		&DailyActivities{},
+		&DailyRoutine{},
 		// MealPlans
 		&MealPlans{},
 		//Advice
@@ -699,76 +698,122 @@ func SetupDatabase() {
 	db.Model(&MealPlans{}).Create(&MealPlansC)
 
 	//--------------------------------------------------------------------------------------------------
-	//----------------------------------------  DailyActivities  ---------------------------------------
+	//----------------------------------------  DailyRoutine  ---------------------------------------
 	//--------------------------------------------------------------------------------------------------
-	FoodAllergiesA := FoodAllergies{
-		Allergen:      "ไข่ นม",
-		AllergyType:   "ชนิดไม่เฉียบพลัน",
-		Reaction:      "อาการจะค่อยๆ เกิดขึ้นหลังจากทานอาหารเข้าไปแล้ว หลายชั่วโมงหรืออาจเป็นวัน เช่น เป็นผื่นโดยจะมีผื่นแดง",
-		LastReactDate: time.Date(2023, time.January, 3, 15, 03, 00, 0, time.UTC),
+	MealTimeA := MealTime{
+		MealType: "Breakfast",
+		MealTime: time.Date(2017, time.November, 4, 7, 11, 0, 0, time.UTC),
 	}
-	db.Model(&FoodAllergies{}).Create(&FoodAllergiesA)
+	db.Model(&MealTime{}).Create(&MealTimeA)
 
-	FoodAllergiesB := FoodAllergies{
-		Allergen:      "ถั่ว",
-		AllergyType:   "ชนิดเฉียบพลัน",
-		Reaction:      "อาการจะเกิดขึ้นภายใน 30 นาที-1 ชั่วโมง หลังจากทานอาหารเข้าไปและมีความเสี่ยงที่จะเกิดอาการแพ้รุนแรงได้ เช่น มีอาการตาบวม ปากบวม ผื่นลมพิษ หลอดลมตีบ ไอ แน่นหน้าอก หายใจไม่ออก ปวดท้อง อาเจียน",
-		LastReactDate: time.Date(2023, time.January, 3, 15, 03, 00, 0, time.UTC),
+	MealTimeB := MealTime{
+		MealType: "Breakfast",
+		MealTime: time.Date(2017, time.November, 4, 12, 38, 0, 0, time.UTC),
 	}
-	db.Model(&FoodAllergies{}).Create(&FoodAllergiesB)
+	db.Model(&MealTime{}).Create(&MealTimeB)
 
-	FoodAllergiesC := FoodAllergies{
-		Allergen:      "อาหารทะเล",
-		AllergyType:   "ชนิดรุนแรง",
-		Reaction:      "เป็นอาการแพ้ในระดับรุนแรงที่สุดและเป็นอันตรายถึงชีวิต โดยอาการอาจเกิดขึ้นทันทีที่ทานอาหารที่แพ้เข้าไป อาการที่เกิดขึ้นได้แก่ ผื่นแดงตามผิวหนัง ลมพิษ คัน ผิวหนัง แดงหรือซีด เวียนศีรษะ หน้ามืดคล้ายจะเป็นลม คลื่นไส้ อาเจียน ปวดท้อง หรือท้องเสีย",
-		LastReactDate: time.Date(2023, time.January, 3, 15, 03, 00, 0, time.UTC),
+	MealTimeC := MealTime{
+		MealType: "Breakfast",
+		MealTime: time.Date(2017, time.November, 4, 6, 14, 0, 0, time.UTC),
 	}
-	db.Model(&FoodAllergies{}).Create(&FoodAllergiesC)
+	db.Model(&MealTime{}).Create(&MealTimeC)
 
-	ActivitiesTypeA := ActivitiesType{
-		Name: "Balance",
+	ActivityA := Activity{
+		Name:         "Playing Basketball",
+		ActivityType: "Aerobic",
 	}
-	db.Model(&ActivitiesType{}).Create(&ActivitiesTypeA)
+	db.Model(&Activity{}).Create(&ActivityA)
 
-	ActivitiesTypeB := ActivitiesType{
-		Name: "Aerobic",
+	SleepScheduleA := SleepSchedule{
+		WakeUpTime: time.Date(2017, time.November, 4, 6, 15, 0, 0, time.UTC),
+		BedTime:    time.Date(2017, time.November, 4, 22, 00, 0, 0, time.UTC),
 	}
-	db.Model(&ActivitiesType{}).Create(&ActivitiesTypeB)
+	db.Model(&SleepSchedule{}).Create(&SleepScheduleA)
 
-	ActivitiesTypeC := ActivitiesType{
-		Name: "Muscle-strengthening",
+	SleepScheduleB := SleepSchedule{
+		WakeUpTime: time.Date(2017, time.November, 4, 7, 15, 0, 0, time.UTC),
+		BedTime:    time.Date(2017, time.November, 4, 23, 00, 0, 0, time.UTC),
 	}
-	db.Model(&ActivitiesType{}).Create(&ActivitiesTypeC)
+	db.Model(&SleepSchedule{}).Create(&SleepScheduleB)
 
-	DailyActivitiesA := DailyActivities{
-		Name:           "เดิน",
-		Duration:       "45 นาที",
-		Date:           time.Date(2023, time.January, 3, 15, 03, 00, 0, time.UTC),
-		ActivitiesType: ActivitiesTypeA,
-		Admin:          AdminA,
-		Member:         Member1,
+	SleepScheduleC := SleepSchedule{
+		WakeUpTime: time.Date(2017, time.November, 4, 9, 15, 0, 0, time.UTC),
+		BedTime:    time.Date(2017, time.November, 4, 23, 45, 0, 0, time.UTC),
 	}
-	db.Model(&DailyActivities{}).Create(&DailyActivitiesA)
+	db.Model(&SleepSchedule{}).Create(&SleepScheduleC)
 
-	DailyActivitiesB := DailyActivities{
-		Name:           "วิ่ง",
-		Duration:       "1 ชั่วโมง",
-		Date:           time.Date(2023, time.January, 3, 15, 03, 00, 0, time.UTC),
-		ActivitiesType: ActivitiesTypeB,
-		Admin:          AdminB,
-		Member:         Member2,
+	ActivityB := Activity{
+		Name:         "Doing Push-Ups ",
+		ActivityType: "Strengthening",
 	}
-	db.Model(&DailyActivities{}).Create(&DailyActivitiesB)
+	db.Model(&Activity{}).Create(&ActivityB)
 
-	DailyActivitiesC := DailyActivities{
-		Name:           "ปืนเขา",
-		Duration:       "2 ชั่วโมง",
-		Date:           time.Date(2023, time.January, 3, 15, 03, 00, 0, time.UTC),
-		ActivitiesType: ActivitiesTypeC,
-		Admin:          AdminC,
-		Member:         Member3,
+	ActivityC := Activity{
+		Name:         "Yoga",
+		ActivityType: "Flexibility",
 	}
-	db.Model(&DailyActivities{}).Create(&DailyActivitiesC)
+	db.Model(&Activity{}).Create(&ActivityC)
+
+	DailyRoutineA := DailyRoutine{
+		Description:   "Daily A",
+		TimeStamp:     time.Now(),
+		Member:        Member1,
+		Activity:      ActivityA,
+		MealTime:      MealTimeA,
+		SleepSchedule: SleepScheduleA,
+	}
+	db.Model(&DailyRoutine{}).Create(&DailyRoutineA)
+
+	DailyRoutineB := DailyRoutine{
+		Description:   "Daily B",
+		TimeStamp:     time.Now(),
+		Member:        Member2,
+		Activity:      ActivityB,
+		MealTime:      MealTimeB,
+		SleepSchedule: SleepScheduleB,
+	}
+	db.Model(&DailyRoutine{}).Create(&DailyRoutineB)
+
+	DailyRoutineC := DailyRoutine{
+		Description:   "Daily C",
+		TimeStamp:     time.Now(),
+		Member:        Member3,
+		Activity:      ActivityC,
+		MealTime:      MealTimeC,
+		SleepSchedule: SleepScheduleC,
+	}
+	db.Model(&DailyRoutine{}).Create(&DailyRoutineC)
+
+	// Advice part ------------------------------------------------------
+	Advice1 := Advice{
+		Advice:        "กินโปรตีนเพิ่มให้ได้ 2 g ต่อน้ำหนักตัว 1 kg",
+		RecordingDate: time.Date(2023, time.January, 4, 14, 14, 00, 0, time.UTC),
+		// Member:        Member1,
+		// Trainer:       Trainer1,
+		Body:          BodyChangeA,
+		DailyRoutine:  DailyRoutineA,
+	}
+	db.Model(&Advice{}).Create(&Advice1)
+
+	Advice2 := Advice{
+		Advice:        "ออกกำลังกายแบบคาร์ดิโอเพิ่มเป็นสัปดาห์ละ 4 วัน วันละ 1 ชม.",
+		RecordingDate: time.Date(2023, time.January, 25, 12, 30, 00, 0, time.UTC),
+		// Member:        Member2,
+		// Trainer:       Trainer2,
+		Body:          BodyChangeB,
+		DailyRoutine:  DailyRoutineB,
+	}
+	db.Model(&Advice{}).Create(&Advice2)
+
+	Advice3 := Advice{
+		Advice:        "เล่นเวทเทรนนิ่ง เพิ่มเป็นสัปดาห์ละ 3 วัน วันละ 1.5 ชม.",
+		RecordingDate: time.Date(2023, time.January, 27, 11, 47, 00, 0, time.UTC),
+		// Member:        Member3,
+		// Trainer:       Trainer2,
+		Body:          BodyChangeA,
+		DailyRoutine:  DailyRoutineC,
+	}
+	db.Model(&Advice{}).Create(&Advice3)
 
 	//==========================ระบบจัดการสารอาหาร==========================
 
@@ -849,29 +894,32 @@ func SetupDatabase() {
 	db.Model(&Exercise{}).Create(&Exercises)
 
 	BehaviorA := Behavior{
-		Meals:    "กินวันละ 4 มื้อ",
-		Time:     "21/12/2022 17:00",
-		Member:   Member1,
-		Exercise: Exercise1,
-		Taste:    Taste1,
+		Meals:       "กินวันละ 4 มื้อ",
+		Time:        "21/12/2022 17:00",
+		ProfileBody: "https://www.shutterstock.com/image-photo/cropped-image-fit-muscular-body-260nw-1171721263.jpg",
+		Member:      Member1,
+		Exercise:    Exercise1,
+		Taste:       Taste1,
 	}
 	db.Model(&Behavior{}).Create(&BehaviorA)
 
 	BehaviorB := Behavior{
-		Meals:    "กินวันละ 4 มื้อ",
-		Time:     "21/12/2022 15:00",
-		Member:   Member2,
-		Exercise: Exercise1,
-		Taste:    Taste1,
+		Meals:       "กินวันละ 4 มื้อ",
+		Time:        "21/12/2022 15:00",
+		ProfileBody: "68854199_598026734068072_192688871601864704_n.jpg",
+		Member:      Member2,
+		Exercise:    Exercise1,
+		Taste:       Taste1,
 	}
 	db.Model(&Behavior{}).Create(&BehaviorB)
 
 	BehaviorC := Behavior{
-		Meals:    "กินวันละ 4 มื้อ",
-		Time:     "21/12/2022 15:00",
-		Member:   Member3,
-		Exercise: Exercise1,
-		Taste:    Taste1,
+		Meals:       "กินวันละ 4 มื้อ",
+		Time:        "21/12/2022 15:00",
+		ProfileBody: "68854199_598026734068072_192688871601864704_n.jpg",
+		Member:      Member3,
+		Exercise:    Exercise1,
+		Taste:       Taste1,
 	}
 	db.Model(&Behavior{}).Create(&BehaviorC)
 
