@@ -1302,15 +1302,6 @@ const GetMembersByID = async (id: string) => {
   return res;
 };
 
-const GetMember = async () => {
-  let res = await fetch(`${apiUrl}/members`, requestOptionsGet)
-    .then((response) => response.json())
-    .then((result) => {
-      return result.data ? result.data : false;
-    });
-
-  return res;
-};
 
 async function SelectCourseDetail(id: number | undefined) {
   const requestOptions = {
@@ -1714,7 +1705,6 @@ export {
   DeleteMember,
   GetMemberByID,
   CreateMember,
-  GetMember,
   GetMembersByID,
   //Body
   CreateBody,

@@ -6,6 +6,7 @@ export interface BehaviorInterface {
     ID?:                    number;
     Meals?:             string;
     Time?:              string;
+    ProfileBody?:        string;
 
     Exercise?: ExerciseInterface;
     ExerciseID?: number;

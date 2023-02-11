@@ -894,29 +894,32 @@ func SetupDatabase() {
 	db.Model(&Exercise{}).Create(&Exercises)
 
 	BehaviorA := Behavior{
-		Meals:    "กินวันละ 4 มื้อ",
-		Time:     "21/12/2022 17:00",
-		Member:   Member1,
-		Exercise: Exercise1,
-		Taste:    Taste1,
+		Meals:       "กินวันละ 4 มื้อ",
+		Time:        "21/12/2022 17:00",
+		ProfileBody: "https://www.shutterstock.com/image-photo/cropped-image-fit-muscular-body-260nw-1171721263.jpg",
+		Member:      Member1,
+		Exercise:    Exercise1,
+		Taste:       Taste1,
 	}
 	db.Model(&Behavior{}).Create(&BehaviorA)
 
 	BehaviorB := Behavior{
-		Meals:    "กินวันละ 4 มื้อ",
-		Time:     "21/12/2022 15:00",
-		Member:   Member2,
-		Exercise: Exercise1,
-		Taste:    Taste1,
+		Meals:       "กินวันละ 4 มื้อ",
+		Time:        "21/12/2022 15:00",
+		ProfileBody: "68854199_598026734068072_192688871601864704_n.jpg",
+		Member:      Member2,
+		Exercise:    Exercise1,
+		Taste:       Taste1,
 	}
 	db.Model(&Behavior{}).Create(&BehaviorB)
 
 	BehaviorC := Behavior{
-		Meals:    "กินวันละ 4 มื้อ",
-		Time:     "21/12/2022 15:00",
-		Member:   Member3,
-		Exercise: Exercise1,
-		Taste:    Taste1,
+		Meals:       "กินวันละ 4 มื้อ",
+		Time:        "21/12/2022 15:00",
+		ProfileBody: "68854199_598026734068072_192688871601864704_n.jpg",
+		Member:      Member3,
+		Exercise:    Exercise1,
+		Taste:       Taste1,
 	}
 	db.Model(&Behavior{}).Create(&BehaviorC)
 
