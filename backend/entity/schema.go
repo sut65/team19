@@ -198,6 +198,8 @@ type Trainer struct {
 
 	CourseService []CourseService `gorm:"foreignKey:TrainerID"`
 	Body          []Body          `gorm:"foreignKey:TrainerID"`
+	Advice		  []Advice		  `gorm:"foreignKey:TrainerID"`
+
 }
 
 // -------------------------------------------<<  >>------------------------------------
@@ -393,6 +395,9 @@ type Advice struct {
 
 	Advice        string
 	RecordingDate time.Time `valid:"past"`
+
+	TrainerID *uint
+	Trainer Trainer
 
 	CourseServiceID *uint
 	CourseService   CourseService
