@@ -529,6 +529,30 @@ async function GetAdvice() {
   return res;
 }
 
+const GetAdviceByCourseService = async (id: string) => {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/advices-by-course/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        console.log(res.data);
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
+
 const DeleteAdvice = async (id: string) => {
   const requestOptions = {
     method: "DELETE",
@@ -1864,4 +1888,5 @@ export {
   createAdvice,
   updateAdvice,
   GetAdviceByID,
+  GetAdviceByCourseService,
 };

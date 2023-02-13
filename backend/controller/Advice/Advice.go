@@ -78,6 +78,19 @@ func ListAdvice(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": advices})
 }
 
+// GET /Advices
+func ListAdviceByCourseService(c *gin.Context) {
+	var advices []entity.Advice
+	id := c.Param("id")
+
+	if err := entity.DB().Preload("CourseService").Preload("CourseService.Member.Gender").Preload("CourseService.CourseDetail.CourseType").Preload("Body").Preload("DailyRoutine").Raw("SELECT * FROM advices WHERE course_service_id = ?", id).Find(&advices).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": advices})
+}
+
 // DELETE /Advices/:id
 func DeleteAdvice(c *gin.Context) {
 	id := c.Param("id")

@@ -181,6 +181,7 @@ func main() {
 			router.POST("/advice", Advice.CreateAdvice)
 			router.GET("/advice/:id", Advice.GetAdvice)
 			router.GET("/advices", Advice.ListAdvice)
+			router.GET("/advices-by-course/:id", Advice.ListAdviceByCourseService)
 			router.DELETE("/advice/:id", Advice.DeleteAdvice)
 			router.PATCH("/advices", Advice.UpdateAdvice)
 
