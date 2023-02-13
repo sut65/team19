@@ -11,12 +11,19 @@ import (
 // POSH /Advice
 func CreateAdvice(c *gin.Context) {
 	var advice entity.Advice
+	var trainer entity.Trainer
 	var courseService entity.CourseService
 	var body entity.Body
 	var dailyRoutine entity.DailyRoutine
 
 	if err := c.ShouldBindJSON(&advice); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// ค้นหา trainer ด้วย id
+	if tx := entity.DB().Where("id = ?", advice.TrainerID).First(&trainer); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Trainer not found"})
 		return
 	}
 
@@ -42,6 +49,7 @@ func CreateAdvice(c *gin.Context) {
 	adv := entity.Advice{
 		Advice:        advice.Advice,
 		RecordingDate: advice.RecordingDate,
+		Trainer: trainer,
 		CourseService: courseService,
 		Body:          body,
 		DailyRoutine:  dailyRoutine,
@@ -59,8 +67,8 @@ func CreateAdvice(c *gin.Context) {
 func GetAdvice(c *gin.Context) {
 	var advice entity.Advice
 	id := c.Param("id")
-	if tx := entity.DB().Preload("CourseService").Preload("CourseService.Member.Gender").Preload("CourseService.CourseDetail.CourseType").Preload("Body").Preload("DailyRoutine").Where("id = ?", id).First(&advice); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "blog not found"})
+	if tx := entity.DB().Preload("CourseService").Preload("CourseService.Member.Gender").Preload("CourseService.CourseDetail.CourseType").Preload("Body").Preload("DailyRoutine").Preload("Trainer").Where("id = ?", id).First(&advice); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "advice not found"})
 		return
 	}
 
@@ -70,7 +78,7 @@ func GetAdvice(c *gin.Context) {
 // GET /Advices
 func ListAdvice(c *gin.Context) {
 	var advices []entity.Advice
-	if err := entity.DB().Preload("CourseService").Preload("CourseService.Member.Gender").Preload("CourseService.CourseDetail.CourseType").Preload("Body").Preload("DailyRoutine").Raw("SELECT * FROM advices").Find(&advices).Error; err != nil {
+	if err := entity.DB().Preload("CourseService").Preload("CourseService.Member.Gender").Preload("CourseService.CourseDetail.CourseType").Preload("Body").Preload("DailyRoutine").Preload("Trainer").Raw("SELECT * FROM advices").Find(&advices).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -83,7 +91,7 @@ func ListAdviceByCourseService(c *gin.Context) {
 	var advices []entity.Advice
 	id := c.Param("id")
 
-	if err := entity.DB().Preload("CourseService").Preload("CourseService.Member.Gender").Preload("CourseService.CourseDetail.CourseType").Preload("Body").Preload("DailyRoutine").Raw("SELECT * FROM advices WHERE course_service_id = ?", id).Find(&advices).Error; err != nil {
+	if err := entity.DB().Preload("CourseService").Preload("CourseService.Member.Gender").Preload("CourseService.CourseDetail.CourseType").Preload("Body").Preload("DailyRoutine").Preload("Trainer").Raw("SELECT * FROM advices WHERE course_service_id = ?", id).Find(&advices).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -106,12 +114,19 @@ func DeleteAdvice(c *gin.Context) {
 // PATCH /Advice
 func UpdateAdvice(c *gin.Context) {
 	var advice entity.Advice
+	var trainer entity.Trainer
 	var courseService entity.CourseService
 	var body entity.Body
-	var DailyRoutine entity.DailyRoutine
+	var dailyRoutine entity.DailyRoutine
 
 	if err := c.ShouldBindJSON(&advice); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// ค้นหา trainer ด้วย id
+	if tx := entity.DB().Where("id = ?", advice.TrainerID).First(&trainer); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Trainer not found"})
 		return
 	}
 
@@ -123,22 +138,23 @@ func UpdateAdvice(c *gin.Context) {
 
 	// ค้นหา body ด้วย id
 	if tx := entity.DB().Where("id = ?", advice.BodyID).First(&body); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "category not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "body not found"})
 		return
 	}
 
 	// ค้นหา DailyRoutine ด้วย id
-	if tx := entity.DB().Where("id = ?", advice.DailyRoutineID).First(&DailyRoutine); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "tag not found"})
+	if tx := entity.DB().Where("id = ?", advice.DailyRoutineID).First(&dailyRoutine); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "dailyRoutine not found"})
 		return
 	}
 
 	update := entity.Advice{
 		Advice:        advice.Advice,
 		RecordingDate: advice.RecordingDate,
+		Trainer: trainer,
 		CourseService: courseService,
 		Body:          body,
-		DailyRoutine:  DailyRoutine,
+		DailyRoutine:  dailyRoutine,
 	}
 
 	if err := entity.DB().Where("id = ?", advice.ID).Updates(&update).Error; err != nil {
