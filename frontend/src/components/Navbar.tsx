@@ -18,6 +18,7 @@ import FastfoodRoundedIcon from "@mui/icons-material/FastfoodRounded";
 import PaymentRoundedIcon from "@mui/icons-material/PaymentRounded";
 import { Avatar } from "@mui/material";
 
+import DailyRoutineNavbarIcon from "../images/DailyRoutines/dlyIcon2.jpg";
 import Healthy from "../images/Health.png";
 import AppLogo from "../images/nutrition.png";
 
@@ -116,7 +117,7 @@ function Navbar() {
               <Grid item xs={6}></Grid>
               เป็น
               <Grid item xs={5}></Grid>
-              <Grid item xs={1}>menu1</Grid> 
+              <Grid item xs={1}>menu1</Grid>
               */}
               <Grid item xs={1}>
                 <Link
@@ -150,7 +151,7 @@ function Navbar() {
                   </Button>
                 </Link>
               </Grid>
-              <Grid item xs={1}>
+<Grid item xs={1}>
                 <Link
                   to="daily-routines-display"
                   style={{
@@ -162,7 +163,7 @@ function Navbar() {
                 >
                   <Button color="inherit" style={{ fontSize: "1.2rem" }}>
                     DailyRoutines
-                    <Avatar src={Healthy} />
+                    <Avatar src={DailyRoutineNavbarIcon} />
                   </Button>
                 </Link>
               </Grid>
