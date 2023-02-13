@@ -101,6 +101,7 @@ func main() {
 			r.GET("/daily_routines", DailyRoutine.GetDailyRoutines)
 			r.PATCH("/daily_routines", DailyRoutine.UpdateDailyRoutine)
 			r.DELETE("/daily_routines/:id", DailyRoutine.DeleteDailyRoutine)
+			r.GET("/activity_type/:id", DailyRoutine.GetActivityTypesByID)
 
 			// MealPlan Routes
 			r.POST("/mealplans", MealPlan.CreateMealPlans)
