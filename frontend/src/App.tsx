@@ -157,7 +157,7 @@ function App() {
             element={<DailyRoutinesDisplay />}
           ></Route>
           <Route
-            path="daily-routines/create-dailyroutines"
+            path="daily-routines-display/create-daily_routines"
             element={<CreateDailyRoutines />}
           ></Route>
           <Route

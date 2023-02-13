@@ -90,7 +90,7 @@ type CourseDetail struct {
 	CourseName  string `valid:"maxstringlength(50)~CourseName must contain no more than 50 characters,required~CourseName cannot be blank"`
 	CoverPage   string `valid:"image~CoverPage must be images file"`
 	Description string `valid:"required~Description cannot be blank"`
-	Goal        string `valid:"required~Goal cannot be blank"`	
+	Goal        string `valid:"required~Goal cannot be blank"`
 
 	AdminID *uint
 	Admin   Admin
@@ -198,8 +198,7 @@ type Trainer struct {
 
 	CourseService []CourseService `gorm:"foreignKey:TrainerID"`
 	Body          []Body          `gorm:"foreignKey:TrainerID"`
-	Advice		  []Advice		  `gorm:"foreignKey:TrainerID"`
-
+	Advice        []Advice        `gorm:"foreignKey:TrainerID"`
 }
 
 // -------------------------------------------<<  >>------------------------------------
@@ -264,30 +263,31 @@ type FoodInformation struct {
 
 type MealTime struct {
 	gorm.Model
-	MealType     string         `db:"meal_type"`
-	MealTime     time.Time      `db:"meal_time"`
-	DailyRoutine []DailyRoutine `gorm:"foreignKey:MealTimeID"`
+	BreakFastTime string
+	LunchTime     string
+	DinnerTime    string
+	DailyRoutine  []DailyRoutine `gorm:"foreignKey:MealTimeID"`
 }
 type Activity struct {
 	gorm.Model
-	Name         string         `db:"activity_name"`
-	ActivityType string         `db:"activity_type"`
+	Name         string
+	ActivityType string
 	DailyRoutine []DailyRoutine `gorm:"foreignKey:ActivityID"`
 }
 
 type SleepSchedule struct {
 	gorm.Model
-	WakeUpTime   time.Time      `db:"wake_up_time"`
-	BedTime      time.Time      `db:"bed_time"`
+	WakeUpTime   string
+	BedTime      string
 	DailyRoutine []DailyRoutine `gorm:"foreignKey:SleepScheduleID"`
 }
 
 // Main Entity
 type DailyRoutine struct {
-	gorm.Model `json:"id"`
+	gorm.Model
 
-	Description string    `json:"description"`
-	TimeStamp   time.Time `json:"time_stamp"`
+	Description string
+	TimeStamp   string
 
 	MemberID *uint
 	Member   Member
@@ -397,7 +397,7 @@ type Advice struct {
 	RecordingDate time.Time `valid:"past"`
 
 	TrainerID *uint
-	Trainer Trainer
+	Trainer   Trainer
 
 	CourseServiceID *uint
 	CourseService   CourseService
