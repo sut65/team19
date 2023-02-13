@@ -120,6 +120,7 @@ func main() {
 			r.POST("/trainer", trainer.CreateTrainder)
 			router.DELETE("/trainer/:id", trainer.DeleteTrainer)
 			router.PATCH("/trainers", trainer.UpdateTrainer)
+			router.PATCH("/trainers-nopass", trainer.UpdateTrainerNotPassword)
 
 			r.GET("/form/:id", trainer.GetForm)
 			r.GET("/forms", trainer.ListForms)
@@ -180,10 +181,9 @@ func main() {
 			router.POST("/advice", Advice.CreateAdvice)
 			router.GET("/advice/:id", Advice.GetAdvice)
 			router.GET("/advices", Advice.ListAdvice)
+			router.GET("/advices-by-course/:id", Advice.ListAdviceByCourseService)
 			router.DELETE("/advice/:id", Advice.DeleteAdvice)
 			router.PATCH("/advices", Advice.UpdateAdvice)
-
-			
 
 			// Nutrient Routes
 			router.GET("/nutrients", nutrient.ListNutrients)

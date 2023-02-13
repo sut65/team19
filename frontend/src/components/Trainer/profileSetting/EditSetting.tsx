@@ -1,4 +1,4 @@
-
+import jwt from 'jwt-decode'
 import React, { useState, useEffect } from "react";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Unstable_Grid2";
@@ -14,7 +14,7 @@ import Button from "@mui/material/Button";
 
 import { TrainerInterface } from "../../../interfaces/ITrainer";
 
-import {GetTrainerByID,UpdateTrainer} from "../../../services/HttpClientService"
+import {GetTrainerByID,UpdateTrainer, UpdateTrainerNoPass} from "../../../services/HttpClientService"
 
 
 import Snackbar from "@mui/material/Snackbar";
@@ -141,6 +141,7 @@ const handleClose = (
 
   const submit = async () => {
     let con_pass = false;
+    let con_nopass = false;
     const passwordchange = () =>{
       if(pass.password && passNew.password ){
         // console.log("มีการกรอก passworsd")
@@ -151,15 +152,18 @@ const handleClose = (
           // setError(true);
           con_pass=false;
           setmsError("Password does not match")
+          setError(true)
         }
-      }else if(pass.password != passNew.password){
+      }else if(pass.password || passNew.password){
         con_pass=false;
-        setmsError("Password does not match")
+        setmsError("Please enter your password in both fields.")
+        setError(true)
       }
       
       else{
-        con_pass =true;
-        return"123456789" // จะกลับมาแก้ปัญหาในภายหลัง
+        con_pass =false;
+        con_nopass =true;
+        // return"123456789" // จะกลับมาแก้ปัญหาในภายหลัง
       }
     }
 
@@ -180,11 +184,28 @@ const handleClose = (
       ReligionID: convertType(trainer.ReligionID),
 
     };
-    console.log(data.Password);
+    // console.log(data.Password);
     // console.log(JSON.stringify(data));
 
+    let dataNopass = {
+      ID: convertType(trainer.ID),
+      Name: trainer.Name,
+      University: trainer.University,
+      Gpax: trainer.Gpax,
+      Gender: trainer.Gender,
+      Age: trainer.Age,
+      Address: trainer.Address,
+      Email: trainer.Email,
+
+      FormOfWorkID: convertType(trainer.FormOfWorkID),
+      StatusID: convertType(trainer.StatusID),
+      EducationID: convertType(trainer.EducationID),
+      ReligionID: convertType(trainer.ReligionID),
+
+    };
+
     let msError:string[] =[]; 
-    let res = con_pass ? await UpdateTrainer(data) : setError(true);
+    let res = con_pass ? await UpdateTrainer(data) : con_nopass ? await UpdateTrainerNoPass(data) : setError(true);
     if (res) {
       if (res.status) {
           setSuccess(true);

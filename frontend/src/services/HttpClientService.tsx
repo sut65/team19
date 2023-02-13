@@ -230,6 +230,29 @@ const UpdateTrainer = async (data: TrainerInterface) => {
   return res;
 };
 
+const UpdateTrainerNoPass = async (data: TrainerInterface) => {
+  const requestOptions = {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/trainers-nopass`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return { status: true, message: res.data };
+      } else {
+        return { status: false, message: res.error };
+      }
+    });
+
+  return res;
+};
+
 async function GetFormOfWork() {
   let res = await fetch(`${apiUrl}/forms`, requestOptionsGet)
     .then((response) => response.json())
@@ -505,6 +528,30 @@ async function GetAdvice() {
 
   return res;
 }
+
+const GetAdviceByCourseService = async (id: string) => {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/advices-by-course/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        console.log(res.data);
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
 
 const DeleteAdvice = async (id: string) => {
   const requestOptions = {
@@ -1744,6 +1791,7 @@ export {
   GetTrainerByID,
   DeleteTrainer,
   UpdateTrainer,
+  UpdateTrainerNoPass,
   GetFormOfWork,
   GetStatus,
   GetEducation,
@@ -1840,4 +1888,5 @@ export {
   createAdvice,
   updateAdvice,
   GetAdviceByID,
+  GetAdviceByCourseService,
 };
