@@ -21,9 +21,10 @@ import {
 } from "@mui/material";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { DatePicker } from '@mui/x-date-pickers';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 
-import AddAdviceIcon from "../../images/AddAdviceIcon.png";
 import AdviceIcon from "../../images/AdviceIcon.png";
 import homeBg from "../../images/AdviceBG.jpg";
 
@@ -31,8 +32,6 @@ import homeBg from "../../images/AdviceBG.jpg";
 import { BodyInterface } from '../../interfaces/IBody';
 import { DailyRoutinesInterface } from "../../interfaces/IDailyRoutines";
 import { AdviceInterface } from '../../interfaces/IAdvice';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { TrainerInterface } from '../../interfaces/ITrainer';
 import { CourseServiceInterface } from '../../interfaces/ICourseService';
 
@@ -43,7 +42,7 @@ import {
   GetTrainerByID,
   updateAdvice
 } from '../../services/HttpClientService';
-import { DatePicker } from '@mui/x-date-pickers';
+
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
   props,
@@ -54,13 +53,13 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
 
 function UpdateAdvice() {
-  let navigate = useNavigate();
   const { id } = useParams();
   const [advice, setAdvice] = useState<AdviceInterface>({});
   const [courseService, setCourseService] = useState<CourseServiceInterface>({});
   const [infoBody, setInfoBody] = useState<BodyInterface[]>([]);
   const [dailyRoutines, setDailyRoutines] = useState<DailyRoutinesInterface[]>([]);
   const [trainer, setTrainer] = useState<TrainerInterface>({});
+  const [recordingDate, setRecordingDate] = useState<Date | null>(new Date());
   const NowDate = Date.now();
 
   const [success, setSuccess] = useState(false);
@@ -93,21 +92,27 @@ function UpdateAdvice() {
 
   const fetchTrainerByID = async () => {
     let res = await GetTrainerByID();
-    res && setTrainer(res);
+    advice.TrainerID = res.ID;
+    if (res) {
+      setTrainer(res);
+    }
   };
 
   const fetchCourseServiceByID = async () => {
     let res = await GetCourseServiceBYUID();
-    res && setCourseService(res);
+    advice.TrainerID = res.ID;
+    if (res) {
+      setCourseService(res);
+    }
   };
-
+  
   const fetchAdvice = async () => {
     let res = await GetAdviceByID(id + "");
     res && setAdvice(res);
-  };
+}
 
 
-  const fetchInfoBodyByID = async () => {
+  const fetchInfoBody = async () => {
 
     const requestOptions = {
       method: "GET",
@@ -121,7 +126,7 @@ function UpdateAdvice() {
     setInfoBody(filterID(res.data));
   };
 
-  const fetchDailyActivitiesByID = async () => {
+  const fetchDailyRoutines = async () => {
 
     const requestOptions = {
       method: "GET",
@@ -140,7 +145,6 @@ function UpdateAdvice() {
     return res.filter((v: any) => v.MemberID === parseInt(id || "")).map((i: any) => i);
   }
 
-
   const convertType = (data: string | number | undefined) => {
     let val = typeof data === "string" ? parseInt(data) : data;
     return val;
@@ -148,28 +152,29 @@ function UpdateAdvice() {
 
   // insert data to db
   const submit = async () => {
-    let newData = {
+    let data = {
       ID: convertType(advice.ID),
       CourseServiceID: Number(courseService.ID),
       BodyID: Number(infoBody.map(i => i.ID)),
-      DailyActivitiesID: Number(dailyRoutines.map(i => i.ID)),
+      DailyRoutineID: Number(dailyRoutines.map(i => i.ID)),
+      TrainerID: convertType(advice.TrainerID),
       Advice: advice.Advice,
-      RecordingDate: advice.RecordingDate,
+      RecordingDate: recordingDate,
     };
 
-    let res = await updateAdvice(newData);
+    let res = await updateAdvice(data);
     res ? setSuccess(true) : setError(true);
-    window.location.href = "/trainer/advice-display"
+    window.location.href = "/trainer"
 
-    console.log(newData);
+    console.log(data);
   };
 
 
 
   useEffect(() => {
     fetchCourseServiceByID();
-    fetchInfoBodyByID();
-    fetchDailyActivitiesByID();
+    fetchInfoBody();
+    fetchDailyRoutines();
     fetchTrainerByID();
     fetchAdvice();
   }, []);
@@ -282,8 +287,7 @@ function UpdateAdvice() {
                   <TableCell align="center" >{dailyRoutines.ID}</TableCell>
                   <TableCell align="center" >{String(dailyRoutines.Name)}</TableCell>
                   <TableCell align="center">{String(dailyRoutines.Activity?.ActivityType)}</TableCell>
-                  <TableCell align="center">{String(dailyRoutines.TimeStamp)}</TableCell>
-                  {/* <TableCell align="center">{dailyRoutines.Date?.slice(0, 10).replaceAll("-", ".")}</TableCell> */}
+                  <TableCell align="center">{String(dailyRoutines.TimeStamp).slice(0, 10).replaceAll("-", ".")}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -354,14 +358,11 @@ function UpdateAdvice() {
               <FormControl fullWidth variant="outlined">
                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                   <DatePicker
-                    value={advice.RecordingDate}
-                    onChange={(newValue) => {
-                      setAdvice({
-                        ...advice,
-                        RecordingDate: newValue,
-                      });
-                    }}
                     renderInput={(params) => <TextField {...params} />}
+                    value={recordingDate}
+                    onChange={(newValue) => {
+                      setRecordingDate(newValue);
+                    }}
                     minDate={new Date(NowDate)}
                     maxDate={new Date(NowDate)}
                   />
@@ -393,7 +394,7 @@ function UpdateAdvice() {
               className="btn-user"
               variant="contained"
             >
-              Publish
+              Update
             </Button>
             <Link to="/trainer/advice-display" style={{ textDecoration: "none" }}>
               <Button

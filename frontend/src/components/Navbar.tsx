@@ -21,6 +21,8 @@ import { Avatar } from "@mui/material";
 import DailyRoutineNavbarIcon from "../images/DailyRoutines/dlyIcon2.jpg";
 import Healthy from "../images/Health.png";
 import AppLogo from "../images/nutrition.png";
+import advice_Icon from "../images/advice_Icon.png"
+import Blog from "../images/Blog.png"
 
 import "../App.css";
 import "../index.css";
@@ -110,7 +112,7 @@ function Navbar() {
                 </Link>
               </Grid>
 
-              <Grid item xs={4}></Grid>
+              <Grid item xs={3}></Grid>
 
               {/* ถ้าจะเพิ่ม menu ก็ลดอัตราส่วนลง เช่น
               จาก
@@ -119,6 +121,24 @@ function Navbar() {
               <Grid item xs={5}></Grid>
               <Grid item xs={1}>menu1</Grid>
               */}
+              {/* =====================================< Advice >==================================== */}
+              <Grid item xs={1}>
+                <Link
+                  to="advice"
+                  style={{
+                    color: "#000",
+                    textDecoration: "none",
+                    textAlign: "center",
+                    marginLeft: "40px",
+                  }}
+                >
+                  <Button color="inherit" style={{ fontSize: "1.2rem" }}>
+                    Advice
+                    <Avatar src={advice_Icon} />
+                  </Button>
+                </Link>
+              </Grid>
+              {/* =====================================< Blog >==================================== */}
               <Grid item xs={1}>
                 <Link
                   to="articles"
@@ -131,6 +151,7 @@ function Navbar() {
                 >
                   <Button color="inherit" style={{ fontSize: "1.2rem" }}>
                     Blog
+                    <Avatar src={Blog} />
                   </Button>
                 </Link>
               </Grid>
