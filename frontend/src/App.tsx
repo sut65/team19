@@ -52,6 +52,7 @@ import AdviceDisplay from "./components/Advice/AdviceDisplay";
 import CreateAdvice from "./components/Advice/CreateAdvice";
 import UpdateAdvice from "./components/Advice/UpdateAdvice";
 import UpdateDailyRoutines from "./components/DailyRoutines/UpdateDailyRoutines";
+import ShowAdvice from "./components/Advice/ShowAdvice";
 
 function App() {
   const [token, setToken] = useState<String>("");
@@ -112,16 +113,17 @@ function App() {
           ></Route>
         </Route>
 
+    
         {/* Routes Trainer */}
         <Route path="trainer" element={<Trainer />}></Route>
         <Route path="apply" element={<ApplyTrainer />}></Route>
         <Route path="trainer/profile" element={<ProfileTrainer />}></Route>
         <Route path="update-advice/:id" element={<UpdateAdvice />}></Route>
         <Route path="create-advice/:id" element={<CreateAdvice />}></Route>
-        <Route
+        {/* <Route
           path="trainer/advice-display"
           element={<AdviceDisplay />}
-        ></Route>
+        ></Route> */}
 
         {/* Routes User */}
         <Route path="user" element={<User />}>
@@ -135,6 +137,7 @@ function App() {
           <Route path="payment/:id" element={<Payment />} />
           <Route path="payment-history" element={<PaymentHistory />} />
           <Route path="article/create-article" element={<CreateArticle />} />
+          <Route path="advice" element={<ShowAdvice />} />
           <Route
             path="article/:id/update-article"
             element={<UpdateArticle />}
@@ -157,7 +160,7 @@ function App() {
             element={<DailyRoutinesDisplay />}
           ></Route>
           <Route
-            path="daily-routines/create-dailyroutines"
+            path="daily-routines-display/create-daily_routines"
             element={<CreateDailyRoutines />}
           ></Route>
           <Route

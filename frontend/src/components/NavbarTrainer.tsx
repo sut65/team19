@@ -14,7 +14,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import React, { useState, useEffect } from "react";
 import { Link as RouterLink } from 'react-router-dom';
 
-import {GetTrainerByID} from "../services/HttpClientService"
+import { GetTrainerByID } from "../services/HttpClientService"
 import { TrainerInterface } from "../interfaces/ITrainer";
 
 import trainerBG1 from "../images/trainerBG1.png";
@@ -27,7 +27,7 @@ function NavTrainer() {
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
-  const [trainer, setTrainer] = useState<TrainerInterface>({}); 
+  const [trainer, setTrainer] = useState<TrainerInterface>({});
 
   const fetchTrainerID = async () => {
     let res = await GetTrainerByID();
@@ -39,8 +39,8 @@ function NavTrainer() {
 
   useEffect(() => {
     fetchTrainerID()
-   
-  }, []); 
+
+  }, []);
 
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -54,18 +54,18 @@ function NavTrainer() {
     setAnchorElNav(null);
   };
 
-  const handleCloseUserMenu = (keyHandle:string) => {
+  const handleCloseUserMenu = (keyHandle: string) => {
     setAnchorElUser(null);
     console.log(keyHandle);
-    if (keyHandle == "Profile"){
-      window.location.href="trainer/profile";
-    }else if (keyHandle == "Logout"){
+    if (keyHandle == "Profile") {
+      window.location.href = "trainer/profile";
+    } else if (keyHandle == "Logout") {
       localStorage.clear();
       window.location.href = "/";
     }
   };
 
-  
+
 
   return (
     <AppBar position="static" sx={{ bgcolor: "#B9BFFF", color: "#000000" }}>
@@ -144,43 +144,44 @@ function NavTrainer() {
           >
             TRAINER
           </Typography>
+
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-          
-              <Button
-                // </Box>key={page}
-                //onClick={handleCloseNavMenu}
-                component={
-                  RouterLink
-                }
-                to={"/trainer/advice-display"}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                ADVICE
-              </Button>
-            
+
+            {/* <Button
+              // </Box>key={page}
+              //onClick={handleCloseNavMenu}
+              component={
+                RouterLink
+              }
+              to={"/trainer/advice-display"}
+              sx={{ my: 2, color: 'white', display: 'block' }}
+            >
+              ADVICE
+            </Button> */}
+
           </Box>
 
-          <Box sx={{ flexGrow: 0 ,display:"flex"}}>
-          <Typography
-                  variant="h6"
-                  noWrap
-                  component="a"
-                  sx={{
-                    mr: 2,
-                    display: { xs: "none", md: "flex" },
-                    fontFamily: "Kanit",
-                    fontWeight: 500,
-                    fontSize: 20,
-                    letterSpacing: ".1rem",
-                    color: "#616161",
-                    textDecoration: "none",
-                  }}
-                >
-                {trainer.Name}
-                </Typography>
+          <Box sx={{ flexGrow: 0, display: "flex" }}>
+            <Typography
+              variant="h6"
+              noWrap
+              component="a"
+              sx={{
+                mr: 2,
+                display: { xs: "none", md: "flex" },
+                fontFamily: "Kanit",
+                fontWeight: 500,
+                fontSize: 20,
+                letterSpacing: ".1rem",
+                color: "#616161",
+                textDecoration: "none",
+              }}
+            >
+              {trainer.Name}
+            </Typography>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-               
+
                 <Avatar alt="Remy Sharp" src={user} />
               </IconButton>
             </Tooltip>

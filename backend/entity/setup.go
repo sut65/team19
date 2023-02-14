@@ -700,50 +700,88 @@ func SetupDatabase() {
 	//--------------------------------------------------------------------------------------------------
 	//----------------------------------------  DailyRoutine  ---------------------------------------
 	//--------------------------------------------------------------------------------------------------
+	BreakFastTimeA := time.Date(2017, time.November, 4, 7, 0, 0, 0, time.UTC)
+	BTimeA := BreakFastTimeA.Format("15:04")
+	BreakFastTimeB := time.Date(2017, time.November, 4, 8, 30, 0, 0, time.UTC)
+	BTimeB := BreakFastTimeB.Format("15:04")
+	BreakFastTimeC := time.Date(2017, time.November, 4, 9, 15, 0, 0, time.UTC)
+	BTimeC := BreakFastTimeC.Format("15:04")
+
+	LunchTimeA := time.Date(2017, time.November, 4, 11, 0, 0, 0, time.UTC)
+	LTimeA := LunchTimeA.Format("15:04")
+	LunchTimeB := time.Date(2017, time.November, 4, 11, 45, 0, 0, time.UTC)
+	LTimeB := LunchTimeB.Format("15:04")
+	LunchTimeC := time.Date(2017, time.November, 4, 12, 30, 0, 0, time.UTC)
+	LTimeC := LunchTimeC.Format("15:04")
+
+	DinnersA := time.Date(2017, time.November, 4, 18, 0, 0, 0, time.UTC)
+	DTimeA := DinnersA.Format("15:04")
+	DinnersB := time.Date(2017, time.November, 4, 19, 0, 0, 0, time.UTC)
+	DTimeB := DinnersB.Format("15:04")
+	DinnersC := time.Date(2017, time.November, 4, 20, 45, 0, 0, time.UTC)
+	DTimeC := DinnersC.Format("15:04")
+
+	WakeUpTimeA := time.Date(2017, time.November, 4, 6, 15, 0, 0, time.UTC)
+	WTimeA := WakeUpTimeA.Format("15:04")
+	WakeUpTimeB := time.Date(2017, time.November, 4, 7, 15, 0, 0, time.UTC)
+	WTimeB := WakeUpTimeB.Format("15:04")
+	WakeUpTimeC := time.Date(2017, time.November, 4, 9, 15, 0, 0, time.UTC)
+	WTimeC := WakeUpTimeC.Format("15:04")
+
+	BedTimeA := time.Date(2017, time.November, 4, 22, 15, 0, 0, time.UTC)
+	BedsTimeA := BedTimeA.Format("15:04")
+	BedTimeB := time.Date(2017, time.November, 4, 22, 45, 0, 0, time.UTC)
+	BedsTimeB := BedTimeB.Format("15:04")
+	BedTimeC := time.Date(2017, time.November, 4, 23, 15, 0, 0, time.UTC)
+	BedsTimeC := BedTimeC.Format("15:04")
+
 	MealTimeA := MealTime{
-		MealType: "Breakfast",
-		MealTime: time.Date(2017, time.November, 4, 7, 11, 0, 0, time.UTC),
+		BreakFastTime: BTimeA,
+		LunchTime:     LTimeA,
+		DinnerTime:    DTimeA,
 	}
 	db.Model(&MealTime{}).Create(&MealTimeA)
 
 	MealTimeB := MealTime{
-		MealType: "Breakfast",
-		MealTime: time.Date(2017, time.November, 4, 12, 38, 0, 0, time.UTC),
+		BreakFastTime: BTimeB,
+		LunchTime:     LTimeB,
+		DinnerTime:    DTimeB,
 	}
 	db.Model(&MealTime{}).Create(&MealTimeB)
 
 	MealTimeC := MealTime{
-		MealType: "Breakfast",
-		MealTime: time.Date(2017, time.November, 4, 6, 14, 0, 0, time.UTC),
+		BreakFastTime: BTimeC,
+		LunchTime:     LTimeC,
+		DinnerTime:    DTimeC,
 	}
 	db.Model(&MealTime{}).Create(&MealTimeC)
 
 	ActivityA := Activity{
-		Name:         "Playing Basketball",
+		Name:         "PlayBasketball",
 		ActivityType: "Aerobic",
 	}
 	db.Model(&Activity{}).Create(&ActivityA)
 
 	SleepScheduleA := SleepSchedule{
-		WakeUpTime: time.Date(2017, time.November, 4, 6, 15, 0, 0, time.UTC),
-		BedTime:    time.Date(2017, time.November, 4, 22, 00, 0, 0, time.UTC),
+		WakeUpTime: WTimeA,
+		BedTime:    BedsTimeA,
 	}
 	db.Model(&SleepSchedule{}).Create(&SleepScheduleA)
 
 	SleepScheduleB := SleepSchedule{
-		WakeUpTime: time.Date(2017, time.November, 4, 7, 15, 0, 0, time.UTC),
-		BedTime:    time.Date(2017, time.November, 4, 23, 00, 0, 0, time.UTC),
+		WakeUpTime: WTimeB,
+		BedTime:    BedsTimeB,
 	}
 	db.Model(&SleepSchedule{}).Create(&SleepScheduleB)
 
 	SleepScheduleC := SleepSchedule{
-		WakeUpTime: time.Date(2017, time.November, 4, 9, 15, 0, 0, time.UTC),
-		BedTime:    time.Date(2017, time.November, 4, 23, 45, 0, 0, time.UTC),
+		WakeUpTime: WTimeC,
+		BedTime:    BedsTimeC,
 	}
 	db.Model(&SleepSchedule{}).Create(&SleepScheduleC)
 
 	ActivityB := Activity{
-		Name:         "Doing Push-Ups ",
+		Name:         "Push-Ups ",
 		ActivityType: "Strengthening",
 	}
 	db.Model(&Activity{}).Create(&ActivityB)
@@ -754,9 +792,12 @@ func SetupDatabase() {
 	}
 	db.Model(&Activity{}).Create(&ActivityC)
 
+	currentTime := time.Now()
+	Dailytime := currentTime.Format(time.Stamp)
+
 	DailyRoutineA := DailyRoutine{
 		Description:   "Daily A",
-		TimeStamp:     time.Now(),
+		TimeStamp:     Dailytime,
 		Member:        Member1,
 		Activity:      ActivityA,
 		MealTime:      MealTimeA,
@@ -766,7 +807,7 @@ func SetupDatabase() {
 
 	DailyRoutineB := DailyRoutine{
 		Description:   "Daily B",
-		TimeStamp:     time.Now(),
+		TimeStamp:     Dailytime,
 		Member:        Member2,
 		Activity:      ActivityB,
 		MealTime:      MealTimeB,
@@ -776,7 +817,7 @@ func SetupDatabase() {
 
 	DailyRoutineC := DailyRoutine{
 		Description:   "Daily C",
-		TimeStamp:     time.Now(),
+		TimeStamp:     Dailytime,
 		Member:        Member3,
 		Activity:      ActivityC,
 		MealTime:      MealTimeC,

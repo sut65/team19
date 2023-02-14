@@ -29,7 +29,6 @@ import { DailyRoutinesInterface } from "../../interfaces/IDailyRoutines";
 
 //API
 import { DeleteDailyRoutines } from "../../services/HttpClientService";
-import { Description } from "@mui/icons-material";
 
 function DailyRoutinesDisplay() {
   let navigate = useNavigate();
@@ -40,7 +39,7 @@ function DailyRoutinesDisplay() {
   const DeleteDaily = async (id: string) => {
     let res = await DeleteDailyRoutines(id);
     if (res) {
-      window.location.href = "/admin/daily-routines-display";
+      window.location.href = "/user/daily-routines-display";
     }
   };
 
@@ -74,7 +73,7 @@ function DailyRoutinesDisplay() {
         flexFlow: "",
         overflow: "auto",
         alignItems: "center",
-        gap: 6,
+        // gap: 1,
         height: "100vh",
         width: "100%",
         backgroundSize: "cover",
@@ -84,7 +83,12 @@ function DailyRoutinesDisplay() {
     >
       <Box mb={"10rem"}>
         {/* Header */}
-        <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
           <Avatar src={DlyIcon} />
 
           <h1>ข้อมูลกิจวัตรประจำวันทั้งหมด</h1>
@@ -94,7 +98,7 @@ function DailyRoutinesDisplay() {
         <Box mb={5}>
           {/* ปุ่มเพิ่มข้อมูล */}
           <Link
-            to="/admin/food-display/create-food"
+            to="/user/daily-routines-display/create-daily_routines"
             style={{
               textDecoration: "none",
             }}
@@ -105,23 +109,31 @@ function DailyRoutinesDisplay() {
               sx={{ borderRadius: 20 }}
             >
               <Avatar src={AddIcon} />
-              เพิ่มข้อมูลอาหาร
+              เพิ่มข้อมูลกิจวัตรประจำวัน
             </Button>
           </Link>
         </Box>
 
         {/* ตาราง */}
-        <TableContainer component={Paper}>
+        <TableContainer
+          style={{
+            width: "1030px",
+          }}
+          component={Paper}
+        >
           <Table aria-label="simple table">
             <TableHead>
-              <TableRow>
+              <TableRow sx={{ padding: 100 }}>
                 <TableCell align="right">ID</TableCell>
                 <TableCell align="center">Description</TableCell>
                 <TableCell align="center">TimeStamp</TableCell>
+                <TableCell></TableCell>
                 <TableCell align="center">ActivityName</TableCell>
+
                 <TableCell align="center">ActivityType</TableCell>
-                <TableCell align="center">MealTime</TableCell>
-                <TableCell align="center">MealType </TableCell>
+                <TableCell align="center">BreakFastTime</TableCell>
+                <TableCell align="center">LunchTime</TableCell>
+                <TableCell align="center">DinnerTime</TableCell>
                 <TableCell align="center">WakeUpTime</TableCell>
                 <TableCell align="center">BedTime</TableCell>
                 <TableCell align="center"> </TableCell>
@@ -132,11 +144,40 @@ function DailyRoutinesDisplay() {
               {dailyRoutines.map((dailyRoutines) => (
                 <TableRow key={dailyRoutines.ID}>
                   <TableCell align="right">{dailyRoutines.ID}</TableCell>
-                  <TableCell align="right">{dailyRoutines.TimeStamp}</TableCell>
                   <TableCell align="center">
                     {dailyRoutines.Description}
                   </TableCell>
+                  <TableCell colSpan={2} align="center">
+                    {dailyRoutines.TimeStamp}
+                  </TableCell>
+                  <TableCell colSpan={1} align="center">
+                    {dailyRoutines.Activity?.Name}
+                  </TableCell>
                   <TableCell align="center">
+                    {dailyRoutines.Activity?.ActivityType}
+                  </TableCell>
+                  <TableCell align="center">
+                    {dailyRoutines.MealTime?.BreakFastTime}
+                  </TableCell>
+                  <TableCell align="center">
+                    {dailyRoutines.MealTime?.LunchTime}
+                  </TableCell>
+                  <TableCell align="center">
+                    {dailyRoutines.MealTime?.DinnerTime}
+                  </TableCell>
+                  <TableCell align="center">
+                    {dailyRoutines.SleepSchedule?.WakeUpTime}
+                  </TableCell>
+                  <TableCell align="center">
+                    {dailyRoutines.SleepSchedule?.BedTime}
+                  </TableCell>
+                  <TableCell
+                    align="center"
+                    sx={{
+                      display: "flex",
+                      height: "40px",
+                    }}
+                  >
                     {/* ปุ่มแก้ไขข้อมูล */}
                     <IconButton
                       aria-label="delete"
@@ -152,7 +193,7 @@ function DailyRoutinesDisplay() {
                     <IconButton
                       aria-label="delete"
                       size="large"
-                      onClick={() => DeleteDailyRoutines(dailyRoutines.ID + "")}
+                      onClick={() => DeleteDaily(dailyRoutines.ID + "")}
                       color="error"
                     >
                       <DeleteIcon fontSize="inherit" />

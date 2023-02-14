@@ -87,6 +87,19 @@ func GetDailyRoutineByID(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": dailyRoutine})
 }
 
+// GET /GetActivityTypes/:id
+func GetActivityTypesByID(c *gin.Context) {
+	var dailyRoutine entity.DailyRoutine
+	id := c.Param("id")
+
+	if tx := entity.DB().Preload("Member").Preload("Activity").Preload("MealTime").Preload("SleepSchedule").Where("id = ?", id).First(&dailyRoutine); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "DailyRoutine not found"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"data": dailyRoutine})
+}
+
 // DELETE /DailyRoutine/:id
 func DeleteDailyRoutine(c *gin.Context) {
 	id := c.Param("id")

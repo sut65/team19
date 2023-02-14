@@ -4,6 +4,7 @@ import SignIn from '../../components/SignIn';
 import { TrainerLogin } from '../../services/HttpClientService';
 import ProfileTrainer from "../../components/Trainer/ProfileTrainer";
 import NavTrainer from '../../components/NavbarTrainer';
+import AdviceDisplay from '../../components/Advice/AdviceDisplay';
 
 
 
@@ -20,9 +21,15 @@ function Trainer() {
   if (!token) {
     return <SignIn loginRole={TrainerLogin} />;
   }
-  
+
   return (
-    <NavTrainer/>
+    <div>
+      <NavTrainer />
+      <AdviceDisplay /> 
+    </div>
+
+
+
   )
 }
 

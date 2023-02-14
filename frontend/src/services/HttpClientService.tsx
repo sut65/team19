@@ -991,7 +991,7 @@ const CreateDailyRoutines = async (data: DailyRoutinesInterface) => {
   };
 
   let res = await fetch(
-    `${apiUrl}/daily-routines/create-dailyroutines`,
+    `${apiUrl}/daily-routines/daily_routines`,
     requestOptions
   )
     .then((response) => response.json())
@@ -1040,7 +1040,17 @@ const DeleteDailyRoutines = async (id: string) => {
     },
   };
 
-  let res = await fetch(`${apiUrl}/delete-daily_routines/${id}`, requestOptions)
+  let res = await fetch(`${apiUrl}/daily_routines/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+  console.log(res);
+  return res;
+};
+
+const GetActivity = async () => {
+  let res = await fetch(`${apiUrl}/activity`, requestOptionsGet)
     .then((response) => response.json())
     .then((result) => {
       return result.data ? result.data : false;
@@ -1049,7 +1059,7 @@ const DeleteDailyRoutines = async (id: string) => {
   return res;
 };
 
-const GetActivity = async () => {
+const GetActivityTypes = async () => {
   let res = await fetch(`${apiUrl}/activity`, requestOptionsGet)
     .then((response) => response.json())
     .then((result) => {
@@ -1847,6 +1857,7 @@ export {
   UpdateDailyRoutines,
   DeleteDailyRoutines,
   GetActivity,
+  GetActivityTypes,
   GetMealTime,
   GetSleepSchedule,
   // Review

@@ -16,20 +16,25 @@ import { AdviceInterface } from '../../interfaces/IAdvice';
 //api
 import { GetAdvice, updateAdvice, DeleteAdvice , GetAdviceByCourseService} from '../../services/HttpClientService';
 import { CourseServiceInterface } from '../../interfaces/ICourseService';
+import { TrainerInterface } from '../../interfaces/ITrainer';
 
 function AdviceDisplay() {
     let navigate = useNavigate();
     const { id } = useParams();
+    const uid = localStorage.getItem("uid")
     const [advice, setAdvice] = useState<AdviceInterface[]>([]);
     const [adviceByCourse, setAdviceByCourse] = useState<AdviceInterface[]>([]);
     const [courseService, setCourseService] = useState<CourseServiceInterface[]>([]);
+    const [trainer, setTrainer] = useState<TrainerInterface>({});
     const [loading, setLoading] = useState(false);
 
-    const deleteAdvice = async (id: any) => {
+    const deleteAdvice = async (id: string) => {
         
         try{
             setLoading(true)
             const res = await DeleteAdvice(id + "")
+            //window.location.reload();
+            fetchAdviceByCourseService(id);
             
         }
         catch(e) {
@@ -60,9 +65,13 @@ function AdviceDisplay() {
         };
         const res = await (await fetch(`http://localhost:8080/course_services`, requestOptions)).json();
         console.log(res.data);
-        setCourseService(res.data);
+        setCourseService(filterID(res.data));
 
     };
+
+    const filterID = (res: any) => {
+        return res.filter((v: any) => v.TrainerID === parseInt(uid || "")).map((i: any) => i);
+    }
 
     useEffect(() => {
         fetchCourseService();
@@ -99,9 +108,6 @@ function AdviceDisplay() {
 
                 <h1> </h1>
 
-
-
-
                 {/* ตาราง course service*/}
                 <TableContainer component={Paper} sx={{ width: "100%", marginRight: 0, mb: "1rem" }}>
                     <Table aria-label="simple table">
@@ -135,7 +141,7 @@ function AdviceDisplay() {
                                     <TableCell align="center">{String(courseService?.Trainer?.Name)}</TableCell>
                                     <TableCell align="center">
                                         {/* ปุ่มเพิ่มข้อมูล */}
-                                        <IconButton aria-label="delete" size="large" onClick={() => navigate(`/create-advice/${courseService.MemberID}`)} color="info">
+                                        <IconButton aria-label="create" size="large" onClick={() => navigate(`/create-advice/${courseService.ID}`)} color="info">
                                         <Avatar src={AddIcon} />
                                         </IconButton>
                                     </TableCell>
@@ -156,6 +162,7 @@ function AdviceDisplay() {
                                 <TableCell align="center" sx={{ color: "#ec407a" }}>ไอดี</TableCell>
                                 <TableCell align="center" sx={{ color: "#4527a0" }}>คำแนะนำ</TableCell>
                                 <TableCell align="center" sx={{ color: "#4527a0" }}>Recording Date</TableCell>
+                                <TableCell align="center" sx={{ color: "#4527a0" }}>เทรนเนอร์</TableCell>
                                 <TableCell align="center" sx={{ color: "#259b24" }}>แก้ไข</TableCell>
                                 <TableCell align="center" sx={{ color: "#d01716" }}>ลบ</TableCell>
                             </TableRow>
@@ -165,17 +172,18 @@ function AdviceDisplay() {
                             {adviceByCourse.map((adviceByCourse) => (
                                 <TableRow key={adviceByCourse.ID} onClick={() => console.log(adviceByCourse.ID)}>
                                     <TableCell align="center">{adviceByCourse.ID}</TableCell>
-                                    <TableCell align="left">{String(adviceByCourse.Advice)}</TableCell>
+                                    <TableCell align="center">{String(adviceByCourse.Advice)}</TableCell>
                                     <TableCell align="center">{String(adviceByCourse.RecordingDate).slice(0,10).replaceAll("-",".")}</TableCell>
+                                    <TableCell align="center">{String(adviceByCourse.Trainer?.Name)}</TableCell>
                                     <TableCell align="center">
                                         {/* ปุ่มแก้ไขข้อมูล */}
-                                        <IconButton aria-label="delete" size="large" onClick={() => navigate(`/update-advice/${adviceByCourse.ID}`)} color="info">
+                                        <IconButton aria-label="edit" size="large" onClick={() => navigate(`/update-advice/${adviceByCourse.ID}`)} color="info">
                                             <EditIcon fontSize="inherit" />
                                         </IconButton>
                                     </TableCell>
                                     <TableCell align="center">
                                         {/* ปุ่มลบข้อมูล */}
-                                        <IconButton aria-label="delete" size="large" onClick={() => deleteAdvice} color="error">
+                                        <IconButton aria-label="delete" size="large" onClick={() => deleteAdvice(adviceByCourse.ID + "")} color="error">
                                             <DeleteIcon fontSize="inherit" />
                                         </IconButton>
                                     </TableCell>
