@@ -2,6 +2,7 @@ import { CourseServiceInterface } from "./ICourseService";
 import { BodyInterface } from "./IBody";
 import { DailyRoutinesInterface } from "./IDailyRoutines";
 import { TrainerInterface } from "./ITrainer";
+import { MemberInterface } from "./IMember";
 
 export interface AdviceInterface {
     ID?: number,
@@ -10,6 +11,9 @@ export interface AdviceInterface {
 
     TrainerID?: number,
     Trainer?: TrainerInterface,
+
+    MemberID?: number,
+    Member?: MemberInterface,
 
     CourseServiceID?: number,
     CourseService?: CourseServiceInterface,
