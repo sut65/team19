@@ -47,12 +47,13 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
 
 function CreateAdvice() {
-  let navigate = useNavigate();
   const { id } = useParams();
+  const uid = localStorage.getItem("uid");
   const [advice, setAdvice] = useState<AdviceInterface>({});
   const [courseService, setCourseService] = useState<CourseServiceInterface>({});
   const [infoBody, setInfoBody] = useState<BodyInterface[]>([]);
   const [dailyRoutines, setDailyRoutines] = useState<DailyRoutinesInterface[]>([]);
+  
   const [trainer, setTrainer] = useState<TrainerInterface>({});
   const [recordingDate, setRecordingDate] = useState<Date | null>(new Date());
   const NowDate = Date.now();
@@ -116,7 +117,7 @@ function CreateAdvice() {
     setInfoBody(filterID(res.data));
   };
 
-  const fetchDailyRoutine = async () => {
+  const fetchDailyRoutines = async () => {
     const requestOptions = {
       method: "GET",
       headers: {
@@ -146,6 +147,7 @@ function CreateAdvice() {
       CourseServiceID: Number(id),
       BodyID: Number(infoBody.map(i => i.ID)),
       DailyRoutineID: Number(dailyRoutines.map(i => i.ID)),
+      MemberID: Number(id),
       TrainerID: convertType(advice.TrainerID),
       Advice: advice.Advice,
       RecordingDate: recordingDate,
@@ -160,7 +162,7 @@ function CreateAdvice() {
   useEffect(() => {
     fetchCourseServiceByID();
     fetchInfoBody();
-    fetchDailyRoutine();
+    fetchDailyRoutines();
     fetchTrainerByID();
   }, []);
   
@@ -215,10 +217,7 @@ function CreateAdvice() {
         <h1> </h1>
 
         {/* ตาราง body*/}
-        <TableContainer
-          component={Paper}
-          sx={{ width: "100%", marginRight: 0, mb: "2rem" }}
-        >
+        <TableContainer component={Paper} sx={{ width: "100%", marginRight: 0, mb: "2rem" }}>
           <Table aria-label="simple table">
             <TableHead>
               <TableRow>
@@ -272,7 +271,7 @@ function CreateAdvice() {
                   <TableCell align="center">{dailyRoutines.ID}</TableCell>
                   <TableCell align="center">{String(dailyRoutines.Activity?.Name)}</TableCell>
                   <TableCell align="center">{String(dailyRoutines.Activity?.ActivityType)}</TableCell>
-                  <TableCell align="center">{String(dailyRoutines.TimeStamp).slice(0, 10).replaceAll("-", ".")}</TableCell>
+                  <TableCell align="center">{String(dailyRoutines.TimeStamp).slice(0, 15).replaceAll("-", ".")}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -366,7 +365,7 @@ function CreateAdvice() {
             }}
           >
             <Button
-              color="success"
+              color="secondary"
               sx={{
                 width: "120px",
                 margin: "0 0 16px 14px",
@@ -381,7 +380,7 @@ function CreateAdvice() {
             >
               Publish
             </Button>
-            <Link to="/trainer/advice-display" style={{ textDecoration: "none" }}>
+            <Link to="/trainer" style={{ textDecoration: "none" }}>
               <Button
                 className="btn-user"
                 variant="contained"
