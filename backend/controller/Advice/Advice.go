@@ -62,8 +62,8 @@ func CreateAdvice(c *gin.Context) {
 	adv := entity.Advice{
 		Advice:        advice.Advice,
 		RecordingDate: advice.RecordingDate,
-		Trainer: trainer,
-		Member: member,
+		Trainer:       trainer,
+		Member:        member,
 		CourseService: courseService,
 		Body:          body,
 		DailyRoutine:  dailyRoutine,
@@ -150,7 +150,6 @@ func UpdateAdvice(c *gin.Context) {
 		return
 	}
 
-
 	// ค้นหา courseService ด้วย id
 	if tx := entity.DB().Where("id = ?", advice.CourseServiceID).First(&courseService); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "courseService not found"})
@@ -178,8 +177,8 @@ func UpdateAdvice(c *gin.Context) {
 	update := entity.Advice{
 		Advice:        advice.Advice,
 		RecordingDate: advice.RecordingDate,
-		Trainer: trainer,
-		Member: member,
+		Trainer:       trainer,
+		Member:        member,
 		CourseService: courseService,
 		Body:          body,
 		DailyRoutine:  dailyRoutine,
