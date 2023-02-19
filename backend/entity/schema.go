@@ -87,10 +87,10 @@ type Price struct {
 
 type CourseDetail struct {
 	gorm.Model
-	CourseName  string `valid:"maxstringlength(50)~CourseName must contain no more than 50 characters,required~CourseName cannot be blank"`
+	CourseName  string `valid:"maxstringlength(50)~CourseName must be no more than 50 characters,required~CourseName cannot be blank"`
 	CoverPage   string `valid:"image~CoverPage must be images file"`
-	Description string `valid:"required~Description cannot be blank"`
-	Goal        string `valid:"required~Goal cannot be blank"`
+	Description string `valid:"maxstringlength(300)~Description must be no more than 300 characters,required~Description cannot be blank"`
+	Goal        string `valid:"maxstringlength(100)~Goal must be no more than 100 characters,required~Goal cannot be blank"`
 
 	AdminID *uint
 	Admin   Admin
