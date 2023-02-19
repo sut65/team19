@@ -54,8 +54,8 @@ type Member struct {
 	MealPlan      []MealPlans     `gorm:"foreignKey:MemberID"`
 	Body          []Body          `gorm:"foreignKey:MemberID"`
 	Advice        []Advice        `gorm:"foreignKey:MemberID"`
-	Reviews  []Review   `gorm:"foreignKey:MemberID"`
-	Behavior []Behavior `gorm:"foreignKey:MemberID"`
+	Reviews       []Review        `gorm:"foreignKey:MemberID"`
+	Behavior      []Behavior      `gorm:"foreignKey:MemberID"`
 }
 
 // -------------------------------------------<< Admin >>------------------------------------
@@ -393,23 +393,23 @@ type MealPlans struct {
 type Advice struct {
 	gorm.Model
 
-	Advice        string
-	RecordingDate time.Time `valid:"past"`
+	Advice        string `valid:"maxstringlength(200)~Advice must be no more than 200 characters,required~Advice cannot be blank"`
+	RecordingDate time.Time `valid:"now~RecordingDate must be current"`
 
 	TrainerID *uint
-	Trainer   Trainer
+	Trainer   Trainer `valid:"-"`
 
 	MemberID *uint
-	Member Member
+	Member   Member `valid:"-"`
 
 	CourseServiceID *uint
-	CourseService   CourseService
+	CourseService   CourseService `valid:"-"`
 
 	BodyID *uint
-	Body   Body
+	Body   Body `valid:"-"`
 
 	DailyRoutineID *uint
-	DailyRoutine   DailyRoutine
+	DailyRoutine   DailyRoutine `valid:"-"`
 }
 
 // -----------------------------<Bodyschema>--------------<< ระบบบันทึกการเปลี่ยนแปลงร่างกาย >>------------------------------------
@@ -529,6 +529,11 @@ func init() {
 	govalidator.TagMap["image"] = govalidator.Validator(func(str string) bool {
 		pattern := "^data:image/(jpeg|jpg|png|svg|gif|tiff|tif|bmp|apng|eps|jfif|pjp|xbm|dib|jxl|svgz|webp|ico|pjpeg|avif);base64,[A-Za-z0-9+/]+={0,2}$"
 		return govalidator.Matches(str, pattern)
+	})
+
+	govalidator.CustomTypeTagMap.Set("now", func(i interface{}, context interface{}) bool {
+		t := i.(time.Time)
+		return t.Equal(time.Now())
 	})
 
 	// govalidator.TagMap["age"] = govalidator.IsPositive(Trainer);
