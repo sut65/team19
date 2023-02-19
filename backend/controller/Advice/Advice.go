@@ -3,9 +3,9 @@ package controller
 import (
 	"net/http"
 
+	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team19/entity"
-	//"gorm.io/gorm/clause"
 )
 
 // POSH /Advice
@@ -18,6 +18,12 @@ func CreateAdvice(c *gin.Context) {
 	var dailyRoutine entity.DailyRoutine
 
 	if err := c.ShouldBindJSON(&advice); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	// แทรกการ validate ไว้ช่วงนี้ของ controller
+	if _, err := govalidator.ValidateStruct(advice); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -160,6 +166,12 @@ func UpdateAdvice(c *gin.Context) {
 	// ค้นหา DailyRoutine ด้วย id
 	if tx := entity.DB().Where("id = ?", advice.DailyRoutineID).First(&dailyRoutine); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "dailyRoutine not found"})
+		return
+	}
+
+	// แทรกการ validate ไว้ช่วงนี้ของ controller
+	if _, err := govalidator.ValidateStruct(advice); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
