@@ -132,6 +132,7 @@ func main() {
 			// Body routes
 			router.POST("/body", controller.CreateBody)
 			router.GET("/body/:id", controller.GetBody)
+			router.GET("/body/byMember/:id", controller.GetBodyByIDMember)
 			router.GET("/bodies", controller.ListBodies)
 			router.PATCH("/body", controller.UpdateBody)
 			router.DELETE("/body/:id", controller.DeleteBody)

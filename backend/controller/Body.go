@@ -85,6 +85,17 @@ func GetBody(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": body})
 }
 
+func GetBodyByIDMember(c *gin.Context) {
+	var body []entity.Body
+	id := c.Param("id")
+
+	if err := entity.DB().Preload("Trainer").Preload("Member").Preload("CourseDetail").Raw("SELECT * FROM bodies WHERE member_id = ?", id).Find(&body).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": body})
+}
+
 // GET /bodies
 func ListBodies(c *gin.Context) {
 	var body []entity.Body
