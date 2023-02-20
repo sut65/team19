@@ -3,8 +3,16 @@ import { Link } from "react-router-dom";
 import { Box, Button, Typography } from "@mui/material";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { useEffect } from "react";
+
+
 
 function LoginRole() {
+  
+  useEffect(() => {
+    localStorage.clear();
+  }, [])
+
   return (
     <div>
       <Box

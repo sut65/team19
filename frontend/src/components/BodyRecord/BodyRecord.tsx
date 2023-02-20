@@ -167,7 +167,7 @@ return (
       height: "100vh",
       width: "100vw",
       backgroundSize: "cover",
-      color: "#f5f5f5",
+      // color: "#f5f5f5",
       backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.0)), url(${bodyBG2})`,
     }}
   >
@@ -182,7 +182,7 @@ return (
           display: "flex",
           justifyContent: "flex-start",
           borderRadius: "40px",
-          bgcolor: "#fefffe",
+          bgcolor: "#fafffa",
         }}
       >
         <h2 style={{ color: "#3f6656" }}>บันทึกการเปลี่ยนแปลงร่างกาย</h2>
@@ -198,12 +198,12 @@ return (
             flexDirection: "column",
             alignItems: "satrt",
             borderRadius: "40px",
-            bgcolor: "#fefffe",
+            bgcolor: "#fafffa",
             paddingLeft:10,
           }}
         >
           <FormLabel sx={{ marginY: 2, fontSize: 17, color: "#3f6656" }}>
-            <h4>บันทึกการเปลี่ยนแปลงร่างกาย หน่วยเป็น (cm)</h4>
+            <h3>บันทึกการเปลี่ยนแปลงร่างกาย หน่วยเป็น (cm)</h3>
           </FormLabel>
           <Grid
             container
@@ -222,7 +222,7 @@ return (
                 justifyContent: "center",
               }}
             >
-              <FormLabel sx={{ marginRight: 2, fontSize: 18 }}>
+              <FormLabel sx={{ marginRight: 2, fontSize: 18, color: "#3f6656" }}>
                 <b>Height:</b>
               </FormLabel>
               <TextField
@@ -244,7 +244,7 @@ return (
                 marginRight:3,
               }}
             >
-              <FormLabel sx={{ marginRight: 2, fontSize: 18 }}>
+              <FormLabel sx={{ marginRight: 2, fontSize: 18 , color: "#3f6656"}}>
                 <b>Weight:</b>
               </FormLabel>
               <TextField
@@ -274,7 +274,7 @@ return (
                 marginRight: 2,
               }}
             >
-              <FormLabel sx={{ fontSize: 18 }}>
+              <FormLabel sx={{ fontSize: 18 , color: "#3f6656"}}>
                 <b>HIP:</b>
               </FormLabel>
               <TextField
@@ -298,7 +298,7 @@ return (
                 paddingRight:5 ,
               }}
             >
-              <FormLabel sx={{ marginRight: 3, fontSize: 18 }}>
+              <FormLabel sx={{ marginRight: 3, fontSize: 18 , color: "#3f6656"}}>
                 <pre><b>Upper Arm :</b></pre>
               </FormLabel>
               <TextField
@@ -321,7 +321,7 @@ return (
                 marginRight: 3,
               }}
             >
-              <FormLabel sx={{ marginRight: 3, fontSize: 18 }}>
+              <FormLabel sx={{ marginRight: 3, fontSize: 18 , color: "#3f6656"}}>
                 <b>Thigh:</b>
               </FormLabel>
               <TextField
@@ -344,7 +344,7 @@ return (
                 marginRight: 5,
               }}
             >
-              <FormLabel sx={{ marginRight: 2, fontSize: 18 }}>
+              <FormLabel sx={{ marginRight: 2, fontSize: 18 , color: "#3f6656"}}>
                 <pre><b>Narrow waist:</b></pre>
               </FormLabel>
               <TextField
@@ -366,7 +366,7 @@ return (
                 marginTop: 2,
               }}
             >
-              <FormLabel sx={{ marginRight: 2, fontSize: 18 }}>
+              <FormLabel sx={{ marginRight: 2, fontSize: 18 , color: "#3f6656"}}>
                 <pre><b>Navel waist:</b></pre>
               </FormLabel>
               <TextField
@@ -382,7 +382,7 @@ return (
             {/*============================================( Note )======================================================*/}
             <Grid xs={6} md={6} sx={{ display: "flex", alignItems: "center" }}>
               <FormLabel
-                sx={{ textAlign: "center", marginRight: 2, fontSize: 18 }}
+                sx={{ textAlign: "center", marginRight: 2, fontSize: 18 , color: "#3f6656"}}
               >
                 <b>Note:</b>
               </FormLabel>
@@ -408,7 +408,7 @@ return (
             >
               {/*=======================================(select Course)===========================================================*/}
               <Grid xs={6} md={4} sx={{ margin: 3 }}>
-                <FormLabel sx={{ marginRight: 2, fontSize: 18 }}>
+                <FormLabel sx={{ marginRight: 2, fontSize: 18 , color: "#3f6656"}}>
                   <b>Course Details:</b>
                 </FormLabel>
                 <Select
@@ -433,7 +433,7 @@ return (
               </Grid>
               {/*=======================================(Select Trainer)===========================================================*/}
               <Grid xs={6} md={4} sx={{ margin: 3 }}>
-                <FormLabel sx={{ marginRight: 2, fontSize: 18 }}>
+                <FormLabel sx={{ marginRight: 2, fontSize: 18 , color: "#3f6656"}}>
                   <b>Trainer:</b>
                 </FormLabel>
                 <Select

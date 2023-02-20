@@ -41,24 +41,10 @@ func TestAdviceValid(t *testing.T) {
 		g.Expect(err.Error()).To(Equal("Advice cannot be blank"))
 	})
 
-	t.Run("RecordingDate must be present", func(t *testing.T) {
+	t.Run("check RecordingDate must not be in the past", func(t *testing.T) {
 		adv := Advice{
 			Advice:        "กินโปรตีนเพิ่มให้ได้ 2 g ต่อน้ำหนักตัว 1 kg",
-			RecordingDate: time.Now(), //ถูก
-		}
-
-		ok, err := govalidator.ValidateStruct(adv)
-
-		g.Expect(ok).To(BeTrue())
-
-		g.Expect(err).To(BeNil())
-	})
-
-
-	t.Run("RecordingDate must not be in the past", func(t *testing.T) {
-		adv := Advice{
-			Advice:        "กินโปรตีนเพิ่มให้ได้ 2 g ต่อน้ำหนักตัว 1 kg",
-			RecordingDate: time.Date(2002, 1, 1, 12, 00, 00, 00, time.UTC), //ผิด
+			RecordingDate: time.Now().AddDate(0, -1, 0), //ผิดเพราะเป็นอดีต
 		}
 
 		ok, err := govalidator.ValidateStruct(adv)
@@ -67,13 +53,13 @@ func TestAdviceValid(t *testing.T) {
 
 		g.Expect(err).ToNot(BeNil())
 
-		g.Expect(err.Error()).To(Equal("RecordingDate must be current"))
+		g.Expect(err.Error()).To(Equal("RecordingDate must not be in the past"))
 	})
 
 	t.Run("check RecordingDate must not be in the future", func(t *testing.T) {
 		adv := Advice{
 			Advice:        "กินโปรตีนเพิ่มให้ได้ 2 g ต่อน้ำหนักตัว 1 kg",
-			RecordingDate: time.Date(2024, 1, 1, 12, 00, 00, 00, time.UTC), //ผิด
+			RecordingDate: time.Now().AddDate(0, 1, 0), //ผิดเพราะเป็นอนาคต
 		}
 
 		ok, err := govalidator.ValidateStruct(adv)
@@ -82,7 +68,7 @@ func TestAdviceValid(t *testing.T) {
 
 		g.Expect(err).ToNot(BeNil())
 
-		g.Expect(err.Error()).To(Equal("RecordingDate must be current"))
+		g.Expect(err.Error()).To(Equal("RecordingDate must not be in the future"))
 	})
 
 }

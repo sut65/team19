@@ -28,6 +28,7 @@ import "../App.css";
 import "../index.css";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { MemberInterface } from "../interfaces/IMember";
+import { GetMemberByID } from "../services/HttpClientService";
 
 const apiUrl = `http://localhost:8080`;
 
@@ -42,7 +43,8 @@ const theme = createTheme({
 });
 
 function Navbar() {
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [member, setMember] = useState<MemberInterface>({})
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const UFirstName = localStorage.getItem("firstname") + "";
   const ULastName = localStorage.getItem("lastname") + "";
@@ -59,6 +61,15 @@ function Navbar() {
     localStorage.clear();
     window.location.href = "/";
   };
+
+  const fetchMemberByID = async () => {
+    let res = await GetMemberByID();
+    res && setMember(res);
+  };
+
+  useEffect(() => {
+    fetchMemberByID()
+  }, [])
 
   return (
     <ThemeProvider theme={theme}>
@@ -129,7 +140,7 @@ function Navbar() {
                     color: "#000",
                     textDecoration: "none",
                     textAlign: "center",
-                    marginLeft: "40px",
+                    // marginLeft: "40px",
                   }}
                 >
                   <Button color="inherit" style={{ fontSize: "1.2rem" }}>
@@ -172,7 +183,7 @@ function Navbar() {
                   </Button>
                 </Link>
               </Grid>
-<Grid item xs={1}>
+              <Grid item xs={1}>
                 <Link
                   to="daily-routines-display"
                   style={{
@@ -189,10 +200,11 @@ function Navbar() {
                 </Link>
               </Grid>
               {/* ===================================<  >================================ */}
+              {/* account */}
               <Grid item xs={3}>
                 <Box
                   sx={{
-                    marginLeft: 10,
+                    marginLeft: 20,
                     display: "flex",
                     alignItems: "center",
                     textAlign: "center",
@@ -202,14 +214,14 @@ function Navbar() {
                     <IconButton
                       onClick={handleClick}
                       size="small"
-                      sx={{ paddingLeft: 13 }}
+                      // sx={{ paddingLeft: 0 }}
                       aria-controls={open ? "account-menu" : undefined}
                       aria-haspopup="true"
                       aria-expanded={open ? "true" : undefined}
                     >
                       <img
-                        style={{ height: 32, justifyItems: "center" }}
-                        src={ProfileLogo}
+                        style={{ width: 32, height: 32, justifyItems: "center", borderRadius: "50%" }}
+                        src={member.ProfileUser}
                         alt="logo"
                       />
                     </IconButton>
@@ -259,19 +271,21 @@ function Navbar() {
                       <MenuItem>
                         <img
                           style={{
+                            width: 40,
                             height: 40,
+                            borderRadius: "50%",
                             justifyItems: "center",
                             marginLeft: -10,
                             marginRight: 6,
                           }}
-                          src={ProfileLogo}
+                          src={member.ProfileUser}
                           alt="logo"
                         />
                         {UserName}
                       </MenuItem>
                       <Divider />
                       <Link
-                        to={`behavior-display`} // รอแก้เป็นรีวิว
+                        to={`behavior-display`} 
                         style={{
                           textDecoration: "none",
                           color: "black",
