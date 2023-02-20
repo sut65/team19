@@ -69,7 +69,7 @@ function Navbar() {
 
   useEffect(() => {
     fetchMemberByID()
-  })
+  }, [])
 
   return (
     <ThemeProvider theme={theme}>
