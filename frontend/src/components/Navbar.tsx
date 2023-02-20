@@ -172,7 +172,7 @@ function Navbar() {
                   </Button>
                 </Link>
               </Grid>
-<Grid item xs={1}>
+              <Grid item xs={1}>
                 <Link
                   to="daily-routines-display"
                   style={{
