@@ -41,11 +41,6 @@ func TestAdviceValid(t *testing.T) {
 		g.Expect(err.Error()).To(Equal("Advice cannot be blank"))
 	})
 
-}
-
-func TestRecordingDateValid(t *testing.T) {
-	g := NewGomegaWithT(t)
-
 	t.Run("check RecordingDate must not be in the past", func(t *testing.T) {
 		adv := Advice{
 			Advice:        "กินโปรตีนเพิ่มให้ได้ 2 g ต่อน้ำหนักตัว 1 kg",
