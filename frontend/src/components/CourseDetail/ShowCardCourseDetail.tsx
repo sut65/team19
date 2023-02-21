@@ -13,7 +13,6 @@ import homeBg from "../../images/CourseBG.jpg"
 
 // api
 import { GetCourseDetail } from "../../services/HttpClientService";
-import { GetCourseType } from "../../services/HttpClientService";
 
 // Style
 const ButtonWrite = styled(Button)({
@@ -50,7 +49,6 @@ function ShowCardCourseDetail() {
             width: "100%",
             backgroundSize: "cover",
             color: "#f5f5f5",
-            //backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)))`,
             backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url(${homeBg})`,
           }}>
             <Box

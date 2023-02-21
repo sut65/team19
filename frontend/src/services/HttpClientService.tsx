@@ -414,7 +414,11 @@ const createCourseDetail = async (data: CourseDetailInterface) => {
   let res = await fetch(`${apiUrl}/course_detail`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
-      return result.data ? result.data : false;
+      if (result.data) {
+        return { status: true, message: result.data };
+      } else {
+        return { status: false, message: result.error };
+      }
     });
 
   return res;
@@ -433,7 +437,11 @@ const UpdateCourseDetail = async (data: CourseDetailInterface) => {
   let res = await fetch(`${apiUrl}/course_details`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
-      return result.data ? result.data : false;
+      if (result.data) {
+        return { status: true, message: result.data };
+      } else {
+        return { status: false, message: result.error };
+      }
     });
 
   return res;
