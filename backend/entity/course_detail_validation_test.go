@@ -9,7 +9,7 @@ import (
 func TestCourseDetailValid(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	t.Run("check CourseName must be no more than 50 characters", func(t *testing.T) {
+	t.Run("check Course Name must be no more than 50 characters", func(t *testing.T) {
 		cd := CourseDetail{
 			CourseName: "หากเราจะพูดเรื่องลดความอ้วนหรือลดน้ำหนัก ต้องใช้คำว่า lose weight ซึ่งทำได้โดยการออกกำลังกายหรือควบคุมอาหารแต่เมื่อเราใช้คำว่า Diet ก็จะเป็นการลดน้ำหนักโดยการควบคุมอาหารเพียงอย่างเดียววันนี้ ", //ผิด
 			CoverPage: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAACBUAAAVmC",
@@ -24,10 +24,10 @@ func TestCourseDetailValid(t *testing.T) {
 
 		g.Expect(err).ToNot(BeNil())
 
-		g.Expect(err.Error()).To(Equal("CourseName must be no more than 50 characters"))
+		g.Expect(err.Error()).To(Equal("Course Name must be no more than 50 characters"))
 	})
 
-	t.Run("check CourseName cannot be blank", func(t *testing.T) {
+	t.Run("check Course Name cannot be blank", func(t *testing.T) {
 		cd := CourseDetail{
 			CourseName: "", //ผิด
 			CoverPage: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAACBUAAAVmC",
@@ -42,10 +42,10 @@ func TestCourseDetailValid(t *testing.T) {
 
 		g.Expect(err).ToNot(BeNil())
 
-		g.Expect(err.Error()).To(Equal("CourseName cannot be blank"))
+		g.Expect(err.Error()).To(Equal("Course Name cannot be blank"))
 	})
 
-	t.Run("check CoverPage must be images file", func(t *testing.T) {
+	t.Run("check Cover Page must be images file", func(t *testing.T) {
 		cd := CourseDetail{
 			CourseName: "บอกลาร่างผม",
 			CoverPage: "data:image/pdf;base64,iVBORw0KGgoAAAANSUhEUgAACB", //ผิด
@@ -60,7 +60,7 @@ func TestCourseDetailValid(t *testing.T) {
 
 		g.Expect(err).ToNot(BeNil())
 
-		g.Expect(err.Error()).To(Equal("CoverPage must be images file"))
+		g.Expect(err.Error()).To(Equal("Cover Page must be images file"))
 	})
 
 	t.Run("check Description must be no more than 300 characters", func(t *testing.T) {
