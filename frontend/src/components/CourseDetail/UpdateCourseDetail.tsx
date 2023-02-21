@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   Button,
   TextField,
@@ -40,6 +40,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
 function UpdateCourseDetails() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [courseDetail, setCourseDetail] = useState<CourseDetailInterface>({});
   const [courseType, setCourseType] = useState<CourseTypeInterface[]>([]);
   const [price, setPrice] = useState<PriceInterface[]>([]);
@@ -48,6 +49,7 @@ function UpdateCourseDetails() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [image, setImage] = useState({ name: "", src: "" });
+  const [message, setAlertMessage] = useState("");
 
   const handleClose = (
     event?: React.SyntheticEvent | Event,
@@ -58,6 +60,8 @@ function UpdateCourseDetails() {
     }
     setSuccess(false);
     setError(false);
+
+    success && navigate("/admin/course");
   };
 
   const handleChangeImages = (event: any, id?: string) => {
@@ -130,8 +134,14 @@ function UpdateCourseDetails() {
     };
 
     let res = await UpdateCourseDetail(newData);
-    res ? setSuccess(true) : setError(true);
-    window.location.href = "/admin/course";
+    if (res.status) {
+      setAlertMessage("บันทึกข้อมูลสำเร็จ");
+      setSuccess(true);
+    } else {
+      setAlertMessage(res.message);
+      setError(true);
+    }
+    // window.location.href = "/admin/course";
   };
 
   useEffect(() => {
@@ -176,7 +186,7 @@ function UpdateCourseDetails() {
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="success">
-          บันทึกข้อมูลสำเร็จ
+          {message}
         </Alert>
       </Snackbar>
 
@@ -187,7 +197,7 @@ function UpdateCourseDetails() {
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="error">
-          บันทึกข้อมูลไม่สำเร็จ
+          {message}
         </Alert>
       </Snackbar>
 
@@ -217,7 +227,7 @@ function UpdateCourseDetails() {
       </Box>
 
       <ImgBox>
-        <img src={courseDetail.CoverPage} alt="" style={{ width: "100%" }} />
+        <img src={courseDetail.CoverPage} alt={image.name} style={{ width: "100%" }} />
       </ImgBox>
 
       {/* Course Name */}

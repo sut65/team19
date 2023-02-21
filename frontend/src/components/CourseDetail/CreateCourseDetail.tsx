@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   Button, TextField, Select, styled, SelectChangeEvent, Box, Snackbar,
 } from "@mui/material";
+
 //import { Box } from "@mui/system";
 import MuiAlert, { AlertProps } from "@mui/material/Alert";
 
@@ -18,7 +19,6 @@ import {
   GetPrice,
   createCourseDetail,
 } from "../../services/HttpClientService";
-import Admin from "../../pages/login/Admin";
 
 // Style
 const ImgBox = styled(Box)({
@@ -53,6 +53,8 @@ function CreateCourseDetail() {
     }
     setSuccess(false);
     setError(false);
+
+    success && navigate("/admin/course");
   };
 
   const handleChangeImages = (event: any, id?: string) => {
@@ -110,7 +112,7 @@ function CreateCourseDetail() {
 
   // insert data to db
   const submit = async () => {
-    let newData = {
+    let data = {
       CourseTypeID: convertType(courseDetail.CourseTypeID),
       PriceID: convertType(courseDetail.PriceID),
       AdminID: convertType(courseDetail.AdminID),
@@ -120,9 +122,15 @@ function CreateCourseDetail() {
       Goal: courseDetail.Goal,
     };
 
-    let res = await createCourseDetail(newData);
-    res ? setSuccess(true) : setError(true);
-    window.location.href = "/admin/course"
+    let res = await createCourseDetail(data);
+    if (res.status) {
+      setAlertMessage("บันทึกข้อมูลสำเร็จ");
+      setSuccess(true);
+    } else {
+      setAlertMessage(res.message);
+      setError(true);
+    }
+    // window.location.href = "/admin/course"
   };
 
   useEffect(() => {
@@ -166,7 +174,7 @@ function CreateCourseDetail() {
           anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         >
           <Alert onClose={handleClose} severity="success">
-            บันทึกข้อมูลสำเร็จ
+            {message}
           </Alert>
         </Snackbar>
 
@@ -177,7 +185,7 @@ function CreateCourseDetail() {
           anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         >
           <Alert onClose={handleClose} severity="error">
-            บันทึกข้อมูลไม่สำเร็จ
+            {message}
           </Alert>
         </Snackbar>
         {/* Upload Cover Page */}
