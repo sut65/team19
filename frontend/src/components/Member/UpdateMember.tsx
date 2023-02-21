@@ -20,6 +20,7 @@ import { StatusInterface } from "../../interfaces/IStatus";
 import { GenderInterface } from "../../interfaces/IGender";
 import { Link as RouterLink } from "react-router-dom";
 import { Box } from "@mui/system";
+import bg2 from "../../images/MemberBG2.jpg"
 
 import {styled} from "@mui/material";
 import { useParams } from "react-router-dom";
@@ -49,9 +50,9 @@ function UpdateMember() {
   // =========================(Use State)====================================================
   const { id } = useParams();
   const [member, setMember] = useState<MemberInterface>({});
-  const [gen, setGen] = useState<GenderInterface[]>([]);
-  const [sta, setSta] = useState<StatusInterface[]>([]);
-  const [prv, setPrv] = useState<ReligionInterface[]>([]);
+  const [gender, setGender] = useState<GenderInterface[]>([]);
+  const [status, setStatus] = useState<StatusInterface[]>([]);
+  const [religion, setReligion] = useState<ReligionInterface[]>([]);
   const [profileuser, setProfileUser] = useState({ name: "", src: "" });
   
   const [success, setSuccess] = useState(false);
@@ -147,21 +148,21 @@ function UpdateMember() {
     fetch(`${apiUrl}/genders`, requestOptionsGet)
       .then((response) => response.json())
       .then((result) => {
-        setGen(result.data);
+        setGender(result.data);
       });
   };
   const fetchStatus = async () => {
     fetch(`${apiUrl}/statuses`, requestOptionsGet)
       .then((response) => response.json())
       .then((result) => {
-        setSta(result.data);
+        setStatus(result.data);
       });
   };
   const fetchReligion = async () => {
     fetch(`${apiUrl}/religions`, requestOptionsGet)
       .then((response) => response.json())
       .then((result) => {
-        setPrv(result.data);
+        setReligion(result.data);
       });
   };
 
@@ -213,6 +214,20 @@ function UpdateMember() {
 
   return (
     <div>
+      <Box
+    sx={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      overflow :"auto",
+      gap: 6,
+      height: "100vh",
+      width: "100vw",
+      backgroundSize: "cover",
+      color: "#f5f5f5",
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url(${bg2})`,
+     }}
+      >
       <Container maxWidth="md" sx={{ marginTop: 6 }}>
         <Paper
           elevation={4}
@@ -343,7 +358,7 @@ function UpdateMember() {
                 <option aria-label="None" value="">
                     เลือกเพศของคุณ
                 </option>
-                {gen.map((item: GenderInterface) => (
+                {gender.map((item: GenderInterface) => (
                 <option key={item.ID} value={item.ID}>
                     {item.Name}
                 </option>
@@ -378,7 +393,7 @@ function UpdateMember() {
                 <option aria-label="None" value="">
                     เลือกสถานะของคุณ
                 </option>
-                {sta.map((item: StatusInterface) => (
+                {status.map((item: StatusInterface) => (
                 <option key={item.ID} value={item.ID}>
                     {item.Name}
                 </option>
@@ -413,7 +428,7 @@ function UpdateMember() {
                 <option aria-label="None" value="">
                     เลือกศาสนาของคุณ
                 </option>
-                {prv.map((item: ReligionInterface) => (
+                {religion.map((item: ReligionInterface) => (
                 <option key={item.ID} value={item.ID}>
                     {item.Name}
                 </option>
@@ -459,7 +474,7 @@ function UpdateMember() {
                 <Button variant="contained" size="large" onClick={update}>
                   แก้ไขข้อมูลสมาชิก
                 </Button>
-               <Grid xs={1} md={1}>
+               <Grid xs={0} md={0}>
                </Grid>
                 <Link
                     to="/user/profile-member"
@@ -467,8 +482,7 @@ function UpdateMember() {
                     textDecoration: "none",
                     }}
                 >
-                    <Button variant="contained" color="secondary"
-                      sx = {{ borderRadius: 20 }}>
+                    <Button variant="contained" color="inherit">
                       ย้อนกลับ
                     </Button>
                  </Link>
@@ -500,6 +514,7 @@ function UpdateMember() {
         {message}
         </Alert>
       </Snackbar>
+      </Box>
     </div>
   );
 }

@@ -6,7 +6,7 @@ import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Typography  from '@mui/material/Typography';
-
+import bg2 from "../../images/BehaviorBG1.jpg"
 import { 
   Link,
   useNavigate,
@@ -45,6 +45,20 @@ function DisplayBehavior() {
       }, [])
 
     return(
+      <Box
+    sx={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      overflow :"auto",
+      gap: 6,
+      height: "100vh",
+      width: "100vw",
+      backgroundSize: "cover",
+      color: "#f5f5f5",
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url(${bg2})`,
+     }}
+      >
         <Container maxWidth="md" sx={{ marginTop: 6 }}>
           <Paper
             elevation={4}
@@ -64,15 +78,18 @@ function DisplayBehavior() {
               variant="outlined"
               sx={{ padding: 20, paddingTop: 2, marginBottom: 20 }}
             >
-              <Grid container spacing={2} sx={{ marginTop: 1}}>
  {/*============================================(รูป)======================================================*/}
-                  <Grid xs={12} xl = {12} md={12}>
-                  <Box sx={{ display: "flex", justifyContent: "center" }}>
-                      <Avatar src={behavior.ProfileBody}
-                      sx={{ width: 110, height: 110 }} />
-                  </Box> 
-                  </Grid>
-               </Grid> 
+
+                  <Box sx={{
+                              display: "flex", 
+                              justifyContent: "center" ,
+                              alignItems: "center",
+                              width: "100%",
+                              height: "360px",
+                              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url(${behavior.ProfileBody})`,
+                              backgroundSize: "cover",
+                            }}>
+                  </Box>
                 <Grid xs={5} xl = {5} md={5}>
                   <p style={{ fontSize: 17 }}>มื้ออาหารที่คุณกิน :</p>
                 <TextField
@@ -121,9 +138,7 @@ function DisplayBehavior() {
                         }}
                       />
                 </Grid>
-                <Grid xs={2} md={2}>
-                    <h1></h1>
-               </Grid>
+                <Grid xs={2} md={2}></Grid>
 {/*==============================================(Time)====================================================*/}
                 <Grid xs={5} xl = {5} md={5}>
                   <p style={{ fontSize: 17 }}>วันเวลาที่ทำการเพิ่ม :</p>
@@ -157,6 +172,7 @@ function DisplayBehavior() {
             </Paper>
         </form>          
     </Container>
+    </Box>
     );
 }
 export default DisplayBehavior;

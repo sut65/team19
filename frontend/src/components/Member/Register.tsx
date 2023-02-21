@@ -21,6 +21,7 @@ import { GenderInterface } from "../../interfaces/IGender";
 import { Link as RouterLink } from "react-router-dom";
 import { Box } from "@mui/system";
 import {styled} from "@mui/material";
+import bg2 from "../../images/MemberBG2.jpg"
 
 
 import Visibility from "@mui/icons-material/Visibility";
@@ -44,9 +45,9 @@ function RegisterMember() {
   // =========================(Use State)====================================================
 
   const [member, setMember] = useState<MemberInterface>({});
-  const [gen, setGen] = useState<GenderInterface[]>([]);
-  const [sta, setSta] = useState<StatusInterface[]>([]);
-  const [prv, setPrv] = useState<ReligionInterface[]>([]);
+  const [gender, setGender] = useState<GenderInterface[]>([]);
+  const [status, setStatus] = useState<StatusInterface[]>([]);
+  const [religion, setReligion] = useState<ReligionInterface[]>([]);
   const [profileuser, setProfileUser] = useState({ name: "", src: "" });
 
   const [success, setSuccess] = useState(false);
@@ -142,21 +143,21 @@ function RegisterMember() {
     fetch(`${apiUrl}/genders`, requestOptionsGet)
       .then((response) => response.json())
       .then((result) => {
-        setGen(result.data);
+        setGender(result.data);
       });
   };
   const fetchStatus = async () => {
     fetch(`${apiUrl}/statuses`, requestOptionsGet)
       .then((response) => response.json())
       .then((result) => {
-        setSta(result.data);
+        setStatus(result.data);
       });
   };
   const fetchReligion = async () => {
     fetch(`${apiUrl}/religions`, requestOptionsGet)
       .then((response) => response.json())
       .then((result) => {
-        setPrv(result.data);
+        setReligion(result.data);
       });
   };
 
@@ -196,6 +197,20 @@ function RegisterMember() {
 
   return (
     <div>
+       <Box
+    sx={{
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      overflow :"auto",
+      gap: 6,
+      height: "100vh",
+      width: "100vw",
+      backgroundSize: "cover",
+      color: "#f5f5f5",
+      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url(${bg2})`,
+     }}
+      >
       <Container maxWidth="md" sx={{ marginTop: 6 }}>
         <Paper
           elevation={4}
@@ -208,7 +223,7 @@ function RegisterMember() {
             justifyContent: "flex-start",
           }}
         >
-          <h4 style={{ color: "#6b7176" }}>Register</h4>
+          <h1 style={{ color: "#6b7176" }}>Register</h1>
         </Paper>
         <form>
           <Paper
@@ -271,7 +286,7 @@ function RegisterMember() {
               {/*==============================================(password)====================================================*/}
               <Grid
                 xs={12}
-                md={9}
+                md={12}
                 sx={{ display: "flex", alignItems: "center", margin: 1 }}
               >
                 <InputLabel
@@ -328,7 +343,7 @@ function RegisterMember() {
                 <option aria-label="None" value="">
                     เลือกเพศของคุณ
                 </option>
-                {gen.map((item: GenderInterface) => (
+                {gender.map((item: GenderInterface) => (
                 <option key={item.ID} value={item.ID}>
                     {item.Name}
                 </option>
@@ -363,7 +378,7 @@ function RegisterMember() {
                 <option aria-label="None" value="">
                     เลือกสถานะของคุณ
                 </option>
-                {sta.map((item: StatusInterface) => (
+                {status.map((item: StatusInterface) => (
                 <option key={item.ID} value={item.ID}>
                     {item.Name}
                 </option>
@@ -398,7 +413,7 @@ function RegisterMember() {
                 <option aria-label="None" value="">
                     เลือกศาสนาของคุณ
                 </option>
-                {prv.map((item: ReligionInterface) => (
+                {religion.map((item: ReligionInterface) => (
                 <option key={item.ID} value={item.ID}>
                     {item.Name}
                 </option>
@@ -430,6 +445,9 @@ function RegisterMember() {
             onChange={handleChangeImages}
           />
         </Button>
+        <FormHelperText disabled sx={{ width: 350, marginLeft: 2 }}>
+                  เลือกรูปภาพของคุณ
+                </FormHelperText>
       </Box>
       <ImgBox>
         <img src={profileuser.src} alt={profileuser.name} style={{ width: "100%" }} />
@@ -439,11 +457,21 @@ function RegisterMember() {
                 container
                 xs={12}
                 md={12}
-                sx={{ justifyContent: "center", margin: 1 }}
+                spacing={1}
+                sx={{ margin: 1 }}
               >
                 <Button variant="contained" size="large" onClick={submit}>
                   สมัครสมาชิก
                 </Button>
+                <Grid xs={0} md={0}></Grid>
+                <Link
+                    to="/"
+                >
+                    <Button variant="contained" color="inherit" size="large">
+                      ย้อนกลับ
+                    </Button>
+                 </Link>
+                
               </Grid>
             </Grid>
           </Paper>
@@ -472,6 +500,7 @@ function RegisterMember() {
         {message}
         </Alert>
       </Snackbar>
+      </Box>
     </div>
   );
 }

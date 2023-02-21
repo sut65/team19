@@ -45,11 +45,13 @@ function SignIn({ loginRole }: Prop) {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
   const [openTrainer, setOpenTrainer] = useState(false);
+  const [openMember, setOpenMember] = useState(false);
 
   const location = useLocation();
 
   const checkLocation = () => {
     location.pathname === "/trainer" && setOpenTrainer(!openTrainer);
+    location.pathname === "/user" && setOpenMember(!openMember);
   };
 
   useEffect(() => {
@@ -186,6 +188,22 @@ function SignIn({ loginRole }: Prop) {
                   <Button>
                     <Link
                       to="/apply"
+                      style={{
+                        color: "#252525",
+                        textDecoration: "none",
+                      }}
+                    >
+                      Sign up
+                    </Link>
+                  </Button>
+                </Box>
+              )}
+              {/* ถ้าเข้ามาที่หน้า login ด้วยบทบาทของ Member */}
+              {openMember && (
+                <Box sx={{ mb: 2, display: "flex", justifyContent: "center" }}>
+                  <Button>
+                    <Link
+                      to="/register-member"
                       style={{
                         color: "#252525",
                         textDecoration: "none",

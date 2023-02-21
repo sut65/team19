@@ -98,11 +98,11 @@ func SetupDatabase() {
 	db.Model(&Status{}).Create(&Statuses)
 
 	Gender1 := Gender{
-		Name: "Male",
+		Name: "ผู้ชาย",
 	}
 	db.Model(&Gender{}).Create(&Gender1)
 	Gender2 := Gender{
-		Name: "Female",
+		Name: "ผู้หญิง",
 	}
 	db.Model(&Gender{}).Create(&Gender2)
 
