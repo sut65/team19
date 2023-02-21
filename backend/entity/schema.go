@@ -87,8 +87,8 @@ type Price struct {
 
 type CourseDetail struct {
 	gorm.Model
-	CourseName  string `valid:"maxstringlength(50)~CourseName must be no more than 50 characters,required~CourseName cannot be blank"`
-	CoverPage   string `valid:"image~CoverPage must be images file"`
+	CourseName  string `valid:"maxstringlength(50)~Course Name must be no more than 50 characters,required~Course Name cannot be blank"`
+	CoverPage   string `valid:"image~Cover Page must be images file"`
 	Description string `valid:"maxstringlength(300)~Description must be no more than 300 characters,required~Description cannot be blank"`
 	Goal        string `valid:"maxstringlength(100)~Goal must be no more than 100 characters,required~Goal cannot be blank"`
 
