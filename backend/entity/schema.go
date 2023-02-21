@@ -206,7 +206,7 @@ type Trainer struct {
 // ================== ระบบการใช้บริการคอร์ส ==================
 type CourseService struct {
 	gorm.Model
-	CRegisterDate time.Time
+	CRegisterDate time.Time `valid:"notpast30min~Date must not be in the past,notfuture30min~Date must not be in the future"`
 	Agreement     string `valid:"matches(Agree)~Please check 'Agree'"`
 	Status        string
 	RefundMessage string `valid:"required~Message cannot be blank"`
@@ -539,6 +539,16 @@ func init() {
 	govalidator.CustomTypeTagMap.Set("notfuture", func(i interface{}, o interface{}) bool {
 		t := i.(time.Time)
 		return t.Before(time.Now().AddDate(0, 0, 1))
+	})
+
+	govalidator.CustomTypeTagMap.Set("notpast30min", func(i interface{}, context interface{}) bool {
+		t := i.(time.Time)
+		return t.After(time.Now().Add(time.Minute * -30))
+	})
+
+	govalidator.CustomTypeTagMap.Set("notfuture30min", func(i interface{}, context interface{}) bool {
+		t := i.(time.Time)
+		return t.Before(time.Now().Add(time.Minute * 30))
 	})
 
 	// govalidator.TagMap["age"] = govalidator.IsPositive(Trainer);
