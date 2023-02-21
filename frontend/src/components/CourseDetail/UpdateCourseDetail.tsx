@@ -141,7 +141,6 @@ function UpdateCourseDetails() {
       setAlertMessage(res.message);
       setError(true);
     }
-    // window.location.href = "/admin/course";
   };
 
   useEffect(() => {
