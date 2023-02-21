@@ -41,7 +41,7 @@ func TestAdviceValid(t *testing.T) {
 		g.Expect(err.Error()).To(Equal("Advice cannot be blank"))
 	})
 
-	t.Run("check RecordingDate must not be in the past", func(t *testing.T) {
+	t.Run("check Recording Date must not be in the past", func(t *testing.T) {
 		adv := Advice{
 			Advice:        "กินโปรตีนเพิ่มให้ได้ 2 g ต่อน้ำหนักตัว 1 kg",
 			RecordingDate: time.Now().AddDate(0, -1, 0), //ผิดเพราะเป็นอดีต
@@ -53,10 +53,10 @@ func TestAdviceValid(t *testing.T) {
 
 		g.Expect(err).ToNot(BeNil())
 
-		g.Expect(err.Error()).To(Equal("RecordingDate must not be in the past"))
+		g.Expect(err.Error()).To(Equal("Recording Date must not be in the past"))
 	})
 
-	t.Run("check RecordingDate must not be in the future", func(t *testing.T) {
+	t.Run("check Recording Date must not be in the future", func(t *testing.T) {
 		adv := Advice{
 			Advice:        "กินโปรตีนเพิ่มให้ได้ 2 g ต่อน้ำหนักตัว 1 kg",
 			RecordingDate: time.Now().AddDate(0, 1, 0), //ผิดเพราะเป็นอนาคต
@@ -68,7 +68,7 @@ func TestAdviceValid(t *testing.T) {
 
 		g.Expect(err).ToNot(BeNil())
 
-		g.Expect(err.Error()).To(Equal("RecordingDate must not be in the future"))
+		g.Expect(err.Error()).To(Equal("Recording Date must not be in the future"))
 	})
 
 }

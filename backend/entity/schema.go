@@ -394,7 +394,7 @@ type Advice struct {
 	gorm.Model
 
 	Advice        string `valid:"maxstringlength(200)~Advice must be no more than 200 characters,required~Advice cannot be blank"`
-	RecordingDate time.Time `valid:"notpast~RecordingDate must not be in the past,notfuture~RecordingDate must not be in the future"`
+	RecordingDate time.Time `valid:"notpast30min~Recording Date must not be in the past,notfuture30min~Recording Date must not be in the future"`
 
 	TrainerID *uint
 	Trainer   Trainer `valid:"-"`
@@ -531,14 +531,14 @@ func init() {
 		return govalidator.Matches(str, pattern)
 	})
 
-	govalidator.CustomTypeTagMap.Set("notpast", func(i interface{}, o interface{}) bool {
+	govalidator.CustomTypeTagMap.Set("notpast30min", func(i interface{}, context interface{}) bool {
 		t := i.(time.Time)
-		return t.After(time.Now().AddDate(0, 0, -1))
+		return t.After(time.Now().Add(time.Minute * -30))
 	})
 
-	govalidator.CustomTypeTagMap.Set("notfuture", func(i interface{}, o interface{}) bool {
+	govalidator.CustomTypeTagMap.Set("notfuture30min", func(i interface{}, context interface{}) bool {
 		t := i.(time.Time)
-		return t.Before(time.Now().AddDate(0, 0, 1))
+		return t.Before(time.Now().Add(time.Minute * 30))
 	})
 
 	govalidator.CustomTypeTagMap.Set("notpast30min", func(i interface{}, context interface{}) bool {
