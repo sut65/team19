@@ -115,13 +115,13 @@ func UpdateBehavior(c *gin.Context) {
 
 	// ค้นหา status ด้วย id
 	if tx := entity.DB().Where("id = ?", behavior.TasteID).First(&taste); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "status not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "taste not found"})
 		return
 	}
 
 	// ค้นหา exercise ด้วย id
 	if tx := entity.DB().Where("id = ?", behavior.ExerciseID).First(&exercise); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "gender not found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "exercise not found"})
 		return
 	}
 

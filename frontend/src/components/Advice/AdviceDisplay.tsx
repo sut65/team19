@@ -12,16 +12,17 @@ import homeBg from "../../images/AdviceBG.jpg"
 
 //Interface
 import { AdviceInterface } from '../../interfaces/IAdvice';
+import { CourseServiceInterface } from '../../interfaces/ICourseService';
+import { TrainerInterface } from '../../interfaces/ITrainer';
+
 
 //api
 import { GetAdvice, updateAdvice, DeleteAdvice , GetAdviceByCourseService} from '../../services/HttpClientService';
-import { CourseServiceInterface } from '../../interfaces/ICourseService';
-import { TrainerInterface } from '../../interfaces/ITrainer';
 
 function AdviceDisplay() {
     let navigate = useNavigate();
     const { id } = useParams();
-    const uid = localStorage.getItem("uid")
+    const uid = localStorage.getItem("uid");
     const [advice, setAdvice] = useState<AdviceInterface[]>([]);
     const [adviceByCourse, setAdviceByCourse] = useState<AdviceInterface[]>([]);
     const [courseService, setCourseService] = useState<CourseServiceInterface[]>([]);
@@ -53,6 +54,8 @@ function AdviceDisplay() {
     const fetchAdviceByCourseService = async (id: string) => {
         let res = await GetAdviceByCourseService(id);
         res && setAdviceByCourse(res);
+        console.log(res);
+        
     }
 
     const fetchCourseService = async () => {
@@ -77,7 +80,7 @@ function AdviceDisplay() {
         fetchCourseService();
         fetchAdvice();
     }, [loading]);
-
+    
     return (
         //ภาพพื้นหลัง
         <Box
@@ -162,7 +165,7 @@ function AdviceDisplay() {
                                 <TableCell align="center" sx={{ color: "#ec407a" }}>ไอดี</TableCell>
                                 <TableCell align="center" sx={{ color: "#4527a0" }}>คำแนะนำ</TableCell>
                                 <TableCell align="center" sx={{ color: "#4527a0" }}>Recording Date</TableCell>
-                                <TableCell align="center" sx={{ color: "#4527a0" }}>เทรนเนอร์</TableCell>
+                                <TableCell align="center" sx={{ color: "#4527a0" }}>เทรนเนอร์ผู้ให้คำแนะนำ</TableCell>
                                 <TableCell align="center" sx={{ color: "#259b24" }}>แก้ไข</TableCell>
                                 <TableCell align="center" sx={{ color: "#d01716" }}>ลบ</TableCell>
                             </TableRow>
@@ -177,7 +180,9 @@ function AdviceDisplay() {
                                     <TableCell align="center">{String(adviceByCourse.Trainer?.Name)}</TableCell>
                                     <TableCell align="center">
                                         {/* ปุ่มแก้ไขข้อมูล */}
-                                        <IconButton aria-label="edit" size="large" onClick={() => navigate(`/update-advice/${adviceByCourse.ID}`)} color="info">
+                                        <IconButton aria-label="edit" size="large" onClick={() => {
+                                            window.localStorage.setItem("AdviceID", String(adviceByCourse?.ID))
+                                            navigate(`/update-advice/${adviceByCourse.MemberID}`)}} color="info">
                                             <EditIcon fontSize="inherit" />
                                         </IconButton>
                                     </TableCell>

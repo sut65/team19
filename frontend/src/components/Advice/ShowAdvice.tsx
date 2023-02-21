@@ -6,16 +6,17 @@ import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
 import { Link, useParams, useNavigate } from "react-router-dom";
 import CircularProgress from '@mui/material/CircularProgress';
 
-import AddIcon from "../../images/AddIcon.png"
 import AdviceIcon from "../../images/AdviceIcon.png"
 import homeBg from "../../images/AdviceBG.jpg"
 
 //Interface
 import { AdviceInterface } from '../../interfaces/IAdvice';
+import { CourseServiceInterface } from '../../interfaces/ICourseService';
+import { MemberInterface } from '../../interfaces/IMember';
 
 //api
-import { GetAdvice, GetAdviceByCourseService} from '../../services/HttpClientService';
-import { CourseServiceInterface } from '../../interfaces/ICourseService';
+import { GetAdvice } from '../../services/HttpClientService';
+
 
 function ShowAdvice() {
     let navigate = useNavigate();
@@ -24,39 +25,23 @@ function ShowAdvice() {
     const [advice, setAdvice] = useState<AdviceInterface[]>([]);
     const [adviceByCourse, setAdviceByCourse] = useState<AdviceInterface[]>([]);
     const [courseService, setCourseService] = useState<CourseServiceInterface[]>([]);
+    const [memberLogin, setMemberLogin] = useState<MemberInterface>({});
 
-    // const fetchAdvice = async () => {
-    //     let res = await GetAdvice();
-    //     res && setAdvice(res);
-    // }
-
-    const fetchAdviceByCourseService = async (id: string) => {
-        let res = await GetAdviceByCourseService(id);
-        res && setAdviceByCourse(filterID(res));
+    const fetchAdvice = async () => {
+        let res = await GetAdvice();
+        res && setAdvice(filterID(res));
+        console.log(res);
+        
     }
 
-    // const fetchAdvice = async () => {
-    //     const requestOptions = {
-    //         method: "GET",
-    //         headers: {
-    //             Authorization: `Bearer ${localStorage.getItem("token")}`,
-    //             "Content-Type": "application/json",
-    //         },
-    //     };
-    //     const res = await (await fetch(`http://localhost:8080/advices`, requestOptions)).json();
-    //     console.log(res.data);
-    //     setCourseService(filterID(res.data));
-
-    // };
+    
 
     const filterID = (res: any) => {
-        return res.filter((v: any) => v.MemberID === parseInt(id || "")).map((i: any) => i);
+        return res.filter((v: any) => v.MemberID === parseInt(uid || "")).map((i: any) => i);
     }
 
     useEffect(() => {
-        // fetchAdviceByCourseService();
-        // fetchCourseService();
-        // fetchAdvice();
+        fetchAdvice();
     }, []);
 
     return (
@@ -81,7 +66,7 @@ function ShowAdvice() {
 
                     <Avatar src={AdviceIcon} />
 
-                    <h1>ระบบให้คำแนะนำ</h1>
+                    <h1>คำแนะนำ</h1>
 
                     <Avatar src={AdviceIcon} />
 
@@ -97,17 +82,17 @@ function ShowAdvice() {
                                 <TableCell align="center" sx={{ color: "#ec407a" }}>ไอดี</TableCell>
                                 <TableCell align="center" sx={{ color: "#4527a0" }}>คำแนะนำ</TableCell>
                                 <TableCell align="center" sx={{ color: "#4527a0" }}>Recording Date</TableCell>
-                                <TableCell align="center" sx={{ color: "#4527a0" }}>เทรนเนอร์</TableCell>
+                                <TableCell align="center" sx={{ color: "#6495ED" }}>เทรนเนอร์ผู้ให้คำแนะนำ</TableCell>
                             </TableRow>
                         </TableHead>
 
                         <TableBody >
-                            {adviceByCourse.map((adviceByCourse) => (
-                                <TableRow key={adviceByCourse.ID} >
-                                    <TableCell align="center">{adviceByCourse.ID}</TableCell>
-                                    <TableCell align="left">{String(adviceByCourse.Advice)}</TableCell>
-                                    <TableCell align="center">{String(adviceByCourse.RecordingDate).slice(0,10).replaceAll("-",".")}</TableCell>
-                                    <TableCell align="center">{String(adviceByCourse.Trainer?.Name)}</TableCell>
+                            {advice.map((advice) => (
+                                <TableRow key={advice.ID} >
+                                    <TableCell align="center">{advice.ID}</TableCell>
+                                    <TableCell align="center">{String(advice.Advice)}</TableCell>
+                                    <TableCell align="center">{String(advice.RecordingDate).slice(0,10).replaceAll("-",".")}</TableCell>
+                                    <TableCell align="center">{String(advice.Trainer?.Name)}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

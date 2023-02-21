@@ -23,7 +23,7 @@ import { useNavigate } from "react-router-dom";
 import { MemberInterface } from "../../interfaces/IMember";
 
 // api
-import { DeleteReview } from "../../services/HttpClientService";
+import { DeleteReview, GetMemberByID } from "../../services/HttpClientService";
 
 type Props = {
   idCourse: number;
@@ -97,8 +97,14 @@ function ReviewCard({
     }
   };
 
+  const fetchMemberByID = async () => {
+    let res = await GetMemberByID();
+    res && setMemberLogin(res);
+  };
+
   useEffect(() => {
     checkMemberLogin();
+    fetchMemberByID();
   }, []);
 
   return (
@@ -116,7 +122,7 @@ function ReviewCard({
         {/* Avatar */}
         <Avatar
           alt=""
-          src="https://us-tuna-sounds-images.voicemod.net/8fab1c3e-1cb9-47b6-8fe3-699bc7c2aaa9-1655706403347.jpg"
+          src={memberLogin.ProfileUser}
           sx={{ width: 60, height: 60 }}
         />
         {/* Author */}

@@ -53,9 +53,9 @@ type Member struct {
 	DailyRoutine  []DailyRoutine  `gorm:"foreignKey:MemberID"`
 	MealPlan      []MealPlans     `gorm:"foreignKey:MemberID"`
 	Body          []Body          `gorm:"foreignKey:MemberID"`
-	// Advice        []Advice        `gorm:"foreignKey:MemberID"`
-	Reviews  []Review   `gorm:"foreignKey:MemberID"`
-	Behavior []Behavior `gorm:"foreignKey:MemberID"`
+	Advice        []Advice        `gorm:"foreignKey:MemberID"`
+	Reviews       []Review        `gorm:"foreignKey:MemberID"`
+	Behavior      []Behavior      `gorm:"foreignKey:MemberID"`
 }
 
 // -------------------------------------------<< Admin >>------------------------------------
@@ -87,10 +87,10 @@ type Price struct {
 
 type CourseDetail struct {
 	gorm.Model
-	CourseName  string `valid:"maxstringlength(50)~CourseName must contain no more than 50 characters,required~CourseName cannot be blank"`
+	CourseName  string `valid:"maxstringlength(50)~CourseName must be no more than 50 characters,required~CourseName cannot be blank"`
 	CoverPage   string `valid:"image~CoverPage must be images file"`
-	Description string `valid:"required~Description cannot be blank"`
-	Goal        string `valid:"required~Goal cannot be blank"`
+	Description string `valid:"maxstringlength(300)~Description must be no more than 300 characters,required~Description cannot be blank"`
+	Goal        string `valid:"maxstringlength(100)~Goal must be no more than 100 characters,required~Goal cannot be blank"`
 
 	AdminID *uint
 	Admin   Admin
@@ -393,20 +393,23 @@ type MealPlans struct {
 type Advice struct {
 	gorm.Model
 
-	Advice        string
-	RecordingDate time.Time `valid:"past"`
+	Advice        string `valid:"maxstringlength(200)~Advice must be no more than 200 characters,required~Advice cannot be blank"`
+	RecordingDate time.Time `valid:"notpast~RecordingDate must not be in the past,notfuture~RecordingDate must not be in the future"`
 
 	TrainerID *uint
-	Trainer   Trainer
+	Trainer   Trainer `valid:"-"`
+
+	MemberID *uint
+	Member   Member `valid:"-"`
 
 	CourseServiceID *uint
-	CourseService   CourseService
+	CourseService   CourseService `valid:"-"`
 
 	BodyID *uint
-	Body   Body
+	Body   Body `valid:"-"`
 
 	DailyRoutineID *uint
-	DailyRoutine   DailyRoutine
+	DailyRoutine   DailyRoutine `valid:"-"`
 }
 
 // -----------------------------<Bodyschema>--------------<< ระบบบันทึกการเปลี่ยนแปลงร่างกาย >>------------------------------------
@@ -526,6 +529,16 @@ func init() {
 	govalidator.TagMap["image"] = govalidator.Validator(func(str string) bool {
 		pattern := "^data:image/(jpeg|jpg|png|svg|gif|tiff|tif|bmp|apng|eps|jfif|pjp|xbm|dib|jxl|svgz|webp|ico|pjpeg|avif);base64,[A-Za-z0-9+/]+={0,2}$"
 		return govalidator.Matches(str, pattern)
+	})
+
+	govalidator.CustomTypeTagMap.Set("notpast", func(i interface{}, o interface{}) bool {
+		t := i.(time.Time)
+		return t.After(time.Now().AddDate(0, 0, -1))
+	})
+
+	govalidator.CustomTypeTagMap.Set("notfuture", func(i interface{}, o interface{}) bool {
+		t := i.(time.Time)
+		return t.Before(time.Now().AddDate(0, 0, 1))
 	})
 
 	// govalidator.TagMap["age"] = govalidator.IsPositive(Trainer);

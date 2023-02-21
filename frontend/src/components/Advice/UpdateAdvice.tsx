@@ -107,9 +107,14 @@ function UpdateAdvice() {
   };
   
   const fetchAdvice = async () => {
-    let res = await GetAdviceByID(id + "");
+    const AdviceID = window.localStorage.getItem("AdviceID");
+    console.log(AdviceID);
+    
+    let res = await GetAdviceByID(String(AdviceID));
     res && setAdvice(res);
-}
+    console.log(res);
+    
+  }
 
 
   const fetchInfoBody = async () => {
@@ -145,6 +150,10 @@ function UpdateAdvice() {
     return res.filter((v: any) => v.MemberID === parseInt(id || "")).map((i: any) => i);
   }
 
+  const filterIDDailyRoutines = (res: any) => {
+    return res.filter((v: any) => v.id === (advice.DailyRoutinesID)).map((i: any) => i);
+  }
+
   const convertType = (data: string | number | undefined) => {
     let val = typeof data === "string" ? parseInt(data) : data;
     return val;
@@ -154,9 +163,10 @@ function UpdateAdvice() {
   const submit = async () => {
     let data = {
       ID: convertType(advice.ID),
-      CourseServiceID: Number(courseService.ID),
+      CourseServiceID: Number(id),
       BodyID: Number(infoBody.map(i => i.ID)),
       DailyRoutineID: Number(dailyRoutines.map(i => i.ID)),
+      MemberID: Number(id),
       TrainerID: convertType(advice.TrainerID),
       Advice: advice.Advice,
       RecordingDate: recordingDate,
@@ -165,18 +175,18 @@ function UpdateAdvice() {
     let res = await updateAdvice(data);
     res ? setSuccess(true) : setError(true);
     window.location.href = "/trainer"
-
     console.log(data);
   };
 
 
 
   useEffect(() => {
+    fetchAdvice();
     fetchCourseServiceByID();
     fetchInfoBody();
     fetchDailyRoutines();
     fetchTrainerByID();
-    fetchAdvice();
+    
   }, []);
 
   return (
@@ -287,7 +297,7 @@ function UpdateAdvice() {
                   <TableCell align="center" >{dailyRoutines.ID}</TableCell>
                   <TableCell align="center" >{String(dailyRoutines.Name)}</TableCell>
                   <TableCell align="center">{String(dailyRoutines.Activity?.ActivityType)}</TableCell>
-                  <TableCell align="center">{String(dailyRoutines.TimeStamp).slice(0, 10).replaceAll("-", ".")}</TableCell>
+                  <TableCell align="center">{String(dailyRoutines.TimeStamp).slice(0, 15).replaceAll("-", ".")}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -381,7 +391,7 @@ function UpdateAdvice() {
             }}
           >
             <Button
-              color="success"
+              color="secondary"
               sx={{
                 width: "120px",
                 margin: "0 0 16px 14px",
@@ -396,7 +406,7 @@ function UpdateAdvice() {
             >
               Update
             </Button>
-            <Link to="/trainer/advice-display" style={{ textDecoration: "none" }}>
+            <Link to="/trainer" style={{ textDecoration: "none" }}>
               <Button
                 className="btn-user"
                 variant="contained"

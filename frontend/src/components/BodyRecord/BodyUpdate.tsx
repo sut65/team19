@@ -193,7 +193,7 @@ return (
       height: "100vh",
       width: "100vw",
       backgroundSize: "cover",
-      color: "#f5f5f5",
+      // color: "#f5f5f5",
       backgroundImage: `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(${bodyBG1})`,
     }}
   >
@@ -208,6 +208,7 @@ return (
           display: "flex",
           justifyContent: "flex-start",
           borderRadius: "40px",
+          backgroundColor: "#fffafc",
         }}
       >
         <h2 style={{ color: "#6b7176" }}>บันทึกการเปลี่ยนแปลงร่างกาย</h2>
@@ -223,6 +224,7 @@ return (
             alignItems: "center",
             paddingX: 4,
             borderRadius: "50px",
+            backgroundColor: "#fffafc",
           }}
         >
           <FormLabel sx={{ marginY: 2, fontSize: 17 }}>

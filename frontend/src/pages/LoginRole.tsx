@@ -3,8 +3,16 @@ import { Link } from "react-router-dom";
 import { Box, Button, Typography } from "@mui/material";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { useEffect } from "react";
+
+
 
 function LoginRole() {
+  
+  useEffect(() => {
+    localStorage.clear();
+  }, [])
+
   return (
     <div>
       <Box
@@ -29,27 +37,6 @@ function LoginRole() {
         >
           Team 19
         </Typography>
-
-        <Link
-              to={`/register-member`} // รอแก้เป็นรีวิว
-              style={{
-                textDecoration: "none",
-              }}
-            >
-              <Button
-                className="btn-user"
-                variant="contained"
-                style={{
-                  color: "#fff",
-                  borderRadius: 20,
-                  backgroundColor: "#576F72",
-                  padding: "6px 28px",
-                  fontSize: "16px",
-                }}
-              >
-                Register
-              </Button>
-            </Link>
         <Box
           sx={{
             display: "flex",

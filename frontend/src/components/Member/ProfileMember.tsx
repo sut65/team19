@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import bg2 from "../../images/MemberBG1.jpg";
 
 import { 
   Link,
@@ -52,19 +53,33 @@ function ProfileMember() {
       }, [])
       console.log(member.ProfileUser)
     return(
+      <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        overflow :"auto",
+        gap: 6,
+        height: "100vh",
+        width: "100vw",
+        backgroundSize: "cover",
+        color: "#f5f5f5",
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url(${bg2})`,
+       }}
+        >
         <Container maxWidth="md" sx={{ marginTop: 6 }}>
           <Paper
             elevation={4}
             sx={{ 
             marginBottom: 2,
             marginTop: 2,
-            padding: 1,
+            padding: 2,
             paddingX: 2,
             display: "flex",
             justifyContent: "flex-start",
             }}
           >
-            <h4 style={{ color: "#6b7176" }}>Profile Member</h4>
+            <h1 style={{ color: "#6b7176" }}>Profile Member</h1>
           </Paper>
           <form>
             <Paper
@@ -81,7 +96,7 @@ function ProfileMember() {
                   </Grid>
  {/*============================================(First name)======================================================*/}
                 <Grid xs={5} xl = {5} md={5}>
-                  <p style={{ color: "grey", fontSize: 17 }}>Firstname</p>
+                  <p style={{ color: "grey", fontSize: 17 }}>ชื่อ</p>
                 <TextField
                   id="outlined-basic"
                   name="Firstname"
@@ -99,7 +114,7 @@ function ProfileMember() {
                </Grid>
 {/*=============================================(Last name)=====================================================*/}
                 <Grid xs={5} xl = {5} md={5}>
-                  <p style={{ color: "grey", fontSize: 17 }}>Lastname</p>
+                  <p style={{ color: "grey", fontSize: 17 }}>นามสกุล</p>
                     <TextField
                       id="outlined-basic"
                       name="Lastname"
@@ -134,7 +149,7 @@ function ProfileMember() {
                </Grid>
 {/*==============================================(Gender)====================================================*/}
                 <Grid xs={5} xl = {5} md={5}>
-                  <p style={{ color: "grey", fontSize: 17 }}>Gender</p>
+                  <p style={{ color: "grey", fontSize: 17 }}>เพศ</p>
                 <TextField
                   id="outlined-basic"
                   name="Gender"
@@ -152,7 +167,7 @@ function ProfileMember() {
                </Grid>
 {/*=============================================(Status)=====================================================*/}
                 <Grid xs={5} xl = {5} md={5}>
-                  <p style={{ color: "grey", fontSize: 17 }}>Status</p>
+                  <p style={{ color: "grey", fontSize: 17 }}>สถานะ</p>
                     <TextField
                       id="outlined-basic"
                       name="Status"
@@ -172,7 +187,7 @@ function ProfileMember() {
 
 {/*=============================================(Religion)=====================================================*/}
                 <Grid xs={5} xl = {5} md={6}>
-                  <p style={{ color: "grey", fontSize: 17 }}>Religion</p>
+                  <p style={{ color: "grey", fontSize: 17 }}>นับถือศาสนา</p>
                     <TextField
                       id="outlined-basic"
                       name="Religion"
@@ -212,7 +227,7 @@ function ProfileMember() {
                 </form>
             
             </Container>
-        
+          </Box>
     );
 }
 export default ProfileMember;

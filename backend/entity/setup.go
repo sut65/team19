@@ -98,11 +98,11 @@ func SetupDatabase() {
 	db.Model(&Status{}).Create(&Statuses)
 
 	Gender1 := Gender{
-		Name: "Male",
+		Name: "ผู้ชาย",
 	}
 	db.Model(&Gender{}).Create(&Gender1)
 	Gender2 := Gender{
-		Name: "Female",
+		Name: "ผู้หญิง",
 	}
 	db.Model(&Gender{}).Create(&Gender2)
 
@@ -134,7 +134,7 @@ func SetupDatabase() {
 	//**************************************************************************
 
 	Religion1 := Religion{
-		Name: "พุธ",
+		Name: "พุทธ",
 	}
 	db.Model(&Religion{}).Create(&Religion1)
 	Religion2 := Religion{
@@ -165,9 +165,9 @@ func SetupDatabase() {
 	db.Model(&Member{}).Create(&Member1)
 
 	Member2 := Member{
-		Firstname:   "ชูเกียรติ",
-		Lastname:    "ก๋าอินตา",
-		Email:       "b6303044@g.sut.ac.th",
+		Firstname:   "Fname2",
+		Lastname:    "Lname2",
+		Email:       "User2@mail.com",
 		Password:    string(Password),
 		ProfileUser: "https://cdn-icons-png.flaticon.com/512/1946/1946429.png",
 		Status:      Status1,
