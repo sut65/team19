@@ -455,7 +455,7 @@ type Duration struct {
 
 type Payment struct {
 	gorm.Model
-	PaymentDate time.Time
+	PaymentDate time.Time `valid:"notpast30min~Date must not be in the past,notfuture30min~Date must not be in the future"`
 	Slip        string `valid:"required~Please upload slip,length(0|2802088)~File size must less than 2 MB,image~Slip must be image file"`
 	Balance     float32
 

@@ -407,8 +407,8 @@ function Payment() {
                       });
                     }}
                     renderInput={(params) => <TextField {...params} />}
-                    minDate={new Date(NowDate)}
-                    maxDate={new Date(NowDate)}
+                    // minDate={new Date(NowDate)}
+                    // maxDate={new Date(NowDate)}
                   />
                 </LocalizationProvider>
               </FormControl>
