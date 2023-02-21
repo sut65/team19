@@ -262,7 +262,7 @@ function Navbar() {
                     anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
                   >
                     <Link
-                      to={`profile-member`} // รอแก้เป็นรีวิว
+                      to={`profile-member`}
                       style={{
                         textDecoration: "none",
                         color: "black",
@@ -300,7 +300,7 @@ function Navbar() {
                       </Link>
                     </Link>
                     <Link
-                      to={`payment-history`} // รอแก้เป็นรีวิว
+                      to={`payment-history`}
                       style={{
                         textDecoration: "none",
                         color: "black",
@@ -320,7 +320,7 @@ function Navbar() {
                       Logout
                     </MenuItem>
                   </Menu>
-                  <Box>{UserName}</Box>
+                  {UserName}
                 </Box>
               </Grid>
             </Grid>
