@@ -241,7 +241,7 @@ type FoodType struct {
 
 type FoodInformation struct {
 	gorm.Model
-	Name     string `valid:"required~Name cannot be blank"`
+	Name     string `valid:"required~Name cannot be blank,maxstringlength(20)~Food Name cannot more than 20 characters"`
 	Datetime string
 	Image    string `valid:"image~Image must be image file"`
 
