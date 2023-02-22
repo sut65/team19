@@ -10,10 +10,10 @@ import (
 func TestBlogValidate(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	t.Run("check title not less than 5 characters", func(t *testing.T) {
+	t.Run("check title cannot be blank", func(t *testing.T) {
 		blog := Blog{
 			CoverImage: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAACBUAAAVmC",
-			Title:      "d", //ผิด
+			Title:      "", //wrong
 			Content:    "dsfsdfdsfsdfsdfsfdsdfsdsdfs",
 		}
 
@@ -24,7 +24,25 @@ func TestBlogValidate(t *testing.T) {
 
 		g.Expect(err).ToNot(BeNil())
 
-		g.Expect(err.Error()).To(Equal("Title not less than 5 characters"))
+		g.Expect(err.Error()).To(Equal("Title cannot be blank"))
+
+	})
+
+	t.Run("check title not more than 70 characters", func(t *testing.T) {
+		blog := Blog{
+			CoverImage: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAACBUAAAVmC",
+			Title:      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum", //wrong 86 characters
+			Content:    "dsfsdfdsfsdfsdfsfdsdfsdsdfs",
+		}
+
+		// ตรวจสอบด้วย govalidator
+		ok, err := govalidator.ValidateStruct(blog)
+
+		g.Expect(ok).NotTo(BeTrue())
+
+		g.Expect(err).ToNot(BeNil())
+
+		g.Expect(err.Error()).To(Equal("Title not more than 70 characters"))
 
 	})
 
@@ -32,7 +50,7 @@ func TestBlogValidate(t *testing.T) {
 		blog := Blog{
 			CoverImage: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAACBUAAAVmC",
 			Title:      "dfsfsfsdf",
-			Content:    "dsfsdf", // ผิด
+			Content:    "dsfsdf", // wrong
 		}
 
 		// ตรวจสอบด้วย govalidator
@@ -48,7 +66,7 @@ func TestBlogValidate(t *testing.T) {
 
 	t.Run("check CoverImage must be an images file", func(t *testing.T) {
 		blog := Blog{
-			CoverImage: "data:image/pdf;base64,iVBORw0KGgoAAAANSUhEUgAACB", // ผิด
+			CoverImage: "data:image/pdf;base64,iVBORw0KGgoAAAANSUhEUgAACB", // wrong
 			Title:      "dfsfsfsdf",
 			Content:    "dsfsdfsafsdfasfsafsafsafsfasfasdf",
 		}

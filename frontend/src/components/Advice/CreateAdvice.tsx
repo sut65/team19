@@ -32,10 +32,10 @@ import { TrainerInterface } from '../../interfaces/ITrainer';
 import { CourseServiceInterface } from '../../interfaces/ICourseService';
 
 //api
-import { 
-  createAdvice, 
-  GetCourseServiceBYUID, 
-  GetTrainerByID 
+import {
+  createAdvice,
+  GetCourseServiceBYUID,
+  GetTrainerByID
 } from '../../services/HttpClientService';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -48,19 +48,19 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
 function CreateAdvice() {
   const { id } = useParams();
-  const uid = localStorage.getItem("uid");
+  const navigate = useNavigate();
   const [advice, setAdvice] = useState<AdviceInterface>({});
   const [courseService, setCourseService] = useState<CourseServiceInterface>({});
   const [infoBody, setInfoBody] = useState<BodyInterface[]>([]);
   const [dailyRoutines, setDailyRoutines] = useState<DailyRoutinesInterface[]>([]);
-  
+
   const [trainer, setTrainer] = useState<TrainerInterface>({});
   const [recordingDate, setRecordingDate] = useState<Date | null>(new Date());
-  const NowDate = Date.now();
-  
+
 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
+  const [message, setAlertMessage] = useState("");
 
   const handleClose = (
     event?: React.SyntheticEvent | Event,
@@ -71,6 +71,8 @@ function CreateAdvice() {
     }
     setSuccess(false);
     setError(false);
+
+    success && navigate("/trainer");
   };
 
   const handleSelectChange = (event: SelectChangeEvent) => {
@@ -154,8 +156,14 @@ function CreateAdvice() {
     };
 
     let res = await createAdvice(data);
-    res ? setSuccess(true) : setError(true);
-    window.location.href = "/trainer"
+    if (res.status) {
+      setAlertMessage("บันทึกข้อมูลสำเร็จ");
+      setSuccess(true);
+    } else {
+      setAlertMessage(res.message);
+      setError(true);
+    }
+    
     console.log(data);
   };
 
@@ -165,7 +173,7 @@ function CreateAdvice() {
     fetchDailyRoutines();
     fetchTrainerByID();
   }, []);
-  
+
   return (
     <Box
       sx={{
@@ -184,23 +192,23 @@ function CreateAdvice() {
       {/* Alert */}
       <Snackbar
         open={success}
-        autoHideDuration={1000}
+        autoHideDuration={3000}
         onClose={handleClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="success">
-          บันทึกข้อมูลสำเร็จ
+          {message}
         </Alert>
       </Snackbar>
 
       <Snackbar
         open={error}
-        autoHideDuration={1000}
+        autoHideDuration={3000}
         onClose={handleClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert onClose={handleClose} severity="error">
-          บันทึกข้อมูลไม่สำเร็จ
+          {message}
         </Alert>
       </Snackbar>
       <Container sx={{ margin: "3rem" }}>
@@ -347,8 +355,6 @@ function CreateAdvice() {
                     onChange={(newValue) => {
                       setRecordingDate(newValue);
                     }}
-                    minDate={new Date(NowDate)}
-                    maxDate={new Date(NowDate)}
                   />
                 </LocalizationProvider>
               </FormControl>

@@ -87,8 +87,8 @@ type Price struct {
 
 type CourseDetail struct {
 	gorm.Model
-	CourseName  string `valid:"maxstringlength(50)~CourseName must be no more than 50 characters,required~CourseName cannot be blank"`
-	CoverPage   string `valid:"image~CoverPage must be images file"`
+	CourseName  string `valid:"maxstringlength(50)~Course Name must be no more than 50 characters,required~Course Name cannot be blank"`
+	CoverPage   string `valid:"image~Cover Page must be images file"`
 	Description string `valid:"maxstringlength(300)~Description must be no more than 300 characters,required~Description cannot be blank"`
 	Goal        string `valid:"maxstringlength(100)~Goal must be no more than 100 characters,required~Goal cannot be blank"`
 
@@ -147,7 +147,7 @@ type Tag struct {
 type Blog struct {
 	gorm.Model
 	CoverImage string `valid:"image~CoverImage must be images file"`
-	Title      string `valid:"minstringlength(5)~Title not less than 5 characters"`
+	Title      string `valid:"required~Title cannot be blank,maxstringlength(70)~Title not more than 70 characters"`
 	Content    string `valid:"minstringlength(20)~Content not less than 20 characters"`
 
 	MemberID *uint
@@ -206,8 +206,8 @@ type Trainer struct {
 // ================== ระบบการใช้บริการคอร์ส ==================
 type CourseService struct {
 	gorm.Model
-	CRegisterDate time.Time
-	Agreement     string `valid:"matches(Agree)~Please check 'Agree'"`
+	CRegisterDate time.Time `valid:"notpast30min~Date must not be in the past,notfuture30min~Date must not be in the future"`
+	Agreement     string    `valid:"matches(Agree)~Please check 'Agree'"`
 	Status        string
 	RefundMessage string `valid:"required~Message cannot be blank"`
 
@@ -393,8 +393,8 @@ type MealPlans struct {
 type Advice struct {
 	gorm.Model
 
-	Advice        string `valid:"maxstringlength(200)~Advice must be no more than 200 characters,required~Advice cannot be blank"`
-	RecordingDate time.Time `valid:"notpast~RecordingDate must not be in the past,notfuture~RecordingDate must not be in the future"`
+	Advice        string    `valid:"maxstringlength(200)~Advice must be no more than 200 characters,required~Advice cannot be blank"`
+	RecordingDate time.Time `valid:"notpast30min~Recording Date must not be in the past,notfuture30min~Recording Date must not be in the future"`
 
 	TrainerID *uint
 	Trainer   Trainer `valid:"-"`
@@ -455,8 +455,8 @@ type Duration struct {
 
 type Payment struct {
 	gorm.Model
-	PaymentDate time.Time
-	Slip        string `valid:"required~Please upload slip,length(0|2802088)~File size must less than 2 MB,image~Slip must be image file"`
+	PaymentDate time.Time `valid:"notpast30min~Date must not be in the past,notfuture30min~Date must not be in the future"`
+	Slip        string    `valid:"required~Please upload slip,length(0|2802088)~File size must less than 2 MB,image~Slip must be image file"`
 	Balance     float32
 
 	CourseServiceID *uint
@@ -531,14 +531,24 @@ func init() {
 		return govalidator.Matches(str, pattern)
 	})
 
-	govalidator.CustomTypeTagMap.Set("notpast", func(i interface{}, o interface{}) bool {
+	govalidator.CustomTypeTagMap.Set("notpast30min", func(i interface{}, context interface{}) bool {
 		t := i.(time.Time)
-		return t.After(time.Now().AddDate(0, 0, -1))
+		return t.After(time.Now().Add(time.Minute * -30))
 	})
 
-	govalidator.CustomTypeTagMap.Set("notfuture", func(i interface{}, o interface{}) bool {
+	govalidator.CustomTypeTagMap.Set("notfuture30min", func(i interface{}, context interface{}) bool {
 		t := i.(time.Time)
-		return t.Before(time.Now().AddDate(0, 0, 1))
+		return t.Before(time.Now().Add(time.Minute * 30))
+	})
+
+	govalidator.CustomTypeTagMap.Set("notpast30min", func(i interface{}, context interface{}) bool {
+		t := i.(time.Time)
+		return t.After(time.Now().Add(time.Minute * -30))
+	})
+
+	govalidator.CustomTypeTagMap.Set("notfuture30min", func(i interface{}, context interface{}) bool {
+		t := i.(time.Time)
+		return t.Before(time.Now().Add(time.Minute * 30))
 	})
 
 	// govalidator.TagMap["age"] = govalidator.IsPositive(Trainer);
