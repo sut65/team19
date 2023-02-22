@@ -96,6 +96,7 @@ const ShowReview = () => {
                   rating={item.RankID!}
                   courseName={item.CourseDetail?.CourseName!}
                   memberID={item.MemberID!}
+                  avatar={item.Member?.ProfileUser!}
                   firstName={item?.Member?.Firstname!}
                   lastName={item?.Member?.Lastname!}
                 />
