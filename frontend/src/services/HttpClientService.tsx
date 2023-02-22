@@ -1494,7 +1494,7 @@ const GetMemberByID = async () => {
 };
 
 const GetMembersByID = async (id: string) => {
-  let res = await fetch(`${apiUrl}/members/${id}`, requestOptionsGet)
+  let res = await fetch(`${apiUrl}/member/${id}`, requestOptionsGet)
     .then((response) => response.json())
     .then((result) => {
       return result.data ? result.data : false;
