@@ -122,7 +122,6 @@ function CourseDetail() {
                     ประเภทคอร์ส :{" "}
                     <b style={{ marginLeft: "1rem" }}>{courseDetail.CourseType?.TypeName}</b>
                 </Typography>
-
                 {/* Description */}
                 <Typography
                     mt={2}

@@ -180,7 +180,7 @@ function UpdateCourseDetails() {
       {/* Alert */}
       <Snackbar
         open={success}
-        autoHideDuration={1000}
+        autoHideDuration={5000}
         onClose={handleClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
@@ -191,7 +191,7 @@ function UpdateCourseDetails() {
 
       <Snackbar
         open={error}
-        autoHideDuration={1000}
+        autoHideDuration={5000}
         onClose={handleClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
