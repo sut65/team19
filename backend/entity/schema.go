@@ -147,7 +147,7 @@ type Tag struct {
 type Blog struct {
 	gorm.Model
 	CoverImage string `valid:"image~CoverImage must be images file"`
-	Title      string `valid:"minstringlength(5)~Title not less than 5 characters"`
+	Title      string `valid:"required~Title cannot be blank,maxstringlength(70)~Title not more than 70 characters"`
 	Content    string `valid:"minstringlength(20)~Content not less than 20 characters"`
 
 	MemberID *uint
@@ -207,7 +207,7 @@ type Trainer struct {
 type CourseService struct {
 	gorm.Model
 	CRegisterDate time.Time `valid:"notpast30min~Date must not be in the past,notfuture30min~Date must not be in the future"`
-	Agreement     string `valid:"matches(Agree)~Please check 'Agree'"`
+	Agreement     string    `valid:"matches(Agree)~Please check 'Agree'"`
 	Status        string
 	RefundMessage string `valid:"required~Message cannot be blank"`
 
@@ -241,7 +241,7 @@ type FoodType struct {
 
 type FoodInformation struct {
 	gorm.Model
-	Name     string `valid:"required~Name cannot be blank"`
+	Name     string `valid:"required~Name cannot be blank,maxstringlength(20)~Food Name cannot more than 20 characters"`
 	Datetime string
 	Image    string `valid:"image~Image must be image file"`
 
@@ -393,7 +393,7 @@ type MealPlans struct {
 type Advice struct {
 	gorm.Model
 
-	Advice        string `valid:"maxstringlength(200)~Advice must be no more than 200 characters,required~Advice cannot be blank"`
+	Advice        string    `valid:"maxstringlength(200)~Advice must be no more than 200 characters,required~Advice cannot be blank"`
 	RecordingDate time.Time `valid:"notpast30min~Recording Date must not be in the past,notfuture30min~Recording Date must not be in the future"`
 
 	TrainerID *uint
@@ -456,7 +456,7 @@ type Duration struct {
 type Payment struct {
 	gorm.Model
 	PaymentDate time.Time `valid:"notpast30min~Date must not be in the past,notfuture30min~Date must not be in the future"`
-	Slip        string `valid:"required~Please upload slip,length(0|2802088)~File size must less than 2 MB,image~Slip must be image file"`
+	Slip        string    `valid:"required~Please upload slip,length(0|2802088)~File size must less than 2 MB,image~Slip must be image file"`
 	Balance     float32
 
 	CourseServiceID *uint

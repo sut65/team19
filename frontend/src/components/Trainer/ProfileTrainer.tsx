@@ -3,6 +3,7 @@ import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Unstable_Grid2";
 import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
+import TempleBuddhistIcon from '@mui/icons-material/TempleBuddhist';
 
 import { Box } from "@mui/material";
 
@@ -292,10 +293,10 @@ function ProfileTrainer() {
                     <ListItem>
                       <ListItemAvatar>
                         <Avatar>
-                          <ImageIcon />
+                          <TempleBuddhistIcon />
                         </Avatar>
                       </ListItemAvatar>
-                      <ListItemText primary="Photos" secondary="Jan 9, 2014" />
+                      <ListItemText primary="Religion" secondary={trainer.Religion?.Name  } />
                     </ListItem>
                     <Divider variant="inset" component="li" />
                     <ListItem>

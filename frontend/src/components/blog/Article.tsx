@@ -88,7 +88,7 @@ function Article() {
           backgroundSize: "cover",
         }}
       >
-        <Typography color={"#fff"} fontSize={"4rem"} variant="h1">
+        <Typography color={"#fff"} fontSize={"4rem"} variant="h1" align="center">
           {article.Title}
         </Typography>
       </Box>
