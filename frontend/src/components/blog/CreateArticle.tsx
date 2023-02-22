@@ -184,7 +184,7 @@ function CreateArticle() {
             id="coverImage"
             name="CoverImage"
             hidden
-            accept="image/*"
+            accept=""
             multiple
             type="file"
             onChange={handleChangeImages}
