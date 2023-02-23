@@ -122,16 +122,21 @@ const fetchMemberByID = async () => {
     return val;
   };
 
+  const convertTypeFloat = (data: string | number | undefined) => {
+    let val = typeof data === "string" ? parseFloat(data) : data;
+    return val;
+  };
+
   const submit = async () => {
     let bm = ((Number(body.Weight))/(Number(body.Height)/100)**2)
     let data = {
-        Height:      convertType(body.Height),
-        Weight:        convertType(body.Weight),
-        Hip:           convertType(body.Hip),
-        UpperArm:      convertType(body.UpperArm),
-        Thigh :        convertType(body.Thigh),
-        NarrowWaist:  convertType(body.NarrowWaist),
-        NavelWaist:   convertType(body.NavelWaist),
+        Height:      convertTypeFloat(body.Height),
+        Weight:        convertTypeFloat(body.Weight),
+        Hip:           convertTypeFloat(body.Hip),
+        UpperArm:      convertTypeFloat(body.UpperArm),
+        Thigh :        convertTypeFloat(body.Thigh),
+        NarrowWaist:  convertTypeFloat(body.NarrowWaist),
+        NavelWaist:   convertTypeFloat(body.NavelWaist),
         Bmi:        Number(bm.toFixed(2)),
         Note :        body.Note,
       
