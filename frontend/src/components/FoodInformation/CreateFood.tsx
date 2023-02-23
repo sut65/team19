@@ -177,7 +177,7 @@ function CreateFood() {
         <Snackbar
           open={error}
           id="error"
-          autoHideDuration={1000}
+          autoHideDuration={2000}
           onClose={handleClose}
           anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         >

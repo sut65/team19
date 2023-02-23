@@ -2223,318 +2223,6 @@
       "value": ""
     }]
   }, {
-    "id": "c5329bd8-3f89-4338-b4a2-37076bbafc1e",
-    "name": "Create Error Unique FoodInformation",
-    "commands": [{
-      "id": "d3e3f63b-f2f9-4828-8e57-5f048fbd0fa4",
-      "comment": "",
-      "command": "open",
-      "target": "/",
-      "targets": [],
-      "value": ""
-    }, {
-      "id": "94f81ddb-7391-4956-a115-5f1ddd7eab41",
-      "comment": "",
-      "command": "setWindowSize",
-      "target": "1309x816",
-      "targets": [],
-      "value": ""
-    }, {
-      "id": "87cf1cf0-5914-440f-a406-61c4f880c45b",
-      "comment": "",
-      "command": "click",
-      "target": "css=.btn-admin",
-      "targets": [
-        ["css=.btn-admin", "css:finder"],
-        ["xpath=(//button[@type='button'])[4]", "xpath:attributes"],
-        ["xpath=//div[@id='root']/div/div/div/div/a[3]/button", "xpath:idRelative"],
-        ["xpath=//a[3]/button", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "dbd38729-4432-4fdc-8366-d68a5deb9239",
-      "comment": "",
-      "command": "click",
-      "target": "id=Email",
-      "targets": [
-        ["id=Email", "id"],
-        ["name=Email", "name"],
-        ["css=#Email", "css:finder"],
-        ["xpath=//input[@id='Email']", "xpath:attributes"],
-        ["xpath=//div[@id='root']/div/main/div[2]/div/div[2]/div/div/input", "xpath:idRelative"],
-        ["xpath=//input", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "24842e88-206d-461f-b4ac-ddef19e9053e",
-      "comment": "",
-      "command": "type",
-      "target": "id=Email",
-      "targets": [
-        ["id=Email", "id"],
-        ["name=Email", "name"],
-        ["css=#Email", "css:finder"],
-        ["xpath=//input[@id='Email']", "xpath:attributes"],
-        ["xpath=//div[@id='root']/div/main/div[2]/div/div[2]/div/div/input", "xpath:idRelative"],
-        ["xpath=//input", "xpath:position"]
-      ],
-      "value": "Admin003@gmail.com"
-    }, {
-      "id": "69494416-e0b3-4d11-b182-d884324c1db9",
-      "comment": "",
-      "command": "click",
-      "target": "id=Password",
-      "targets": [
-        ["id=Password", "id"],
-        ["name=Password", "name"],
-        ["css=#Password", "css:finder"],
-        ["xpath=//input[@id='Password']", "xpath:attributes"],
-        ["xpath=//div[@id='root']/div/main/div[2]/div/div[2]/div[2]/div/input", "xpath:idRelative"],
-        ["xpath=//div[2]/div/input", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "5b2ad23a-77f4-4700-bf64-346ccf8fc2f6",
-      "comment": "",
-      "command": "mouseOver",
-      "target": "css=.MuiButtonBase-root",
-      "targets": [
-        ["css=.MuiButtonBase-root", "css:finder"],
-        ["xpath=//button[@type='submit']", "xpath:attributes"],
-        ["xpath=//div[@id='root']/div/main/div[2]/div/div[2]/button", "xpath:idRelative"],
-        ["xpath=//button", "xpath:position"],
-        ["xpath=//button[contains(.,'Sign In')]", "xpath:innerText"]
-      ],
-      "value": ""
-    }, {
-      "id": "9b1554b8-f567-4db1-97f4-0d259e1d3f9c",
-      "comment": "",
-      "command": "type",
-      "target": "id=Password",
-      "targets": [
-        ["id=Password", "id"],
-        ["name=Password", "name"],
-        ["css=#Password", "css:finder"],
-        ["xpath=//input[@id='Password']", "xpath:attributes"],
-        ["xpath=//div[@id='root']/div/main/div[2]/div/div[2]/div[2]/div/input", "xpath:idRelative"],
-        ["xpath=//div[2]/div/input", "xpath:position"]
-      ],
-      "value": "1112"
-    }, {
-      "id": "ddb2f5a5-9d2b-49c5-861c-c8dddf2f820e",
-      "comment": "",
-      "command": "click",
-      "target": "css=.MuiButtonBase-root",
-      "targets": [
-        ["css=.MuiButtonBase-root", "css:finder"],
-        ["xpath=//button[@type='submit']", "xpath:attributes"],
-        ["xpath=//div[@id='root']/div/main/div[2]/div/div[2]/button", "xpath:idRelative"],
-        ["xpath=//button", "xpath:position"],
-        ["xpath=//button[contains(.,'Sign In')]", "xpath:innerText"]
-      ],
-      "value": ""
-    }, {
-      "id": "815b54dc-77ed-44d6-944a-8bae558b395a",
-      "comment": "",
-      "command": "mouseOut",
-      "target": "css=.MuiButtonBase-root",
-      "targets": [
-        ["css=.MuiButtonBase-root", "css:finder"],
-        ["xpath=//button[@type='submit']", "xpath:attributes"],
-        ["xpath=//div[@id='root']/div/main/div[2]/div/div[2]/button", "xpath:idRelative"],
-        ["xpath=//button", "xpath:position"],
-        ["xpath=//button[contains(.,'Sign In')]", "xpath:innerText"]
-      ],
-      "value": ""
-    }, {
-      "id": "30404edb-2cb9-42ba-b9f5-35d5a767f1f1",
-      "comment": "",
-      "command": "click",
-      "target": "css=a:nth-child(3) > .MuiButtonBase-root",
-      "targets": [
-        ["css=a:nth-child(3) > .MuiButtonBase-root", "css:finder"],
-        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
-        ["xpath=//div[@id='root']/div/div/div/header/div/div/div[3]/a[3]/button", "xpath:idRelative"],
-        ["xpath=//a[3]/button", "xpath:position"],
-        ["xpath=//button[contains(.,'Nutrient')]", "xpath:innerText"]
-      ],
-      "value": ""
-    }, {
-      "id": "2b6cfce3-9351-43bf-8f17-372bb5de49b1",
-      "comment": "",
-      "command": "click",
-      "target": "css=.MuiButton-contained",
-      "targets": [
-        ["css=.MuiButton-contained", "css:finder"],
-        ["xpath=(//button[@type='button'])[5]", "xpath:attributes"],
-        ["xpath=//div[@id='root']/div/div/div/header/div/div[2]/div/div[2]/a/button", "xpath:idRelative"],
-        ["xpath=//div[2]/a/button", "xpath:position"],
-        ["xpath=//button[contains(.,'เพิ่มสารอาหาร')]", "xpath:innerText"]
-      ],
-      "value": ""
-    }, {
-      "id": "25d81ebf-e1ac-46be-acc3-988c95b34c6b",
-      "comment": "",
-      "command": "click",
-      "target": "id=food_information",
-      "targets": [
-        ["id=food_information", "id"],
-        ["name=FoodInformationID", "name"],
-        ["css=#food_information", "css:finder"],
-        ["xpath=//select[@id='food_information']", "xpath:attributes"],
-        ["xpath=//div[@id='root']/div/div/div/header/div/div[2]/div[2]/div/div/select", "xpath:idRelative"],
-        ["xpath=//select", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "b2d18f0a-1072-429a-94ce-ee4f505c9eec",
-      "comment": "",
-      "command": "select",
-      "target": "id=food_information",
-      "targets": [],
-      "value": "label=ล็อบสเตอร์อบชีส"
-    }, {
-      "id": "2982a8e4-64fc-471d-aff6-1e0d14d64639",
-      "comment": "",
-      "command": "click",
-      "target": "id=mostnutrient",
-      "targets": [
-        ["id=mostnutrient", "id"],
-        ["name=MostNutrientID", "name"],
-        ["css=#mostnutrient", "css:finder"],
-        ["xpath=//select[@id='mostnutrient']", "xpath:attributes"],
-        ["xpath=//div[@id='root']/div/div/div/header/div/div[2]/div[2]/div[2]/div/select", "xpath:idRelative"],
-        ["xpath=//div[2]/div/select", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "43bb5f2a-8145-4853-8874-48ab5ca6e9ab",
-      "comment": "",
-      "command": "select",
-      "target": "id=mostnutrient",
-      "targets": [],
-      "value": "label=คาร์โบไฮเดรต"
-    }, {
-      "id": "56edc92d-744f-4ea1-b7ff-047e5327f2ee",
-      "comment": "",
-      "command": "click",
-      "target": "id=totalcalorie",
-      "targets": [
-        ["id=totalcalorie", "id"],
-        ["name=TotalCalorie", "name"],
-        ["css=#totalcalorie", "css:finder"],
-        ["xpath=//input[@id='totalcalorie']", "xpath:attributes"],
-        ["xpath=//div[@id='root']/div/div/div/header/div/div[2]/div[2]/div[3]/div/input", "xpath:idRelative"],
-        ["xpath=//input", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "48b78a90-a7fe-4a69-969e-d944b6ddea74",
-      "comment": "",
-      "command": "type",
-      "target": "id=totalcalorie",
-      "targets": [
-        ["id=totalcalorie", "id"],
-        ["name=TotalCalorie", "name"],
-        ["css=#totalcalorie", "css:finder"],
-        ["xpath=//input[@id='totalcalorie']", "xpath:attributes"],
-        ["xpath=//div[@id='root']/div/div/div/header/div/div[2]/div[2]/div[3]/div/input", "xpath:idRelative"],
-        ["xpath=//input", "xpath:position"]
-      ],
-      "value": "155"
-    }, {
-      "id": "a03c02df-1d0f-40b1-9a7a-8275d4689802",
-      "comment": "",
-      "command": "click",
-      "target": "id=comment",
-      "targets": [
-        ["id=comment", "id"],
-        ["name=Comment", "name"],
-        ["css=#comment", "css:finder"],
-        ["xpath=//textarea[@id='comment']", "xpath:attributes"],
-        ["xpath=//div[@id='root']/div/div/div/header/div/div[2]/div[4]/div/div/textarea", "xpath:idRelative"],
-        ["xpath=//textarea", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "56665bc3-90b9-420c-8870-481969deb170",
-      "comment": "",
-      "command": "mouseOver",
-      "target": "css=.MuiButton-outlinedSuccess",
-      "targets": [
-        ["css=.MuiButton-outlinedSuccess", "css:finder"],
-        ["xpath=(//button[@type='button'])[6]", "xpath:attributes"],
-        ["xpath=//div[@id='root']/div/div/div/header/div/div[2]/div[6]/button", "xpath:idRelative"],
-        ["xpath=//div[6]/button", "xpath:position"],
-        ["xpath=//button[contains(.,'เพิ่มสารอาหาร')]", "xpath:innerText"]
-      ],
-      "value": ""
-    }, {
-      "id": "d253b304-2672-481c-b589-b08c1869f207",
-      "comment": "",
-      "command": "type",
-      "target": "id=comment",
-      "targets": [
-        ["id=comment", "id"],
-        ["name=Comment", "name"],
-        ["css=#comment", "css:finder"],
-        ["xpath=//textarea[@id='comment']", "xpath:attributes"],
-        ["xpath=//div[@id='root']/div/div/div/header/div/div[2]/div[4]/div/div/textarea", "xpath:idRelative"],
-        ["xpath=//textarea", "xpath:position"]
-      ],
-      "value": "asdaf"
-    }, {
-      "id": "3289f45a-66c3-430d-9a71-210928fa4c28",
-      "comment": "",
-      "command": "click",
-      "target": "css=.MuiButton-outlinedSuccess",
-      "targets": [
-        ["css=.MuiButton-outlinedSuccess", "css:finder"],
-        ["xpath=(//button[@type='button'])[6]", "xpath:attributes"],
-        ["xpath=//div[@id='root']/div/div/div/header/div/div[2]/div[6]/button", "xpath:idRelative"],
-        ["xpath=//div[6]/button", "xpath:position"],
-        ["xpath=//button[contains(.,'เพิ่มสารอาหาร')]", "xpath:innerText"]
-      ],
-      "value": ""
-    }, {
-      "id": "63cb8948-931c-4957-b5d9-117a3620231c",
-      "comment": "",
-      "command": "mouseOut",
-      "target": "css=.MuiButton-outlinedSuccess",
-      "targets": [
-        ["css=.MuiButton-outlinedSuccess", "css:finder"],
-        ["xpath=(//button[@type='button'])[7]", "xpath:attributes"],
-        ["xpath=//div[@id='root']/div/div/div/header/div/div[2]/div[7]/button", "xpath:idRelative"],
-        ["xpath=//div[7]/button", "xpath:position"],
-        ["xpath=//button[contains(.,'เพิ่มสารอาหาร')]", "xpath:innerText"]
-      ],
-      "value": ""
-    }, {
-      "id": "f1d7a2b5-2514-487d-b677-6d65d95bee5c",
-      "comment": "",
-      "command": "mouseOver",
-      "target": "css=.css-78trlr-MuiButtonBase-root-MuiIconButton-root",
-      "targets": [
-        ["css=.css-78trlr-MuiButtonBase-root-MuiIconButton-root", "css:finder"],
-        ["xpath=(//button[@type='button'])[4]", "xpath:attributes"],
-        ["xpath=//div[@id='root']/div/div/div/header/div/div/div[3]/button", "xpath:idRelative"],
-        ["xpath=//div[3]/button", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "f5f652bf-8416-458a-ada2-463a948d010b",
-      "comment": "",
-      "command": "click",
-      "target": "css=.css-78trlr-MuiButtonBase-root-MuiIconButton-root",
-      "targets": [
-        ["css=.css-78trlr-MuiButtonBase-root-MuiIconButton-root", "css:finder"],
-        ["xpath=(//button[@type='button'])[4]", "xpath:attributes"],
-        ["xpath=//div[@id='root']/div/div/div/header/div/div/div[3]/button", "xpath:idRelative"],
-        ["xpath=//div[3]/button", "xpath:position"]
-      ],
-      "value": ""
-    }]
-  }, {
     "id": "d50688c1-9baf-4bc9-80f4-24edd8ed2ffb",
     "name": "Delete success",
     "commands": [{
@@ -2656,6 +2344,302 @@
       "value": ""
     }, {
       "id": "21189ada-db4f-43e1-8367-51a301a03630",
+      "comment": "",
+      "command": "click",
+      "target": "css=.MuiSvgIcon-fontSizeLarge",
+      "targets": [
+        ["css=.MuiSvgIcon-fontSizeLarge", "css:finder"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "8cb6206f-1fcc-4ace-9d7f-e59e434b5c1b",
+    "name": "Create Error Unique FoodInformation",
+    "commands": [{
+      "id": "16b7c4c2-067f-4b34-807c-b1f21769136d",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "735dd294-f4d6-47c2-88fc-6be21fd677e6",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "787x816",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "39fb9403-d4f5-422e-982e-3ffe0d5d4416",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn-admin",
+      "targets": [
+        ["css=.btn-admin", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div/div/a[3]/button", "xpath:idRelative"],
+        ["xpath=//a[3]/button", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "715e5913-d103-40d9-a32e-fe9ecc101de4",
+      "comment": "",
+      "command": "type",
+      "target": "id=Email",
+      "targets": [
+        ["id=Email", "id"],
+        ["name=Email", "name"],
+        ["css=#Email", "css:finder"],
+        ["xpath=//input[@id='Email']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/main/div[2]/div/div[2]/div/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "Admin003@gmail.com"
+    }, {
+      "id": "f4cc900f-a889-4805-89c8-fdccb41836db",
+      "comment": "",
+      "command": "click",
+      "target": "id=Password",
+      "targets": [
+        ["id=Password", "id"],
+        ["name=Password", "name"],
+        ["css=#Password", "css:finder"],
+        ["xpath=//input[@id='Password']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/main/div[2]/div/div[2]/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "63eac75c-0aea-4190-84ec-febb5dd8cf73",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.MuiButtonBase-root",
+      "targets": [
+        ["css=.MuiButtonBase-root", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/main/div[2]/div/div[2]/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Sign In')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "69dda779-f3bf-4302-b43d-b5037980ceaa",
+      "comment": "",
+      "command": "type",
+      "target": "id=Password",
+      "targets": [
+        ["id=Password", "id"],
+        ["name=Password", "name"],
+        ["css=#Password", "css:finder"],
+        ["xpath=//input[@id='Password']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/main/div[2]/div/div[2]/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "1112"
+    }, {
+      "id": "88d8e435-c813-4162-b1ff-ee15627ce093",
+      "comment": "",
+      "command": "click",
+      "target": "css=.MuiButtonBase-root",
+      "targets": [
+        ["css=.MuiButtonBase-root", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/main/div[2]/div/div[2]/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Sign In')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "7bfc34f6-c38a-4a5b-bcb5-e765a6a5ac2c",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "css=.MuiButtonBase-root",
+      "targets": [
+        ["css=.MuiButtonBase-root", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/main/div[2]/div/div[2]/button", "xpath:idRelative"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Sign In')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "a821129a-a54b-4983-8e7d-290f55125d58",
+      "comment": "",
+      "command": "click",
+      "target": "css=a:nth-child(3) > .MuiButtonBase-root",
+      "targets": [
+        ["css=a:nth-child(3) > .MuiButtonBase-root", "css:finder"],
+        ["xpath=(//button[@type='button'])[3]", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div/header/div/div/div[3]/a[3]/button", "xpath:idRelative"],
+        ["xpath=//a[3]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Nutrient')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "2e3364e2-60ec-4377-81f7-a36bf35e6823",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.MuiButton-contained",
+      "targets": [
+        ["css=.MuiButton-contained", "css:finder"],
+        ["xpath=(//button[@type='button'])[5]", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div/header/div/div[2]/div/div[2]/a/button", "xpath:idRelative"],
+        ["xpath=//div[2]/a/button", "xpath:position"],
+        ["xpath=//button[contains(.,'เพิ่มสารอาหาร')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "0a112024-103f-45fe-8b37-54859f6d3937",
+      "comment": "",
+      "command": "click",
+      "target": "css=.MuiButton-contained",
+      "targets": [
+        ["css=.MuiButton-contained", "css:finder"],
+        ["xpath=(//button[@type='button'])[5]", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div/header/div/div[2]/div/div[2]/a/button", "xpath:idRelative"],
+        ["xpath=//div[2]/a/button", "xpath:position"],
+        ["xpath=//button[contains(.,'เพิ่มสารอาหาร')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "f64d175f-da04-40e4-9607-567a57edaf84",
+      "comment": "",
+      "command": "click",
+      "target": "id=food_information",
+      "targets": [
+        ["id=food_information", "id"],
+        ["name=FoodInformationID", "name"],
+        ["css=#food_information", "css:finder"],
+        ["xpath=//select[@id='food_information']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div/header/div/div[2]/div[2]/div/div/select", "xpath:idRelative"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "46864417-2057-4b57-8cd3-8480ca696694",
+      "comment": "",
+      "command": "select",
+      "target": "id=food_information",
+      "targets": [],
+      "value": "label=สเต๊กเนื้อ"
+    }, {
+      "id": "92abd27d-057c-436f-bc3e-eed37e877a2d",
+      "comment": "",
+      "command": "click",
+      "target": "id=mostnutrient",
+      "targets": [
+        ["id=mostnutrient", "id"],
+        ["name=MostNutrientID", "name"],
+        ["css=#mostnutrient", "css:finder"],
+        ["xpath=//select[@id='mostnutrient']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div/header/div/div[2]/div[2]/div[2]/div/select", "xpath:idRelative"],
+        ["xpath=//div[2]/div/select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e64aec27-d28f-41e3-acea-cee695185a94",
+      "comment": "",
+      "command": "select",
+      "target": "id=mostnutrient",
+      "targets": [],
+      "value": "label=โปรตีน"
+    }, {
+      "id": "719a499b-f539-48a3-ab21-e590d8031fc7",
+      "comment": "",
+      "command": "click",
+      "target": "id=totalcalorie",
+      "targets": [
+        ["id=totalcalorie", "id"],
+        ["name=TotalCalorie", "name"],
+        ["css=#totalcalorie", "css:finder"],
+        ["xpath=//input[@id='totalcalorie']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div/header/div/div[2]/div[2]/div[3]/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "413ddfa6-71b9-410f-8134-d1f854591b4c",
+      "comment": "",
+      "command": "type",
+      "target": "id=totalcalorie",
+      "targets": [
+        ["id=totalcalorie", "id"],
+        ["name=TotalCalorie", "name"],
+        ["css=#totalcalorie", "css:finder"],
+        ["xpath=//input[@id='totalcalorie']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div/header/div/div[2]/div[2]/div[3]/div/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "100"
+    }, {
+      "id": "5e10faec-7f4b-4e16-93c2-bc2040a45604",
+      "comment": "",
+      "command": "click",
+      "target": "id=comment",
+      "targets": [
+        ["id=comment", "id"],
+        ["name=Comment", "name"],
+        ["css=#comment", "css:finder"],
+        ["xpath=//textarea[@id='comment']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div/header/div/div[2]/div[4]/div/div/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "26ee904b-b77d-453a-b1ba-7ff289aa87f6",
+      "comment": "",
+      "command": "mouseOver",
+      "target": "css=.MuiButton-outlinedSuccess",
+      "targets": [
+        ["css=.MuiButton-outlinedSuccess", "css:finder"],
+        ["xpath=(//button[@type='button'])[6]", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div/header/div/div[2]/div[6]/button", "xpath:idRelative"],
+        ["xpath=//div[6]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'เพิ่มสารอาหาร')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "5413e8a7-e2ec-492c-b912-b8a4e43d03ad",
+      "comment": "",
+      "command": "type",
+      "target": "id=comment",
+      "targets": [
+        ["id=comment", "id"],
+        ["name=Comment", "name"],
+        ["css=#comment", "css:finder"],
+        ["xpath=//textarea[@id='comment']", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div/header/div/div[2]/div[4]/div/div/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": "jklj"
+    }, {
+      "id": "82ce3c13-6fb8-4d5a-864e-f448ca1cbbf6",
+      "comment": "",
+      "command": "click",
+      "target": "css=.MuiButton-outlinedSuccess",
+      "targets": [
+        ["css=.MuiButton-outlinedSuccess", "css:finder"],
+        ["xpath=(//button[@type='button'])[6]", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div/header/div/div[2]/div[6]/button", "xpath:idRelative"],
+        ["xpath=//div[6]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'เพิ่มสารอาหาร')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "a4b1adf0-61fc-4778-aa37-88741bae688d",
+      "comment": "",
+      "command": "mouseOut",
+      "target": "css=.MuiButton-outlinedSuccess",
+      "targets": [
+        ["css=.MuiButton-outlinedSuccess", "css:finder"],
+        ["xpath=(//button[@type='button'])[7]", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div/header/div/div[2]/div[7]/button", "xpath:idRelative"],
+        ["xpath=//div[7]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'เพิ่มสารอาหาร')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "5eecd980-b63b-48e6-85b4-f03c18e8ca91",
       "comment": "",
       "command": "click",
       "target": "css=.MuiSvgIcon-fontSizeLarge",
