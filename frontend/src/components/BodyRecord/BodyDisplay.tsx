@@ -284,7 +284,7 @@ function BodyDisplay() {
                     backgroundSize: "contain", // set backgroundSize to cover
                     backgroundPosition: "center",
                     color: "#f5f5f5",
-                    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(${bmi_table2})`,
+                    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url(${bmi_table3})`,
                     backgroundRepeat: "no-repeat",
                   }}
                 ></Box>

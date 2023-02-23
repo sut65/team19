@@ -541,15 +541,6 @@ func init() {
 		return t.Before(time.Now().Add(time.Minute * 30))
 	})
 
-	govalidator.CustomTypeTagMap.Set("notpast30min", func(i interface{}, context interface{}) bool {
-		t := i.(time.Time)
-		return t.After(time.Now().Add(time.Minute * -30))
-	})
-
-	govalidator.CustomTypeTagMap.Set("notfuture30min", func(i interface{}, context interface{}) bool {
-		t := i.(time.Time)
-		return t.Before(time.Now().Add(time.Minute * 30))
-	})
 
 	// govalidator.TagMap["age"] = govalidator.IsPositive(Trainer);
 	// govalidator.CustomTypeTagMap.Set("age", govalidator.CustomTypeValidator(func(i interface{}, o interface{}) bool {

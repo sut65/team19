@@ -277,7 +277,7 @@ function ProfileTrainer() {
 
                     <ListItem>
                       <ListItemText
-                        primary="Sport"
+                        primary="Gpax"
                         secondary={"เกรดเฉลี่ยสะสม " + trainer.Gpax}
                       />
                     </ListItem>
