@@ -5,43 +5,36 @@
   "url": "http://localhost:3000/user/behavior-display",
   "tests": [{
     "id": "8915f376-f462-4180-a6b2-bf65a748bb55",
-    "name": "Create Error Meals not more than 30 characters",
+    "name": "Create Error Meals not more than 50 characters",
     "commands": [{
-      "id": "b8e2f155-696e-43b4-b95b-ccd098b82eb6",
+      "id": "979eee00-8753-4c80-ab1a-4727209cd9ba",
       "comment": "",
       "command": "open",
       "target": "http://localhost:3000/user/behavior-display",
       "targets": [],
       "value": ""
     }, {
-      "id": "a9a0a74f-8f05-42fe-b795-e4d60b822525",
+      "id": "4e6037d7-bd39-4beb-b9ba-ade93d9ae472",
       "comment": "",
       "command": "setWindowSize",
       "target": "1296x736",
       "targets": [],
       "value": ""
     }, {
-      "id": "23b6000d-cf43-46ee-bdc1-6b2f33704d0f",
+      "id": "f6c0cc0d-c665-4cce-8ccf-c630ed1a6973",
       "comment": "",
       "command": "click",
       "target": "css=.MuiButton-containedInherit",
       "targets": [
         ["css=.MuiButton-containedInherit", "css:finder"],
-        ["xpath=(//button[@type='button'])[5]", "xpath:attributes"],
-        ["xpath=//div[@id='root']/div/div/div[2]/form/div/div[8]/div/button", "xpath:idRelative"],
+        ["xpath=(//button[@type='button'])[6]", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[2]/div/form/div/div[8]/div/button", "xpath:idRelative"],
         ["xpath=//div[8]/div/button", "xpath:position"],
         ["xpath=//button[contains(.,'เพิ่มการสำรวจ')]", "xpath:innerText"]
       ],
       "value": ""
     }, {
-      "id": "b185ab38-7927-480d-a89a-3e066628ad07",
-      "comment": "",
-      "command": "runScript",
-      "target": "window.scrollTo(0,0)",
-      "targets": [],
-      "value": ""
-    }, {
-      "id": "a53045c8-944e-4352-8dd0-31b5c09d8f8f",
+      "id": "074ec9ce-cd72-4ac9-b60f-2f84d1562638",
       "comment": "",
       "command": "click",
       "target": "id=meals",
@@ -55,7 +48,7 @@
       ],
       "value": ""
     }, {
-      "id": "9e4bb68f-1013-47cf-9583-5d4cf1a27a22",
+      "id": "44496f0e-3355-424d-92ad-b91a7c396791",
       "comment": "",
       "command": "type",
       "target": "id=meals",
@@ -67,37 +60,9 @@
         ["xpath=//div[@id='root']/div/div/div[2]/div/div/div/input", "xpath:idRelative"],
         ["xpath=//input", "xpath:position"]
       ],
-      "value": "เช้า กลางวัน เย็น"
+      "value": "012345678901234567890123456789012345678901234567890123456789"
     }, {
-      "id": "9cad4a54-0eac-4ea1-93d3-8caf46903835",
-      "comment": "",
-      "command": "click",
-      "target": "id=meals",
-      "targets": [
-        ["id=meals", "id"],
-        ["name=Meals", "name"],
-        ["css=#meals", "css:finder"],
-        ["xpath=//input[@id='meals']", "xpath:attributes"],
-        ["xpath=//div[@id='root']/div/div/div[2]/div/div/div/input", "xpath:idRelative"],
-        ["xpath=//input", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "f17dc606-3e6b-493a-a470-5716468271ac",
-      "comment": "",
-      "command": "type",
-      "target": "id=meals",
-      "targets": [
-        ["id=meals", "id"],
-        ["name=Meals", "name"],
-        ["css=#meals", "css:finder"],
-        ["xpath=//input[@id='meals']", "xpath:attributes"],
-        ["xpath=//div[@id='root']/div/div/div[2]/div/div/div/input", "xpath:idRelative"],
-        ["xpath=//input", "xpath:position"]
-      ],
-      "value": "เช้า กลางวัน เย็น ตอนเย็น ตอนดึก"
-    }, {
-      "id": "09dfbb12-09f5-486a-9a5c-358eb9f46e84",
+      "id": "3c0c13df-3981-413a-9eb3-5b3d8dcf267d",
       "comment": "",
       "command": "click",
       "target": "id=taste",
@@ -111,14 +76,7 @@
       ],
       "value": ""
     }, {
-      "id": "c1784fd6-6cbd-4ce7-8c31-e106ef162a0b",
-      "comment": "",
-      "command": "select",
-      "target": "id=taste",
-      "targets": [],
-      "value": "label=รสขม"
-    }, {
-      "id": "6bd30f96-e105-47ca-97e6-4b669adfe27a",
+      "id": "5c1c7b4b-d326-4c78-8b81-7f6b12fd7594",
       "comment": "",
       "command": "click",
       "target": "id=exercise",
@@ -132,25 +90,14 @@
       ],
       "value": ""
     }, {
-      "id": "99db7c90-2f8d-4c3b-8f45-ef5470a4da62",
+      "id": "6e5bd598-4666-4767-bc24-e5ac47906c4f",
       "comment": "",
       "command": "select",
       "target": "id=exercise",
       "targets": [],
-      "value": "label=ปกติ(3-4วัน/สัปดาห์)"
+      "value": "label=มาก(5-7วัน/สัปดาห์)"
     }, {
-      "id": "40581c7a-5831-48c5-bf94-b6361e700e8e",
-      "comment": "",
-      "command": "click",
-      "target": "css=.css-w4z10b-MuiStack-root:nth-child(5)",
-      "targets": [
-        ["css=.css-w4z10b-MuiStack-root:nth-child(5)", "css:finder"],
-        ["xpath=//div[@id='root']/div/div/div[2]/div[2]", "xpath:idRelative"],
-        ["xpath=//div[2]/div[2]", "xpath:position"]
-      ],
-      "value": ""
-    }, {
-      "id": "b93c7b0e-d01d-4c46-a1a1-1e25d992e68d",
+      "id": "0fbafc59-40bf-48e0-ac73-c5fef873a24c",
       "comment": "",
       "command": "click",
       "target": "css=.MuiButton-contained",
@@ -162,27 +109,13 @@
       ],
       "value": ""
     }, {
-      "id": "1434ce71-92a4-45b6-a56b-1a3131b63869",
-      "comment": "",
-      "command": "type",
-      "target": "id=profileBody",
-      "targets": [
-        ["id=profileBody", "id"],
-        ["name=ProfileBody", "name"],
-        ["css=#profileBody", "css:finder"],
-        ["xpath=//input[@id='profileBody']", "xpath:attributes"],
-        ["xpath=//div[@id='root']/div/div/div[2]/div[2]/div[2]/label/input", "xpath:idRelative"],
-        ["xpath=//label/input", "xpath:position"]
-      ],
-      "value": "D:\\team19\\UAT_testing\\test-body2-update-image.jpg"
-    }, {
-      "id": "27912b4e-630b-481d-9e49-32b29a206502",
+      "id": "6053367f-bb6f-4efb-aaa5-53a9a0c9d590",
       "comment": "",
       "command": "click",
       "target": "css=.MuiButton-outlinedSuccess",
       "targets": [
         ["css=.MuiButton-outlinedSuccess", "css:finder"],
-        ["xpath=(//button[@type='button'])[6]", "xpath:attributes"],
+        ["xpath=(//button[@type='button'])[7]", "xpath:attributes"],
         ["xpath=//div[@id='root']/div/div/div[2]/div[7]/button", "xpath:idRelative"],
         ["xpath=//div[7]/button", "xpath:position"],
         ["xpath=//button[contains(.,'เพิ่มการสำรวจ')]", "xpath:innerText"]
@@ -334,7 +267,7 @@
         ["xpath=//div[@id='root']/div/div/div[2]/div[2]/div[2]/label/input", "xpath:idRelative"],
         ["xpath=//label/input", "xpath:position"]
       ],
-      "value": "C:\\fakepath\\test-body-update-image.jpg"
+      "value": "D:\\team19\\UAT_testing\\test-body-update-image.jpg"
     }, {
       "id": "7eede1ba-cc6c-4e99-87b2-d55700d35e1d",
       "comment": "",
@@ -353,47 +286,53 @@
     "id": "8643375f-1ad6-42c6-970f-6d875a023b32",
     "name": "Delete Behavior success",
     "commands": [{
-      "id": "64c6dd11-59a9-41fc-a4c5-a256ab99e3c0",
+      "id": "0779201b-658d-4437-8fd8-6db46954617b",
       "comment": "",
       "command": "open",
       "target": "http://localhost:3000/user/behavior-display",
       "targets": [],
       "value": ""
     }, {
-      "id": "66de1666-a0de-4bc1-b745-d1853a384a9b",
+      "id": "5c8d8e9e-db66-4b7d-aba1-f24683a875b5",
       "comment": "",
       "command": "setWindowSize",
-      "target": "1296x736",
+      "target": "1280x720",
       "targets": [],
       "value": ""
     }, {
-      "id": "6263062e-b12b-4bff-8c67-d237455a2b4e",
+      "id": "a6d69c54-2437-4678-bcc4-c08c51bf84c3",
       "comment": "",
-      "command": "click",
+      "command": "mouseOver",
       "target": "css=.MuiButton-containedInfo",
       "targets": [
         ["css=.MuiButton-containedInfo", "css:finder"],
-        ["xpath=(//button[@type='button'])[6]", "xpath:attributes"],
-        ["xpath=//div[@id='root']/div/div/div[2]/form/div/div[8]/div/button[2]", "xpath:idRelative"],
+        ["xpath=(//button[@type='button'])[7]", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[2]/div/form/div/div[8]/div/button[2]", "xpath:idRelative"],
         ["xpath=//button[2]", "xpath:position"],
         ["xpath=//button[contains(.,'แก้ไขข้อมูล')]", "xpath:innerText"]
       ],
       "value": ""
     }, {
-      "id": "4d123799-2ee7-4083-8c7a-080b87c8e155",
+      "id": "7b4eb806-71bd-40da-8824-f6f6ccf2dce9",
       "comment": "",
-      "command": "runScript",
-      "target": "window.scrollTo(0,0)",
-      "targets": [],
+      "command": "click",
+      "target": "css=.MuiButton-containedInfo",
+      "targets": [
+        ["css=.MuiButton-containedInfo", "css:finder"],
+        ["xpath=(//button[@type='button'])[7]", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[2]/div/form/div/div[8]/div/button[2]", "xpath:idRelative"],
+        ["xpath=//button[2]", "xpath:position"],
+        ["xpath=//button[contains(.,'แก้ไขข้อมูล')]", "xpath:innerText"]
+      ],
       "value": ""
     }, {
-      "id": "4425a4f8-7fe8-4f36-a4a2-67d7c2f9cd49",
+      "id": "0c5eba5b-3bf3-4065-86b8-6b47402b5c2c",
       "comment": "",
       "command": "click",
       "target": "css=.MuiButton-outlinedError",
       "targets": [
         ["css=.MuiButton-outlinedError", "css:finder"],
-        ["xpath=(//button[@type='button'])[7]", "xpath:attributes"],
+        ["xpath=(//button[@type='button'])[8]", "xpath:attributes"],
         ["xpath=//div[@id='root']/div/div/div[2]/div[7]/button[2]", "xpath:idRelative"],
         ["xpath=//button[2]", "xpath:position"],
         ["xpath=//button[contains(.,'Delete')]", "xpath:innerText"]
@@ -572,7 +511,7 @@
         ["xpath=//div[@id='root']/div/div/div[2]/div[2]/div[2]/label/input", "xpath:idRelative"],
         ["xpath=//label/input", "xpath:position"]
       ],
-      "value": "C:\\fakepath\\test-body2-update-image.jpg"
+      "value": "D:\\team19\\UAT_testing\\test-body2-update-image.jpg"
     }, {
       "id": "cb1de2e2-da15-4886-97c2-8a3ab69481cb",
       "comment": "",
@@ -604,67 +543,34 @@
     "id": "ba9777a1-15e0-4c9b-b079-6ba4c5cd0480",
     "name": "Create Error Meals not less than 4 characters",
     "commands": [{
-      "id": "5d9d9dda-87f1-416d-9e8f-ccb50c4966f1",
+      "id": "729ab1d1-bc53-4626-8f00-55cc19f479cb",
       "comment": "",
       "command": "open",
-      "target": "http://localhost:3000/user/behavior-display/create-behavior/",
+      "target": "http://localhost:3000/user/behavior-display",
       "targets": [],
       "value": ""
     }, {
-      "id": "e5399025-1aa9-41a7-b0b3-aec7e2e63b1d",
+      "id": "bf57f113-965f-4b3a-a222-6f9a7fe13a64",
       "comment": "",
       "command": "setWindowSize",
       "target": "1296x736",
       "targets": [],
       "value": ""
     }, {
-      "id": "01a08998-0d87-43f4-89f9-444181bb2d7e",
-      "comment": "",
-      "command": "mouseOver",
-      "target": "css=.MuiButton-outlinedSecondary",
-      "targets": [
-        ["css=.MuiButton-outlinedSecondary", "css:finder"],
-        ["xpath=(//button[@type='button'])[7]", "xpath:attributes"],
-        ["xpath=//div[@id='root']/div/div/div[2]/div[7]/a/button", "xpath:idRelative"],
-        ["xpath=//div[7]/a/button", "xpath:position"],
-        ["xpath=//button[contains(.,'ย้อนกลับ')]", "xpath:innerText"]
-      ],
-      "value": ""
-    }, {
-      "id": "3176eebf-c194-4a56-b5d5-9e668bc309df",
-      "comment": "",
-      "command": "click",
-      "target": "css=.MuiButton-outlinedSecondary",
-      "targets": [
-        ["css=.MuiButton-outlinedSecondary", "css:finder"],
-        ["xpath=(//button[@type='button'])[7]", "xpath:attributes"],
-        ["xpath=//div[@id='root']/div/div/div[2]/div[7]/a/button", "xpath:idRelative"],
-        ["xpath=//div[7]/a/button", "xpath:position"],
-        ["xpath=//button[contains(.,'ย้อนกลับ')]", "xpath:innerText"]
-      ],
-      "value": ""
-    }, {
-      "id": "9f0ea6c5-1c2d-48dc-ad0d-86e0da3aeef3",
+      "id": "9b123150-f763-4aab-b925-6b0c423524bd",
       "comment": "",
       "command": "click",
       "target": "css=.MuiButton-containedInherit",
       "targets": [
         ["css=.MuiButton-containedInherit", "css:finder"],
-        ["xpath=(//button[@type='button'])[5]", "xpath:attributes"],
-        ["xpath=//div[@id='root']/div/div/div[2]/form/div/div[8]/div/button", "xpath:idRelative"],
+        ["xpath=(//button[@type='button'])[6]", "xpath:attributes"],
+        ["xpath=//div[@id='root']/div/div/div[2]/div/form/div/div[8]/div/button", "xpath:idRelative"],
         ["xpath=//div[8]/div/button", "xpath:position"],
         ["xpath=//button[contains(.,'เพิ่มการสำรวจ')]", "xpath:innerText"]
       ],
       "value": ""
     }, {
-      "id": "7344c288-7183-49ce-aac1-ce72f67bf272",
-      "comment": "",
-      "command": "runScript",
-      "target": "window.scrollTo(0,0)",
-      "targets": [],
-      "value": ""
-    }, {
-      "id": "9a0e0191-9b47-408a-a059-bdc82a9ec748",
+      "id": "d2ff713c-2f53-4a59-8ee7-37f59b24829a",
       "comment": "",
       "command": "click",
       "target": "id=meals",
@@ -678,7 +584,7 @@
       ],
       "value": ""
     }, {
-      "id": "3b55820a-b70b-4623-bffe-92f9f4916577",
+      "id": "777b74c5-2116-47b3-b82a-04f0a0d2ce99",
       "comment": "",
       "command": "type",
       "target": "id=meals",
@@ -692,7 +598,18 @@
       ],
       "value": "เช้"
     }, {
-      "id": "11e9443b-e074-4f32-b380-b6b6891babc1",
+      "id": "52656042-b389-4561-ae0d-5c90a60a9dc6",
+      "comment": "",
+      "command": "click",
+      "target": "css=.MuiContainer-root",
+      "targets": [
+        ["css=.MuiContainer-root", "css:finder"],
+        ["xpath=//div[@id='root']/div/div/div[2]", "xpath:idRelative"],
+        ["xpath=//div/div/div[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0373243c-c224-41b8-864b-c8f1714196fd",
       "comment": "",
       "command": "click",
       "target": "id=taste",
@@ -706,14 +623,14 @@
       ],
       "value": ""
     }, {
-      "id": "e5481f9a-b3da-479f-9d4f-8c161cafcb13",
+      "id": "c92a7962-b44d-490a-8754-474480ef8971",
       "comment": "",
       "command": "select",
       "target": "id=taste",
       "targets": [],
-      "value": "label=รสขม"
+      "value": "label=รสเปรี้ยว"
     }, {
-      "id": "38d3fbd3-5dc0-4f27-affb-134e643c7377",
+      "id": "9acbf402-fa88-404d-b7c0-d8ccea2ce4e5",
       "comment": "",
       "command": "click",
       "target": "id=exercise",
@@ -727,46 +644,20 @@
       ],
       "value": ""
     }, {
-      "id": "5b8cd6e4-0f20-46e1-b1b4-ecc4941933f5",
+      "id": "df465250-9de1-4be5-9a46-7896cf7601ba",
       "comment": "",
       "command": "select",
       "target": "id=exercise",
       "targets": [],
-      "value": "label=มาก(5-7วัน/สัปดาห์)"
+      "value": "label=ปกติ(3-4วัน/สัปดาห์)"
     }, {
-      "id": "e504a376-6c47-4952-ac5d-8f20038533c1",
-      "comment": "",
-      "command": "click",
-      "target": "css=.MuiButton-contained",
-      "targets": [
-        ["css=.MuiButton-contained", "css:finder"],
-        ["xpath=//div[@id='root']/div/div/div[2]/div[2]/div[2]/label", "xpath:idRelative"],
-        ["xpath=//div[2]/label", "xpath:position"],
-        ["xpath=//label[contains(.,'Upload')]", "xpath:innerText"]
-      ],
-      "value": ""
-    }, {
-      "id": "ea0d3ab9-951e-44f7-a5c5-d861f5722b2a",
-      "comment": "",
-      "command": "type",
-      "target": "id=profileBody",
-      "targets": [
-        ["id=profileBody", "id"],
-        ["name=ProfileBody", "name"],
-        ["css=#profileBody", "css:finder"],
-        ["xpath=//input[@id='profileBody']", "xpath:attributes"],
-        ["xpath=//div[@id='root']/div/div/div[2]/div[2]/div[2]/label/input", "xpath:idRelative"],
-        ["xpath=//label/input", "xpath:position"]
-      ],
-      "value": "D:\\team19\\UAT_testing\\test-body2-update-image.jpg"
-    }, {
-      "id": "8114e516-440b-4e27-8a2b-73398cf22a26",
+      "id": "b2bf3cdb-9a10-4012-94ba-2585ec5a611b",
       "comment": "",
       "command": "click",
       "target": "css=.MuiButton-outlinedSuccess",
       "targets": [
         ["css=.MuiButton-outlinedSuccess", "css:finder"],
-        ["xpath=(//button[@type='button'])[6]", "xpath:attributes"],
+        ["xpath=(//button[@type='button'])[7]", "xpath:attributes"],
         ["xpath=//div[@id='root']/div/div/div[2]/div[7]/button", "xpath:idRelative"],
         ["xpath=//div[7]/button", "xpath:position"],
         ["xpath=//button[contains(.,'เพิ่มการสำรวจ')]", "xpath:innerText"]
@@ -1069,7 +960,7 @@
     }]
   }, {
     "id": "34e210e5-cd47-4155-acaf-8a0c4884d70d",
-    "name": "Update Error Meals not more than 30 characters",
+    "name": "Update Error Meals not more than 50 characters",
     "commands": [{
       "id": "847a418d-9d9a-4d02-90e9-4c90c5999a26",
       "comment": "",
@@ -1145,7 +1036,7 @@
         ["xpath=//div[@id='root']/div/div/div[2]/div/div/div/input", "xpath:idRelative"],
         ["xpath=//input", "xpath:position"]
       ],
-      "value": "เช้า กลางวัน เย็น กลางคืน เที่ยงคืน"
+      "value": "012345678901234567890123456789012345678901234567890123456789"
     }, {
       "id": "913e5019-29c4-45e3-924d-b5bf23751e19",
       "comment": "",
