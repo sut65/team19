@@ -170,7 +170,7 @@ function AdviceDisplay() {
                                 <TableRow key={adviceByCourse.ID} onClick={() => console.log(adviceByCourse.ID)}>
                                     <TableCell align="center">{adviceByCourse.ID}</TableCell>
                                     <TableCell align="center">{String(adviceByCourse.Advice)}</TableCell>
-                                    <TableCell align="center">{String(adviceByCourse.RecordingDate).slice(0,10).replaceAll("-",".")}</TableCell>
+                                    <TableCell align="center">{String(adviceByCourse.RecordingDate).slice(0,10).replaceAll("-","/")}</TableCell>
                                     <TableCell align="center">{String(adviceByCourse.Trainer?.Name)}</TableCell>
                                     <TableCell align="center">
                                         {/* ปุ่มแก้ไขข้อมูล */}

@@ -91,7 +91,7 @@ function ShowAdvice() {
                                 <TableRow key={advice.ID} >
                                     <TableCell align="center">{advice.ID}</TableCell>
                                     <TableCell align="center">{String(advice.Advice)}</TableCell>
-                                    <TableCell align="center">{String(advice.RecordingDate).slice(0,10).replaceAll("-",".")}</TableCell>
+                                    <TableCell align="center">{String(advice.RecordingDate).slice(0,10).replaceAll("-","/")}</TableCell>
                                     <TableCell align="center">{String(advice.Trainer?.Name)}</TableCell>
                                 </TableRow>
                             ))}
