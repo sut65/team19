@@ -240,7 +240,7 @@ function UpdateMember() {
             justifyContent: "flex-start",
           }}
         >
-          <h4 style={{ color: "#6b7176" }}>แก้ไขข้อมูลสมาชิก</h4>
+          <h1 style={{ color: "#6b7176" }}>แก้ไขข้อมูลสมาชิก</h1>
         </Paper>
         <form>
           <Paper
@@ -250,27 +250,26 @@ function UpdateMember() {
             <Grid container spacing={2} sx={{ marginBottom: 1.5 }}>
               {/*============================================(First name)======================================================*/}
               <Grid xs={6} md={6}>
-                <p style={{ color: "grey", fontSize: 17 }}>Firstname</p>
+                <p style={{ color: "grey", fontSize: 17 }}>Firstname:</p>
                 <TextField
                   id="firstname"
                   name="Firstname"
                   variant="outlined"
+                  label="ชื่อ"
                   fullWidth
                   value={member.Firstname}
                   onChange={handleInputChange}
                 />
-                
               </Grid>
               {/*=============================================(Last name)=====================================================*/}
               <Grid xs={6} md={6}>
-                <p style={{ color: "grey", fontSize: 17 }}>Lastname</p>
+                <p style={{ color: "grey", fontSize: 17 }}>Lastname:</p>
                 <TextField
                   id="lastname"
-                  label="สกุล"
                   name="Lastname"
+                  label="สกุล"
                   variant="outlined"
                   fullWidth
-                  required
                   value={member.Lastname}
                   onChange={handleInputChange}
                 />
@@ -280,12 +279,10 @@ function UpdateMember() {
             <Grid container spacing={1}>
               <Grid
                 xs={12}
-                md={12}
+                md={9}
                 sx={{ display: "flex", alignItems: "center", margin: 1 }}
               >
-                <FormLabel sx={{ marginRight: 7, fontSize: 17 }}>
-                  Email:
-                </FormLabel>
+                <p style={{ color: "grey", fontSize: 17 ,marginRight: "10%" }}>Email:</p>
                 <TextField
                   id="email"
                   label="กรุณาป้อนอีเมล"
@@ -296,17 +293,20 @@ function UpdateMember() {
                   onChange={handleInputChange}
                   fullWidth
                 />
+                <FormHelperText disabled sx={{ width: 350, marginLeft: 2 }}>
+                  กรุณากรอกอีเมลของคุณ
+                </FormHelperText>
               </Grid>
 
               {/*==============================================(password)====================================================*/}
               <Grid
                 xs={12}
-                md={9}
+                md={10}
                 sx={{ display: "flex", alignItems: "center", margin: 1 }}
               >
                 <InputLabel
                   htmlFor="outlined-adornment-password"
-                  sx={{ marginRight: 3, fontSize: 17 }}
+                  style={{ color:"grey",marginRight: "6%", fontSize: 17 }}
                 >
                   Password:
                 </InputLabel>
@@ -327,7 +327,6 @@ function UpdateMember() {
                       </IconButton>
                     </InputAdornment>
                   }
-                  inputProps={{ maxLength: 10 }}
                 />
                 <FormHelperText disabled sx={{ width: 350, marginLeft: 2 }}>
                   กรุณากรอกรหัสของคุณ
@@ -336,7 +335,7 @@ function UpdateMember() {
               {/*=======================================(select Gender)===========================================================*/}
               <Grid
                 xs={12}
-                md={9}
+                md={8}
                 sx={{ display: "flex", alignItems: "center", margin: 1 }}
               >
                 <FormLabel
@@ -405,8 +404,8 @@ function UpdateMember() {
               </Grid>
               {/*=======================================(Religion)===========================================================*/}
               <Grid
-                xs={12}
-                md={5}
+                xs={6}
+                md={7}
                 sx={{ display: "flex", alignItems: "center", margin: 1 }}
               >
                 <FormLabel
@@ -438,8 +437,8 @@ function UpdateMember() {
                   เลือกศาสนาที่นับถือ
                 </FormHelperText>
               </Grid>
-              <Grid xs={12}
-                md={6}>
+              <Grid xs={6}
+                md={4}>
                     <Box>
         <Button
           variant="contained"
@@ -460,6 +459,9 @@ function UpdateMember() {
             onChange={handleChangeImages}
           />
         </Button>
+        <FormHelperText disabled sx={{ width: 350, marginLeft: 2 }}>
+                                  เลือกรูปภาพของคุณ
+                        </FormHelperText>
       </Box>
       <ImgBox>
         <img src={profileuser.src} alt={profileuser.name} style={{ width: "100%" }} />
@@ -469,20 +471,19 @@ function UpdateMember() {
                 container
                 xs={12}
                 md={12}
-                sx={{ justifyContent: "center", margin: 1 }}
+                sx={{ margin: 1 }}
               >
                 <Button variant="contained" size="large" onClick={update}>
                   แก้ไขข้อมูลสมาชิก
                 </Button>
-               <Grid xs={0} md={0}>
-               </Grid>
+               <Grid xs={0} md={0}></Grid>
                 <Link
                     to="/user/profile-member"
                     style={{
                     textDecoration: "none",
                     }}
                 >
-                    <Button variant="contained" color="inherit">
+                    <Button variant="contained" color="inherit" size="large">
                       ย้อนกลับ
                     </Button>
                  </Link>

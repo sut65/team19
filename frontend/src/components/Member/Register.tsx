@@ -262,18 +262,15 @@ function RegisterMember() {
               </Grid>
             </Grid>
             {/*===========================================(email)=======================================================*/}
-            <Grid container spacing={1}>
+            <Grid container spacing={2}>
               <Grid
                 xs={12}
-                md={12}
+                md={9}
                 sx={{ display: "flex", alignItems: "center", margin: 1 }}
               >
-                <FormLabel sx={{ marginRight: 7, fontSize: 17 }}>
-                  Email:
-                </FormLabel>
+                <p style={{ color: "grey", fontSize: 17 ,marginRight: "10%" }}>Email:</p>
                 <TextField
                   id="email"
-                  label="กรุณาป้อนอีเมล"
                   variant="outlined"
                   name="Email"
                   required
@@ -281,17 +278,20 @@ function RegisterMember() {
                   onChange={handleInputChange}
                   fullWidth
                 />
+                <FormHelperText disabled sx={{ width: 350, marginLeft: 2 }}>
+                  กรุณากรอกอีเมลของคุณ
+                </FormHelperText>
               </Grid>
 
               {/*==============================================(password)====================================================*/}
               <Grid
                 xs={12}
-                md={12}
+                md={11}
                 sx={{ display: "flex", alignItems: "center", margin: 1 }}
               >
                 <InputLabel
                   htmlFor="outlined-adornment-password"
-                  sx={{ marginRight: 3, fontSize: 17 }}
+                  style={{ color:"grey",marginRight: "1.5em", fontSize: 17 }}
                 >
                   Password:
                 </InputLabel>
@@ -312,7 +312,6 @@ function RegisterMember() {
                       </IconButton>
                     </InputAdornment>
                   }
-                  inputProps={{ maxLength: 10 }}
                 />
                 <FormHelperText disabled sx={{ width: 350, marginLeft: 2 }}>
                   กรุณากรอกรหัสของคุณ
@@ -321,12 +320,12 @@ function RegisterMember() {
               {/*=======================================(select Gender)===========================================================*/}
               <Grid
                 xs={12}
-                md={9}
+                md={8}
                 sx={{ display: "flex", alignItems: "center", margin: 1 }}
               >
                 <FormLabel
                   id="demo-simple-select-helper-label"
-                  sx={{ marginRight: 5.5, fontSize: 17, paddingBottom: 2 }}
+                  style={{ color:"grey",marginRight: "2.5em", fontSize: 17 }}
                 >
                   Gender:
                 </FormLabel>
@@ -361,7 +360,7 @@ function RegisterMember() {
               >
                 <FormLabel
                   id="demo-simple-select-helper-label"
-                  sx={{ marginRight: 6.5, fontSize: 17, paddingBottom: 2 }}
+                  style={{ color:"grey",marginRight: "3em", fontSize: 17 }}
                 >
                   Status:
                 </FormLabel>
@@ -390,13 +389,13 @@ function RegisterMember() {
               </Grid>
               {/*=======================================(Religion)===========================================================*/}
               <Grid
-                xs={12}
-                md={5}
+                xs={6}
+                md={8}
                 sx={{ display: "flex", alignItems: "center", margin: 1 }}
               >
                 <FormLabel
                   id="demo-simple-select-helper-label"
-                  sx={{ marginRight: 4.5, fontSize: 17, paddingBottom: 2 }}
+                  style={{ color:"grey",marginRight: "2em", fontSize: 17 }}
                 >
                   Religion:
                 </FormLabel>
@@ -422,37 +421,37 @@ function RegisterMember() {
                 <FormHelperText disabled sx={{ width: 350, marginLeft: 2 }}>
                   เลือกศาสนาที่นับถือ
                 </FormHelperText>
-              </Grid>
-              <Grid xs={12}
-                md={6}>
+                <Grid xs={6}
+                    md={6}>
                     <Box>
-        <Button
-          variant="contained"
-          component="label"
-          sx={{
-            backgroundColor: "#f2f2f2",
-            color: "#252525",
-          }}
-        >
-          Upload
-          <input
-            id="profileUser"
-            name="ProfileUser"
-            hidden
-            accept="image/*"
-            multiple
-            type="file"
-            onChange={handleChangeImages}
-          />
-        </Button>
-        <FormHelperText disabled sx={{ width: 350, marginLeft: 2 }}>
-                  เลือกรูปภาพของคุณ
-                </FormHelperText>
-      </Box>
-      <ImgBox>
-        <img src={profileuser.src} alt={profileuser.name} style={{ width: "100%" }} />
-      </ImgBox>
+                      <Button
+                        variant="contained"
+                        component="label"
+                        sx={{
+                          backgroundColor: "#f2f2f2",
+                          color: "#252525",
+                        }}
+                        >
+                            Upload
+                        <input
+                          id="profileUser"
+                          name="ProfileUser"
+                          hidden
+                          accept="image/*"
+                          multiple
+                          type="file"
+                          onChange={handleChangeImages}
+                        />
+                      </Button>
+                      <FormHelperText disabled sx={{ width: 350, marginLeft: 2 }}>
+                                  เลือกรูปภาพของคุณ
+                        </FormHelperText>
+                    </Box>
+                        <ImgBox>
+                          <img src={profileuser.src} alt={profileuser.name} style={{ width: "100%" }} />
+                        </ImgBox>
                 </Grid>
+              </Grid>
               <Grid
                 container
                 xs={12}

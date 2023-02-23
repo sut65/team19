@@ -44,9 +44,9 @@ func TestBehaviorValidate(t *testing.T) {
 
 	})
 
-	t.Run("check Meals not more than 30 characters", func(t *testing.T) {
+	t.Run("check Meals not more than 50 characters", func(t *testing.T) {
 		behavior := Behavior{
-			Meals:       "เช้าasdasdwqasdwrqaddsffsgdhgfhfvbdferadaasd",
+			Meals:       "012345678901234567890123456789012345678901234567890123456789",
 			ProfileBody: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAACBUAAAVmC",
 		}
 

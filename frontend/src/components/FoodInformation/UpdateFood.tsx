@@ -165,7 +165,7 @@ function UpdateFood() {
 
       <Snackbar
         open={success}
-        autoHideDuration={1000}
+        autoHideDuration={2000}
         onClose={handleClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
