@@ -232,7 +232,7 @@ function UpdateReview() {
             id="image"
             name="Image"
             hidden
-            accept="image/*"
+            accept=""
             multiple
             type="file"
             onChange={handleChangeImages}

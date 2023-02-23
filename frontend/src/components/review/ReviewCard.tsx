@@ -23,7 +23,7 @@ import { useNavigate } from "react-router-dom";
 import { MemberInterface } from "../../interfaces/IMember";
 
 // api
-import { DeleteReview, GetMemberByID } from "../../services/HttpClientService";
+import { DeleteReview, GetMembersByID } from "../../services/HttpClientService";
 
 type Props = {
   idCourse: number;
@@ -34,6 +34,7 @@ type Props = {
   rating: number;
   courseName: string;
   memberID: number;
+  avatar: string;
   firstName: string;
   lastName: string;
 };
@@ -61,10 +62,12 @@ function ReviewCard({
   rating,
   courseName,
   memberID,
+  avatar,
   firstName,
   lastName,
 }: Props) {
   const navigate = useNavigate();
+  // const member = localStorage.getItem("uid")
   const [memberLogin, setMemberLogin] = useState<MemberInterface>({
     ID: Number(localStorage.getItem("uid")),
   });
@@ -85,7 +88,6 @@ function ReviewCard({
 
   const checkMemberLogin = () => {
     if (memberID === memberLogin.ID) {
-      console.log("same");
       setIsShow(!isShow);
     }
   };
@@ -98,7 +100,7 @@ function ReviewCard({
   };
 
   const fetchMemberByID = async () => {
-    let res = await GetMemberByID();
+    let res = await GetMembersByID(memberLogin.ID+"");
     res && setMemberLogin(res);
   };
 
@@ -121,8 +123,7 @@ function ReviewCard({
       <BoxAuthor>
         {/* Avatar */}
         <Avatar
-          alt=""
-          src={memberLogin.ProfileUser}
+          src={avatar}
           sx={{ width: 60, height: 60 }}
         />
         {/* Author */}

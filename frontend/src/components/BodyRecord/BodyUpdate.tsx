@@ -144,6 +144,7 @@ const fetchMemberByID = async () => {
   };
 
   const update = async () => {
+    let bm = ((Number(body.Weight))/(Number(body.Height)/100)**2)
     let data = {
        ID: convertType(id),
         Height:       convertType(body.Height+""),
@@ -153,7 +154,7 @@ const fetchMemberByID = async () => {
         Thigh :    convertType(body.Thigh+""),
         NarrowWaist:  convertType(body.NarrowWaist+""),
         NavelWaist:   convertType(body.NavelWaist+""),
-        Bmi:          ((Number(body.Height)/100)**2)/Number(body.Weight),
+        Bmi:          Number(bm.toFixed(2)),
         Note :          body.Note,
       
         TrainerID: convertType(body.TrainerID),

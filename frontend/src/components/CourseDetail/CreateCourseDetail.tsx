@@ -168,7 +168,7 @@ function CreateCourseDetail() {
         {/* Alert */}
         <Snackbar
           open={success}
-          autoHideDuration={1000}
+          autoHideDuration={5000}
           onClose={handleClose}
           anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         >
@@ -179,7 +179,7 @@ function CreateCourseDetail() {
 
         <Snackbar
           open={error}
-          autoHideDuration={1000}
+          autoHideDuration={5000}
           onClose={handleClose}
           anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         >
@@ -201,7 +201,7 @@ function CreateCourseDetail() {
           >
             Upload Cover Page
             <input
-              id="coverPage"
+              id="cover_page"
               name="CoverPage"
               hidden
               accept="image/*"
