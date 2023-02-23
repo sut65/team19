@@ -61,7 +61,7 @@ func CreateAdvice(c *gin.Context) {
 	// สร้าง Advice
 	adv := entity.Advice{
 		Advice:        advice.Advice,
-		RecordingDate: advice.RecordingDate,
+		RecordingDate: advice.RecordingDate.Local(),
 		Trainer:       trainer,
 		Member:        member,
 		CourseService: courseService,
@@ -176,7 +176,7 @@ func UpdateAdvice(c *gin.Context) {
 
 	update := entity.Advice{
 		Advice:        advice.Advice,
-		RecordingDate: advice.RecordingDate,
+		RecordingDate: advice.RecordingDate.Local(),
 		Trainer:       trainer,
 		Member:        member,
 		CourseService: courseService,
