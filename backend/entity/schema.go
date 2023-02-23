@@ -510,7 +510,7 @@ type Taste struct {
 
 type Behavior struct {
 	gorm.Model
-	Meals       string `valid:"minstringlength(4)~Meals not less than 4 characters,maxstringlength(30)~Meals not more than 30 characters"`
+	Meals       string `valid:"minstringlength(4)~Meals not less than 4 characters,maxstringlength(50)~Meals not more than 50 characters"`
 	Time        string
 	ProfileBody string `valid:"image~Profile must be only image"`
 

@@ -192,7 +192,7 @@ function CreateAdvice() {
       {/* Alert */}
       <Snackbar
         open={success}
-        autoHideDuration={3000}
+        autoHideDuration={5000}
         onClose={handleClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
@@ -203,7 +203,7 @@ function CreateAdvice() {
 
       <Snackbar
         open={error}
-        autoHideDuration={3000}
+        autoHideDuration={5000}
         onClose={handleClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >

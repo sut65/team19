@@ -17,7 +17,7 @@ import { TrainerInterface } from '../../interfaces/ITrainer';
 
 
 //api
-import { GetAdvice, updateAdvice, DeleteAdvice , GetAdviceByCourseService} from '../../services/HttpClientService';
+import { DeleteAdvice , GetAdviceByCourseService} from '../../services/HttpClientService';
 
 function AdviceDisplay() {
     let navigate = useNavigate();
@@ -44,11 +44,6 @@ function AdviceDisplay() {
         finally {
             setLoading(false)
         }
-    }
-
-    const fetchAdvice = async () => {
-        let res = await GetAdvice();
-        res && setAdvice(res);
     }
 
     const fetchAdviceByCourseService = async (id: string) => {
@@ -78,7 +73,6 @@ function AdviceDisplay() {
 
     useEffect(() => {
         fetchCourseService();
-        fetchAdvice();
     }, [loading]);
     
     return (
