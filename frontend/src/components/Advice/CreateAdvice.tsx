@@ -34,7 +34,7 @@ import { CourseServiceInterface } from '../../interfaces/ICourseService';
 //api
 import {
   createAdvice,
-  GetCourseServiceBYUID,
+  GetCourseServiceBYTID,
   GetTrainerByID
 } from '../../services/HttpClientService';
 
@@ -47,7 +47,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
 
 function CreateAdvice() {
-  const { id } = useParams();
+  const id = localStorage.getItem('uid');
   const navigate = useNavigate();
   const [advice, setAdvice] = useState<AdviceInterface>({});
   const [courseService, setCourseService] = useState<CourseServiceInterface>({});
@@ -98,10 +98,13 @@ function CreateAdvice() {
   };
 
   const fetchCourseServiceByID = async () => {
-    let res = await GetCourseServiceBYUID();
+    let res = await GetCourseServiceBYTID();
     advice.TrainerID = res.ID;
     if (res) {
       setCourseService(res);
+      console.log("asdasdasdasd")
+    } else {
+      console.log("resa")
     }
   };
 
@@ -145,11 +148,12 @@ function CreateAdvice() {
 
   // insert data to db
   const submit = async () => {
+    console.log(courseService)
     let data = {
-      CourseServiceID: Number(id),
+      CourseServiceID: convertType(courseService.ID),
       BodyID: Number(infoBody.map(i => i.ID)),
       DailyRoutineID: Number(dailyRoutines.map(i => i.ID)),
-      MemberID: Number(id),
+      MemberID: convertType(courseService.MemberID),
       TrainerID: convertType(advice.TrainerID),
       Advice: advice.Advice,
       RecordingDate: recordingDate,

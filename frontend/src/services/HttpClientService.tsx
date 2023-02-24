@@ -1708,6 +1708,33 @@ async function GetCourseServiceBYUID() {
   return res;
 }
 
+// fetch trainer id
+async function GetCourseServiceBYTID() {
+  const uid = localStorage.getItem("uid");
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(
+    `${apiUrl}/course_service_by_tid/${uid}`,
+    requestOptions
+  )
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
 async function GetCourseServiceByUidAndStatus() {
   const uid = localStorage.getItem("uid");
   const requestOptions = {
@@ -1936,5 +1963,6 @@ export {
   createAdvice,
   updateAdvice,
   GetAdviceByID,
+  GetCourseServiceBYTID,
   GetAdviceByCourseService,
 };
