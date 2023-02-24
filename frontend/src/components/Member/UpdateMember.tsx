@@ -116,7 +116,7 @@ function UpdateMember() {
     setError(false);
   };
 
-  // =========================(HandleChange)====================================================
+  // =========================(เปลี่ยนข้อมูลที่เลือก)====================================================
 
   const handleChange = (event: SelectChangeEvent) => {
     const name = event.target.name as keyof typeof member;
@@ -129,6 +129,7 @@ function UpdateMember() {
     console.log(member);
   };
 
+   // =========================(เปลี่ยนข้อมูลที่กรอก)====================================================
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name;
     console.log(name);
@@ -169,7 +170,7 @@ function UpdateMember() {
   const fetchMember = async () => {
     let res = await GetMembersByID(id + "");
     res && setMember(res);
-};
+  };
 
   useEffect(() => {
     fetchGender();
@@ -183,6 +184,7 @@ function UpdateMember() {
     return val;
   };
 
+  // เพิ่มข้อมูลเข้า Database
   const update = async () => {
     let newdata = {
         ID: convertType(id),
@@ -215,306 +217,299 @@ function UpdateMember() {
   return (
     <div>
       <Box
-    sx={{
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      overflow :"auto",
-      gap: 6,
-      height: "100vh",
-      width: "100vw",
-      backgroundSize: "cover",
-      color: "#f5f5f5",
-      backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url(${bg2})`,
-     }}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          overflow :"auto",
+          gap: 6,
+          height: "100vh",
+          width: "100vw",
+          backgroundSize: "cover",
+           color: "#f5f5f5",
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15)), url(${bg2})`,
+        }}
       >
-      <Container maxWidth="md" sx={{ marginTop: 6 }}>
-        <Paper
-          elevation={4}
-          sx={{ 
-            marginBottom: 2,
-            marginTop: 2,
-            padding: 1,
-            paddingX: 2,
-            display: "flex",
-            justifyContent: "flex-start",
-          }}
-        >
-          <h1 style={{ color: "#6b7176" }}>แก้ไขข้อมูลสมาชิก</h1>
-        </Paper>
-        <form>
+        <Container maxWidth="md" sx={{ marginTop: 6 }}>
           <Paper
-            variant="outlined"
-            sx={{ padding: 2, paddingTop: 1, marginBottom: 2 }}
+            elevation={4}
+            sx={{ 
+              marginBottom: 2,
+              marginTop: 2,
+              padding: 1,
+              paddingX: 2,
+              display: "flex",
+              justifyContent: "flex-start",
+            }}
           >
-            <Grid container spacing={2} sx={{ marginBottom: 1.5 }}>
-              {/*============================================(First name)======================================================*/}
-              <Grid xs={6} md={6}>
-                <p style={{ color: "grey", fontSize: 17 }}>Firstname:</p>
-                <TextField
-                  id="firstname"
-                  name="Firstname"
-                  variant="outlined"
-                  label="ชื่อ"
-                  fullWidth
-                  value={member.Firstname}
-                  onChange={handleInputChange}
-                />
+            <h1 style={{ color: "#6b7176" }}>แก้ไขข้อมูลสมาชิก</h1>
+          </Paper>
+          <form>
+            <Paper
+              variant="outlined"
+              sx={{ padding: 2, paddingTop: 1, marginBottom: 2 }}
+            >
+              <Grid container spacing={2} sx={{ marginBottom: 1.5 }}>
+                {/*============================================(First name)======================================================*/}
+                <Grid xs={6} md={6}>
+                  <p style={{ color: "grey", fontSize: 17 }}>Firstname:</p>
+                  <TextField
+                    id="firstname"
+                    name="Firstname"
+                    variant="outlined"
+                    fullWidth
+                    value={member.Firstname}
+                    onChange={handleInputChange}
+                  />
+                </Grid>
+                {/*=============================================(Last name)=====================================================*/}
+                <Grid xs={6} md={6}>
+                  <p style={{ color: "grey", fontSize: 17 }}>Lastname:</p>
+                  <TextField
+                    id="lastname"
+                    name="Lastname"
+                    variant="outlined"
+                    fullWidth
+                    value={member.Lastname}
+                    onChange={handleInputChange}
+                  />
+                </Grid>
               </Grid>
-              {/*=============================================(Last name)=====================================================*/}
-              <Grid xs={6} md={6}>
-                <p style={{ color: "grey", fontSize: 17 }}>Lastname:</p>
-                <TextField
-                  id="lastname"
-                  name="Lastname"
-                  label="สกุล"
-                  variant="outlined"
-                  fullWidth
-                  value={member.Lastname}
-                  onChange={handleInputChange}
-                />
-              </Grid>
-            </Grid>
-            {/*===========================================(email)=======================================================*/}
-            <Grid container spacing={1}>
-              <Grid
-                xs={12}
-                md={9}
-                sx={{ display: "flex", alignItems: "center", margin: 1 }}
-              >
-                <p style={{ color: "grey", fontSize: 17 ,marginRight: "10%" }}>Email:</p>
-                <TextField
-                  id="email"
-                  label="กรุณาป้อนอีเมล"
-                  variant="outlined"
-                  name="Email"
-                  required
-                  value={member.Email}
-                  onChange={handleInputChange}
-                  fullWidth
-                />
-                <FormHelperText disabled sx={{ width: 350, marginLeft: 2 }}>
-                  กรุณากรอกอีเมลของคุณ
-                </FormHelperText>
-              </Grid>
-
-              {/*==============================================(password)====================================================*/}
-              <Grid
-                xs={12}
-                md={10}
-                sx={{ display: "flex", alignItems: "center", margin: 1 }}
-              >
-                <InputLabel
-                  htmlFor="outlined-adornment-password"
-                  style={{ color:"grey",marginRight: "6%", fontSize: 17 }}
+                {/*===========================================(email)=======================================================*/}
+              <Grid container spacing={1}>
+                <Grid xs={12} md={9}
+                  sx={{ display: "flex", alignItems: "center", margin: 1 }}
                 >
-                  Password:
-                </InputLabel>
-                <OutlinedInput
-                  id="outlined-adornment-password"
-                  type={pass.showPassword ? "text" : "password"}
-                  value={pass.password}
-                  onChange={handlePassword("password")}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                      >
-                        {pass.showPassword ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
-                <FormHelperText disabled sx={{ width: 350, marginLeft: 2 }}>
+                  <p style={{ color: "grey", fontSize: 17 ,marginRight: "10%" }}>Email:</p>
+                  <TextField
+                    id="email"
+                    variant="outlined"
+                    name="Email"
+                    required
+                    value={member.Email}
+                    onChange={handleInputChange}
+                    fullWidth
+                  />
+                  <FormHelperText disabled sx={{ width: 350, marginLeft: 2 }}>
+                    กรุณากรอกอีเมลของคุณ
+                  </FormHelperText>
+                </Grid>
+                  {/*==============================================(password)====================================================*/}
+                <Grid
+                  xs={12}
+                  md={10}
+                  sx={{ display: "flex", alignItems: "center", margin: 1 }}
+                >
+                  <InputLabel
+                    htmlFor="outlined-adornment-password"
+                    style={{ color:"grey",marginRight: "6%", fontSize: 17 }}
+                  >
+                    Password:
+                  </InputLabel>
+                  <OutlinedInput
+                    id="outlined-adornment-password"
+                    type={pass.showPassword ? "text" : "password"}
+                    value={pass.password}
+                    onChange={handlePassword("password")}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                        >
+                          {pass.showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                  />
+                  <FormHelperText disabled sx={{ width: 350, marginLeft: 2 }}>
                   กรุณากรอกรหัสของคุณ
-                </FormHelperText>
-              </Grid>
-              {/*=======================================(select Gender)===========================================================*/}
-              <Grid
-                xs={12}
-                md={8}
-                sx={{ display: "flex", alignItems: "center", margin: 1 }}
-              >
-                <FormLabel
-                  id="demo-simple-select-helper-label"
-                  sx={{ marginRight: 5.5, fontSize: 17, paddingBottom: 2 }}
+                  </FormHelperText>
+                </Grid>
+                {/*=======================================(select Gender)===========================================================*/}
+                <Grid
+                  xs={12}
+                  md={8}
+                  sx={{ display: "flex", alignItems: "center", margin: 1 }}
                 >
-                  Gender:
-                </FormLabel>
-                <Select
+                  <FormLabel
+                    id="demo-simple-select-helper-label"
+                    sx={{ marginRight: 5.5, fontSize: 17, paddingBottom: 2 }}
+                  >
+                    Gender:
+                  </FormLabel>
+                  <Select
                     native
                     fullWidth
                     id="gender"
                     value={member.GenderID + ""}
                     onChange={handleChange}
                     inputProps={{
-                    name: "GenderID",
+                      name: "GenderID",
                     }}
+                  >
+                    <option aria-label="None" value="">
+                      เลือกเพศของคุณ
+                    </option>
+                    {gender.map((item: GenderInterface) => (
+                      <option key={item.ID} value={item.ID}>
+                        {item.Name}
+                      </option>
+                    ))}
+                  </Select>
+                  <FormHelperText disabled sx={{ width: 350, marginLeft: 2 }}>
+                    กรุณาเลือกเพศของคุณ
+                  </FormHelperText>
+                </Grid>
+                  {/*=======================================(select Status)===========================================================*/}
+                <Grid
+                  xs={12}
+                  md={8}
+                  sx={{ display: "flex", alignItems: "center", margin: 1 }}
                 >
-                <option aria-label="None" value="">
-                    เลือกเพศของคุณ
-                </option>
-                {gender.map((item: GenderInterface) => (
-                <option key={item.ID} value={item.ID}>
-                    {item.Name}
-                </option>
-                ))}
-                    </Select>
-                <FormHelperText disabled sx={{ width: 350, marginLeft: 2 }}>
-                  กรุณาเลือกเพศของคุณ
-                </FormHelperText>
-              </Grid>
-              {/*=======================================(select Status)===========================================================*/}
-              <Grid
-                xs={12}
-                md={8}
-                sx={{ display: "flex", alignItems: "center", margin: 1 }}
-              >
-                <FormLabel
-                  id="demo-simple-select-helper-label"
-                  sx={{ marginRight: 6.5, fontSize: 17, paddingBottom: 2 }}
-                >
-                  Status:
-                </FormLabel>
-                <Select
+                  <FormLabel
+                    id="demo-simple-select-helper-label"
+                    sx={{ marginRight: 6.5, fontSize: 17, paddingBottom: 2 }}
+                  >
+                    Status:
+                  </FormLabel>
+                  <Select
                     native
                     fullWidth
                     id="status"
                     value={member.StatusID + ""}
                     onChange={handleChange}
                     inputProps={{
-                    name: "StatusID",
+                      name: "StatusID",
                     }}
+                  >
+                    <option aria-label="None" value="">
+                      เลือกสถานะของคุณ
+                    </option>
+                    {status.map((item: StatusInterface) => (
+                      <option key={item.ID} value={item.ID}>
+                        {item.Name}
+                      </option>
+                    ))}
+                  </Select>
+                  <FormHelperText disabled sx={{ width: 350, marginLeft: 2 }}>
+                    สถานะปัจจุบัน
+                  </FormHelperText>
+                </Grid>
+                {/*=======================================(Religion)===========================================================*/}
+                <Grid
+                  xs={6}
+                  md={7}
+                  sx={{ display: "flex", alignItems: "center", margin: 1 }}
                 >
-                <option aria-label="None" value="">
-                    เลือกสถานะของคุณ
-                </option>
-                {status.map((item: StatusInterface) => (
-                <option key={item.ID} value={item.ID}>
-                    {item.Name}
-                </option>
-                ))}
-                    </Select>
-                <FormHelperText disabled sx={{ width: 350, marginLeft: 2 }}>
-                  สถานะปัจจุบัน
-                </FormHelperText>
-              </Grid>
-              {/*=======================================(Religion)===========================================================*/}
-              <Grid
-                xs={6}
-                md={7}
-                sx={{ display: "flex", alignItems: "center", margin: 1 }}
-              >
-                <FormLabel
-                  id="demo-simple-select-helper-label"
-                  sx={{ marginRight: 4.5, fontSize: 17, paddingBottom: 2 }}
-                >
-                  Religion:
-                </FormLabel>
-                <Select
+                  <FormLabel
+                    id="demo-simple-select-helper-label"
+                    sx={{ marginRight: 4.5, fontSize: 17, paddingBottom: 2 }}
+                  >
+                    Religion:
+                  </FormLabel>
+                  <Select
                     native
                     fullWidth
                     id="religion"
                     value={member.ReligionID + ""}
                     onChange={handleChange}
                     inputProps={{
-                    name: "ReligionID",
+                      name: "ReligionID",
                     }}
-                >
-                <option aria-label="None" value="">
-                    เลือกศาสนาของคุณ
-                </option>
-                {religion.map((item: ReligionInterface) => (
-                <option key={item.ID} value={item.ID}>
-                    {item.Name}
-                </option>
-                ))}
-                    </Select>
-                <FormHelperText disabled sx={{ width: 350, marginLeft: 2 }}>
-                  เลือกศาสนาที่นับถือ
-                </FormHelperText>
-              </Grid>
-              <Grid xs={6}
-                md={4}>
-                    <Box>
-        <Button
-          variant="contained"
-          component="label"
-          sx={{
-            backgroundColor: "#f2f2f2",
-            color: "#252525",
-          }}
-        >
-          Upload
-          <input
-            id="profileUser"
-            name="ProfileUser"
-            hidden
-            accept="image/*"
-            multiple
-            type="file"
-            onChange={handleChangeImages}
-          />
-        </Button>
-        <FormHelperText disabled sx={{ width: 350, marginLeft: 2 }}>
-                                  เลือกรูปภาพของคุณ
-                        </FormHelperText>
-      </Box>
-      <ImgBox>
-        <img src={profileuser.src} alt={profileuser.name} style={{ width: "100%" }} />
-      </ImgBox>
+                  >
+                    <option aria-label="None" value="">
+                      เลือกศาสนาของคุณ
+                    </option>
+                    {religion.map((item: ReligionInterface) => (
+                      <option key={item.ID} value={item.ID}>
+                        {item.Name}
+                      </option>
+                    ))}
+                  </Select>
+                  <FormHelperText disabled sx={{ width: 350, marginLeft: 2 }}>
+                    เลือกศาสนาที่นับถือ
+                  </FormHelperText>
                 </Grid>
-              <Grid
-                container
-                xs={12}
-                md={12}
-                sx={{ margin: 1 }}
-              >
-                <Button variant="contained" size="large" onClick={update}>
-                  แก้ไขข้อมูลสมาชิก
-                </Button>
-               <Grid xs={0} md={0}></Grid>
-                <Link
+                {/*=======================================(select Image)===========================================================*/}
+                <Grid xs={6} md={4}>
+                  <Box>
+                    <Button
+                      variant="contained"
+                      component="label"
+                      sx={{
+                        backgroundColor: "#f2f2f2",
+                        color: "#252525"
+                      }}
+                    >
+                      Upload
+                      <input
+                        id="profileUser"
+                        name="ProfileUser"
+                        hidden
+                        accept="image/*"
+                        multiple
+                        type="file"
+                        onChange={handleChangeImages}
+                      />
+                    </Button>
+                    <FormHelperText disabled sx={{ width: 350, marginLeft: 2 }}>
+                      เลือกรูปภาพของคุณ
+                    </FormHelperText>
+                  </Box>
+                  <ImgBox>
+                    <img src={profileuser.src} alt={profileuser.name} style={{ width: "100%" }} />
+                  </ImgBox>
+                </Grid>
+                <Grid
+                  container
+                  xs={12}
+                  md={12}
+                  sx={{ margin: 1 }}
+                >
+                  <Button variant="contained" size="large" onClick={update}>
+                    แก้ไขข้อมูลสมาชิก
+                  </Button>
+                  <Grid xs={0} md={0}></Grid>
+                  <Link
                     to="/user/profile-member"
                     style={{
-                    textDecoration: "none",
+                      textDecoration: "none",
                     }}
-                >
+                  >
                     <Button variant="contained" color="inherit" size="large">
                       ย้อนกลับ
                     </Button>
-                 </Link>
+                  </Link>
+                </Grid>
               </Grid>
-            </Grid>
-          </Paper>
-        </form>
-      </Container>
-      <Snackbar
-        open={success}
-        id = "success"
-        autoHideDuration={5000}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-      >
-        <Alert onClose={handleClose} severity="success">
+            </Paper>
+          </form>
+        </Container>
+        <Snackbar
+          open={success}
+          id = "success"
+          autoHideDuration={5000}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        >
+          <Alert onClose={handleClose} severity="success">
+            {message}
+          </Alert>
+        </Snackbar>
+        <Snackbar
+          open={error}
+          id = "error"
+          autoHideDuration={5000}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+        >
+          <Alert onClose={handleClose} severity="error">
           {message}
-        </Alert>
-      </Snackbar>
-
-      <Snackbar
-        open={error}
-        id = "error"
-        autoHideDuration={5000}
-        onClose={handleClose}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-      >
-        <Alert onClose={handleClose} severity="error">
-        {message}
-        </Alert>
-      </Snackbar>
+          </Alert>
+        </Snackbar>
       </Box>
     </div>
   );

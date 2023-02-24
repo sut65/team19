@@ -10,6 +10,21 @@ import (
 func TestBlogValidate(t *testing.T) {
 	g := NewGomegaWithT(t)
 
+	t.Run("check blog success", func(t *testing.T) {
+		blog := Blog{
+			CoverImage: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAACBUAAAVmC",
+			Title:      "jskjkljskdjfklsjkfljskd", 
+			Content:    "dsfsdfdsfsdfsdfsfdsdfsdsdfs",
+		}
+
+		// ตรวจสอบด้วย govalidator
+		ok, err := govalidator.ValidateStruct(blog)
+
+		g.Expect(ok).To(BeTrue())
+
+		g.Expect(err).To(BeNil())
+	})
+
 	t.Run("check title cannot be blank", func(t *testing.T) {
 		blog := Blog{
 			CoverImage: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAACBUAAAVmC",

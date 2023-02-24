@@ -139,4 +139,20 @@ func TestMemberValidate(t *testing.T) {
 		g.Expect(err.Error()).To(Equal("Password cannot be blank"))
 
 	})
+
+	t.Run("check positive", func(t *testing.T) {
+		member := Member{
+			Firstname:   "Fname1",
+			Lastname:    "Lname1",
+			Email:       "hot@mail.com",
+			Password:    "12345678",
+			ProfileUser: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAACBUAAAVmC",
+		}
+		ok, err := govalidator.ValidateStruct(member)
+
+		g.Expect(ok).To(BeTrue())
+
+		g.Expect(err).To(BeNil())
+
+	})
 }

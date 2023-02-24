@@ -10,6 +10,20 @@ import (
 func TestReviewValidate(t *testing.T) {
 	g := NewGomegaWithT(t)
 
+	t.Run("check review success", func(t *testing.T) {
+		review := Review{
+			Image:   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAACBUAAAVmC",
+			Content: "dsdfsfsfsfsfsfsfsdfsdfs",
+		}
+
+		// ตรวจสอบด้วย govalidator
+		ok, err := govalidator.ValidateStruct(review)
+
+		g.Expect(ok).To(BeTrue())
+
+		g.Expect(err).To(BeNil())
+	})
+
 	t.Run("check content not less than 10 characters", func(t *testing.T) {
 		review := Review{
 			Image:   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAACBUAAAVmC",

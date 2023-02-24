@@ -56,7 +56,22 @@ func TestBehaviorValidate(t *testing.T) {
 
 		g.Expect(err).ToNot(BeNil())
 
-		g.Expect(err.Error()).To(Equal("Meals not more than 30 characters"))
+		g.Expect(err.Error()).To(Equal("Meals not more than 50 characters"))
+
+	})
+
+	t.Run("check Positive", func(t *testing.T) {
+		behavior := Behavior{
+			Meals:       "เช้า กลางวัน เย็น",
+			ProfileBody: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAACBUAAAVmC",
+		}
+
+		// ตรวจสอบด้วย govalidator
+		ok, err := govalidator.ValidateStruct(behavior)
+
+		g.Expect(ok).To(BeTrue())
+
+		g.Expect(err).To(BeNil())
 
 	})
 

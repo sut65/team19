@@ -4,7 +4,6 @@ import Grid from "@mui/material/Unstable_Grid2";
 import TextField from "@mui/material/TextField";
 import Container from "@mui/material/Container";
 import FormLabel from "@mui/material/FormLabel";
-import MenuItem from "@mui/material/MenuItem";
 import FormHelperText from "@mui/material/FormHelperText";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Button from "@mui/material/Button";
@@ -14,11 +13,6 @@ import IconButton from "@mui/material/IconButton";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
-import { MemberInterface } from "../../interfaces/IMember";
-import { ReligionInterface } from "../../interfaces/IReligion";
-import { StatusInterface } from "../../interfaces/IStatus";
-import { GenderInterface } from "../../interfaces/IGender";
-import { Link as RouterLink } from "react-router-dom";
 import { Box } from "@mui/system";
 import {styled} from "@mui/material";
 import bg2 from "../../images/MemberBG2.jpg"
@@ -27,9 +21,14 @@ import bg2 from "../../images/MemberBG2.jpg"
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Link } from "react-router-dom";
-import { dark } from "@mui/material/styles/createPalette";
+
+import { MemberInterface } from "../../interfaces/IMember";
+import { ReligionInterface } from "../../interfaces/IReligion";
+import { StatusInterface } from "../../interfaces/IStatus";
+import { GenderInterface } from "../../interfaces/IGender";
 import { CreateMember } from "../../services/HttpClientService";
 
+ // กำหนดความกว้างของรูป
 const ImgBox = styled(Box)({
     width: "280px",
   });
@@ -59,16 +58,15 @@ function RegisterMember() {
     showPassword: false,
   });
 
-  // ==============================(handle password)=====================================
 
   interface State {
     password: string;
     showPassword: boolean;
   }
+  // ==============================(handle Images)=====================================
   const handleChangeImages = (event: any, id?: string) => {
     const input = event.target.files[0];
     const name = event.target.name as keyof typeof member;
-
     var reader = new FileReader();
     reader.readAsDataURL(input);
     reader.onload = function () {
@@ -79,11 +77,13 @@ function RegisterMember() {
       }
     };
   };
+  // ==============================(handle password)=====================================
   const handlePassword =
     (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
       setPass({ ...pass, [prop]: event.target.value });
     };
 
+    // ==============================(handle ShowPassword)=====================================
   const handleClickShowPassword = () => {
     setPass({
       ...pass,
@@ -124,6 +124,7 @@ function RegisterMember() {
     console.log(member);
   };
 
+  // =========================(HandleInputChange)====================================================
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const name = e.target.name;
     console.log(name);
@@ -172,6 +173,7 @@ function RegisterMember() {
     return val;
   };
 
+  // เพิ่มข้อมูลเข้า Database
   const submit = async () => {
     let data = {
     Firstname: member.Firstname,
@@ -212,6 +214,7 @@ function RegisterMember() {
      }}
       >
       <Container maxWidth="md" sx={{ marginTop: 6 }}>
+        {/*============================================(Toppic)======================================================*/}
         <Paper
           elevation={4}
           sx={{ 
@@ -244,7 +247,6 @@ function RegisterMember() {
                   value={member.Firstname}
                   onChange={handleInputChange}
                 />
-                
               </Grid>
               {/*=============================================(Last name)=====================================================*/}
               <Grid xs={6} md={6}>
@@ -387,7 +389,7 @@ function RegisterMember() {
                   สถานะปัจจุบัน
                 </FormHelperText>
               </Grid>
-              {/*=======================================(Religion)===========================================================*/}
+              {/*=======================================(select Religion)===========================================================*/}
               <Grid
                 xs={6}
                 md={8}
@@ -421,35 +423,35 @@ function RegisterMember() {
                 <FormHelperText disabled sx={{ width: 350, marginLeft: 2 }}>
                   เลือกศาสนาที่นับถือ
                 </FormHelperText>
-                <Grid xs={6}
-                    md={6}>
-                    <Box>
-                      <Button
-                        variant="contained"
-                        component="label"
-                        sx={{
-                          backgroundColor: "#f2f2f2",
-                          color: "#252525",
-                        }}
-                        >
-                            Upload
-                        <input
-                          id="profileUser"
-                          name="ProfileUser"
-                          hidden
-                          accept="image/*"
-                          multiple
-                          type="file"
-                          onChange={handleChangeImages}
-                        />
-                      </Button>
-                      <FormHelperText disabled sx={{ width: 350, marginLeft: 2 }}>
-                                  เลือกรูปภาพของคุณ
-                        </FormHelperText>
-                    </Box>
-                        <ImgBox>
-                          <img src={profileuser.src} alt={profileuser.name} style={{ width: "100%" }} />
-                        </ImgBox>
+                {/*=======================================(select Image)===========================================================*/}
+                <Grid xs={6}  md={6}>
+                  <Box>
+                    <Button
+                      variant="contained"
+                      component="label"
+                      sx={{
+                        backgroundColor: "#f2f2f2",
+                        color: "#252525",
+                      }}
+                    >
+                      Upload
+                      <input
+                        id="profileUser"
+                        name="ProfileUser"
+                        hidden
+                        accept="image/*"
+                        multiple
+                        type="file"
+                        onChange={handleChangeImages}
+                      />
+                    </Button>
+                    <FormHelperText disabled sx={{ width: 350, marginLeft: 2 }}>
+                      เลือกรูปภาพของคุณ
+                    </FormHelperText>
+                  </Box>
+                  <ImgBox>
+                    <img src={profileuser.src} alt={profileuser.name} style={{ width: "100%" }} />
+                  </ImgBox>
                 </Grid>
               </Grid>
               <Grid
@@ -466,11 +468,10 @@ function RegisterMember() {
                 <Link
                     to="/"
                 >
-                    <Button variant="contained" color="inherit" size="large">
-                      ย้อนกลับ
-                    </Button>
-                 </Link>
-                
+                  <Button variant="contained" color="inherit" size="large">
+                    ย้อนกลับ
+                  </Button>
+                </Link>
               </Grid>
             </Grid>
           </Paper>
@@ -487,7 +488,6 @@ function RegisterMember() {
           {message}
         </Alert>
       </Snackbar>
-
       <Snackbar
         open={error}
         id = "error"
@@ -503,5 +503,4 @@ function RegisterMember() {
     </div>
   );
 }
-
 export default RegisterMember;
