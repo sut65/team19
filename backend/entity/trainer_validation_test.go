@@ -12,237 +12,219 @@ import (
 func TestTrainerNameNotBlank(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	trainer := Trainer{
-		Name:       "",
-		University: "SUT",
-		Gpax:       3.83,
-		Gender:     "ชาย",
-		Age:        21,
-		Address:    "90/8 บ.โคกก่อง",
-		Email:      "Aonaon_123@gmail.com",
-		Password:   "123456789",
-	}
+	t.Run("check name not blank", func(t *testing.T) {
+		trainer := Trainer{
+			Name:       "",
+			University: "SUT",
+			Gpax:       3.83,
+			Gender:     "ชาย",
+			Age:        21,
+			Address:    "90/8 บ.โคกก่อง",
+			Email:      "Aonaon_123@gmail.com",
+			Password:   "123456789",
+		}
 
-	// ตรวจสอบด้วย govalidator
-	ok, err := govalidator.ValidateStruct(trainer)
+		// ตรวจสอบด้วย govalidator
+		ok, err := govalidator.ValidateStruct(trainer)
 
-	// ok ต้องไม่เป็นค่า true แปลว่าต้องจับ error ได้
-	g.Expect(ok).ToNot(BeTrue())
+		// ok ต้องไม่เป็นค่า true แปลว่าต้องจับ error ได้
+		g.Expect(ok).ToNot(BeTrue())
 
-	// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
-	g.Expect(err).ToNot(BeNil())
+		// err ต้องไม่เป็นค่า nil แปลว่าต้องจับ error ได้
+		g.Expect(err).ToNot(BeNil())
 
-	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("Name cannot be blank"))
-}
+		// err.Error ต้องมี error message แสดงออกมา
+		g.Expect(err.Error()).To(Equal("Name cannot be blank"))
 
-func TestEmailMustBeValid(t *testing.T) {
-	g := NewGomegaWithT(t)
+	})
 
-	trainer := Trainer{
-		Name:       "Aon",
-		University: "SUT",
-		Gpax:       3.83,
-		Gender:     "ชาย",
-		Age:        21,
-		Address:    "90/8 บ.โคกก่อง",
-		Email:      "",
-		Password:   "123456789",
-	}
+	t.Run("Check Email cannot be blank", func(t *testing.T) {
+		trainer := Trainer{
+			Name:       "Aon",
+			University: "SUT",
+			Gpax:       3.83,
+			Gender:     "ชาย",
+			Age:        21,
+			Address:    "90/8 บ.โคกก่อง",
+			Email:      "",
+			Password:   "123456789",
+		}
 
-	ok, err := govalidator.ValidateStruct(trainer)
+		ok, err := govalidator.ValidateStruct(trainer)
 
-	g.Expect(ok).ToNot(BeTrue())
-	g.Expect(err).ToNot(BeNil())
-	g.Expect(err.Error()).To(Equal("Email cannot be blank"))
-}
+		g.Expect(ok).ToNot(BeTrue())
+		g.Expect(err).ToNot(BeNil())
+		g.Expect(err.Error()).To(Equal("Email cannot be blank"))
+	})
 
-func TestEmailFormCorrect(t *testing.T) {
-	g := NewGomegaWithT(t)
+	t.Run("Check email format", func(t *testing.T) {
+		trainer := Trainer{
+			Name:       "Aon",
+			University: "SUT",
+			Gpax:       3.83,
+			Gender:     "ชาย",
+			Age:        21,
+			Address:    "90/8 บ.โคกก่อง",
+			Email:      "s9ei7r8945",
+			Password:   "12345689",
+		}
 
-	trainer := Trainer{
-		Name:       "Aon",
-		University: "SUT",
-		Gpax:       3.83,
-		Gender:     "ชาย",
-		Age:        21,
-		Address:    "90/8 บ.โคกก่อง",
-		Email:      "s9ei7r8945",
-		Password:   "12345689",
-	}
+		ok, err := govalidator.ValidateStruct(trainer)
 
-	ok, err := govalidator.ValidateStruct(trainer)
+		g.Expect(ok).ToNot(BeTrue())
+		g.Expect(err).ToNot(BeNil())
+		g.Expect(err.Error()).To(Equal("Invalid email format"))
+	})
 
-	g.Expect(ok).ToNot(BeTrue())
-	g.Expect(err).ToNot(BeNil())
-	g.Expect(err.Error()).To(Equal("Invalid email format"))
-}
+	t.Run("Check Email maxlength", func(t *testing.T) {
+		trainer := Trainer{
+			Name:       "Aon",
+			University: "SUT",
+			Gpax:       3.83,
+			Gender:     "ชาย",
+			Age:        21,
+			Address:    "90/8 บ.โคกก่อง",
+			Email:      "aonaonaonaon1234567890@gmail.com", //32
+			Password:   "123456789",
+		}
 
-func TestEmailMaxLength(t *testing.T) {
-	g := NewGomegaWithT(t)
+		ok, err := govalidator.ValidateStruct(trainer)
 
-	trainer := Trainer{
-		Name:       "Aon",
-		University: "SUT",
-		Gpax:       3.83,
-		Gender:     "ชาย",
-		Age:        21,
-		Address:    "90/8 บ.โคกก่อง",
-		Email:      "aonaonaonaon1234567890@gmail.com", //32
-		Password:   "123456789",
-	}
+		g.Expect(ok).ToNot(BeTrue())
+		g.Expect(err).ToNot(BeNil())
+		g.Expect(err.Error()).To(Equal("must be no more than 30 characters long"))
+	})
 
-	ok, err := govalidator.ValidateStruct(trainer)
+	t.Run("Check University cannot be blank", func(t *testing.T) {
+		trainer := Trainer{
+			Name:       "Aon",
+			University: "",
+			Gpax:       3.83,
+			Gender:     "ชาย",
+			Age:        21,
+			Address:    "90/8 บ.โคกก่อง",
+			Email:      "Aon@mail.com",
+			Password:   "123456789",
+		}
 
-	g.Expect(ok).ToNot(BeTrue())
-	g.Expect(err).ToNot(BeNil())
-	g.Expect(err.Error()).To(Equal("must be no more than 30 characters long"))
-}
+		ok, err := govalidator.ValidateStruct(trainer)
 
-func TestUniversityNotBlank(t *testing.T) {
-	g := NewGomegaWithT(t)
+		g.Expect(ok).ToNot(BeTrue())
 
-	trainer := Trainer{
-		Name:       "Aon",
-		University: "",
-		Gpax:       3.83,
-		Gender:     "ชาย",
-		Age:        21,
-		Address:    "90/8 บ.โคกก่อง",
-		Email:      "Aon@mail.com",
-		Password:   "123456789",
-	}
+		g.Expect(err).ToNot(BeNil())
+		g.Expect(err.Error()).To(Equal("University cannot be blank"))
+	})
 
-	ok, err := govalidator.ValidateStruct(trainer)
+	t.Run("Check Gpax must be between 0-4", func(t *testing.T) {
+		trainer := Trainer{
+			Name:       "Aon",
+			University: "aweawe",
+			Gpax:       4.01,
+			Gender:     "ชาย",
+			Age:        21,
+			Address:    "90/8 บ.โคกก่อง",
+			Email:      "Aon@mail.com",
+			Password:   "123456789",
+		}
 
-	g.Expect(ok).ToNot(BeTrue())
+		ok, err := govalidator.ValidateStruct(trainer)
 
-	g.Expect(err).ToNot(BeNil())
-	g.Expect(err.Error()).To(Equal("University cannot be blank"))
+		g.Expect(ok).ToNot(BeTrue())
+		g.Expect(err).ToNot(BeNil())
+		g.Expect(err.Error()).To(Equal(fmt.Sprintf("Gpax must be between 0-4")))
+	})
 
-}
+	t.Run("Check Gender not blank", func(t *testing.T) {
+		trainer := Trainer{
+			Name:       "Aonmaon",
+			University: "SUT",
+			Gpax:       3.83,
+			Gender:     "",
+			Age:        21,
+			Address:    "90/8 บ.โคกก่อง",
+			Email:      "Aonaon_123@gmail.com",
+			Password:   "123456798",
+		}
 
-func TestGpaxMustbeGpax(t *testing.T) {
-	g := NewGomegaWithT(t)
+		ok, err := govalidator.ValidateStruct(trainer)
+		g.Expect(ok).ToNot(BeTrue())
+		g.Expect(err).ToNot(BeNil())
+		g.Expect(err.Error()).To(Equal("Gender cannot be blank"))
+	})
 
-	trainer := Trainer{
-		Name:       "Aon",
-		University: "aweawe",
-		Gpax:       4.01,
-		Gender:     "ชาย",
-		Age:        21,
-		Address:    "90/8 บ.โคกก่อง",
-		Email:      "Aon@mail.com",
-		Password:   "123456789",
-	}
+	t.Run("Check age must be number", func(t *testing.T) {
+		trainer := Trainer{
+			Name:       "Aon",
+			University: "aweawe",
+			Gpax:       3.33,
+			Gender:     "ชาย",
+			Age:        -1,
+			Address:    "90/8 บ.โคกก่อง",
+			Email:      "Aon@mail.com",
+			Password:   "123456789",
+		}
 
-	ok, err := govalidator.ValidateStruct(trainer)
+		ok, err := govalidator.ValidateStruct(trainer)
 
-	g.Expect(ok).ToNot(BeTrue())
-	g.Expect(err).ToNot(BeNil())
-	g.Expect(err.Error()).To(Equal(fmt.Sprintf("Gpax must be between 0-4")))
+		g.Expect(ok).ToNot(BeTrue())
+		g.Expect(err).ToNot(BeNil())
+		g.Expect(err.Error()).To(Equal("Age must be positive integer"))
+		//Age cannot 0
 
-}
+	})
 
-func TestGenderNotBlank(t *testing.T) {
-	g := NewGomegaWithT(t)
+	t.Run("Check Address cannot blank", func(t *testing.T) {
+		trainer := Trainer{
+			Name:       "aonaon",
+			University: "SUT",
+			Gpax:       3.83,
+			Gender:     "ชาย",
+			Age:        21,
+			Address:    "",
+			Email:      "Aonaon_123@gmail.com",
+			Password:   "123456789",
+		}
 
-	trainer := Trainer{
-		Name:       "Aonmaon",
-		University: "SUT",
-		Gpax:       3.83,
-		Gender:     "",
-		Age:        21,
-		Address:    "90/8 บ.โคกก่อง",
-		Email:      "Aonaon_123@gmail.com",
-		Password:   "123456798",
-	}
+		ok, err := govalidator.ValidateStruct(trainer)
+		g.Expect(ok).ToNot(BeTrue())
+		g.Expect(err).ToNot(BeNil())
+		g.Expect(err.Error()).To(Equal("Adrress cannot be blank"))
+	})
 
-	ok, err := govalidator.ValidateStruct(trainer)
-	g.Expect(ok).ToNot(BeTrue())
-	g.Expect(err).ToNot(BeNil())
-	g.Expect(err.Error()).To(Equal("Gender cannot be blank"))
-}
+	t.Run("Check Password Must contain no more than 20 characters", func(t *testing.T) {
+		trainer := Trainer{
+			Name:       "aonaon",
+			University: "SUT",
+			Gpax:       3.83,
+			Gender:     "ชาย",
+			Age:        21,
+			Address:    "Ubon",
+			Email:      "Aonaon_123@gmail.com",
+			Password:   "123456789012345678901",
+		}
+		ok, err := govalidator.ValidateStruct(trainer)
 
-func TestAgeMustbeNumber(t *testing.T) {
-	g := NewGomegaWithT(t)
+		g.Expect(ok).ToNot(BeTrue())
+		g.Expect(err).ToNot(BeNil())
+		g.Expect(err.Error()).To(Equal("Password Must contain no more than 20 characters"))
+	})
 
-	trainer := Trainer{
-		Name:       "Aon",
-		University: "aweawe",
-		Gpax:       3.33,
-		Gender:     "ชาย",
-		Age:        -1,
-		Address:    "90/8 บ.โคกก่อง",
-		Email:      "Aon@mail.com",
-		Password:   "123456789",
-	}
+	t.Run("Check Password Must contain at least 8 characters", func(t *testing.T) {
+		trainer := Trainer{
+			Name:       "aonaon",
+			University: "SUT",
+			Gpax:       3.83,
+			Gender:     "ชาย",
+			Age:        21,
+			Address:    "Ubon",
+			Email:      "Aonaon_123@gmail.com",
+			Password:   "123",
+		}
+		ok, err := govalidator.ValidateStruct(trainer)
 
-	ok, err := govalidator.ValidateStruct(trainer)
+		g.Expect(ok).ToNot(BeTrue())
+		g.Expect(err).ToNot(BeNil())
+		g.Expect(err.Error()).To(Equal("Password Must contain at least 8 characters"))
+	})
 
-	g.Expect(ok).ToNot(BeTrue())
-	g.Expect(err).ToNot(BeNil())
-	g.Expect(err.Error()).To(Equal("Age must be positive integer"))
-	//Age cannot 0
-
-}
-
-func TestAddressNotBlank(t *testing.T) {
-	g := NewGomegaWithT(t)
-
-	trainer := Trainer{
-		Name:       "aonaon",
-		University: "SUT",
-		Gpax:       3.83,
-		Gender:     "ชาย",
-		Age:        21,
-		Address:    "",
-		Email:      "Aonaon_123@gmail.com",
-		Password:   "123456789",
-	}
-
-	ok, err := govalidator.ValidateStruct(trainer)
-	g.Expect(ok).ToNot(BeTrue())
-	g.Expect(err).ToNot(BeNil())
-	g.Expect(err.Error()).To(Equal("Adrress cannot be blank"))
-}
-
-func TestMaxLenghtPassword(t *testing.T) {
-	g := NewGomegaWithT(t)
-
-	trainer := Trainer{
-		Name:       "aonaon",
-		University: "SUT",
-		Gpax:       3.83,
-		Gender:     "ชาย",
-		Age:        21,
-		Address:    "Ubon",
-		Email:      "Aonaon_123@gmail.com",
-		Password:   "123456789012345678901",
-	}
-	ok, err := govalidator.ValidateStruct(trainer)
-
-	g.Expect(ok).ToNot(BeTrue())
-	g.Expect(err).ToNot(BeNil())
-	g.Expect(err.Error()).To(Equal("Password Must contain no more than 20 characters"))
-}
-
-func TestMinLenghtPasswor(t *testing.T) {
-	g := NewGomegaWithT(t)
-
-	trainer := Trainer{
-		Name:       "aonaon",
-		University: "SUT",
-		Gpax:       3.83,
-		Gender:     "ชาย",
-		Age:        21,
-		Address:    "Ubon",
-		Email:      "Aonaon_123@gmail.com",
-		Password:   "123",
-	}
-	ok, err := govalidator.ValidateStruct(trainer)
-
-	g.Expect(ok).ToNot(BeTrue())
-	g.Expect(err).ToNot(BeNil())
-	g.Expect(err.Error()).To(Equal("Password Must contain at least 8 characters"))
 }
