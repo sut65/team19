@@ -168,7 +168,6 @@ function CreateAdvice() {
     fetchCourseServiceByID();
     fetchDailyRoutines();
     fetchTrainerByID();
-    // fetchInfoBody();
     GetBodyIDMember()
   }, [courseService.MemberID]);
   
