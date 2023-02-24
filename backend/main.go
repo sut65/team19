@@ -105,16 +105,14 @@ func main() {
 			r.GET("/activity_type/:id", DailyRoutine.GetActivityTypesByID)
 
 			// MealPlan Routes
-			r.POST("/mealplans", MealPlan.CreateMealPlans)
-			r.GET("/mealplans/:id", MealPlan.GetMealPlans)
-			r.GET("/mealplans", MealPlan.ListMealPlans)
-			r.PATCH("/mealplans", MealPlan.UpdateMealPlans)
-			r.DELETE("/mealplans/:id", MealPlan.DeleteMealPlans)
+			r.POST("/mealplans", MealPlan.CreateMealPlan)
+			r.GET("/mealplan/:id", MealPlan.GetMealPlan)
+			r.GET("/mealplans", MealPlan.GetMealPlans)
+			r.PATCH("/mealplans", MealPlan.UpdateMealPlan)
+			r.DELETE("/mealplans/:id", MealPlan.DeleteMealPlan)
 
-			r.GET("/nutritious/:id", MealPlan.GetNutritious)
-			r.GET("/nutritious", MealPlan.ListNutritious)
-			r.GET("/avoidfoods/:id", MealPlan.GetAvoidFood)
-			r.GET("/avoidfoods", MealPlan.ListAvoidFoods)
+			r.GET("/mealtype/:id", MealPlan.GetMealType)
+			r.GET("/mealtypes/", MealPlan.GetMealTypes)
 
 			// trainer Routes
 			r.GET("/trainer/:id", trainer.GetTrainer)

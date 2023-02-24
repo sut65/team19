@@ -53,6 +53,9 @@ import CreateAdvice from "./components/Advice/CreateAdvice";
 import UpdateAdvice from "./components/Advice/UpdateAdvice";
 import UpdateDailyRoutines from "./components/DailyRoutines/UpdateDailyRoutines";
 import ShowAdvice from "./components/Advice/ShowAdvice";
+import MealPlanDisplay from './components/MealPlan/MealPlanDisplay'
+import CreateMealPlan from './components/MealPlan/CreateMealPlan'
+import UpdateMealPlan from './components/MealPlan/UpdateMealPlan'
 
 function App() {
   const [token, setToken] = useState<String>("");
@@ -74,125 +77,134 @@ function App() {
   // }
 
   return (
-    <div>
-      <Routes>
-        {/* path ไม่ต้องใส่ / ด้วยเพราะมันอยู่ครอบด้วย LoginRole ที่เป็น root อยู่แล้ว */}
-        <Route path="/" element={<LoginRole />} />
-        <Route path="/register-member" element={<RegisterMember />}></Route>
-        {/* Routes Admin */}
-        <Route path="admin" element={<Admin />}>
-          <Route path="food-display" element={<FoodDisplay />}></Route>
-          <Route
-            path="food-display/create-food"
-            element={<CreateFood />}
-          ></Route>
-          <Route
-            path="nutrient-display/create-nutrient"
-            element={<CreateNutrientUI />}
-          ></Route>
-          <Route
-            path="nutrient-display"
-            element={<NutrientDisplayUI />}
-          ></Route>
-          <Route
-            path="food-display/update-food/:id"
-            element={<UpdateFood />}
-          ></Route>
-          <Route
-            path="nutrient-display/update-nutrient/:id"
-            element={<UpdateNutrient />}
-          ></Route>
+		<div>
+			<Routes>
+				{/* path ไม่ต้องใส่ / ด้วยเพราะมันอยู่ครอบด้วย LoginRole ที่เป็น root อยู่แล้ว */}
+				<Route path='/' element={<LoginRole />} />
+				<Route path='/register-member' element={<RegisterMember />}></Route>
+				{/* Routes Admin */}
+				<Route path='admin' element={<Admin />}>
+					<Route path='food-display' element={<FoodDisplay />}></Route>
+					<Route
+						path='food-display/create-food'
+						element={<CreateFood />}
+					></Route>
+					<Route
+						path='nutrient-display/create-nutrient'
+						element={<CreateNutrientUI />}
+					></Route>
+					<Route
+						path='nutrient-display'
+						element={<NutrientDisplayUI />}
+					></Route>
+					<Route
+						path='food-display/update-food/:id'
+						element={<UpdateFood />}
+					></Route>
+					<Route
+						path='nutrient-display/update-nutrient/:id'
+						element={<UpdateNutrient />}
+					></Route>
 
-          {/* course_detail */}
-          <Route path="course" element={<ShowCardCourseDetail />}></Route>
-          <Route path="create-course" element={<CreateCourseDetail />}></Route>
-          <Route path="course_detail/:id" element={<CourseDetail />}></Route>
-          <Route
-            path="course_detail/:id/update-course"
-            element={<UpdateCourseDetail />}
-          ></Route>
-        </Route>
+					<Route path='mealplan-display' element={<MealPlanDisplay />}></Route>
+					<Route
+						path='mealplan-display/create-mealplan'
+						element={<CreateMealPlan />}
+					></Route>
+					<Route
+						path='mealplan-display/update-mealplan/:id'
+						element={<UpdateMealPlan />}
+					></Route>
 
-    
-        {/* Routes Trainer */}
-        <Route path="trainer" element={<Trainer />}></Route>
-        <Route path="apply" element={<ApplyTrainer />}></Route>
-        <Route path="trainer/profile" element={<ProfileTrainer />}></Route>
-        <Route path="update-advice/:id" element={<UpdateAdvice />}></Route>
-        <Route path="create-advice/:id" element={<CreateAdvice />}></Route>
-        {/* <Route
+					{/* course_detail */}
+					<Route path='course' element={<ShowCardCourseDetail />}></Route>
+					<Route path='create-course' element={<CreateCourseDetail />}></Route>
+					<Route path='course_detail/:id' element={<CourseDetail />}></Route>
+					<Route
+						path='course_detail/:id/update-course'
+						element={<UpdateCourseDetail />}
+					></Route>
+				</Route>
+
+				{/* Routes Trainer */}
+				<Route path='trainer' element={<Trainer />}></Route>
+				<Route path='apply' element={<ApplyTrainer />}></Route>
+				<Route path='trainer/profile' element={<ProfileTrainer />}></Route>
+				<Route path='update-advice/:id' element={<UpdateAdvice />}></Route>
+				<Route path='create-advice/:id' element={<CreateAdvice />}></Route>
+				{/* <Route
           path="trainer/advice-display"
           element={<AdviceDisplay />}
         ></Route> */}
 
-        {/* Routes User */}
-        <Route path="user" element={<User />}>
-          <Route path="" element={<Home />} />
-          <Route path="create-article" element={<CreateArticle />} />
-          <Route path="articles" element={<ShowCardBlog />} />
-          <Route path="article/:id" element={<Article />} />
-          <Route path="register-course" element={<ShowCardCourseService />} />
-          <Route path="register-course/:id" element={<RegisterCourse />} />
-          <Route path="update-course" element={<UpdateCourseServicePage />} />
-          <Route path="payment/:id" element={<Payment />} />
-          <Route path="payment-history" element={<PaymentHistory />} />
-          <Route path="article/create-article" element={<CreateArticle />} />
-          <Route path="advice" element={<ShowAdvice />} />
-          <Route
-            path="article/:id/update-article"
-            element={<UpdateArticle />}
-          />
-          <Route path="register-course" element={<ShowCardCourseService />} />
-          <Route path="register-course/:id" element={<RegisterCourse />} />
-          <Route path="payment/:id" element={<Payment />} />
-          <Route path="register" element={<Register />}></Route>
-          <Route path="body-display" element={<BodyDisplay />}></Route>
-          <Route
-            path="body-display/body-update/:id"
-            element={<BodyUpdate />}
-          ></Route>
-          <Route
-            path="body-display/body-record"
-            element={<BodyRecord />}
-          ></Route>
-          <Route
-            path="daily-routines-display"
-            element={<DailyRoutinesDisplay />}
-          ></Route>
-          <Route
-            path="daily-routines-display/create-daily_routines"
-            element={<CreateDailyRoutines />}
-          ></Route>
-          <Route
-            path="daily-routines/update-dailyroutines/:id"
-            element={<UpdateDailyRoutines />}
-          ></Route>
-          <Route path="reviews/:id" element={<ShowReview />} />
-          <Route path="reviews/:id/create" element={<CreateReview />} />
-          <Route
-            path="reviews/:slug/update-review/:id"
-            element={<UpdateReview />}
-          />
-          <Route path="behavior-display" element={<DisplayBehavior />} />
-          <Route
-            path="behavior-display/create-behavior"
-            element={<CreateBehaviors />}
-          />
-          <Route
-            path="behavior-display/update-behavior/:id"
-            element={<UpdateBehavior />}
-          />
-          <Route path="profile-member" element={<ProfileMember />}></Route>
-          <Route
-            path="profile-member/update-member/:id"
-            element={<UpdateMember />}
-          ></Route>
-        </Route>
-        {/* <Route path="/" element={<Navbar />}> */}
-        {/* </Route> */}
-      </Routes>
-    </div>
-  );
+				{/* Routes User */}
+				<Route path='user' element={<User />}>
+					<Route path='' element={<Home />} />
+					<Route path='create-article' element={<CreateArticle />} />
+					<Route path='articles' element={<ShowCardBlog />} />
+					<Route path='article/:id' element={<Article />} />
+					<Route path='register-course' element={<ShowCardCourseService />} />
+					<Route path='register-course/:id' element={<RegisterCourse />} />
+					<Route path='update-course' element={<UpdateCourseServicePage />} />
+					<Route path='payment/:id' element={<Payment />} />
+					<Route path='payment-history' element={<PaymentHistory />} />
+					<Route path='article/create-article' element={<CreateArticle />} />
+					<Route path='advice' element={<ShowAdvice />} />
+					<Route
+						path='article/:id/update-article'
+						element={<UpdateArticle />}
+					/>
+					<Route path='register-course' element={<ShowCardCourseService />} />
+					<Route path='register-course/:id' element={<RegisterCourse />} />
+					<Route path='payment/:id' element={<Payment />} />
+					<Route path='register' element={<Register />}></Route>
+					<Route path='body-display' element={<BodyDisplay />}></Route>
+					<Route
+						path='body-display/body-update/:id'
+						element={<BodyUpdate />}
+					></Route>
+					<Route
+						path='body-display/body-record'
+						element={<BodyRecord />}
+					></Route>
+					<Route
+						path='daily-routines-display'
+						element={<DailyRoutinesDisplay />}
+					></Route>
+					<Route
+						path='daily-routines-display/create-daily_routines'
+						element={<CreateDailyRoutines />}
+					></Route>
+					<Route
+						path='daily-routines/update-dailyroutines/:id'
+						element={<UpdateDailyRoutines />}
+					></Route>
+					<Route path='reviews/:id' element={<ShowReview />} />
+					<Route path='reviews/:id/create' element={<CreateReview />} />
+					<Route
+						path='reviews/:slug/update-review/:id'
+						element={<UpdateReview />}
+					/>
+					<Route path='behavior-display' element={<DisplayBehavior />} />
+					<Route
+						path='behavior-display/create-behavior'
+						element={<CreateBehaviors />}
+					/>
+					<Route
+						path='behavior-display/update-behavior/:id'
+						element={<UpdateBehavior />}
+					/>
+					<Route path='profile-member' element={<ProfileMember />}></Route>
+					<Route
+						path='profile-member/update-member/:id'
+						element={<UpdateMember />}
+					></Route>
+				</Route>
+				{/* <Route path="/" element={<Navbar />}> */}
+				{/* </Route> */}
+			</Routes>
+		</div>
+	)
 }
 
 export default App;

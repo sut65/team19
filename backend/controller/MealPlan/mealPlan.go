@@ -2,170 +2,152 @@ package controller
 
 import (
 	"net/http"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/sut65/team19/entity"
 )
 
-// POST MealPlans
-func CreateMealPlans(c *gin.Context) {
-	var MealPlans entity.MealPlans
+// POST MealPlan
+func CreateMealPlan(c *gin.Context) {
+	var mealplan entity.MealPlan
 	var admin entity.Admin
 	var member entity.Member
-	var avoidFood entity.AvoidFood
-	var nutritious entity.Nutritious
-	var mealsOfDay entity.MealsOfDay
+	var mealtype entity.MealType
+	var foodinformation entity.FoodInformation
 
-	if err := c.ShouldBindJSON(&MealPlans); err != nil {
+	if err := c.ShouldBindJSON(&mealplan); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// ค้นหา admin ด้วย id
-	if tx := entity.DB().Where("id = ?", MealPlans.AdminID).First(&admin); tx.RowsAffected == 0 {
+	// Find Admin By ID
+	if tx := entity.DB().Where("id = ?", mealplan.AdminID).First(&admin); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "admin not found"})
 		return
 	}
 
-	// ค้นหา user ด้วย id
-	if tx := entity.DB().Where("id = ?", MealPlans.MemberID).First(&member); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "user not found"})
+	// Find Member By ID
+	if tx := entity.DB().Where("id = ?", mealplan.MemberID).First(&member); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "member not found"})
 		return
 	}
 
-	// ค้นหา avoidFood ด้วย id
-	if tx := entity.DB().Where("id = ?", MealPlans.AvoidFoodID).First(&avoidFood); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "avoidFood not found"})
+	// Find Food By ID
+	if tx := entity.DB().Where("id = ?", mealplan.FoodInformationID).First(&foodinformation); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "foodinformation not found"})
+		return
+	}
+	// Find MealType By ID
+	if tx := entity.DB().Where("id = ?", mealplan.MealTypeID).First(&mealtype); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "member not found"})
 		return
 	}
 
-	// ค้นหา nutritious ด้วย id
-	if tx := entity.DB().Where("id = ?", MealPlans.NutritiousID).First(&nutritious); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "nutritious not found"})
-		return
+	// CREATE mealplan
+	mealplanCreate := entity.MealPlan{
+		TimeToEat:       mealplan.TimeToEat,
+		Description:     mealplan.Description,
+		Admin:           admin,
+		Member:          member,
+		MealType:        mealtype,
+		FoodInformation: foodinformation,
 	}
 
-	// ค้นหา mealsOfDay ด้วย id
-	if tx := entity.DB().Where("id = ?", MealPlans.MealsOfDayID).First(&mealsOfDay); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "mealsOfDay not found"})
-		return
-	}
-
-	// CREATE MealPlans
-	MealPlanss := entity.MealPlans{
-		Date:        time.Date(2023, time.January, 6, 20, 10, 00, 0, time.UTC),
-		Description: "พักผ่อนให้เพียงพอ",
-		Admin:       MealPlans.Admin,
-		Member:      MealPlans.Member,
-		AvoidFood:   MealPlans.AvoidFood,
-		MealsOfDay:  MealPlans.MealsOfDay,
-		Nutritious:  MealPlans.Nutritious,
-	}
-
-	// บันทึก
-	if err := entity.DB().Create(&MealPlanss).Error; err != nil {
+	// Record
+	if err := entity.DB().Create(&mealplanCreate).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusCreated, gin.H{"data": MealPlanss})
+	c.JSON(http.StatusCreated, gin.H{"data": mealplanCreate})
 }
 
-// GET => MealPlans By ID
-func GetMealPlans(c *gin.Context) {
-	var MealPlans entity.MealPlans
+// GET => MealPlan By ID
+func GetMealPlan(c *gin.Context) {
+	var mealplan entity.MealPlan
 	id := c.Param("id")
 
-	if tx := entity.DB().Preload("Admin").Preload("Member").Preload("Nutritious").Preload("AvoidFood").Preload("MealsOfDay").Where("id = ?", id).First(&MealPlans); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": " MealPlans Not found"})
+	if tx := entity.DB().Preload("Admin").Preload("Member").Preload("FoodInformation").Preload("MealType").Where("id = ?", id).First(&mealplan); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": " Mealplan Not found"})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"data": MealPlans})
+	c.JSON(http.StatusOK, gin.H{"data": mealplan})
 }
 
-// GET => LIST MealPlanss
-func ListMealPlans(c *gin.Context) {
-	var MealPlanss entity.MealPlans
-	if err := entity.DB().Preload("Admin").Preload("Member").Preload("Nutritious").Preload("AvoidFood").Preload("MealsOfDay").Raw("SELECT * FROM meal_plans").Find(&MealPlanss).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": " MealPlanss Not Found"})
+// GET => LIST MealPlan
+func GetMealPlans(c *gin.Context) {
+	var mealplans []entity.MealPlan
+
+	if err := entity.DB().Preload("Admin").Preload("Member").Preload("FoodInformation").Preload("MealType").Raw("SELECT * FROM meal_plans").Find(&mealplans).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	c.JSON(http.StatusOK, gin.H{"data": MealPlanss})
+	c.JSON(http.StatusOK, gin.H{"data": mealplans})
 }
 
-// DELETE => MealPlans By ID
-func DeleteMealPlans(c *gin.Context) {
+// DELETE => MealPlan By ID
+func DeleteMealPlan(c *gin.Context) {
 	id := c.Param("id")
 
 	if tx := entity.DB().Exec("DELETE FROM meal_plans WHERE id = ?", id); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "MealPlanss Not Found"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "mealplans Not Found"})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{`MealPlans was Deleted! ByID`: id})
+	c.JSON(http.StatusOK, gin.H{`mealplan was Deleted! ByID`: id})
 }
 
-// PATCH => UPDATE MealPlans By ID
-func UpdateMealPlans(c *gin.Context) {
-	var MealPlans entity.MealPlans
+// PATCH => UPDATE mealplan By ID
+func UpdateMealPlan(c *gin.Context) {
+	var mealplan entity.MealPlan
 	var admin entity.Admin
 	var member entity.Member
-	var avoidFood entity.AvoidFood
-	var nutritious entity.Nutritious
-	var mealsOfDay entity.MealsOfDay
+	var mealtype entity.MealType
+	var foodinformation entity.FoodInformation
 
-	if err := c.ShouldBindJSON(&MealPlans); err != nil {
+	if err := c.ShouldBindJSON(&mealplan); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	// ค้นหา admin ด้วย id
-	if tx := entity.DB().Where("id = ?", MealPlans.AdminID).First(&admin); tx.RowsAffected == 0 {
+	// Find Admin By ID
+	if tx := entity.DB().Where("id = ?", mealplan.AdminID).First(&admin); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "admin not found"})
 		return
 	}
 
-	// ค้นหา user ด้วย id
-	if tx := entity.DB().Where("id = ?", MealPlans.MemberID).First(&member); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "user not found"})
+	// Find Member By ID
+	if tx := entity.DB().Where("id = ?", mealplan.MemberID).First(&member); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "member not found"})
 		return
 	}
 
-	// ค้นหา avoidFood ด้วย id
-	if tx := entity.DB().Where("id = ?", MealPlans.AvoidFoodID).First(&avoidFood); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "avoidFood not found"})
+	// Find MealType By ID
+	if tx := entity.DB().Where("id = ?", mealplan.MealTypeID).First(&mealtype); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "mealtype not found"})
 		return
 	}
 
-	// ค้นหา nutritious ด้วย id
-	if tx := entity.DB().Where("id = ?", MealPlans.NutritiousID).First(&nutritious); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "nutritious not found"})
+	// Find Food By ID
+	if tx := entity.DB().Where("id = ?", mealplan.FoodInformationID).First(&foodinformation); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "foodinformation not found"})
 		return
 	}
 
-	// ค้นหา mealsOfDay ด้วย id
-	if tx := entity.DB().Where("id = ?", MealPlans.MealsOfDayID).First(&mealsOfDay); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "mealsOfDay not found"})
-		return
+	// CREATE mealplan
+	mealplanUpdate := entity.MealPlan{
+		TimeToEat:       mealplan.TimeToEat,
+		Description:     mealplan.Description,
+		Admin:           admin,
+		Member:          member,
+		MealType:        mealtype,
+		FoodInformation: foodinformation,
 	}
 
-	// UPDATE MealPlans
-	MealPlansUpdate := entity.MealPlans{
-		Date:        MealPlans.Date,
-		Description: MealPlans.Description,
-		Admin:       admin,
-		Member:      member,
-		AvoidFood:   avoidFood,
-		MealsOfDay:  mealsOfDay,
-		Nutritious:  nutritious,
-	}
-
-	// บันทึก
-	if err := entity.DB().Where("id = ?", MealPlans.ID).Updates(&MealPlansUpdate).Error; err != nil {
+	// Record
+	if err := entity.DB().Where("id = ?", mealplan.ID).Updates(&mealplanUpdate).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	c.JSON(http.StatusCreated, gin.H{"data": MealPlansUpdate})
+	c.JSON(http.StatusCreated, gin.H{"data": mealplanUpdate})
 }
