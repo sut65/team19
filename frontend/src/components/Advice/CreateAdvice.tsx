@@ -35,7 +35,8 @@ import { CourseServiceInterface } from '../../interfaces/ICourseService';
 import {
   createAdvice,
   GetCourseServiceBYTID,
-  GetTrainerByID
+  GetTrainerByID,
+  GetInfoBody
 } from '../../services/HttpClientService';
 
 const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
@@ -56,7 +57,6 @@ function CreateAdvice() {
 
   const [trainer, setTrainer] = useState<TrainerInterface>({});
   const [recordingDate, setRecordingDate] = useState<Date | null>(new Date());
-
 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
@@ -100,6 +100,7 @@ function CreateAdvice() {
   const fetchCourseServiceByID = async () => {
     let res = await GetCourseServiceBYTID();
     advice.TrainerID = res.ID;
+      
     if (res) {
       setCourseService(res);
       console.log("asdasdasdasd")
@@ -108,19 +109,11 @@ function CreateAdvice() {
     }
   };
 
-  const fetchInfoBody = async () => {
-
-    const requestOptions = {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      },
-    };
-    const res = await (await fetch(`http://localhost:8080/bodies`, requestOptions)).json();
-    console.log(res.data);
-    setInfoBody(filterID(res.data));
-  };
+  const GetBodyIDMember = async() => {
+    let res = await GetInfoBody();
+    console.log(res);
+    res && setInfoBody(filterByMemberID(res));
+};
 
   const fetchDailyRoutines = async () => {
     const requestOptions = {
@@ -133,11 +126,11 @@ function CreateAdvice() {
     //พอ async แล้วเราจะรอให้ fetch เสร็จก่อนแล้วค่อย return กลับมา ทำที่ละหนึ่ง
     const res = await (await fetch(`http://localhost:8080/daily_routines`, requestOptions)).json();
     console.log(res);
-    setDailyRoutines(filterID(res.data));
+    setDailyRoutines(filterByMemberID(res.data));
   };
 
-  const filterID = (res: any) => {
-    return res.filter((v: any) => v.MemberID === parseInt(id || "")).map((i: any) => i);
+  const filterByMemberID = (res: any) => {    
+    return res.filter((v: any) => v.MemberID === courseService.MemberID).map((i: any) => i);
   }
 
 
@@ -173,10 +166,12 @@ function CreateAdvice() {
 
   useEffect(() => {
     fetchCourseServiceByID();
-    fetchInfoBody();
     fetchDailyRoutines();
     fetchTrainerByID();
-  }, []);
+    // fetchInfoBody();
+    GetBodyIDMember()
+  }, [courseService.MemberID]);
+  
 
   return (
     <Box
