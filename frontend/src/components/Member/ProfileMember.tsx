@@ -14,19 +14,15 @@ import {
 import Stack from "@mui/material/Stack"
 
 import { MemberInterface } from "../../interfaces/IMember";
-
 import { GetMemberByID } from "../../services/HttpClientService";
-
 import { DeleteMember } from "../../services/HttpClientService";
 
 function ProfileMember() {
-
   const [member, setMember] = useState<MemberInterface>({}); 
-   
   let navigate = useNavigate();
 
+  // ==============================(handle Delete)=====================================
   const handleClickDelete = async (id : string) => {
-
     let res = await DeleteMember(id);
     if (res) {
       window.location.reload();
@@ -34,24 +30,15 @@ function ProfileMember() {
       window.location.href = "/";
       }
   }
-
-  interface TabPanelProps {
-    children?: React.ReactNode;
-    index: number;
-    value: number;
-  }
-
   const fetchMemberID = async () => {
     let res = await GetMemberByID();
     if (res) {
         setMember(res);
     }
   };
-    
   useEffect(() => {
         fetchMemberID()
   },[])
-  console.log(member.ProfileUser)
 
   return(
     <Box
@@ -87,14 +74,15 @@ function ProfileMember() {
               sx={{ padding: 20, paddingTop: 1, marginBottom: 20 }}
             >
               <Grid container spacing={2} sx={{ marginTop: 1}}>
-              {/*============================================(รูป)======================================================*/}
+                {/*============================================(รูป)======================================================*/}
                 <Grid xs={12} xl = {12} md={12}>
                   <Box sx={{ display: "flex", justifyContent: "center" }}>
                     <Avatar src={member.ProfileUser}
-                    sx={{ width: 110, height: 110 }} />
+                      sx={{ width: 110, height: 110 }} 
+                    />
                   </Box> 
                 </Grid>
-              {/*============================================(First name)======================================================*/}
+                {/*============================================(First name)======================================================*/}
                 <Grid xs={5} xl = {5} md={5}>
                   <p style={{ color: "grey", fontSize: 17 }}>ชื่อ</p>
                   <TextField
@@ -125,8 +113,8 @@ function ProfileMember() {
                       onChange={(event) => {
                         // setAddress(event.target.value);
                        }}
-                    />
-                  </Grid>
+                  />
+                </Grid>
                        {/*==============================================(Email)====================================================*/}
                 <Grid xs={6} xl = {5} md={11}>
                   <p style={{ color: "grey", fontSize: 17 }}>EMAIL</p>
@@ -143,80 +131,79 @@ function ProfileMember() {
                         }}
                       />
                 </Grid>
-               <Grid xs={1} md={1}>
-              </Grid>
+                <Grid xs={1} md={1}></Grid>
                  {/*==============================================(Gender)====================================================*/}
-              <Grid xs={5} xl = {5} md={5}>
-                <p style={{ color: "grey", fontSize: 17 }}>เพศ</p>
-                <TextField
-                  id="outlined-basic"
-                  name="Gender"
-                  variant="outlined"
-                  disabled
-                  fullWidth
-                  required
-                  value={member.Gender?.Name}
-                  onChange={(event) => {
-                    // setAddress(event.target.value);
-                  }}
-                />
-              </Grid> 
-              <Grid xs={1} md={1}></Grid>
+                <Grid xs={5} xl = {5} md={5}>
+                  <p style={{ color: "grey", fontSize: 17 }}>เพศ</p>
+                  <TextField
+                    id="outlined-basic"
+                    name="Gender"
+                    variant="outlined"
+                    disabled
+                    fullWidth
+                    required
+                    value={member.Gender?.Name}
+                    onChange={(event) => {
+                      // setAddress(event.target.value);
+                    }}
+                  />
+                </Grid> 
+                <Grid xs={1} md={1}></Grid>
                    {/*=============================================(Status)=====================================================*/}
-              <Grid xs={5} xl = {5} md={5}>
-                <p style={{ color: "grey", fontSize: 17 }}>สถานะ</p>
-                <TextField
-                  id="outlined-basic"
-                  name="Status"
-                  variant="outlined"
-                  disabled
-                  fullWidth
-                  required
-                  value={member.Status?.Name}
-                  onChange={(event) => {
-                    // setAddress(event.target.value);
-                  }}
-                />
-              </Grid> 
-              <Grid xs={1} md={1}></Grid>
+                <Grid xs={5} xl = {5} md={5}>
+                  <p style={{ color: "grey", fontSize: 17 }}>สถานะ</p>
+                  <TextField
+                    id="outlined-basic"
+                    name="Status"
+                    variant="outlined"
+                    disabled
+                    fullWidth
+                    required
+                    value={member.Status?.Name}
+                    onChange={(event) => {
+                      // setAddress(event.target.value);
+                    }}
+                  />
+                </Grid> 
+                <Grid xs={1} md={1}></Grid>
                  {/*=============================================(Religion)=====================================================*/}
-              <Grid xs={5} xl = {5} md={6}>
-                <p style={{ color: "grey", fontSize: 17 }}>นับถือศาสนา</p>
-                <TextField
-                  id="outlined-basic"
-                  name="Religion"
-                  variant="outlined"
-                  disabled
-                  fullWidth
-                  required
-                  value={member.Religion?.Name}
-                  onChange={(event) => {
-                  // setAddress(event.target.value);
-                  }}
-                />
-              </Grid>             
-            </Grid>
-            <h1> </h1>   
-            <Stack direction="row" spacing={2}>
-              {/* ปุ่มเพิ่มข้อมูล */}
-              <Button 
-                variant="contained" 
-                color="info"
-                onClick={() => navigate(`update-member/${member.ID}`)}
-              >
-                แก้ไขข้อมูล
-              </Button>
-              <Link
-                to="http://localhost:3000/"
-                style={{textDecoration: "none",}}
-              >
+                <Grid xs={5} xl = {5} md={6}>
+                  <p style={{ color: "grey", fontSize: 17 }}>นับถือศาสนา</p>
+                  <TextField
+                    id="outlined-basic"
+                    name="Religion"
+                    variant="outlined"
+                    disabled
+                    fullWidth
+                    required
+                    value={member.Religion?.Name}
+                    onChange={(event) => {
+                      // setAddress(event.target.value);
+                    }}
+                  />
+                </Grid>             
+              </Grid>
+              <h1> </h1>   
+              <Stack direction="row" spacing={2}>
+                {/* ปุ่มเพิ่มข้อมูล */}
                 <Button 
-                  variant="contained" color="error" onClick={() => handleClickDelete(member.ID+"")}>
-                    DELETE ACCOUNT
+                  variant="contained" 
+                  color="info"
+                  onClick={() => navigate(`update-member/${member.ID}`)}
+                >
+                  แก้ไขข้อมูล
                 </Button>
-              </Link>
-            </Stack>
-            <h1> </h1> 
+                <Link
+                  to="http://localhost:3000/"
+                  style={{textDecoration: "none",}}
+                >
+                  <Button 
+                    variant="contained" color="error" onClick={() => handleClickDelete(member.ID+"")}>
+                      DELETE ACCOUNT
+                  </Button>
+                </Link>
+              </Stack>
+              <h1> </h1> 
             </Paper>
           </form>  
         </Container>

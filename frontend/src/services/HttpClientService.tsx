@@ -1412,6 +1412,16 @@ const GetBehaviorByID = async () => {
   return res;
 };
 
+const GetBehaviorsByID = async (id: string) => {
+  let res = await fetch(`${apiUrl}/behavior/${id}`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
 const DeleteBehavior = async (id: string) => {
   const requestOptions = {
     method: "DELETE",
@@ -1929,6 +1939,7 @@ export {
   CreateBehavior,
   UpdateBehaviors,
   GetBehaviorByID,
+  GetBehaviorsByID,
   DeleteBehavior,
   //Advice
   GetAdvice,
