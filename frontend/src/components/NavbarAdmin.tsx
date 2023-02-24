@@ -23,6 +23,8 @@ import FoodIcon from "../images/FoodIcon2.png";
 import NutIcon from "../images/FoodIcon.png";
 import AppLogo from "../images/nutrition.png";
 import CourseIcon from "../images/CourseIcon.png";
+import MealPlanICon from '../images/MealPlans/nev.png'
+
 
 import "../App.css";
 import "../index.css";
@@ -46,22 +48,27 @@ function NavbarAdmin() {
   };
 
   const menus = [
-    {
-      to: "food-display",
-      label: "Food",
-      icons: FoodIcon,
-    },
-    {
-      to: "course",
-      label: "Course",
-      icons: CourseIcon,
-    },
-    {
-      to: "nutrient-display",
-      label: "Nutrient",
-      icons: NutIcon,
-    },
-  ];
+		{
+			to: 'food-display',
+			label: 'Food',
+			icons: FoodIcon,
+		},
+		{
+			to: 'course',
+			label: 'Course',
+			icons: CourseIcon,
+		},
+		{
+			to: 'nutrient-display',
+			label: 'Nutrient',
+			icons: NutIcon,
+		},
+		{
+			to: 'mealplan-display',
+			label: 'MealPlan',
+			icons: MealPlanICon,
+		},
+	]
 
   return (
     <ThemeProvider theme={theme}>

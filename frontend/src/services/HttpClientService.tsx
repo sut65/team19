@@ -14,6 +14,8 @@ import { TrainerInterface } from "../interfaces/ITrainer";
 import { DailyRoutinesInterface } from "../interfaces/IDailyRoutines";
 import { BodyInterface } from "../interfaces/IBody";
 import { AdviceInterface } from "../interfaces/IAdvice";
+import { MealPlanInterface } from '../interfaces/IMealPlan'
+
 
 const apiUrl = `http://localhost:8080`;
 
@@ -920,6 +922,16 @@ const GetFoodInformations = async () => {
   return res;
 };
 
+const GetNutrients = async () => {
+	let res = await fetch(`${apiUrl}/nitrients`, requestOptionsGet)
+		.then(response => response.json())
+		.then(result => {
+			return result.data ? result.data : false
+		})
+
+	return res
+}
+
 const GetFoodInformationByID = async (id: string) => {
   let res = await fetch(`${apiUrl}/food_information/${id}`, requestOptionsGet)
     .then((response) => response.json())
@@ -1104,6 +1116,126 @@ const GetSleepSchedule = async () => {
 
   return res;
 };
+
+// ------------- MealPlan -----------------
+const GetMealPlans = async () => {
+  let res = await fetch(`${apiUrl}/mealplans`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetMembers = async () => {
+  let res = await fetch(`${apiUrl}/members`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const GetMealPlan = async (id: string) => {
+  let res = await fetch(`${apiUrl}/mealplan/${id}`, requestOptionsGet)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+const CreateMealPlans = async (data: MealPlanInterface) => {
+  const requestOptions = {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  };
+
+  let res = await fetch(`${apiUrl}/mealplans`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      if (result.data) {
+        return { status: true, message: result.data };
+      } else {
+        return { status: false, message: result.error };
+      }
+    });
+
+  return res;
+};
+
+const UpdateMealPlans = async (data: MealPlanInterface) => {
+	const requestOptions = {
+		method: 'PATCH',
+		headers: {
+			Authorization: `Bearer ${localStorage.getItem('token')}`,
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(data),
+	}
+
+	let res = await fetch(`${apiUrl}/mealplans`, requestOptions)
+		.then(response => response.json())
+		.then(result => {
+			if (result.data) {
+				return { status: true, message: result.data }
+			} else {
+				return { status: false, message: result.error }
+			}
+		})
+
+	return res
+}
+
+
+const DeleteMealPlan = async (id: string) => {
+  const requestOptions = {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(`${apiUrl}/mealplans/${id}`, requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+      return result.data ? result.data : false;
+    });
+
+  return res;
+};
+
+//!MealType
+async function GetMealTypes() {
+	const requestOptions = {
+		method: 'GET',
+		headers: {
+			mode: 'no-cors',
+			Authorization: `Bearer ${localStorage.getItem('token')}`,
+			'Content-Type': 'application/json',
+		},
+	}
+
+	let res = await fetch(`${apiUrl}/mealtypes`, requestOptions)
+		.then(response => response.json())
+		.then(res => {
+			if (res.data) {
+				return res.data
+			} else {
+				return false
+			}
+		})
+
+	return res
+}
 
 // ====================< Body >===============================
 const GetInfoBody = async () => {
@@ -1862,118 +1994,127 @@ const DeletePayment = async (id: number | undefined) => {
 };
 
 export {
-  // Login
-  Login,
-  AdminLogin,
-  TrainerLogin,
-  //
-  GetUser,
-  //Trainer
-  GetTrainer,
-  CreateTrainer,
-  GetTrainerByID,
-  DeleteTrainer,
-  UpdateTrainer,
-  UpdateTrainerNoPass,
-  GetFormOfWork,
-  GetStatus,
-  GetEducation,
-  GetReligion,
-  //CourseDetail
-  GetCourseDetail,
-  DeleteCourseDetail,
-  createCourseDetail,
-  UpdateCourseDetail,
-  GetCourseDetailByID,
-  GetAdmin,
-  GetPrice,
-  GetCourseType,
-  // CourseService
-  GetCourseService,
-  SelectCourseDetail,
-  UpdateCourseService,
-  DeleteCourseService,
-  CreateCourseService,
-  // Payment
-  GetPayment,
-  GetPaymentByID,
-  ListPaymentByUID,
-  GetDuration,
-  GetDiscountByCode,
-  GetDurationByID,
-  GetCourseServiceBYUID,
-  CreatePayment,
-  GetCourseServiceByUidAndStatus,
-  GetPaymentByUID,
-  DeletePayment,
-  // Blog
-  CreateBlog,
-  UpdateBlog,
-  DeleteBlog,
-  GetBlogs,
-  GetBlogByID,
-  GetCategories,
-  GetTags,
-  // FoodInformation
-  GetFoodTypes,
-  GetMainIngredients,
-  CreateFoodInformation,
-  GetAdminByID,
-  GetFoodInformations,
-  GetFoodInformationByID,
-  UpdateFoodInformation,
-  DeleteFoodInformation,
-  //DailyRoutines
-  GetDailyRoutines,
-  GetDailyRoutinesByID,
-  CreateDailyRoutines,
-  UpdateDailyRoutines,
-  DeleteDailyRoutines,
-  GetActivity,
-  GetActivityTypes,
-  GetMealTime,
-  GetSleepSchedule,
-  // Review
-  CreateReviews,
-  UpdateReview,
-  DeleteReview,
-  GetReviews,
-  GetReviewByID,
-  GetReviewByCourseID,
-  GetRanks,
-  // Nutrient
-  GetMostNutrient,
-  CreateNutrient,
-  DeleteNutrient,
-  GetNutrientByID,
-  UpdateNut,
-  // Member
-  UpdateMem,
-  DeleteMember,
-  GetMemberByID,
-  CreateMember,
-  GetMembersByID,
-  //Body
-  CreateBody,
-  DeleteInfoBody,
-  GetInfoBody,
-  GetBodyByID,
-  GetBodyByMemberID,
-  UpdateBody,
-  //behavior
-  GetExercise,
-  GetTaste,
-  CreateBehavior,
-  UpdateBehaviors,
-  GetBehaviorByID,
-  GetBehaviorsByID,
-  DeleteBehavior,
-  //Advice
-  GetAdvice,
-  DeleteAdvice,
-  createAdvice,
-  updateAdvice,
-  GetAdviceByID,
-  GetCourseServiceBYTID,
-  GetAdviceByCourseService,
-};
+	// Login
+	Login,
+	AdminLogin,
+	TrainerLogin,
+	//
+	GetUser,
+	//Trainer
+	GetTrainer,
+	CreateTrainer,
+	GetTrainerByID,
+	DeleteTrainer,
+	UpdateTrainer,
+	UpdateTrainerNoPass,
+	GetFormOfWork,
+	GetStatus,
+	GetEducation,
+	GetReligion,
+	//CourseDetail
+	GetCourseDetail,
+	DeleteCourseDetail,
+	createCourseDetail,
+	UpdateCourseDetail,
+	GetCourseDetailByID,
+	GetAdmin,
+	GetPrice,
+	GetCourseType,
+	// CourseService
+	GetCourseService,
+	SelectCourseDetail,
+	UpdateCourseService,
+	DeleteCourseService,
+	CreateCourseService,
+	// Payment
+	GetPayment,
+	GetPaymentByID,
+	ListPaymentByUID,
+	GetDuration,
+	GetDiscountByCode,
+	GetDurationByID,
+	GetCourseServiceBYUID,
+	CreatePayment,
+	GetCourseServiceByUidAndStatus,
+	GetPaymentByUID,
+	DeletePayment,
+	// Blog
+	CreateBlog,
+	UpdateBlog,
+	DeleteBlog,
+	GetBlogs,
+	GetBlogByID,
+	GetCategories,
+	GetTags,
+	// FoodInformation
+	GetFoodTypes,
+	GetMainIngredients,
+	CreateFoodInformation,
+	GetAdminByID,
+	GetFoodInformations,
+	GetFoodInformationByID,
+	UpdateFoodInformation,
+	DeleteFoodInformation,
+	//DailyRoutines
+	GetDailyRoutines,
+	GetDailyRoutinesByID,
+	CreateDailyRoutines,
+	UpdateDailyRoutines,
+	DeleteDailyRoutines,
+	GetActivity,
+	GetActivityTypes,
+	GetMealTime,
+	GetSleepSchedule,
+	// Review
+	CreateReviews,
+	UpdateReview,
+	DeleteReview,
+	GetReviews,
+	GetReviewByID,
+	GetReviewByCourseID,
+	GetRanks,
+	// Nutrient
+	GetMostNutrient,
+	CreateNutrient,
+	DeleteNutrient,
+	GetNutrientByID,
+	UpdateNut,
+	// Member
+	UpdateMem,
+	DeleteMember,
+	GetMemberByID,
+	CreateMember,
+	GetMembersByID,
+	//Body
+	CreateBody,
+	DeleteInfoBody,
+	GetInfoBody,
+	GetBodyByID,
+	GetBodyByMemberID,
+	UpdateBody,
+	//behavior
+	GetExercise,
+	GetTaste,
+	CreateBehavior,
+	UpdateBehaviors,
+	GetBehaviorByID,
+	GetBehaviorsByID,
+	DeleteBehavior,
+	//Advice
+	GetAdvice,
+	DeleteAdvice,
+	createAdvice,
+	updateAdvice,
+	GetAdviceByID,
+	GetCourseServiceBYTID,
+	GetAdviceByCourseService,
+	//?MealType
+	GetMealPlan,
+	GetMealPlans,
+	CreateMealPlans,
+	UpdateMealPlans,
+	DeleteMealPlan,
+	GetMealTypes,
+	GetMembers,
+	GetNutrients,
+}
