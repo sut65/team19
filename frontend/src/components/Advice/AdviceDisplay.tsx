@@ -21,7 +21,7 @@ import { DeleteAdvice , GetAdviceByCourseService} from '../../services/HttpClien
 
 function AdviceDisplay() {
     let navigate = useNavigate();
-    const { id } = useParams();
+    const id = useParams();
     const uid = localStorage.getItem("uid");
     const [advice, setAdvice] = useState<AdviceInterface[]>([]);
     const [adviceByCourse, setAdviceByCourse] = useState<AdviceInterface[]>([]);

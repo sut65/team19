@@ -38,7 +38,7 @@ import { CourseServiceInterface } from '../../interfaces/ICourseService';
 //api
 import {
   GetAdviceByID,
-  GetCourseServiceBYUID,
+  GetCourseServiceBYTID, // fetch trainer id
   GetTrainerByID,
   updateAdvice
 } from '../../services/HttpClientService';
@@ -103,7 +103,7 @@ function UpdateAdvice() {
   };
 
   const fetchCourseServiceByID = async () => {
-    let res = await GetCourseServiceBYUID();
+    let res = await GetCourseServiceBYTID(); // fetch trainer id
     advice.TrainerID = res.ID;
     if (res) {
       setCourseService(res);
@@ -167,10 +167,10 @@ function UpdateAdvice() {
   const submit = async () => {
     let data = {
       ID: convertType(advice.ID),
-      CourseServiceID: Number(id),
+      CourseServiceID: convertType(courseService.ID),
       BodyID: Number(infoBody.map(i => i.ID)),
       DailyRoutineID: Number(dailyRoutines.map(i => i.ID)),
-      MemberID: Number(id),
+      MemberID: convertType(courseService.MemberID),
       TrainerID: convertType(advice.TrainerID),
       Advice: advice.Advice,
       RecordingDate: recordingDate,
@@ -304,7 +304,7 @@ function UpdateAdvice() {
               {dailyRoutines.map((dailyRoutines) => (
                 <TableRow key={dailyRoutines.ID}>
                   <TableCell align="center" >{dailyRoutines.ID}</TableCell>
-                  <TableCell align="center" >{String(dailyRoutines.Name)}</TableCell>
+                  <TableCell align="center" >{String(dailyRoutines.Activity?.Name)}</TableCell> 
                   <TableCell align="center">{String(dailyRoutines.Activity?.ActivityType)}</TableCell>
                   <TableCell align="center">{String(dailyRoutines.TimeStamp).slice(0, 15).replaceAll("-", ".")}</TableCell>
                 </TableRow>

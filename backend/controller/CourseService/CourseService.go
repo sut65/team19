@@ -87,6 +87,17 @@ func GetCourseServiceByUID(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": course_service})
 }
 
+// GET /course_service_by_tid/:uid
+func GetCourseServiceByTID(c *gin.Context) {
+	var course_service entity.CourseService
+	uid := c.Param("uid")
+	if tx := entity.DB().Preload(clause.Associations).Preload("Payment."+clause.Associations).Preload("Member").Preload("Member.Gender").Preload("CourseDetail").Preload("CourseDetail.CourseType").Preload("Trainer").Where("trainer_id = ?", uid).Last(&course_service); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "course_service not found"})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": course_service})
+}
+
 // GET /course_service_by_uid_and_status/:uid
 func GetCourseServiceByUidAndStatus(c *gin.Context) {
 	var course_service entity.CourseService

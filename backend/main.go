@@ -72,6 +72,7 @@ func main() {
 			router.GET("/course_service/:id", CourseService.GetCourseService)
 			router.GET("/course_services", CourseService.ListCourseServices)
 			router.GET("/course_service_by_uid/:uid", CourseService.GetCourseServiceByUID)
+			router.GET("/course_service_by_tid/:uid", CourseService.GetCourseServiceByTID)
 			router.GET("/course_service_by_uid_and_status/:uid", CourseService.GetCourseServiceByUidAndStatus)
 			router.DELETE("/course_service/:id", CourseService.DeleteCourseService)
 			router.PATCH("/course_services", CourseService.UpdateCourseService)
