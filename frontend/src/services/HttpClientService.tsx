@@ -2134,4 +2134,12 @@ export {
   GetCourseServiceBYID,
   GetCourseServiceBYTID,
   GetAdviceByCourseService,
+  GetMealPlans,
+  GetMembers,
+  GetMealPlan,
+  CreateMealPlans,
+  UpdateMealPlans,
+  DeleteMealPlan,
+  GetMealTypes,
+  GetNutrients,
 };
