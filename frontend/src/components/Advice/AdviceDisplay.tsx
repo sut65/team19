@@ -176,7 +176,7 @@ function AdviceDisplay() {
                                         {/* ปุ่มแก้ไขข้อมูล */}
                                         <IconButton aria-label="edit" size="large" onClick={() => {
                                             window.localStorage.setItem("AdviceID", String(adviceByCourse?.ID))
-                                            navigate(`/update-advice/${adviceByCourse.MemberID}`)}} color="info">
+                                            navigate(`/update-advice/${adviceByCourse?.CourseServiceID}`)}} color="info">
                                             <EditIcon fontSize="inherit" />
                                         </IconButton>
                                     </TableCell>

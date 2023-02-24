@@ -38,7 +38,7 @@ import { CourseServiceInterface } from '../../interfaces/ICourseService';
 //api
 import {
   GetAdviceByID,
-  GetCourseServiceBYTID, GetInfoBody, // fetch trainer id
+  GetCourseServiceBYID, GetInfoBody,
   GetTrainerByID,
   updateAdvice
 } from '../../services/HttpClientService';
@@ -103,7 +103,7 @@ function UpdateAdvice() {
   };
 
   const fetchCourseServiceByID = async () => {
-    let res = await GetCourseServiceBYTID(); // fetch trainer id
+    let res = await GetCourseServiceBYID(id);
     advice.TrainerID = res.ID;
     if (res) {
       setCourseService(res);
