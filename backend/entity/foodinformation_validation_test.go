@@ -60,4 +60,19 @@ func TestFoodInformation(t *testing.T) {
 		g.Expect(err.Error()).To(Equal("Image must be image file"))
 	
 	})
+
+	t.Run("check Positive", func(t *testing.T) {
+		foodinformation := FoodInformation{
+			Name: "Meme",
+			Image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAACBUAAAVmC",
+		}
+		
+		// ตรวจสอบด้วย govalidator
+			ok, err := govalidator.ValidateStruct(foodinformation)
+		
+			g.Expect(ok).To(BeTrue())
+		
+			g.Expect(err).To(BeNil())
+		
+		})
 }
