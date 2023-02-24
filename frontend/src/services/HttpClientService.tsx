@@ -1877,6 +1877,31 @@ async function GetCourseServiceBYTID() {
   return res;
 }
 
+async function GetCourseServiceBYID(id: string | undefined) {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
+  };
+
+  let res = await fetch(
+    `${apiUrl}/course_service/${id}`,
+    requestOptions
+  )
+    .then((response) => response.json())
+    .then((res) => {
+      if (res.data) {
+        return res.data;
+      } else {
+        return false;
+      }
+    });
+
+  return res;
+}
+
 async function GetCourseServiceByUidAndStatus() {
   const uid = localStorage.getItem("uid");
   const requestOptions = {
@@ -1994,127 +2019,119 @@ const DeletePayment = async (id: number | undefined) => {
 };
 
 export {
-	// Login
-	Login,
-	AdminLogin,
-	TrainerLogin,
-	//
-	GetUser,
-	//Trainer
-	GetTrainer,
-	CreateTrainer,
-	GetTrainerByID,
-	DeleteTrainer,
-	UpdateTrainer,
-	UpdateTrainerNoPass,
-	GetFormOfWork,
-	GetStatus,
-	GetEducation,
-	GetReligion,
-	//CourseDetail
-	GetCourseDetail,
-	DeleteCourseDetail,
-	createCourseDetail,
-	UpdateCourseDetail,
-	GetCourseDetailByID,
-	GetAdmin,
-	GetPrice,
-	GetCourseType,
-	// CourseService
-	GetCourseService,
-	SelectCourseDetail,
-	UpdateCourseService,
-	DeleteCourseService,
-	CreateCourseService,
-	// Payment
-	GetPayment,
-	GetPaymentByID,
-	ListPaymentByUID,
-	GetDuration,
-	GetDiscountByCode,
-	GetDurationByID,
-	GetCourseServiceBYUID,
-	CreatePayment,
-	GetCourseServiceByUidAndStatus,
-	GetPaymentByUID,
-	DeletePayment,
-	// Blog
-	CreateBlog,
-	UpdateBlog,
-	DeleteBlog,
-	GetBlogs,
-	GetBlogByID,
-	GetCategories,
-	GetTags,
-	// FoodInformation
-	GetFoodTypes,
-	GetMainIngredients,
-	CreateFoodInformation,
-	GetAdminByID,
-	GetFoodInformations,
-	GetFoodInformationByID,
-	UpdateFoodInformation,
-	DeleteFoodInformation,
-	//DailyRoutines
-	GetDailyRoutines,
-	GetDailyRoutinesByID,
-	CreateDailyRoutines,
-	UpdateDailyRoutines,
-	DeleteDailyRoutines,
-	GetActivity,
-	GetActivityTypes,
-	GetMealTime,
-	GetSleepSchedule,
-	// Review
-	CreateReviews,
-	UpdateReview,
-	DeleteReview,
-	GetReviews,
-	GetReviewByID,
-	GetReviewByCourseID,
-	GetRanks,
-	// Nutrient
-	GetMostNutrient,
-	CreateNutrient,
-	DeleteNutrient,
-	GetNutrientByID,
-	UpdateNut,
-	// Member
-	UpdateMem,
-	DeleteMember,
-	GetMemberByID,
-	CreateMember,
-	GetMembersByID,
-	//Body
-	CreateBody,
-	DeleteInfoBody,
-	GetInfoBody,
-	GetBodyByID,
-	GetBodyByMemberID,
-	UpdateBody,
-	//behavior
-	GetExercise,
-	GetTaste,
-	CreateBehavior,
-	UpdateBehaviors,
-	GetBehaviorByID,
-	GetBehaviorsByID,
-	DeleteBehavior,
-	//Advice
-	GetAdvice,
-	DeleteAdvice,
-	createAdvice,
-	updateAdvice,
-	GetAdviceByID,
-	GetCourseServiceBYTID,
-	GetAdviceByCourseService,
-	//?MealType
-	GetMealPlan,
-	GetMealPlans,
-	CreateMealPlans,
-	UpdateMealPlans,
-	DeleteMealPlan,
-	GetMealTypes,
-	GetMembers,
-	GetNutrients,
-}
+  // Login
+  Login,
+  AdminLogin,
+  TrainerLogin,
+  //
+  GetUser,
+  //Trainer
+  GetTrainer,
+  CreateTrainer,
+  GetTrainerByID,
+  DeleteTrainer,
+  UpdateTrainer,
+  UpdateTrainerNoPass,
+  GetFormOfWork,
+  GetStatus,
+  GetEducation,
+  GetReligion,
+  //CourseDetail
+  GetCourseDetail,
+  DeleteCourseDetail,
+  createCourseDetail,
+  UpdateCourseDetail,
+  GetCourseDetailByID,
+  GetAdmin,
+  GetPrice,
+  GetCourseType,
+  // CourseService
+  GetCourseService,
+  SelectCourseDetail,
+  UpdateCourseService,
+  DeleteCourseService,
+  CreateCourseService,
+  // Payment
+  GetPayment,
+  GetPaymentByID,
+  ListPaymentByUID,
+  GetDuration,
+  GetDiscountByCode,
+  GetDurationByID,
+  GetCourseServiceBYUID,
+  CreatePayment,
+  GetCourseServiceByUidAndStatus,
+  GetPaymentByUID,
+  DeletePayment,
+  // Blog
+  CreateBlog,
+  UpdateBlog,
+  DeleteBlog,
+  GetBlogs,
+  GetBlogByID,
+  GetCategories,
+  GetTags,
+  // FoodInformation
+  GetFoodTypes,
+  GetMainIngredients,
+  CreateFoodInformation,
+  GetAdminByID,
+  GetFoodInformations,
+  GetFoodInformationByID,
+  UpdateFoodInformation,
+  DeleteFoodInformation,
+  //DailyRoutines
+  GetDailyRoutines,
+  GetDailyRoutinesByID,
+  CreateDailyRoutines,
+  UpdateDailyRoutines,
+  DeleteDailyRoutines,
+  GetActivity,
+  GetActivityTypes,
+  GetMealTime,
+  GetSleepSchedule,
+  // Review
+  CreateReviews,
+  UpdateReview,
+  DeleteReview,
+  GetReviews,
+  GetReviewByID,
+  GetReviewByCourseID,
+  GetRanks,
+  // Nutrient
+  GetMostNutrient,
+  CreateNutrient,
+  DeleteNutrient,
+  GetNutrientByID,
+  UpdateNut,
+  // Member
+  UpdateMem,
+  DeleteMember,
+  GetMemberByID,
+  CreateMember,
+  GetMembersByID,
+  //Body
+  CreateBody,
+  DeleteInfoBody,
+  GetInfoBody,
+  GetBodyByID,
+  GetBodyByMemberID,
+  UpdateBody,
+  //behavior
+  GetExercise,
+  GetTaste,
+  CreateBehavior,
+  UpdateBehaviors,
+  GetBehaviorByID,
+  GetBehaviorsByID,
+  DeleteBehavior,
+  //Advice
+  GetAdvice,
+  DeleteAdvice,
+  createAdvice,
+  updateAdvice,
+  GetAdviceByID,
+  GetCourseServiceBYID,
+  GetCourseServiceBYTID,
+  GetAdviceByCourseService,
+};

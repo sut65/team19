@@ -34,7 +34,7 @@ import { CourseServiceInterface } from '../../interfaces/ICourseService';
 //api
 import {
   createAdvice,
-  GetCourseServiceBYTID,
+  GetCourseServiceBYID,
   GetTrainerByID,
   GetInfoBody
 } from '../../services/HttpClientService';
@@ -48,7 +48,7 @@ const Alert = React.forwardRef<HTMLDivElement, AlertProps>(function Alert(
 
 
 function CreateAdvice() {
-  const id = localStorage.getItem('uid');
+  const {id} = useParams();
   const navigate = useNavigate();
   const [advice, setAdvice] = useState<AdviceInterface>({});
   const [courseService, setCourseService] = useState<CourseServiceInterface>({});
@@ -98,14 +98,11 @@ function CreateAdvice() {
   };
 
   const fetchCourseServiceByID = async () => {
-    let res = await GetCourseServiceBYTID();
+    let res = await GetCourseServiceBYID(id);
     advice.TrainerID = res.ID;
       
     if (res) {
       setCourseService(res);
-      console.log("asdasdasdasd")
-    } else {
-      console.log("resa")
     }
   };
 
@@ -166,6 +163,9 @@ function CreateAdvice() {
 
   useEffect(() => {
     fetchCourseServiceByID();
+  }, []);
+
+  useEffect(() => {
     fetchDailyRoutines();
     fetchTrainerByID();
     GetBodyIDMember()
