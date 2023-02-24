@@ -38,7 +38,7 @@ import { CourseServiceInterface } from '../../interfaces/ICourseService';
 //api
 import {
   GetAdviceByID,
-  GetCourseServiceBYTID, // fetch trainer id
+  GetCourseServiceBYTID, GetInfoBody, // fetch trainer id
   GetTrainerByID,
   updateAdvice
 } from '../../services/HttpClientService';
@@ -119,44 +119,31 @@ function UpdateAdvice() {
     console.log(res);
 
   }
-
-
-  const fetchInfoBody = async () => {
-
-    const requestOptions = {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      },
-    };
-    const res = await (await fetch(`http://localhost:8080/bodies`, requestOptions)).json();
-    console.log(res.data);
-    setInfoBody(filterID(res.data));
-  };
-
-  const fetchDailyRoutines = async () => {
-
-    const requestOptions = {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-        "Content-Type": "application/json",
-      },
-    };
-    //พอ async แล้วเราจะรอให้ fetch เสร็จก่อนแล้วค่อย return กลับมา ทำที่ละหนึ่ง
-    const res = await (await fetch(`http://localhost:8080/daily_routines`, requestOptions)).json();
+  const GetBodyIDMember = async() => {
+    let res = await GetInfoBody();
     console.log(res);
-    setDailyRoutines(filterID(res.data));
+    res && setInfoBody(filterByMemberID(res));
+};
+
+const fetchDailyRoutines = async () => {
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    },
   };
+  //พอ async แล้วเราจะรอให้ fetch เสร็จก่อนแล้วค่อย return กลับมา ทำที่ละหนึ่ง
+  const res = await (await fetch(`http://localhost:8080/daily_routines`, requestOptions)).json();
+  console.log(res);
+  setDailyRoutines(filterByMemberID(res.data));
+};
 
-  const filterID = (res: any) => {
-    return res.filter((v: any) => v.MemberID === parseInt(id || "")).map((i: any) => i);
+
+  const filterByMemberID = (res: any) => {    
+    return res.filter((v: any) => v.MemberID === courseService.MemberID).map((i: any) => i);
   }
 
-  const filterIDDailyRoutines = (res: any) => {
-    return res.filter((v: any) => v.id === (advice.DailyRoutinesID)).map((i: any) => i);
-  }
 
   const convertType = (data: string | number | undefined) => {
     let val = typeof data === "string" ? parseInt(data) : data;
@@ -192,11 +179,10 @@ function UpdateAdvice() {
   useEffect(() => {
     fetchAdvice();
     fetchCourseServiceByID();
-    fetchInfoBody();
     fetchDailyRoutines();
     fetchTrainerByID();
-
-  }, []);
+    GetBodyIDMember()
+  }, [courseService.MemberID]);
 
   return (
     <Box

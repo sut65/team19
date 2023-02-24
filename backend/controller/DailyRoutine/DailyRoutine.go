@@ -39,7 +39,7 @@ func CreateDailyRoutine(c *gin.Context) {
 	}
 
 	// Find SleepSchedule By ID
-	if tx := entity.DB().Where("id = ?", dailyRoutine.SleepSchedule).First(&sleepSchedule); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", dailyRoutine.SleepScheduleID).First(&sleepSchedule); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "SleepSchedule not found"})
 		return
 	}
@@ -143,7 +143,7 @@ func UpdateDailyRoutine(c *gin.Context) {
 		return
 	}
 	// Find SleepSchedule By ID
-	if tx := entity.DB().Where("id = ?", dailyRoutine.SleepSchedule).First(&sleepSchedule); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", dailyRoutine.SleepScheduleID).First(&sleepSchedule); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "SleepSchedule not found"})
 		return
 	}
