@@ -227,4 +227,21 @@ func TestTrainerNameNotBlank(t *testing.T) {
 		g.Expect(err.Error()).To(Equal("Password Must contain at least 8 characters"))
 	})
 
+	t.Run("check validate positive", func(t *testing.T) {
+		trainer := Trainer{
+			Name:       "aonaon",
+			University: "SUT",
+			Gpax:       3.83,
+			Gender:     "ชาย",
+			Age:        21,
+			Address:    "Ubon",
+			Email:      "Aonaon_123@gmail.com",
+			Password:   "123456789",
+		}
+		ok, err := govalidator.ValidateStruct(trainer)
+
+		g.Expect(ok).To(BeTrue())
+		g.Expect(err).To(BeNil())
+	})
+
 }
