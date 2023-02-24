@@ -218,4 +218,23 @@ func TestBodyValid(t *testing.T) {
 
 	})
 
+	t.Run("check validation positive", func(t *testing.T) {
+		body := Body{
+			Height:      11.00,
+			Weight:      23.83,
+			Hip:         3.46,
+			UpperArm:    23.73,
+			Thigh:       23.67,
+			NarrowWaist: 23.12,
+			NavelWaist:  23.231,
+			Bmi:         23.32,
+			Note:        "3123123123123123123",
+		}
+
+		ok, err := govalidator.ValidateStruct(body)
+		g.Expect(ok).To(BeTrue())
+		g.Expect(err).To(BeNil())
+
+	})
+
 }
