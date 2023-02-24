@@ -55,5 +55,18 @@ func TestNutrient(t *testing.T) {
 		g.Expect(err.Error()).To(Equal("Invalid calorie"))
 	})
 
+	t.Run("check Positive", func(t *testing.T) {
+		nutrient := Nutrient{
+			Comment: "Hi", 
+			TotalCalorie: 100,
+		}
+	
+		ok, err := govalidator.ValidateStruct(nutrient)
+	
+			g.Expect(ok).To(BeTrue())
+	
+			g.Expect(err).To(BeNil())
+	})
+
 
 }
